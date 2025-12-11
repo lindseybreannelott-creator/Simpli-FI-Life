@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- SEO & Social Sharing Tags -->
+    <title>Simpli-FI Life | Systems for Home & Business</title>
+    <meta name="description" content="Professional organizing for DFW homes and businesses. We build systems that work so you don't have to work so hard. Serving Frisco, Denton, and Dallas.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts: Poppins (Body), Roboto Condensed (Headings), Rock Salt (Handwritten) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Roboto+Condensed:wght@300;400;500;700&family=Rock+Salt&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .reveal { transition: all 0.8s ease-out; }
+        .opacity-0 { opacity: 0; }
+        .opacity-100 { opacity: 1; }
+        .translate-y-10 { transform: translateY(40px); }
+        .translate-y-0 { transform: translateY(0); }
+        /* Marquee Pause on Hover */
+        .group:hover .animate-marquee { animation-play-state: paused; }
+        /* SVG Border Draw Animation */
+        .draw-border {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            transition: stroke-dashoffset 0.8s ease-in-out;
+        }
+        .group:hover .draw-border {
+            stroke-dashoffset: 0;
+        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        #root { flex-grow: 1; }
+        /* Pro typography for articles */
+        .prose p { margin-bottom: 1.5em; line-height: 1.8; color: #57534e; }
+        .prose h2 { font-family: 'Roboto Condensed', sans-serif; font-weight: 700; color: #2d2a26; font-size: 1.8em; margin-top: 1.5em; margin-bottom: 0.5em; }
+        .prose ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1.5em; color: #57534e; }
+        .prose strong { color: #2d2a26; font-weight: 600; }
+
+        /* Grid Beam Animations */
+        @keyframes beam-h {
+            from { left: -300px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            to { left: 100%; opacity: 0; }
+        }
+        @keyframes beam-h-rev {
+            from { left: 100%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            to { left: -300px; opacity: 0; }
+        }
+        @keyframes beam-v {
+            from { top: -300px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            to { top: 100%; opacity: 0; }
+        }
+        @keyframes beam-v-rev {
+            from { top: 100%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            to { top: -300px; opacity: 0; }
+        }
+    </style>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 
+                            base: '#fbf9f7', // Oatmeal
+                            white: '#ffffff', // Card Pop
+                            dark: '#2d2a26', // Dark Greige/Black Text
+                            medium: '#57534e', // Softer Greige Text
+                            periwinkle: '#7178c8', // Primary Accent
+                            'periwinkle-light': '#b6bcff', // Soft Accent/Blob
+                            'periwinkle-dark': '#5a60a6', // Hover State
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'], 
+                        display: ['"Roboto Condensed"', 'sans-serif'],
+                        handwriting: ['"Rock Salt"', 'cursive'], // Final Selection
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                        'marquee': 'marquee 60s linear infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- React & Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/history@5/umd/history.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.production.min.js" crossorigin></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@0.263.1"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-brand-base text-brand-dark font-sans antialiased">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Destructure Globals
+        const { useState, useEffect, useRef } = React;
+        const { HashRouter, Routes, Route, Link, useLocation, useNavigate, useParams } = ReactRouterDOM;
+
+        // --- ICON MAPPING ---
+        const Icon = ({ name, className }) => {
+            const ref = React.useRef(null);
+            useEffect(() => {
+                if (window.lucide && window.lucide.icons) {
+                    const toPascalCase = (str) => 
+                        str.replace(/(^\w|-\w)/g, (clear) => clear.replace(/-/, "").toUpperCase());
+                    const iconName = toPascalCase(name);
+                    const iconNode = window.lucide.icons[iconName];
+                    if (iconNode && ref.current) {
+                        if (typeof iconNode.toSvg === 'function') {
+                            const svgString = iconNode.toSvg({ class: className });
+                            ref.current.innerHTML = svgString;
+                        }
+                    }
+                }
+            }, [name, className]);
+            return <span ref={ref} style={{ display: 'contents' }}></span>;
+        }
+
+        // Hardcoded SVGs for reliability
+        const YoutubeSVG = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/>
+            </svg>
+        );
+
+        const InstagramSVG = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+            </svg>
+        );
+
+        const Menu = (p) => <Icon name="menu" {...p} />;
+        const X = (p) => <Icon name="x" {...p} />;
+        const Check = (p) => <Icon name="check" {...p} />;
+        const Building2 = (p) => <Icon name="building-2" {...p} />;
+        const HomeIcon = (p) => <Icon name="home" {...p} />;
+        const ArrowRight = (p) => <Icon name="arrow-right" {...p} />;
+        const ArrowLeft = (p) => <Icon name="arrow-left" {...p} />;
+        const Users = (p) => <Icon name="users" {...p} />;
+        const Layout = (p) => <Icon name="layout" {...p} />;
+        const GraduationCap = (p) => <Icon name="graduation-cap" {...p} />;
+        const CheckCircle2 = (p) => <Icon name="check-circle-2" {...p} />;
+        const Mail = (p) => <Icon name="mail" {...p} />;
+        const MapPin = (p) => <Icon name="map-pin" {...p} />;
+        const Flame = (p) => <Icon name="flame" {...p} />;
+        const Utensils = (p) => <Icon name="utensils" {...p} />;
+        const Stethoscope = (p) => <Icon name="stethoscope" {...p} />;
+        const ShoppingBag = (p) => <Icon name="shopping-bag" {...p} />;
+        const Gem = (p) => <Icon name="gem" {...p} />;
+        const Box = (p) => <Icon name="box" {...p} />;
+        const Youtube = (p) => <YoutubeSVG {...p} />;
+        const Linkedin = (p) => <Icon name="linkedin" {...p} />;
+        const Instagram = (p) => <InstagramSVG {...p} />;
+        const Facebook = (p) => <Icon name="facebook" {...p} />;
+        const Quote = (p) => <Icon name="quote" {...p} />;
+
+        // --- DATA ---
+        const usePageTitle = (title) => {
+            useEffect(() => { document.title = `${title} | Simpli-FI Life`; }, [title]);
+        };
+
+        const TESTIMONIALS = [
+            {
+                quote: "Simpli-fi life has been a game changer in my home.",
+                author: "Lauren V",
+                role: ""
+            },
+            {
+                quote: "Working with Lindsey as my decluttering coach was so fun, I could not be more happy with the spaces we redefined. I'm loving my space!!! It's so happy and I love what we did!",
+                author: "Lauren E",
+                role: ""
+            },
+            {
+                quote: "You are truly pursuing something that you are gifted at. So kind and focused and intentional. I feel the load lessen a lot just from what we accomplished.",
+                author: "Ashley M.",
+                role: ""
+            },
+            {
+                quote: "Before being with you, I could sit in those mess up spaces for years and just be melancholy... but meeting with you was about just so much awareness and clarity.",
+                author: "Amanda B.",
+                role: ""
+            },
+            {
+                quote: "Our shop is useable, clean and organized for the first time in decades. Thank you Lindsey for your excellent work!",
+                author: "K. Tye",
+                role: "Logistics Captain, Fire Department"
+            }
+        ];
+
+        const ARTICLES_MOCK = [
+            {
+                id: '1',
+                title: 'The T.R.I.M. Method Explained',
+                excerpt: 'How to edit your belongings without losing your mind. The step-by-step guide to lasting organization.',
+                content: `
+                    <p>Organization isn't about buying expensive bins; it's about editing. The <strong>T.R.I.M.</strong> method stands for Trash, Relocate, Inventory, and Maintain.</p>
+                    <h2>1. Trash</h2>
+                    <p>The first step is always removal. You cannot organize clutter. We focus on removing items that are broken, expired, or no longer serve your current season of life.</p>
+                    <h2>2. Relocate</h2>
+                    <p>Items often accumulate in the wrong rooms. We create "transit zones" to move items back to their logical homes.</p>
+                    <h2>3. Inventory</h2>
+                    <p>Once you know what you're keeping, we group like with like. This is where the magic happens—seeing exactly how many batteries or spatulas you actually own.</p>
+                    <h2>4. Maintain</h2>
+                    <p>The final step is building a system that requires minimal effort to keep up. Labels are key here, not for aesthetics, but for accountability.</p>
+                `,
+                author: 'Lindsey Lott', date: 'Oct 12, 2024', category: 'Mindset',
+                imageUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: '2',
+                title: 'Commercial Kitchen Workflow',
+                excerpt: 'We helped a DFW coffee shop reduce restocking time by 40% simply by moving three shelves.',
+                content: `
+                    <p>In a high-volume coffee shop, seconds count. When we audited a local DFW cafe, we noticed baristas were walking 15 steps to the back fridge for milk alternatives during rush hour.</p>
+                    <h2>The Audit</h2>
+                    <p>We tracked movement patterns for three days. The data showed that 30% of movement was "travel time" rather than "prep time."</p>
+                    <h2>The Solution</h2>
+                    <p>We implemented a "Point of Use" inventory system. By installing under-counter refrigeration and reorganizing the dry storage to prioritize high-velocity items at eye level, we reduced travel time significantly.</p>
+                    <h2>The Result</h2>
+                    <p>Restocking time dropped by 40%, and ticket times improved by an average of 45 seconds per order.</p>
+                `,
+                author: 'Simpli-FI Team', date: 'Sep 28, 2024', category: 'Commercial',
+                imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+            },
+            {
+                id: '3',
+                title: 'Why Your Pantry Gets Messy Again',
+                excerpt: 'The secret isn\'t better labels, it\'s better zones. Learn how to zone your pantry for kids.',
+                content: `
+                    <p>The number one complaint we hear is: "I organized it, but my kids destroyed it in a week."</p>
+                    <p>The problem usually isn't the kids—it's the system complexity. If a child has to unstack a box to put away a snack, they won't do it.</p>
+                    <h2>The "Decanting" Trap</h2>
+                    <p>Pouring everything into clear jars looks beautiful on Instagram, but it creates a high barrier to maintenance. If you have to find a funnel to put away cereal, the box will end up sitting on the counter.</p>
+                    <h2>Zone Defense</h2>
+                    <p>We recommend broad categories in open bins. A "Snack" bin allows a child to toss a granola bar in without needing to line it up perfectly. Success is about lowering the barrier to entry.</p>
+                `,
+                author: 'Lindsey Lott', date: 'Sep 15, 2024', category: 'Residential',
+                imageUrl: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+            }
+        ];
+
+        // --- COMPONENTS ---
+
+        const GridBeams = ({ beamColor = "182, 188, 255" }) => {
+            const [beams, setBeams] = useState([]);
+            
+            useEffect(() => {
+                let count = 0;
+                let active = true; // Cleanup flag
+                
+                const spawn = () => {
+                    if (!active) return;
+                    const id = count++;
+                    const isHorizontal = Math.random() > 0.5;
+                    const isReverse = Math.random() > 0.5;
+                    // Grid size is 40px, let's align beams to grid
+                    const lineIndex = Math.floor(Math.random() * 50); 
+                    const offset = lineIndex * 40; 
+                    const duration = 1.5 + Math.random() * 2; // Faster: 1.5s - 3.5s duration
+                    
+                    setBeams(prev => [...prev, { id, isHorizontal, isReverse, offset, duration }]);
+                    
+                    // Cleanup old beams after animation
+                    setTimeout(() => {
+                        if (active) {
+                            setBeams(prev => prev.filter(b => b.id !== id));
+                        }
+                    }, duration * 1000);
+                };
+                
+                const interval = setInterval(spawn, 300); // More frequent: Spawn every 300ms
+                return () => {
+                    active = false;
+                    clearInterval(interval);
+                };
+            }, []);
+
+            return (
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    {beams.map(b => (
+                        <div 
+                            key={b.id}
+                            className="absolute"
+                            style={{
+                                height: b.isHorizontal ? '1px' : '300px',
+                                width: b.isHorizontal ? '300px' : '1px',
+                                top: b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-300px'),
+                                left: !b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-300px'),
+                                // ADDED: Drop-shadow to create the "feathered glow" effect with CUSTOM color support
+                                filter: `drop-shadow(0 0 4px rgba(${beamColor}, 0.8))`,
+                                // Increased core opacity to 1 so the center is bright
+                                background: b.isHorizontal 
+                                    ? `linear-gradient(90deg, transparent, rgba(${beamColor}, 1), transparent)`
+                                    : `linear-gradient(180deg, transparent, rgba(${beamColor}, 1), transparent)`,
+                                animation: `${
+                                    b.isHorizontal 
+                                        ? (b.isReverse ? 'beam-h-rev' : 'beam-h') 
+                                        : (b.isReverse ? 'beam-v-rev' : 'beam-v')
+                                } ${b.duration}s linear forwards`
+                            }}
+                        />
+                    ))}
+                </div>
+            );
+        };
+
+        const InstagramFeed = () => {
+            // Updated to match your uploaded screenshots
+            const images = [
+                "https://images.unsplash.com/photo-1523554888454-84137e72d3ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Stacked Rocks
+                "https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Messy Pillow Detail
+                "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Storage/Garage/Workspace
+            ];
+
+            return (
+                <div className="relative w-full bg-brand-base">
+                    {/* Call to Action - Centered over Handle (66%) */}
+                    {/* Adjusted to -top-20 to compensate for the extra line of text */}
+                    <div className="absolute -top-20 left-[66%] -translate-x-1/2 w-auto text-center z-40 hidden md:block">
+                        <p className="font-display font-light text-brand-dark leading-none">
+                            <span className="block text-sm mb-0.5">follow me on</span>
+                            <span className="text-xl font-medium tracking-tight">INSTAGRAM</span>
+                        </p>
+                    </div>
+                    {/* Mobile: Centered */}
+                    <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-full text-center z-40 md:hidden">
+                        <p className="font-display font-light text-brand-dark leading-none">
+                            <span className="block text-sm mb-0.5">follow me on</span>
+                            <span className="text-xl font-medium tracking-tight">INSTAGRAM</span>
+                        </p>
+                    </div>
+
+                    {/* Thick Horizontal Strip at Top (Darker Periwinkle) - Thinned to h-2 */}
+                    <div className="w-full h-2 bg-brand-periwinkle relative z-20"></div>
+
+                    {/* Image Strip: Grid of 3 (1 row) */}
+                    <div className="grid grid-cols-3">
+                        {images.map((img, i) => (
+                            <a href="https://www.instagram.com/simpli_fi_life/" aria-label="View on Instagram" key={i} target="_blank" className="block relative group aspect-square overflow-hidden border-r border-stone-100 last:border-r-0">
+                                <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
+                                <img src={img} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Instagram Post" />
+                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 z-20">
+                                    <Instagram className="text-white w-8 h-8 drop-shadow-md" />
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+
+                    {/* Geometric Handle Overlay - Moved to Top Edge (overlap grid/image) */}
+                    <div className="absolute top-0 left-[66%] -translate-x-1/2 -translate-y-1/2 z-30 hidden md:block">
+                         <a 
+                            href="https://www.instagram.com/simpli_fi_life/" 
+                            target="_blank" 
+                            className="block bg-brand-periwinkle-light text-brand-dark px-10 py-4 font-display font-bold tracking-widest text-sm uppercase hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 hover:scale-105 rounded-full shadow-xl border border-white/20"
+                         >
+                            @simpli_fi_life
+                         </a>
+                    </div>
+                    {/* Mobile version centered and moved up */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 md:hidden">
+                         <a 
+                            href="https://www.instagram.com/simpli_fi_life/" 
+                            target="_blank" 
+                            className="block bg-brand-periwinkle-light text-brand-dark px-8 py-3 font-display font-bold tracking-widest text-xs uppercase rounded-full shadow-xl border border-white/20"
+                         >
+                            @simpli_fi_life
+                         </a>
+                    </div>
+                </div>
+            );
+        };
+
+        const YouTubeFeed = () => {
+            // Images representing: Kitchen/Clutter, Garage/Storage, Mudroom
+            const images = [
+                "https://images.unsplash.com/photo-1556910103-1c02745a30bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Kitchen Mess/Clutter
+                "https://images.unsplash.com/photo-1595246140625-573b715d1128?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Garage/Storage
+                "https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Mudroom/Entry
+            ];
+
+            return (
+                <div className="relative w-full bg-brand-base">
+                    {/* Call to Action - Centered over Handle (34%) */}
+                    {/* Position bumped up to -top-14 */}
+                    <div className="absolute -top-14 left-[34%] -translate-x-1/2 w-auto text-center z-40 hidden md:block">
+                        <p className="font-display font-medium text-xl text-brand-dark tracking-tight">AND YOUTUBE</p>
+                    </div>
+                    {/* Mobile: Centered */}
+                    <div className="absolute -top-14 left-1/2 -translate-x-1/2 w-full text-center z-40 md:hidden">
+                        <p className="font-display font-medium text-xl text-brand-dark tracking-tight">AND YOUTUBE</p>
+                    </div>
+
+                    {/* Thick Horizontal Strip at Top (Darker Periwinkle) - Thinned to h-2 */}
+                    <div className="w-full h-2 bg-brand-periwinkle relative z-20"></div>
+
+                    {/* Image Strip: Grid of 3 (1 row) */}
+                    <div className="grid grid-cols-3">
+                        {images.map((img, i) => (
+                            <a href="https://www.youtube.com/@Simpli-FILife" aria-label="Watch on YouTube" key={i} target="_blank" className="block relative group aspect-square overflow-hidden border-r border-stone-100 last:border-r-0">
+                                <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
+                                <img src={img} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="YouTube Thumbnail" />
+                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 z-20">
+                                    <Youtube className="text-white w-12 h-12 drop-shadow-md" />
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+
+                    {/* Handle Overlay - Opposite side (Left: 34%) */}
+                    <div className="absolute top-0 left-[34%] -translate-x-1/2 -translate-y-1/2 z-30 hidden md:block">
+                         <a 
+                            href="https://www.youtube.com/@Simpli-FILife" 
+                            target="_blank" 
+                            className="block bg-brand-periwinkle-light text-brand-dark px-10 py-4 font-display font-bold tracking-widest text-sm uppercase hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 hover:scale-105 rounded-full shadow-xl border border-white/20"
+                         >
+                            @Simpli-FILife
+                         </a>
+                    </div>
+                    {/* Mobile version centered */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 md:hidden">
+                         <a 
+                            href="https://www.youtube.com/@Simpli-FILife" 
+                            target="_blank" 
+                            className="block bg-brand-periwinkle-light text-brand-dark px-8 py-3 font-display font-bold tracking-widest text-xs uppercase rounded-full shadow-xl border border-white/20"
+                         >
+                            @Simpli-FILife
+                         </a>
+                    </div>
+                </div>
+            );
+        };
+
+        const TestimonialScroller = () => {
+            // Duplicate the array for seamless marquee
+            const extendedTestimonials = [...TESTIMONIALS, ...TESTIMONIALS];
+
+            return (
+                <div className="relative w-full overflow-hidden py-10 group bg-brand-base">
+                    <div className="flex gap-6 w-max animate-marquee">
+                        {extendedTestimonials.map((t, i) => (
+                            // Removed 'overflow-hidden' so the quote can pop out
+                            <div key={i} className="flex-shrink-0 w-80 bg-brand-white p-8 rounded-2xl shadow-lg border-2 border-brand-periwinkle/10 relative flex flex-col justify-between min-h-[400px]">
+                                {/* Exaggerated Modern Quote Mark - Scooched back onto the card slightly */}
+                                <div className="absolute -top-10 -left-4 text-[12rem] text-brand-periwinkle/20 font-serif leading-none select-none pointer-events-none">“</div>
+                                <div className="relative z-10 pt-12">
+                                    <p className="text-brand-medium text-lg leading-relaxed italic mb-6 relative">
+                                        {t.quote}
+                                    </p>
+                                </div>
+                                <div className="mt-auto pt-4 border-t border-stone-100">
+                                    <p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-sm">{t.author}</p>
+                                    {t.role && <p className="text-xs text-brand-medium font-medium mt-1">{t.role}</p>}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    {/* Hover Hint */}
+                    <div className="absolute bottom-2 right-4 text-xs font-bold text-brand-periwinkle uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Paused
+                    </div>
+                </div>
+            );
+        };
+
+        const Navbar = () => {
+            const [isOpen, setIsOpen] = useState(false);
+            const location = useLocation();
+            const navigate = useNavigate();
+
+            return (
+                <nav className="bg-brand-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-all duration-300 border-b border-stone-100">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between h-20">
+                            <div className="flex items-center">
+                                <Link to="/" className="flex-shrink-0 flex items-center gap-2 group">
+                                    {/* Updated Logo: Uppercase + Mixed Weight */}
+                                    <span className="font-display font-bold text-2xl text-brand-dark tracking-tight ml-2">
+                                        SIMPLI-FI <span className="font-light text-brand-medium">LIFE</span>
+                                    </span>
+                                </Link>
+                            </div>
+                            <div className="hidden md:flex items-center space-x-8">
+                                <Link to="/" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">HOME</Link>
+                                <Link to="/enterprise" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">PROFESSIONAL SPACES</Link>
+                                <Link to="/residential" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">RESIDENTIAL SPACES</Link>
+                                <Link to="/booking" className="bg-brand-periwinkle text-brand-white px-6 py-2 rounded-full font-display font-bold hover:bg-brand-periwinkle-dark transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-lg tracking-tight uppercase">BOOK CONSULT</Link>
+                            </div>
+                            <div className="md:hidden flex items-center">
+                                <button onClick={() => setIsOpen(!isOpen)} className="text-brand-medium hover:text-brand-dark">
+                                    {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {isOpen && (
+                        <div className="md:hidden bg-brand-white border-t border-stone-100 absolute w-full left-0 shadow-lg z-50">
+                            <div className="px-4 pt-2 pb-6 space-y-1 flex flex-col">
+                                <Link to="/" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">HOME</Link>
+                                <Link to="/enterprise" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">PROFESSIONAL SPACES</Link>
+                                <Link to="/residential" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">RESIDENTIAL SPACES</Link>
+                                <Link to="/booking" onClick={() => setIsOpen(false)} className="block w-full text-center py-3 mt-4 bg-brand-periwinkle text-brand-white rounded-lg font-display font-bold text-lg tracking-tight uppercase">BOOK CONSULT</Link>
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        const Footer = () => {
+            return (
+                <section className="bg-brand-dark text-brand-base py-12 border-t border-brand-dark mt-auto">
+                   <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div>
+                            {/* Updated Logo: Uppercase + Mixed Weight */}
+                            <span className="font-display text-2xl font-bold tracking-tight uppercase">
+                                Simpli-FI <span className="font-light text-stone-400">Life</span>
+                            </span>
+                            <p className="text-stone-400 text-sm mt-2">Serving the Greater DFW Area | Available Virtually</p>
+                        </div>
+                        <div className="flex gap-4">
+                             <a href="https://www.instagram.com/simpli_fi_life/" aria-label="Instagram" target="_blank" className="hover:text-brand-periwinkle transition"><Instagram className="w-5 h-5" /></a>
+                             <a href="https://www.facebook.com/Simpli.FI.Intention" aria-label="Facebook" target="_blank" className="hover:text-brand-periwinkle transition"><Facebook className="w-5 h-5" /></a>
+                             <a href="https://www.youtube.com/@Simpli_FI_Life_SHORTS" aria-label="Youtube" target="_blank" className="hover:text-brand-periwinkle transition"><Youtube className="w-5 h-5" /></a>
+                             <a href="#" aria-label="LinkedIn" className="hover:text-brand-periwinkle transition"><Linkedin className="w-5 h-5" /></a>
+                        </div>
+                        <p className="text-stone-500 text-xs">&copy; 2025 Simpli-FI Life LLC. All Rights Reserved.</p>
+                   </div>
+                </section>
+            );
+        };
+
+        // --- PAGES ---
+
+        const ArticleDetail = () => {
+            const { id } = useParams();
+            const post = ARTICLES_MOCK.find(p => p.id === id);
+            
+            useEffect(() => { window.scrollTo(0, 0); }, [id]);
+
+            if (!post) return <div className="py-40 text-center">Article not found. <Link to="/articles" className="underline">Go back.</Link></div>;
+
+            return (
+                <div className="bg-brand-base min-h-screen pb-20 animate-fade-in-up">
+                    {/* Header Image */}
+                    <div className="h-96 relative">
+                        <img src={post.imageUrl} className="w-full h-full object-cover" alt={post.title} />
+                        <div className="absolute inset-0 bg-brand-dark/40"></div>
+                        <div className="absolute bottom-0 left-0 w-full p-8 md:p-12 text-brand-white">
+                            <div className="max-w-4xl mx-auto">
+                                <Link to="/articles" className="inline-flex items-center text-sm font-bold tracking-widest uppercase mb-4 hover:text-brand-periwinkle-light transition"><ArrowLeft className="w-4 h-4 mr-2"/> Back to Articles</Link>
+                                <h1 className="font-display text-4xl md:text-6xl font-bold tracking-tighter leading-none mb-4">{post.title}</h1>
+                                <div className="flex items-center gap-4 text-sm font-medium">
+                                    <span>{post.author}</span>
+                                    <span className="w-1 h-1 rounded-full bg-brand-white/50"></span>
+                                    <span>{post.date}</span>
+                                    <span className="bg-brand-periwinkle px-2 py-0.5 rounded text-xs">{post.category}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="max-w-3xl mx-auto px-4 py-12">
+                        <div className="prose prose-lg" dangerouslySetInnerHTML={{ __html: post.content }}></div>
+                        
+                        {/* CTA */}
+                        <div className="mt-16 p-8 bg-brand-white rounded-2xl border-l-4 border-brand-periwinkle shadow-sm">
+                            <h3 className="font-display text-2xl font-bold text-brand-dark mb-2">Need help implementing this?</h3>
+                            <p className="text-brand-medium mb-4">We can help you set up this system in your own home.</p>
+                            <Link to="/booking" className="text-brand-periwinkle font-bold flex items-center hover:translate-x-1 transition">Book a Consult <ArrowRight className="w-4 h-4 ml-2"/></Link>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const Home = () => {
+            usePageTitle("Home");
+            useEffect(() => {
+                const observer = new IntersectionObserver((entries) => entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('opacity-100', 'translate-y-0');
+                }), { threshold: 0.1 });
+                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+                return () => observer.disconnect();
+            }, []);
+
+            return (
+                <div className="overflow-x-hidden">
+                    {/* Hero */}
+                    <div className="relative bg-brand-base overflow-hidden">
+                        {/* WRAPPER FOR GRID & BEAMS
+                            - h-[105vh]: Increased height to ensure plenty of room below buttons
+                            - lg:h-full: Covers full height on desktop
+                        */}
+                        <div className="absolute top-0 left-0 right-0 h-[105vh] lg:h-full pointer-events-none" style={{ 
+                            /* Updated mask: Stays solid black (visible) for 95% of the height.
+                               This ensures solid lines under the buttons before fading in the last 5%. */
+                            maskImage: 'linear-gradient(to bottom, black 95%, transparent 100%)',
+                            WebkitMaskImage: 'linear-gradient(to bottom, black 95%, transparent 100%)'
+                        }}>
+                            {/* Updated Grid: All lines light periwinkle (#b6bcff) */}
+                            <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+                            
+                            {/* GridBeams animation layer */}
+                            <GridBeams />
+                        </div>
+
+                        {/* Container Spacing:
+                            - pt-12: Top padding
+                            - pb-12: Standard bottom padding
+                            - lg:py-24: Desktop padding
+                        */}
+                        <div className="max-w-7xl mx-auto relative z-10 pt-12 pb-12 lg:py-24 lg:grid lg:grid-cols-12 lg:gap-8 items-center">
+                            <div className="lg:col-span-6 text-center lg:text-left px-4">
+                                <span className="inline-block py-1 px-3 rounded-full bg-brand-periwinkle/10 text-brand-periwinkle text-xs font-bold tracking-wide uppercase mb-4">DFW's Premier Organizing Firm</span>
+                                {/* UPDATED: Responsive Text sizing (text-5xl for mobile, sm:text-7xl, md:text-8xl) to prevent bad breaks */}
+                                <h1 className="font-display text-5xl sm:text-7xl md:text-8xl font-bold text-brand-dark mb-6 tracking-tighter leading-[0.9]">
+                                    Get Organized<br />
+                                    <span className="text-brand-medium italic pr-2">without the overwhelm.</span>
+                                </h1>
+                                <p className="text-lg text-brand-medium mb-8 max-w-lg mx-auto lg:mx-0">Life can be chaotic, your space doesn't need to be.</p>
+                                <p className="text-xl font-display font-normal text-brand-dark mb-4">Let's organize my:</p>
+                                <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                                    <Link to="/enterprise" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Professional Space</Link>
+                                    <Link to="/residential" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Residential Space</Link>
+                                </div>
+                            </div>
+                            
+                            {/* TESTIMONIAL SECTION GAP
+                               - mt-[180px]: Adjusted margin to tighten the gap slightly as requested.
+                            */}
+                            <div className="lg:col-span-6 mt-[180px] lg:mt-0 relative px-4">
+                                <TestimonialScroller />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Services Split */}
+                    <div id="services" className="py-24 bg-brand-base">
+                        <div className="max-w-7xl mx-auto px-4">
+                            <div className="text-center mb-16 reveal opacity-0 translate-y-10 duration-1000">
+                                <h2 className="font-display text-6xl md:text-7xl font-bold tracking-tighter text-brand-dark italic">Make Room for More in Your....</h2>
+                            </div>
+                            <div className="grid md:grid-cols-2 gap-12">
+                                {/* Professional Spaces Card */}
+                                <div className="bg-brand-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-stone-100 reveal opacity-0 translate-y-10 delay-100 flex flex-col relative group hover:scale-[1.02] duration-300">
+                                    {/* SVG Border Overlay */}
+                                    <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl overflow-visible z-20">
+                                        <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#7178c8" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
+                                    </svg>
+                                    
+                                    <Building2 className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
+                                    <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Professional Spaces</h3>
+                                    
+                                    <div className="text-brand-medium mb-8 flex-grow space-y-8">
+                                        <p>Your back-of-house should fuel your business, not slow it down.</p>
+                                        <p>We transform chaotic supply rooms, offices, and storage spaces into efficient engines—saving your team time and boosting your bottom line.</p>
+                                    </div>
+                                    
+                                    <Link to="/enterprise" className="mt-auto flex items-center justify-center w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-xl font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-sm uppercase tracking-tight relative z-30">Get Organized, Save Money <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                                </div>
+                                
+                                {/* Residential Spaces Card */}
+                                <div className="bg-brand-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-stone-100 reveal opacity-0 translate-y-10 delay-200 flex flex-col relative group hover:scale-[1.02] duration-300">
+                                    {/* SVG Border Overlay */}
+                                    <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl overflow-visible z-20">
+                                        <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#7178c8" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
+                                    </svg>
+
+                                    <HomeIcon className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
+                                    <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Residential Spaces</h3>
+                                    
+                                    <div className="text-brand-medium mb-8 flex-grow space-y-8">
+                                        <p>Your home should be a sanctuary, not a source of stress.</p>
+                                        <p>We create intuitive systems that clear the clutter and calm the chaos, giving you back your time and your peace of mind.</p>
+                                    </div>
+
+                                    <Link to="/residential" className="mt-auto flex items-center justify-center w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-xl font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-sm uppercase tracking-tight relative z-30">Get Organized, Lose the Stress <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* About Section */}
+                    <section className="pt-24 pb-48 bg-brand-base border-y border-stone-100 reveal opacity-0 translate-y-10 relative overflow-hidden">
+                        {/* Modern Geometric Background - Replaced Blobs with Grid & Structure */}
+                        <div className="absolute inset-0 pointer-events-none">
+                             {/* Updated Grid: All lines light periwinkle (#b6bcff) */}
+                            <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+                        </div>
+                        
+                        {/* Added GridBeams animation layer */}
+                        <GridBeams />
+
+                        <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-2 gap-16 items-center relative z-10">
+                            <div className="relative mb-12 lg:mb-0 text-center lg:text-left">
+                                {/* Clean, modern image placement without the border frame */}
+                                {/* PLACEHOLDER IMAGE: Replace the src below with 'Untitled design-25.jpg' to use your uploaded photo */}
+                                <img 
+                                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" 
+                                    className="relative z-10 rounded-2xl shadow-2xl w-full max-w-md mx-auto lg:mx-0 aspect-[4/5] object-cover bg-white" 
+                                    alt="Lindsey Lott" 
+                                />
+                            </div>
+                            <div>
+                                <span className="text-brand-periwinkle font-bold tracking-widest uppercase text-xs block mb-4">The Founder</span>
+                                <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-brand-dark mb-6">Hi, I'm Lindsey.</h2>
+                                
+                                {/* Updated Headline per your latest request */}
+                                <h3 className="text-xl text-brand-medium font-medium mb-6">
+                                    I believe whether in business or at home, your space and the things in it should support your life—not be a source of stress.
+                                </h3>
+                                
+                                {/* Updated Body Text: Removed the "Chaos is unsustainable" line for a more direct flow */}
+                                <div className="text-stone-500 leading-relaxed mb-8 space-y-6">
+                                    <p>
+                                        My appreciation for organization & systems began as a Pediatric Nurse in the ER where structure is essential. However, those skills were truly put to the test—and refined—as I transitioned to raising and homeschooling our four children.
+                                    </p>
+
+                                    <p>
+                                        {/* Updated closing sentence */}
+                                        Today, I apply that unique blend of clinical precision (there truly is no "one-size-fits-all" aspect to organizing) and practical space management to help families and businesses eliminate chaos and friction—saving you time and money so you have the margin to run your corner of the world.
+                                    </p>
+                                </div>
+                                
+                                {/* Replaced Stats with CTA Button */}
+                                <div className="mt-10 flex flex-col items-center lg:items-start">
+                                    <p className="font-display font-bold text-lg text-brand-dark mb-4 uppercase tracking-widest">Ready to chat?</p>
+                                    <Link to="/booking" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-periwinkle-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
+                                        Book a Free Consult <ArrowRight className="ml-2 w-5 h-5" />
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    {/* Instagram Feed Banner */}
+                    <InstagramFeed />
+
+                    {/* 175px Padding Spacer (Increased from 75px) with Grid Background */}
+                    <div className="h-[175px] w-full bg-brand-base relative overflow-hidden">
+                        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+                    </div>
+
+                    {/* YouTube Feed Banner */}
+                    <YouTubeFeed />
+
+                    {/* Testimonials Removed */}
+                    {/* Academy Teaser Removed */}
+                </div>
+            );
+        };
+
+        const Enterprise = () => {
+            usePageTitle("Enterprise Solutions");
+            useEffect(() => { window.scrollTo(0, 0); }, []);
+            return (
+                <div className="bg-brand-base overflow-x-hidden">
+                    {/* Header - Dark Mode with Beams */}
+                    <div className="bg-brand-dark text-brand-base py-32 px-4 text-center relative overflow-hidden">
+                        {/* Grid Background */}
+                        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                        
+                        {/* Grid Beams */}
+                        <div className="absolute inset-0 pointer-events-none opacity-40">
+                             <GridBeams />
+                        </div>
+
+                        <div className="relative z-10 max-w-5xl mx-auto">
+                            {/* Using the chosen font (Rock Salt) for the accent */}
+                            <p className="font-handwriting text-4xl text-brand-periwinkle-light mb-4 rotate-[-2deg]">For Business & Institutions</p>
+                            
+                            <h1 className="font-display font-light text-6xl md:text-8xl tracking-tighter mb-8 leading-[0.9]">
+                                Operational Excellence<br/>
+                                <span className="text-brand-periwinkle-light font-bold">Organized.</span>
+                            </h1>
+                            
+                            <p className="text-xl font-light text-stone-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+                                We restructure back-of-house environments to recover lost labor hours, reduce inventory waste, and improve employee retention.
+                            </p>
+                            
+                            <Link to="/booking" className="inline-block bg-brand-periwinkle text-brand-white px-10 py-4 rounded-full font-bold hover:bg-brand-periwinkle-light hover:text-brand-dark transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/10">
+                                Schedule Site Audit
+                            </Link>
+                        </div>
+                    </div>
+                    
+                    {/* ROI Section */}
+                    <section id="roi" className="py-24 max-w-7xl mx-auto px-4 relative">
+                        {/* Vertical text decoration */}
+                        <div className="hidden lg:block absolute left-4 top-24 bottom-24 w-px bg-stone-200"></div>
+                        <div className="hidden lg:block absolute left-0 top-1/2 -rotate-90 origin-center -translate-x-[40%] text-stone-300 font-display font-bold tracking-[0.5em] text-xs uppercase">
+                            Systemize Your Success
+                        </div>
+
+                        <div className="mb-20 text-center max-w-3xl mx-auto">
+                            <h2 className="font-display font-light text-5xl md:text-6xl tracking-tighter mb-6 text-brand-dark">The Cost of Chaos</h2>
+                            <div className="w-24 h-1 bg-brand-periwinkle mx-auto mb-8 rounded-full"></div>
+                            <p className="text-xl text-brand-medium font-light leading-relaxed">
+                                Disorganization is a liability. We design systems that <strong className="text-brand-periwinkle font-bold">recover lost time</strong> and streamline your daily operations.
+                            </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {[
+                                { icon: Flame, title: "Fire & Emergency", desc: "Bay organization, EMS supply rooms, and bunk room standardization." },
+                                { icon: Utensils, title: "Restaurants", desc: "Optimize BOH prep stations, walk-in coolers, and barista workflow." },
+                                { icon: Stethoscope, title: "Medical", desc: "Simulation lab inventory, supply closet structuring, and sterile storage logic." },
+                                { icon: ShoppingBag, title: "Retail", desc: "Stockroom management and floor layout optimization." }
+                            ].map((item, i) => (
+                                <div key={i} className="bg-brand-white p-8 rounded-3xl shadow-sm border border-stone-100 group hover:-translate-y-2 transition duration-500 relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-24 h-24 bg-brand-periwinkle/5 rounded-bl-[100px] -mr-4 -mt-4 transition-transform group-hover:scale-150 duration-700"></div>
+                                    <div className="w-14 h-14 bg-brand-base rounded-2xl flex items-center justify-center mb-6 relative z-10 text-brand-dark group-hover:text-brand-periwinkle transition-colors">
+                                        <item.icon className="w-7 h-7"/>
+                                    </div>
+                                    <h3 className="font-display text-2xl font-bold tracking-tight mb-3 text-brand-dark relative z-10">{item.title}</h3>
+                                    <p className="text-sm text-brand-medium leading-relaxed relative z-10">{item.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        const Residential = () => {
+            usePageTitle("Residential Services");
+            useEffect(() => { window.scrollTo(0, 0); }, []);
+            return (
+                <div className="bg-brand-base overflow-x-hidden">
+                    {/* Header - Light Periwinkle with White Grid */}
+                    <div className="bg-brand-periwinkle-light text-brand-dark py-32 px-4 text-center relative overflow-hidden">
+                        {/* White Grid Background */}
+                        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                        
+                        {/* White Grid Beams */}
+                        <div className="absolute inset-0 pointer-events-none opacity-60">
+                             <GridBeams beamColor="255, 255, 255" />
+                        </div>
+
+                        <div className="relative z-10 max-w-5xl mx-auto">
+                            {/* Using the chosen font (Rock Salt) for the accent */}
+                            <p className="font-handwriting text-4xl text-brand-white mb-4 rotate-[-2deg] drop-shadow-sm">Sanctuary for your Home</p>
+                            
+                            <h1 className="font-display font-light text-6xl md:text-8xl tracking-tighter mb-8 leading-[0.9] text-brand-dark">
+                                Sanctuary, Not<br/>
+                                <span className="text-brand-white font-bold drop-shadow-sm">Storage.</span>
+                            </h1>
+                            
+                            <p className="text-xl font-light text-brand-dark max-w-2xl mx-auto mb-10 leading-relaxed">
+                                We create intuitive systems that clear the clutter and calm the chaos, giving you back your time and your peace of mind.
+                            </p>
+                            
+                            <Link to="/booking" className="inline-block bg-brand-white text-brand-dark px-10 py-4 rounded-full font-bold hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/50">
+                                Explore Services
+                            </Link>
+                        </div>
+                    </div>
+                    
+                    <section id="private-client" className="py-24 max-w-7xl mx-auto px-4">
+                        <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                            <div className="relative mb-12 lg:mb-0">
+                                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" className="rounded-2xl shadow-2xl w-full border-4 border-brand-white" />
+                            </div>
+                            <div>
+                                <span className="text-brand-periwinkle font-bold tracking-widest uppercase text-xs block mb-2">Private Client Services</span>
+                                <h2 className="font-display text-4xl font-bold tracking-tight mb-6 text-brand-dark">Luxury Estate Management</h2>
+                                <p className="text-brand-medium text-lg mb-10 leading-relaxed">High-touch, done-for-you services for clients who value their time above all else.</p>
+                                <div className="space-y-6">
+                                    <div className="flex gap-6">
+                                        <div className="w-12 h-12 bg-brand-white rounded-xl flex items-center justify-center flex-shrink-0"><Gem className="w-6 h-6 text-brand-dark"/></div>
+                                        <div><h3 className="font-display text-xl font-bold mb-1 tracking-tight text-brand-dark">Boutique Organization</h3><p className="text-sm text-brand-medium">Custom solutions for expansive pantries & closets.</p></div>
+                                    </div>
+                                    <div className="flex gap-6">
+                                        <div className="w-12 h-12 bg-brand-white rounded-xl flex items-center justify-center flex-shrink-0"><Box className="w-6 h-6 text-brand-dark"/></div>
+                                        <div><h3 className="font-display text-xl font-bold mb-1 tracking-tight text-brand-dark">Relocation Concierge</h3><p className="text-sm text-brand-medium">Pre-move edit and post-move setup.</p></div>
+                                    </div>
+                                </div>
+                                <div className="mt-12 pt-8 border-t border-stone-200">
+                                    <Link to="/booking" className="text-brand-periwinkle font-bold flex items-center hover:text-brand-periwinkle-dark">Inquire About Availability <ArrowRight className="ml-2 w-4 h-4"/></Link>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        const Booking = () => {
+            usePageTitle("Book a Session");
+            const [formData, setFormData] = useState({ name: '', email: '', phone: '', type: 'Residential', message: '' });
+            const [status, setStatus] = useState('idle');
+
+            useEffect(() => { window.scrollTo(0, 0); }, []);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setStatus('sending');
+                // Simulate API call
+                setTimeout(() => setStatus('success'), 1500);
+            };
+
+            return (
+                <div className="bg-brand-base min-h-screen py-20 px-4">
+                    <div className="max-w-3xl mx-auto bg-brand-white rounded-2xl shadow-xl overflow-hidden border border-stone-100">
+                        <div className="bg-brand-dark p-8 text-brand-white text-center">
+                            <h1 className="font-display text-4xl font-bold tracking-tight mb-2">Let's Get Started</h1>
+                            <p className="text-stone-300">Tell us about your space.</p>
+                        </div>
+                        <div className="p-8 md:p-12">
+                            {status === 'success' ? (
+                                <div className="text-center py-12">
+                                    <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                        <Check className="w-10 h-10 text-green-600" />
+                                    </div>
+                                    <h3 className="font-display text-3xl font-bold tracking-tight mb-4 text-brand-dark">Request Received</h3>
+                                    <p className="text-brand-medium">We will be in touch within 24 hours to schedule your consultation.</p>
+                                    <button onClick={() => setStatus('idle')} className="mt-8 text-brand-periwinkle font-bold underline">Send another request</button>
+                                </div>
+                            ) : (
+                                <form onSubmit={handleSubmit} className="space-y-6">
+                                    <div className="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label className="block text-sm font-bold text-brand-dark mb-2">Name</label>
+                                            <input required className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-bold text-brand-dark mb-2">Phone</label>
+                                            <input required type="tel" className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-bold text-brand-dark mb-2">Email</label>
+                                        <input required type="email" className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-bold text-brand-dark mb-2">Service Interest</label>
+                                        <select className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})}>
+                                            <option>Residential Home Organization</option>
+                                            <option>Enterprise / Commercial Audit</option>
+                                            <option>Market-Ready (Realtor/Move)</option>
+                                            <option>Speaking / Workshop</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-bold text-brand-dark mb-2">How can we help?</label>
+                                        <textarea rows="4" className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})}></textarea>
+                                    </div>
+                                    <button disabled={status === 'sending'} className="w-full bg-brand-periwinkle text-brand-white py-4 rounded-xl font-bold hover:bg-brand-periwinkle-dark transition transform hover:-translate-y-1 shadow-lg font-display uppercase tracking-tight">
+                                        {status === 'sending' ? 'Sending...' : 'Request Consultation'}
+                                    </button>
+                                </form>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+
+        const ArticleList = () => {
+            usePageTitle("Articles");
+            useEffect(() => { window.scrollTo(0, 0); }, []);
+            return (
+                <div className="bg-brand-base min-h-screen py-20 px-4">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="text-center mb-16">
+                            <span className="inline-block py-1 px-3 rounded-full bg-brand-periwinkle/10 text-brand-periwinkle text-xs font-bold tracking-wide uppercase mb-4">Simpli-FI Life</span>
+                            <h1 className="font-display text-5xl font-bold tracking-tighter text-brand-dark">The Organized Life Log</h1>
+                        </div>
+                        <div className="grid md:grid-cols-3 gap-8">
+                            {ARTICLES_MOCK.map(post => (
+                                <Link to={`/articles/${post.id}`} key={post.id} className="bg-brand-white rounded-2xl shadow-sm overflow-hidden hover:shadow-xl transition border border-stone-100 flex flex-col group">
+                                    <div className="overflow-hidden h-48">
+                                        <img src={post.imageUrl} className="w-full h-full object-cover transform group-hover:scale-105 transition duration-700" alt={post.title} />
+                                    </div>
+                                    <div className="p-6 flex-1 flex flex-col">
+                                        <div className="text-xs font-bold text-brand-periwinkle uppercase mb-2">{post.category}</div>
+                                        <h3 className="font-display text-2xl font-bold mb-2 tracking-tight text-brand-dark group-hover:text-brand-periwinkle transition-colors">{post.title}</h3>
+                                        <p className="text-sm text-brand-medium mb-4 line-clamp-3 flex-1">{post.excerpt}</p>
+                                        <div className="text-xs font-bold text-brand-dark flex items-center mt-auto">Read More <ArrowRight className="w-3 h-3 ml-1" /></div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+
+        const App = () => {
+            return (
+                <HashRouter>
+                    <div className="min-h-screen bg-brand-base text-brand-dark font-sans flex flex-col">
+                        <Navbar />
+                        <main className="flex-grow">
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/articles" element={<ArticleList />} />
+                                <Route path="/articles/:id" element={<ArticleDetail />} />
+                                <Route path="/booking" element={<Booking />} />
+                                <Route path="/enterprise" element={<Enterprise />} />
+                                <Route path="/residential" element={<Residential />} />
+                            </Routes>
+                        </main>
+                        <Footer />
+                    </div>
+                </HashRouter>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
