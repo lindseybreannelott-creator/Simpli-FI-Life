@@ -74,6 +74,13 @@
             90% { opacity: 1; }
             to { top: -300px; opacity: 0; }
         }
+
+        /* Twinkle Animation for Residential Hero */
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.9); }
+        }
     </style>
 
     <!-- Tailwind Config -->
@@ -88,7 +95,7 @@
                             dark: '#2d2a26', // Dark Greige/Black Text
                             medium: '#57534e', // Softer Greige Text
                             periwinkle: '#7178c8', // Primary Accent
-                            'periwinkle-light': '#b6bcff', // Soft Accent/Blob
+                            'periwinkle-light': '#d4d7ff', // Soft Accent/Blob - TONED DOWN
                             'periwinkle-dark': '#5a60a6', // Hover State
                         }
                     },
@@ -174,9 +181,22 @@
             </svg>
         );
 
+        // Hardcoded Gem SVG for reliability
+        const GemSVG = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/>
+            </svg>
+        );
+
+        // Hardcoded Check SVG for reliability and visibility
+        const Check = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <polyline points="20 6 9 17 4 12" />
+            </svg>
+        );
+
         const Menu = (p) => <Icon name="menu" {...p} />;
         const X = (p) => <Icon name="x" {...p} />;
-        const Check = (p) => <Icon name="check" {...p} />;
         const Building2 = (p) => <Icon name="building-2" {...p} />;
         const HomeIcon = (p) => <Icon name="home" {...p} />;
         const ArrowRight = (p) => <Icon name="arrow-right" {...p} />;
@@ -191,7 +211,7 @@
         const Utensils = (p) => <Icon name="utensils" {...p} />;
         const Stethoscope = (p) => <Icon name="stethoscope" {...p} />;
         const ShoppingBag = (p) => <Icon name="shopping-bag" {...p} />;
-        const Gem = (p) => <Icon name="gem" {...p} />;
+        const Gem = (p) => <GemSVG {...p} />;
         const Box = (p) => <Icon name="box" {...p} />;
         const Youtube = (p) => <YoutubeSVG {...p} />;
         const Linkedin = (p) => <Icon name="linkedin" {...p} />;
@@ -301,16 +321,16 @@
                     // Grid size is 40px, let's align beams to grid
                     const lineIndex = Math.floor(Math.random() * 50); 
                     const offset = lineIndex * 40; 
-                    const duration = 1.5 + Math.random() * 2; // Faster: 1.5s - 3.5s duration
+                    const beamDuration = 1.5 + Math.random() * 2; // Renamed variable
                     
-                    setBeams(prev => [...prev, { id, isHorizontal, isReverse, offset, duration }]);
+                    setBeams(prev => [...prev, { id, isHorizontal, isReverse, offset, duration: beamDuration }]);
                     
                     // Cleanup old beams after animation
                     setTimeout(() => {
                         if (active) {
                             setBeams(prev => prev.filter(b => b.id !== id));
                         }
-                    }, duration * 1000);
+                    }, beamDuration * 1000);
                 };
                 
                 const interval = setInterval(spawn, 300); // More frequent: Spawn every 300ms
@@ -348,6 +368,62 @@
                 </div>
             );
         };
+
+        const TwinkleGrid = ({ theme = 'light' }) => {
+            const [boxes, setBoxes] = useState([]);
+
+            useEffect(() => {
+                // Generate random boxes for the twinkle effect
+                // Increased count to 200 to allow clustering/touching as requested
+                const count = 200; 
+                const newBoxes = Array.from({ length: count }).map((_, i) => {
+                    // If theme is 'periwinkle' (for white bg), use periwinkle with opacity
+                    // If theme is 'light' (for colored bg), use white with opacity
+                    const shade = theme === 'periwinkle' 
+                        ? [
+                            'bg-brand-periwinkle-light', 
+                            'bg-brand-periwinkle-light/80', 
+                            'bg-brand-periwinkle-light/60'
+                          ][Math.floor(Math.random() * 3)]
+                        : [
+                            'bg-white/20', 
+                            'bg-white/40', 
+                            'bg-white/60'
+                          ][Math.floor(Math.random() * 3)];
+
+                    return {
+                        id: i,
+                        col: Math.floor(Math.random() * 50), // Grid columns
+                        row: Math.floor(Math.random() * 25), // Grid rows
+                        shade: shade,
+                        // Much longer duration range (8-20s) combined with the keyframe update
+                        // ensures they appear, vanish, and stay gone for a while before repeating.
+                        duration: 8 + Math.random() * 12, 
+                        delay: Math.random() * 10 // Random start delay
+                    };
+                });
+                setBoxes(newBoxes);
+            }, [theme]);
+
+            return (
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    {boxes.map(b => (
+                        <div
+                            key={b.id}
+                            className={`absolute ${b.shade}`}
+                            style={{
+                                width: '40px',
+                                height: '40px',
+                                left: `${b.col * 40}px`,
+                                top: `${b.row * 40}px`,
+                                opacity: 0,
+                                animation: `twinkle ${b.duration}s ease-in-out infinite ${b.delay}s`
+                            }}
+                        />
+                    ))}
+                </div>
+            );
+        }
 
         const InstagramFeed = () => {
             // Updated to match your uploaded screenshots
@@ -507,6 +583,146 @@
             );
         };
 
+        // NEW COMPONENT: Interactive Checklist
+        const DisorganizationChecklist = () => {
+            const [checks, setChecks] = useState({});
+            
+            const problems = [
+                "Have you ever made a duplicate purchase because you didn't know what you already owned?",
+                "Does your staff ever have to search for items because they can't find what they're looking for?",
+                "Have you ever run out of inventory and had to tell a customer/client no?",
+                "Do incoming deliveries turn into box 'pile ups'?",
+                "Do you have surplus assets sitting around that need to be auctioned or sold?",
+                "Have critical items ever gone missing in your 'transit zones'?",
+                "Are you concerned about safety hazards or code violations due to clutter?",
+                "Is visual clutter creating an overstimulating work environment?"
+            ];
+
+            const toggle = (i) => setChecks(p => ({...p, [i]: !p[i]}));
+            const selectedCount = Object.values(checks).filter(Boolean).length;
+            const hasChecks = selectedCount > 0;
+
+            const getScore = () => {
+                if (selectedCount <= 2) return { level: "MODERATE LIABILITY", color: "text-yellow-600", msg: "Even small inefficiencies compound significantly over a fiscal year." };
+                if (selectedCount <= 4) return { level: "HIGH LIABILITY", color: "text-orange-600", msg: "Disorganization is likely costing you 10-15% in lost productivity annually." };
+                return { level: "CRITICAL LIABILITY", color: "text-red-600", msg: "Your current systems are actively working against your bottom line and staff retention." };
+            };
+
+            const score = getScore();
+
+            return (
+                <div className="bg-brand-white rounded-3xl p-8 shadow-xl border border-stone-100 text-left transform transition-all duration-300">
+                    <div className="space-y-4">
+                        {problems.map((item, i) => (
+                            <button key={i} onClick={() => toggle(i)} className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-brand-base transition group text-left">
+                                <div className={`w-8 h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 ${checks[i] ? 'bg-brand-periwinkle border-brand-periwinkle scale-110' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
+                                    {checks[i] && <Check className="w-5 h-5 text-white" />}
+                                </div>
+                                <span className={`text-lg transition-colors ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
+                            </button>
+                        ))}
+                    </div>
+                    
+                    {/* Score Card Evaluator */}
+                    <div className={`overflow-hidden transition-all duration-700 ease-in-out ${hasChecks ? 'max-h-96 opacity-100 mt-8 pt-8 border-t border-stone-100' : 'max-h-0 opacity-0'}`}>
+                        <div className="text-center animate-fade-in-up">
+                            <div className="inline-block bg-stone-100 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase text-brand-medium mb-4">Score Card Evaluator</div>
+                            <p className="text-sm font-bold tracking-widest uppercase text-brand-medium mb-2">Estimated Business Impact</p>
+                            <p className={`font-display font-bold text-3xl md:text-4xl mb-4 ${score.color}`}>{score.level}</p>
+                            <p className="text-brand-dark font-medium text-lg mb-6 leading-relaxed px-4">{score.msg}</p>
+                            <div className="inline-block bg-brand-base px-6 py-4 rounded-xl border border-brand-periwinkle/20">
+                                <p className="text-sm text-brand-medium"><strong>Good news:</strong> We fix these exact issues. Our systems often pay for themselves in recovered inventory alone.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // NEW COMPONENT: Service Selection Checklist (Residential)
+        const ServiceChecklist = () => {
+            const [checks, setChecks] = useState({});
+            
+            const services = [
+                "Decluttering",
+                "Finding 'Homes' for Things",
+                "Space Planning",
+                "Organizing",
+                "Packing for a Move",
+                "Unpacking From a Move",
+                "Legacy Documenting"
+            ];
+
+            const toggle = (i) => setChecks(p => ({...p, [i]: !p[i]}));
+            const hasChecks = Object.values(checks).some(Boolean);
+            const selectedCount = Object.values(checks).filter(Boolean).length;
+
+            // Logic for dynamic personality-filled messages
+            const getMessage = () => {
+                // Priority 0: Legacy Documenting (Specific poignant message)
+                if (checks[6]) {
+                    return "Your loved ones will thank you for this.";
+                }
+                // Priority 1: Unpacking (Origin story)
+                if (checks[5]) { 
+                    return "Great choice. Let's skip the phase where the guest room is full of boxes for a year. (Ask me how I know—it's actually how I got started!)";
+                }
+                // Priority 2: Packing (Clutter logic)
+                if (checks[4]) { 
+                    return "Smart move. There is absolutely no point in packing clutter just to move it to a new house.";
+                }
+                // Priority 3: Heavy lifting (4+ items)
+                if (selectedCount >= 4) {
+                    return "I like the way you think. Let's do it all the way, the right way, the first time.";
+                }
+                // Default
+                return "That's a great first step towards reclaiming your time.";
+            };
+
+            const message = getMessage();
+
+            // Generate the link with pre-filled data based on selection
+            const getBookingLink = () => {
+                const selectedServices = services.filter((_, i) => checks[i]).join(', ');
+                const notes = selectedServices ? `I'm interested in: ${selectedServices}` : '';
+                
+                // Logic: If only Packing (4) or Unpacking (5) are selected (no other services), switch category
+                const isPackingOnly = (checks[4] || checks[5]) && !checks[0] && !checks[1] && !checks[2] && !checks[3] && !checks[6];
+                
+                const serviceName = isPackingOnly ? "Packing / Unpacking Services" : "Residential Space Organization";
+
+                return `/booking?service=${encodeURIComponent(serviceName)}&notes=${encodeURIComponent(notes)}`;
+            };
+
+            return (
+                // Changed background to bg-brand-base (Oatmeal) as requested
+                <div className="bg-brand-base rounded-3xl p-8 shadow-xl border border-stone-200 text-left transform transition-all duration-300">
+                    <div className="grid md:grid-cols-2 gap-4">
+                        {services.map((item, i) => (
+                            // Removed hover:bg and hover:border classes
+                            <button key={i} onClick={() => toggle(i)} className="w-full flex items-center gap-4 p-4 rounded-xl transition group text-left border border-transparent">
+                                <div className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 ${checks[i] ? 'bg-brand-periwinkle border-brand-periwinkle scale-110' : 'border-stone-400 group-hover:border-brand-periwinkle'}`}>
+                                    {checks[i] && <Check className="w-4 h-4 text-white" />}
+                                </div>
+                                {/* Added group-hover:text-brand-periwinkle and group-hover:italic */}
+                                <span className={`text-lg transition-all duration-200 ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-medium group-hover:text-brand-periwinkle group-hover:italic'}`}>{item}</span>
+                            </button>
+                        ))}
+                    </div>
+                    
+                    {/* Dynamic Action Area */}
+                    <div className={`overflow-hidden transition-all duration-700 ease-in-out ${hasChecks ? 'max-h-48 opacity-100 mt-8 pt-8 border-t border-stone-200' : 'max-h-0 opacity-0'}`}>
+                        <div className="text-center animate-fade-in-up">
+                            <p className="text-brand-dark font-medium text-lg mb-6 italic">"{message}"</p>
+                            <Link to={getBookingLink()} className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-periwinkle-dark transition shadow-lg font-display font-bold text-sm uppercase tracking-tight">
+                                Discuss My Project <ArrowRight className="ml-2 w-4 h-4"/>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         const Navbar = () => {
             const [isOpen, setIsOpen] = useState(false);
             const location = useLocation();
@@ -528,7 +744,7 @@
                                 <Link to="/" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">HOME</Link>
                                 <Link to="/enterprise" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">PROFESSIONAL SPACES</Link>
                                 <Link to="/residential" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">RESIDENTIAL SPACES</Link>
-                                <Link to="/booking" className="bg-brand-periwinkle text-brand-white px-6 py-2 rounded-full font-display font-bold hover:bg-brand-periwinkle-dark transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-lg tracking-tight uppercase">BOOK CONSULT</Link>
+                                <Link to="/booking" className="bg-brand-periwinkle text-brand-white px-6 py-2 rounded-full font-display font-bold hover:bg-brand-periwinkle-dark transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
                             </div>
                             <div className="md:hidden flex items-center">
                                 <button onClick={() => setIsOpen(!isOpen)} className="text-brand-medium hover:text-brand-dark">
@@ -543,7 +759,7 @@
                                 <Link to="/" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">HOME</Link>
                                 <Link to="/enterprise" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">PROFESSIONAL SPACES</Link>
                                 <Link to="/residential" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">RESIDENTIAL SPACES</Link>
-                                <Link to="/booking" onClick={() => setIsOpen(false)} className="block w-full text-center py-3 mt-4 bg-brand-periwinkle text-brand-white rounded-lg font-display font-bold text-lg tracking-tight uppercase">BOOK CONSULT</Link>
+                                <Link to="/booking" onClick={() => setIsOpen(false)} className="block w-full text-center py-3 mt-4 bg-brand-periwinkle text-brand-white rounded-lg font-display font-bold text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
                             </div>
                         </div>
                     )}
@@ -612,7 +828,7 @@
                         <div className="mt-16 p-8 bg-brand-white rounded-2xl border-l-4 border-brand-periwinkle shadow-sm">
                             <h3 className="font-display text-2xl font-bold text-brand-dark mb-2">Need help implementing this?</h3>
                             <p className="text-brand-medium mb-4">We can help you set up this system in your own home.</p>
-                            <Link to="/booking" className="text-brand-periwinkle font-bold flex items-center hover:translate-x-1 transition">Book a Consult <ArrowRight className="w-4 h-4 ml-2"/></Link>
+                            <Link to="/booking" className="text-brand-periwinkle font-bold flex items-center hover:translate-x-1 transition">Book Discovery Call <ArrowRight className="w-4 h-4 ml-2"/></Link>
                         </div>
                     </div>
                 </div>
@@ -651,30 +867,31 @@
                         </div>
 
                         {/* Container Spacing:
-                            - pt-12: Top padding
+                            - pt-24: Top padding
                             - pb-12: Standard bottom padding
-                            - lg:py-24: Desktop padding
+                            - text-center: Center alignment
                         */}
-                        <div className="max-w-7xl mx-auto relative z-10 pt-12 pb-12 lg:py-24 lg:grid lg:grid-cols-12 lg:gap-8 items-center">
-                            <div className="lg:col-span-6 text-center lg:text-left px-4">
-                                <span className="inline-block py-1 px-3 rounded-full bg-brand-periwinkle/10 text-brand-periwinkle text-xs font-bold tracking-wide uppercase mb-4">DFW's Premier Organizing Firm</span>
-                                {/* UPDATED: Responsive Text sizing (text-5xl for mobile, sm:text-7xl, md:text-8xl) to prevent bad breaks */}
+                        <div className="max-w-7xl mx-auto relative z-10 pt-24 pb-12 px-4 text-center">
+                            
+                            {/* Centered Hero Content */}
+                            <div className="max-w-5xl mx-auto mb-20"> {/* Added bottom margin for spacing before testimonials */}
                                 <h1 className="font-display text-5xl sm:text-7xl md:text-8xl font-bold text-brand-dark mb-6 tracking-tighter leading-[0.9]">
                                     Get Organized<br />
                                     <span className="text-brand-medium italic pr-2">without the overwhelm.</span>
                                 </h1>
-                                <p className="text-lg text-brand-medium mb-8 max-w-lg mx-auto lg:mx-0">Life can be chaotic, your space doesn't need to be.</p>
+                                
+                                <p className="text-lg text-brand-medium mb-8 max-w-2xl mx-auto">Life can be chaotic, your space doesn't need to be.</p>
+                                
                                 <p className="text-xl font-display font-normal text-brand-dark mb-4">Let's organize my:</p>
-                                <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                                
+                                <div className="flex flex-col sm:flex-row justify-center gap-4">
                                     <Link to="/enterprise" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Professional Space</Link>
                                     <Link to="/residential" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Residential Space</Link>
                                 </div>
                             </div>
                             
-                            {/* TESTIMONIAL SECTION GAP
-                               - mt-[180px]: Adjusted margin to tighten the gap slightly as requested.
-                            */}
-                            <div className="lg:col-span-6 mt-[180px] lg:mt-0 relative px-4">
+                            {/* Testimonial Section - Now centered underneath */}
+                            <div className="relative w-full">
                                 <TestimonialScroller />
                             </div>
                         </div>
@@ -772,7 +989,7 @@
                                 <div className="mt-10 flex flex-col items-center lg:items-start">
                                     <p className="font-display font-bold text-lg text-brand-dark mb-4 uppercase tracking-widest">Ready to chat?</p>
                                     <Link to="/booking" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-periwinkle-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
-                                        Book a Free Consult <ArrowRight className="ml-2 w-5 h-5" />
+                                        Book Discovery Call <ArrowRight className="ml-2 w-5 h-5" />
                                     </Link>
                                 </div>
                             </div>
@@ -797,12 +1014,13 @@
         };
 
         const Enterprise = () => {
-            usePageTitle("Enterprise Solutions");
+            usePageTitle("Professional Spaces");
             useEffect(() => { window.scrollTo(0, 0); }, []);
             return (
                 <div className="bg-brand-base overflow-x-hidden">
                     {/* Header - Dark Mode with Beams */}
-                    <div className="bg-brand-dark text-brand-base py-32 px-4 text-center relative overflow-hidden">
+                    {/* UPDATED: Increased bottom padding (pb-56) to allow space for the overlapping card */}
+                    <div className="bg-brand-dark text-brand-base pt-32 pb-56 px-4 text-center relative overflow-hidden">
                         {/* Grid Background */}
                         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                         
@@ -812,56 +1030,171 @@
                         </div>
 
                         <div className="relative z-10 max-w-5xl mx-auto">
-                            {/* Using the chosen font (Rock Salt) for the accent */}
-                            <p className="font-handwriting text-4xl text-brand-periwinkle-light mb-4 rotate-[-2deg]">For Business & Institutions</p>
-                            
-                            <h1 className="font-display font-light text-6xl md:text-8xl tracking-tighter mb-8 leading-[0.9]">
-                                Operational Excellence<br/>
+                            {/* Main Headline First */}
+                            {/* Updated: Decreased font size (text-5xl md:text-7xl), Increased leading (leading-tight), Added Comma */}
+                            <h1 className="font-display font-light text-5xl md:text-7xl tracking-tighter mb-6 leading-tight">
+                                Operational Excellence,<br/>
                                 <span className="text-brand-periwinkle-light font-bold">Organized.</span>
                             </h1>
-                            
-                            <p className="text-xl font-light text-stone-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-                                We restructure back-of-house environments to recover lost labor hours, reduce inventory waste, and improve employee retention.
+
+                            {/* Subhead / Handwritten Accent - Below headline */}
+                            <p className="font-handwriting text-2xl md:text-3xl text-brand-periwinkle-light mb-12 rotate-[-2deg] opacity-90 relative z-20">
+                                For Businesses & Institutions
                             </p>
                             
-                            <Link to="/booking" className="inline-block bg-brand-periwinkle text-brand-white px-10 py-4 rounded-full font-bold hover:bg-brand-periwinkle-light hover:text-brand-dark transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/10">
-                                Schedule Site Audit
+                            {/* Updated Copy per your request */}
+                            <p className="text-xl font-light text-stone-300 max-w-3xl mx-auto mb-10 leading-relaxed">
+                                We restructure back-of-house systems to eliminate redundant purchasing, recover lost labor, and reduce waste—helping you win no matter how you slice it.
+                            </p>
+                            
+                            <Link to="/booking?service=Professional Space Organization" className="inline-block bg-brand-periwinkle text-brand-white px-10 py-4 rounded-full font-bold hover:bg-brand-periwinkle-light hover:text-brand-dark transition transform hover:-translate-y-1 font-display text-lg shadow-xl border border-white/10">
+                                First, Let's talk about your space
                             </Link>
                         </div>
                     </div>
+
+                    {/* Added Testimonial Section - NOW OVERLAPPING */}
+                    {/* Uses negative top margin (-mt-32) to pull it up into the dark section */}
+                    <div className="px-4 relative z-20 -mt-32 mb-24">
+                        <div className="max-w-5xl mx-auto bg-brand-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative overflow-hidden">
+                             {/* Decorative Grid inside the card for texture */}
+                             <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#fbf9f7_1px,transparent_1px),linear-gradient(to_bottom,#fbf9f7_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+
+                             <div className="relative z-10">
+                                 {/* XL Quotation Mark - adjusted positioning for card */}
+                                 <span className="absolute -top-16 -left-4 text-[12rem] text-brand-periwinkle/20 font-serif leading-none select-none pointer-events-none">“</span>
+                                 
+                                 <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4">
+                                    Our storage units are re-packed, neat, tidy, clearly labeled, and so so functional thanks to YOU and your amazing work! I am so grateful for you and your team! You helped us turn an <strong className="font-bold text-brand-periwinkle">8 week</strong> set up and tear down into a <strong className="font-bold text-brand-periwinkle">9 day</strong> set up and tear down!
+                                 </p>
+                                 
+                                 <div className="mt-10 flex flex-col items-center justify-center">
+                                     <div className="w-24 h-1 bg-brand-periwinkle/30 mb-6 rounded-full"></div>
+                                     <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-sm">- M. Bridges, Missions Pastor</p>
+                                     <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">The Heights Church</p>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
                     
-                    {/* ROI Section */}
+                    {/* ROI Section - Updated to Giant Dark Card Wrapper */}
                     <section id="roi" className="py-24 max-w-7xl mx-auto px-4 relative">
-                        {/* Vertical text decoration */}
-                        <div className="hidden lg:block absolute left-4 top-24 bottom-24 w-px bg-stone-200"></div>
-                        <div className="hidden lg:block absolute left-0 top-1/2 -rotate-90 origin-center -translate-x-[40%] text-stone-300 font-display font-bold tracking-[0.5em] text-xs uppercase">
-                            Systemize Your Success
+                        {/* Giant Dark Card */}
+                        <div className="bg-brand-dark rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl">
+                             {/* Background grid/texture for dark card */}
+                             <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+
+                             <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6 text-brand-white relative z-10">Disorganization is Affecting Your Bottom Line</h2>
+                             <div className="w-24 h-1 bg-brand-periwinkle mx-auto mb-12 rounded-full relative z-10"></div>
+                             
+                             <p className="text-xl text-brand-base/80 font-light leading-relaxed mb-8 max-w-2xl mx-auto relative z-10">
+                                Check all that apply to your current operations:
+                             </p>
+
+                             {/* Interactive Checklist Component - Serves as Inner White Card */}
+                             <div className="max-w-2xl mx-auto relative z-10 text-brand-dark">
+                                <DisorganizationChecklist />
+                             </div>
                         </div>
 
-                        <div className="mb-20 text-center max-w-3xl mx-auto">
-                            <h2 className="font-display font-light text-5xl md:text-6xl tracking-tighter mb-6 text-brand-dark">The Cost of Chaos</h2>
-                            <div className="w-24 h-1 bg-brand-periwinkle mx-auto mb-8 rounded-full"></div>
-                            <p className="text-xl text-brand-medium font-light leading-relaxed">
-                                Disorganization is a liability. We design systems that <strong className="text-brand-periwinkle font-bold">recover lost time</strong> and streamline your daily operations.
-                            </p>
-                        </div>
+                        {/* WRAPPER FOR GRID BACKGROUND SECTION - Covers Cards AND CTA */}
+                        <div className="relative mt-24 pb-12">
+                            {/* Grid Background: Starts here (~100px from checklist) and goes down to footer without fade */}
+                            <div className="absolute inset-0 pointer-events-none -mx-4 md:-mx-8" style={{
+                                height: '100%',
+                                maskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
+                                WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 100%)'
+                            }}>
+                                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+                            </div>
 
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {[
-                                { icon: Flame, title: "Fire & Emergency", desc: "Bay organization, EMS supply rooms, and bunk room standardization." },
-                                { icon: Utensils, title: "Restaurants", desc: "Optimize BOH prep stations, walk-in coolers, and barista workflow." },
-                                { icon: Stethoscope, title: "Medical", desc: "Simulation lab inventory, supply closet structuring, and sterile storage logic." },
-                                { icon: ShoppingBag, title: "Retail", desc: "Stockroom management and floor layout optimization." }
-                            ].map((item, i) => (
-                                <div key={i} className="bg-brand-white p-8 rounded-3xl shadow-sm border border-stone-100 group hover:-translate-y-2 transition duration-500 relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-24 h-24 bg-brand-periwinkle/5 rounded-bl-[100px] -mr-4 -mt-4 transition-transform group-hover:scale-150 duration-700"></div>
-                                    <div className="w-14 h-14 bg-brand-base rounded-2xl flex items-center justify-center mb-6 relative z-10 text-brand-dark group-hover:text-brand-periwinkle transition-colors">
-                                        <item.icon className="w-7 h-7"/>
-                                    </div>
-                                    <h3 className="font-display text-2xl font-bold tracking-tight mb-3 text-brand-dark relative z-10">{item.title}</h3>
-                                    <p className="text-sm text-brand-medium leading-relaxed relative z-10">{item.desc}</p>
+                            {/* Content Layer */}
+                            <div className="relative z-10 pt-12">
+                                {/* New Section Title for Industry Cards */}
+                                <div className="text-center mb-16">
+                                     {/* Updated to Handwritten Font */}
+                                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">
+                                        No Space Too Big,<br /> No Business Too Small
+                                     </h3>
+                                     
+                                     {/* Split text for padding/emphasis */}
+                                     <div className="max-w-2xl mx-auto mb-10 space-y-8">
+                                         <p className="text-brand-medium text-lg leading-loose">
+                                            Whether you're saving lives or serving lattes, your environment dictates your efficiency. Here are a few industries that have benefited from our organizing—though to be clear, <span className="font-bold text-brand-dark">any</span> business can benefit from better systems.
+                                         </p>
+                                         
+                                         {/* Visual Divider */}
+                                         <div className="w-16 h-px bg-brand-periwinkle/30 mx-auto"></div>
+
+                                         <p className="text-brand-dark font-display font-bold text-2xl">
+                                            Want to get a step above your competition? <br className="hidden md:block" />
+                                            <span className="font-normal text-brand-medium text-xl mt-2 block">Let's chat how we can organize your space!</span>
+                                         </p>
+                                     </div>
+
+                                     {/* Updated to Button Style */}
+                                     {/* Updated service param */}
+                                     <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-periwinkle-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
+                                         Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/>
+                                     </Link>
                                 </div>
-                            ))}
+
+                                {/* UPDATED: Image Cards (4 Linear Desktop, 2x2 Mobile) */}
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                                    {[
+                                        { 
+                                            label: "Fire & Emergency", 
+                                            img: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=800&q=80" // Industrial/Garage storage
+                                        },
+                                        { 
+                                            label: "Restaurants", 
+                                            img: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" // Cafe/Coffee shop
+                                        },
+                                        { 
+                                            label: "Medical", 
+                                            img: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80" // Medical Sim Lab / Mannequin context
+                                        },
+                                        { 
+                                            label: "Non Profit", 
+                                            img: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80" // Community/Donation center
+                                        }
+                                    ].map((item, i) => (
+                                        <div key={i} className="relative group rounded-3xl overflow-hidden shadow-lg aspect-[2/3] border border-stone-100 cursor-pointer">
+                                            {/* Image with Zoom Effect */}
+                                            <img 
+                                                src={item.img} 
+                                                alt={item.label} 
+                                                className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
+                                            />
+                                            
+                                            {/* Overlay Gradient for Text Readability */}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                                            
+                                            {/* Periwinkle Label */}
+                                            <div className="absolute bottom-4 left-4 right-4 text-center md:text-left md:bottom-6 md:left-6 md:right-auto">
+                                                <div className="bg-brand-periwinkle text-brand-white px-4 py-2 md:px-5 md:py-2 rounded-full font-display font-bold tracking-widest text-[10px] md:text-xs uppercase shadow-md border border-white/20 transform transition group-hover:-translate-y-1 inline-block">
+                                                    {item.label}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* NEW CTA SECTION - NOW INSIDE GRID WRAPPER */}
+                                <div className="mt-24 mb-12 max-w-4xl mx-auto px-4">
+                                    <div className="bg-brand-white p-8 md:p-12 rounded-3xl shadow-sm border border-stone-100 text-center">
+                                        <h3 className="font-display text-3xl font-bold text-brand-dark mb-6">Curious if your business can benefit from organization?</h3>
+                                        <div className="text-brand-medium text-lg leading-relaxed space-y-6 mb-8 max-w-2xl mx-auto">
+                                            <p>I understand that Organizing can be an upfront investment, but I also believe firmly that when custom tailored to your needs it can last for years to come.</p>
+                                            <p>I'm so confident your business can benefit from my organizing services I offer a free 30 min call to clarify any questions you have. Let's remove the questions and bring clarity.</p>
+                                        </div>
+                                        {/* Updated service param */}
+                                        <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-periwinkle-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
+                                            Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </section>
                 </div>
@@ -870,7 +1203,11 @@
 
         const Residential = () => {
             usePageTitle("Residential Services");
+            // State for the testimonial card hover effect
+            const [isTestimonialHovered, setIsTestimonialHovered] = useState(false);
+            
             useEffect(() => { window.scrollTo(0, 0); }, []);
+            
             return (
                 <div className="bg-brand-base overflow-x-hidden">
                     {/* Header - Light Periwinkle with White Grid */}
@@ -878,53 +1215,162 @@
                         {/* White Grid Background */}
                         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                         
-                        {/* White Grid Beams */}
+                        {/* White Grid Beams - RESTORED HERE */}
                         <div className="absolute inset-0 pointer-events-none opacity-60">
                              <GridBeams beamColor="255, 255, 255" />
                         </div>
 
                         <div className="relative z-10 max-w-5xl mx-auto">
-                            {/* Using the chosen font (Rock Salt) for the accent */}
-                            <p className="font-handwriting text-4xl text-brand-white mb-4 rotate-[-2deg] drop-shadow-sm">Sanctuary for your Home</p>
                             
-                            <h1 className="font-display font-light text-6xl md:text-8xl tracking-tighter mb-8 leading-[0.9] text-brand-dark">
-                                Sanctuary, Not<br/>
-                                <span className="text-brand-white font-bold drop-shadow-sm">Storage.</span>
+                            <h1 className="font-display font-light text-5xl md:text-7xl tracking-tighter mb-8 leading-tight text-brand-dark">
+                                Your home should feel like your <span className="font-bold text-brand-white drop-shadow-sm">Sanctuary</span>,<br/> 
+                                {/* Decreased font size by one step (approx 4-6pt visual difference) */}
+                                <span className="block mt-6 font-handwriting text-2xl md:text-4xl text-brand-periwinkle-dark rotate-[-2deg] drop-shadow-sm leading-normal">not a Storage Unit.</span>
                             </h1>
                             
-                            <p className="text-xl font-light text-brand-dark max-w-2xl mx-auto mb-10 leading-relaxed">
-                                We create intuitive systems that clear the clutter and calm the chaos, giving you back your time and your peace of mind.
+                            {/* Updated Subheadline: Added line break and "At Simpli-FI Life" */}
+                            <p className="text-xl font-light text-brand-dark max-w-3xl mx-auto mb-10 leading-relaxed">
+                                We are all uniquely different, which is why a one-size-fits-all approach to organizing simply doesn't work.<br/><br/>
+                                At Simpli-FI Life we work with you to custom tailor systems that fit your unique season of life—giving you back your time and a home that feels easy to reset.
                             </p>
                             
-                            <Link to="/booking" className="inline-block bg-brand-white text-brand-dark px-10 py-4 rounded-full font-bold hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/50">
-                                Explore Services
+                            {/* Updated service param to Residential Space Organization */}
+                            <Link to="/booking?service=Residential Space Organization" className="inline-block bg-brand-white text-brand-dark px-10 py-4 rounded-full font-bold hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/50">
+                                Ready for your peaceful space?
                             </Link>
                         </div>
                     </div>
+
+                    {/* Added Interactive Testimonial Section with Video */}
+                    <div className="py-24 px-4 bg-brand-base border-b border-stone-100 overflow-hidden">
+                        {/* Increased max-width and adjusted layout for better spacing */}
+                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center relative">
+                            
+                            {/* Video Placeholder (Left) - Adjusted margins for better negative space */}
+                            <div 
+                                className={`w-full md:w-1/2 relative z-20 transition-all duration-700 ease-out ${isTestimonialHovered ? 'md:-translate-x-12' : 'md:translate-x-0'}`}
+                            >
+                                <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video group cursor-pointer border-4 border-white">
+                                    <img 
+                                        src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80" 
+                                        alt="Lindsey working with client" 
+                                        className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                                    />
+                                    {/* Play Button Overlay */}
+                                    <div className="absolute inset-0 bg-brand-dark/20 group-hover:bg-brand-dark/30 transition-colors flex items-center justify-center">
+                                        <div className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm group-hover:scale-110 transition-transform">
+                                            <svg className="w-8 h-8 text-brand-periwinkle fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                        </div>
+                                    </div>
+                                    <div className="absolute bottom-6 left-6 bg-black/50 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider">
+                                        Watch the Process
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Interactive Testimonial Card (Right) */}
+                            <div 
+                                className={`w-full md:w-1/2 relative z-10 mt-12 md:mt-0 transition-all duration-700 ease-out ${isTestimonialHovered ? 'md:translate-x-12' : 'md:-ml-12'}`}
+                                onMouseEnter={() => setIsTestimonialHovered(true)}
+                                onMouseLeave={() => setIsTestimonialHovered(false)}
+                            >
+                                <div className="bg-brand-white p-12 md:p-16 rounded-[2.5rem] shadow-xl border border-stone-100 cursor-default group h-full">
+                                    {/* Quotation Mark */}
+                                    <div className="absolute -top-6 -right-6 text-9xl text-brand-periwinkle/10 font-serif leading-none select-none pointer-events-none transition-transform group-hover:scale-110 group-hover:text-brand-periwinkle/20">”</div>
+                                    
+                                    <div className="relative z-10">
+                                        {/* Text Container with smooth height transition */}
+                                        <div className="transition-all duration-500 ease-in-out">
+                                            {isTestimonialHovered ? (
+                                                <div className="animate-fade-in-up text-brand-medium font-light italic leading-relaxed space-y-4 text-sm md:text-base">
+                                                    <p>"I was so nervous about letting her into my closet, to see the messiest space in my house, but her encouraging, compassionate personality instantly put me at ease.</p>
+                                                    <p>Instead of feeling overwhelmed, I felt empowered to take control of my space at my own pace.</p>
+                                                    <p>Lindsey’s practical strategies for organization have not only helped me create systems out of chaos, but have also given me confidence in the process of decluttering my house.</p>
+                                                    <p>I can’t communicate strongly enough what a great coach Lindsey has been... Lindsey’s tools were simple and easy to implement.</p>
+                                                    <p>While I have previously pursued many online 'Take Control of Your Life' types of resources, Lindsey’s in-person assistance has helped make my organizational hopes a reality."</p>
+                                                </div>
+                                            ) : (
+                                                <div className="text-brand-medium font-light italic leading-relaxed text-sm md:text-base space-y-4">
+                                                    <p>"I was so nervous about letting her into my closet, to see the messiest space in my house, but her encouraging, compassionate personality instantly put me at ease..."</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                        
+                                        {/* Footer / Trigger */}
+                                        <div className="mt-8 flex items-center justify-between border-t border-stone-100 pt-6">
+                                            <div>
+                                                <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-xs">- Lauren V.</p>
+                                            </div>
+                                            <div className={`flex items-center text-xs font-bold text-brand-periwinkle uppercase tracking-widest transition-all duration-300 ${isTestimonialHovered ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}`}>
+                                                See Full Testimonial <ArrowRight className="w-3 h-3 ml-1" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* NEW SECTION: Your Space, Your Terms (Service Menu) */}
+                    <section className="py-24 max-w-7xl mx-auto px-4 relative">
+                        {/* Giant Dark Card Wrapper - CHANGED TO WHITE */}
+                        <div className="bg-brand-white rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl border border-stone-100">
+                             {/* Background grid/texture for dark card - CHANGED TO PURPLE */}
+                             <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                             
+                             {/* ADD TWINKLE GRID HERE (Periwinkle Theme - now using light periwinkle) */}
+                             <div className="absolute inset-0 pointer-events-none">
+                                 <TwinkleGrid theme="periwinkle" />
+                             </div>
+
+                             {/* Heading - Updated to Roboto Condensed (font-display), Uppercase, and 2 Lines */}
+                             <h2 className="font-display font-bold text-4xl md:text-6xl text-brand-dark mb-8 leading-[0.9] relative z-10 uppercase tracking-tighter">
+                                Your Space Simpli-FI'ed,<br/>
+                                <span className="text-brand-periwinkle">Your Way</span>
+                             </h2>
+                             
+                             <div className="w-24 h-1 bg-brand-periwinkle mx-auto mb-10 rounded-full relative z-10"></div>
+                             
+                             {/* Text - Changed color to dark/medium */}
+                             <div className="max-w-3xl mx-auto mb-12 relative z-10 text-brand-medium font-light text-lg leading-relaxed space-y-6">
+                                <p>We believe that because we're all so uniquely different, and you're the one who knows your needs and lifestyle best, you should decide how active a role you'd like to play in the process.</p>
+                                <p className="font-medium text-brand-dark pt-4">Check off the services you're interested in:</p>
+                             </div>
+
+                             {/* Interactive Service Checklist Component - Serves as Inner Oatmeal Card */}
+                             <div className="max-w-3xl mx-auto relative z-10 text-brand-dark">
+                                <ServiceChecklist />
+                             </div>
+                        </div>
+                    </section>
                     
-                    <section id="private-client" className="py-24 max-w-7xl mx-auto px-4">
-                        <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
-                            <div className="relative mb-12 lg:mb-0">
-                                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" className="rounded-2xl shadow-2xl w-full border-4 border-brand-white" />
-                            </div>
-                            <div>
-                                <span className="text-brand-periwinkle font-bold tracking-widest uppercase text-xs block mb-2">Private Client Services</span>
-                                <h2 className="font-display text-4xl font-bold tracking-tight mb-6 text-brand-dark">Luxury Estate Management</h2>
-                                <p className="text-brand-medium text-lg mb-10 leading-relaxed">High-touch, done-for-you services for clients who value their time above all else.</p>
-                                <div className="space-y-6">
-                                    <div className="flex gap-6">
-                                        <div className="w-12 h-12 bg-brand-white rounded-xl flex items-center justify-center flex-shrink-0"><Gem className="w-6 h-6 text-brand-dark"/></div>
-                                        <div><h3 className="font-display text-xl font-bold mb-1 tracking-tight text-brand-dark">Boutique Organization</h3><p className="text-sm text-brand-medium">Custom solutions for expansive pantries & closets.</p></div>
-                                    </div>
-                                    <div className="flex gap-6">
-                                        <div className="w-12 h-12 bg-brand-white rounded-xl flex items-center justify-center flex-shrink-0"><Box className="w-6 h-6 text-brand-dark"/></div>
-                                        <div><h3 className="font-display text-xl font-bold mb-1 tracking-tight text-brand-dark">Relocation Concierge</h3><p className="text-sm text-brand-medium">Pre-move edit and post-move setup.</p></div>
-                                    </div>
-                                </div>
-                                <div className="mt-12 pt-8 border-t border-stone-200">
-                                    <Link to="/booking" className="text-brand-periwinkle font-bold flex items-center hover:text-brand-periwinkle-dark">Inquire About Availability <ArrowRight className="ml-2 w-4 h-4"/></Link>
+                    {/* UPDATED SECTION: Private Client Services (Luxury Estate Management) */}
+                    <section id="private-client" className="py-32 bg-brand-dark relative overflow-hidden">
+                        {/* Subtle Background Glow */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl opacity-20 pointer-events-none">
+                            <div className="w-full h-full bg-brand-periwinkle/30 blur-[120px] rounded-full"></div>
+                        </div>
+
+                        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+                            <div className="flex justify-center mb-8">
+                                <div className="p-4 rounded-full bg-brand-white/5 border border-brand-white/10 backdrop-blur-sm">
+                                    <Gem className="w-8 h-8 text-brand-periwinkle" />
                                 </div>
                             </div>
+                            
+                            <span className="text-brand-periwinkle font-bold tracking-[0.25em] uppercase text-xs block mb-6">Private Client Services</span>
+                            
+                            <h2 className="font-display text-5xl md:text-6xl font-bold tracking-tight mb-8 text-brand-white">Luxury Estate Management</h2>
+                            
+                            <div className="w-24 h-px bg-gradient-to-r from-transparent via-brand-periwinkle to-transparent mx-auto mb-10 opacity-50"></div>
+                            
+                            <p className="text-stone-300 text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-2xl mx-auto">
+                                We offer white-glove, <span className="text-brand-white font-normal italic">done-for-you</span> service for clients who value their time above all else.
+                            </p>
+                            
+                            <Link to="/booking?service=Residential Space Organization&notes=Inquiry regarding Luxury Estate Management" className="inline-block border border-brand-periwinkle/50 text-brand-periwinkle hover:bg-brand-periwinkle hover:text-brand-white hover:border-brand-periwinkle px-10 py-5 rounded-full font-display font-bold transition-all duration-300 transform hover:-translate-y-1 uppercase tracking-widest text-sm shadow-2xl backdrop-blur-sm">
+                                Inquire About Availability
+                            </Link>
                         </div>
                     </section>
                 </div>
@@ -933,24 +1379,104 @@
 
         const Booking = () => {
             usePageTitle("Book a Session");
-            const [formData, setFormData] = useState({ name: '', email: '', phone: '', type: 'Residential', message: '' });
+            // Updated state to include businessName and default to the new Residential name
+            const [formData, setFormData] = useState({ 
+                name: '', 
+                email: '', 
+                phone: '', 
+                businessName: '', // New Field State
+                moveStatus: '', // New Field State for Moves
+                type: 'Residential Space Organization', 
+                message: '',
+                availability: '', // Added availability field
+                preferredContact: 'Email' // Added preferred contact
+            });
             const [status, setStatus] = useState('idle');
+            const location = useLocation();
 
             useEffect(() => { window.scrollTo(0, 0); }, []);
+
+            useEffect(() => {
+                const params = new URLSearchParams(location.search);
+                const service = params.get('service');
+                const notes = params.get('notes');
+
+                // If service param exists, set it. Logic handles the name mapping.
+                if (service) {
+                    setFormData(prev => ({ 
+                        ...prev, 
+                        type: service,
+                        message: notes ? (prev.message ? prev.message + "\n" + notes : notes) : prev.message
+                    }));
+                } else if (notes) {
+                     setFormData(prev => ({ 
+                        ...prev, 
+                        message: notes ? (prev.message ? prev.message + "\n" + notes : notes) : prev.message
+                    }));
+                }
+            }, [location]);
 
             const handleSubmit = (e) => {
                 e.preventDefault();
                 setStatus('sending');
-                // Simulate API call
+                
+                // Format the email body
+                const subject = `New Inquiry: ${formData.type} - ${formData.name}`;
+                const body = `Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Preferred Contact: ${formData.preferredContact}
+Service: ${formData.type}
+${formData.businessName ? `Business Name: ${formData.businessName}` : ''}
+${formData.moveStatus ? `Move Date/Status: ${formData.moveStatus}` : ''}
+Availability: ${formData.availability}
+
+Project Goals:
+${formData.message}`;
+
+                // Create the mailto link
+                const mailtoLink = `mailto:lindsey@simpli-fi-life.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+                // Trigger the email client
+                window.location.href = mailtoLink;
+
+                // Show success state in UI
                 setTimeout(() => setStatus('success'), 1500);
             };
 
             return (
-                <div className="bg-brand-base min-h-screen py-20 px-4">
-                    <div className="max-w-3xl mx-auto bg-brand-white rounded-2xl shadow-xl overflow-hidden border border-stone-100">
+                <div className="bg-brand-base min-h-screen py-20 px-4 relative overflow-hidden">
+                    {/* Purple Grid on Oatmeal Background */}
+                    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+
+                    {/* NEW: Process Steps Section */}
+                    <div className="relative z-10 max-w-4xl mx-auto text-center mb-16">
+                        <h2 className="font-handwriting text-3xl md:text-4xl text-brand-dark mb-12 rotate-[-1deg]">Getting started is as easy as 1-2-3...</h2>
+                        <div className="grid md:grid-cols-3 gap-8 px-4">
+                            <div className="flex flex-col items-center group">
+                                <div className="w-16 h-16 rounded-full bg-brand-white border-2 border-brand-periwinkle text-brand-periwinkle flex items-center justify-center font-display font-bold text-2xl mb-4 shadow-md transition-transform group-hover:-translate-y-1">1</div>
+                                <p className="text-brand-dark font-medium leading-snug">Fill out the<br/>inquiry form below</p>
+                            </div>
+                            <div className="flex flex-col items-center relative group">
+                                {/* Connector Line for Desktop */}
+                                <div className="hidden md:block absolute top-8 -left-1/2 w-full h-0.5 bg-brand-periwinkle/20 -z-10"></div>
+                                <div className="w-16 h-16 rounded-full bg-brand-white border-2 border-brand-periwinkle text-brand-periwinkle flex items-center justify-center font-display font-bold text-2xl mb-4 shadow-md transition-transform group-hover:-translate-y-1">2</div>
+                                <p className="text-brand-dark font-medium leading-snug">Follow the steps to submit<br/>the form via email</p>
+                            </div>
+                            <div className="flex flex-col items-center relative group">
+                                {/* Connector Line for Desktop */}
+                                <div className="hidden md:block absolute top-8 -left-1/2 w-full h-0.5 bg-brand-periwinkle/20 -z-10"></div>
+                                <div className="w-16 h-16 rounded-full bg-brand-white border-2 border-brand-periwinkle text-brand-periwinkle flex items-center justify-center font-display font-bold text-2xl mb-4 shadow-md transition-transform group-hover:-translate-y-1">3</div>
+                                <p className="text-brand-dark font-medium leading-snug">Confirm which time<br/>works best for you</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="max-w-3xl mx-auto bg-brand-white rounded-2xl shadow-xl overflow-hidden border border-stone-100 relative z-10">
                         <div className="bg-brand-dark p-8 text-brand-white text-center">
-                            <h1 className="font-display text-4xl font-bold tracking-tight mb-2">Let's Get Started</h1>
-                            <p className="text-stone-300">Tell us about your space.</p>
+                            {/* Updated Title and Subtitle */}
+                            <h1 className="font-display text-4xl font-bold tracking-tight mb-2">Request a Discovery Call</h1>
+                            <p className="text-stone-300 font-light max-w-lg mx-auto">A free 30-minute call to share your vision for your space and see if our services are a good fit.</p>
                         </div>
                         <div className="p-8 md:p-12">
                             {status === 'success' ? (
@@ -974,23 +1500,87 @@
                                             <input required type="tel" className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
                                         </div>
                                     </div>
+                                    
                                     <div>
                                         <label className="block text-sm font-bold text-brand-dark mb-2">Email</label>
                                         <input required type="email" className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
                                     </div>
+
+                                    {/* Service Interest Dropdown with Updated Options */}
                                     <div>
                                         <label className="block text-sm font-bold text-brand-dark mb-2">Service Interest</label>
                                         <select className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})}>
-                                            <option>Residential Home Organization</option>
-                                            <option>Enterprise / Commercial Audit</option>
-                                            <option>Market-Ready (Realtor/Move)</option>
-                                            <option>Speaking / Workshop</option>
+                                            <option>Residential Space Organization</option>
+                                            <option>Professional Space Organization</option>
+                                            <option>Packing / Unpacking Services</option>
+                                            <option>Market-Ready (Ready to List / Move Ready)</option>
                                         </select>
                                     </div>
+
+                                    {/* Conditional Field: Business Name */}
+                                    {formData.type === 'Professional Space Organization' && (
+                                        <div className="animate-fade-in-up">
+                                            <label className="block text-sm font-bold text-brand-dark mb-2">Business / Organization Name</label>
+                                            <input type="text" className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" value={formData.businessName} onChange={e => setFormData({...formData, businessName: e.target.value})} />
+                                        </div>
+                                    )}
+
+                                    {/* Conditional Field: Move Status */}
+                                    {formData.type === 'Packing / Unpacking Services' && (
+                                        <div className="animate-fade-in-up">
+                                            <label className="block text-sm font-bold text-brand-dark mb-2">Do you have a set move date?</label>
+                                            <input 
+                                                type="text" 
+                                                placeholder="e.g. Closing Oct 15th, In Contract, Just Looking..."
+                                                className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" 
+                                                value={formData.moveStatus} 
+                                                onChange={e => setFormData({...formData, moveStatus: e.target.value})} 
+                                            />
+                                        </div>
+                                    )}
+
+                                    {/* Updated Textarea Label */}
                                     <div>
-                                        <label className="block text-sm font-bold text-brand-dark mb-2">How can we help?</label>
+                                        <label className="block text-sm font-bold text-brand-dark mb-2">Project Overview & Goals</label>
                                         <textarea rows="4" className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})}></textarea>
                                     </div>
+
+                                    {/* Scheduling Field */}
+                                    <div>
+                                        <label className="block text-sm font-bold text-brand-dark mb-2">Preferred Availability</label>
+                                        <input 
+                                            type="text" 
+                                            placeholder="e.g. Mon/Wed mornings, or any weekday after 4pm"
+                                            className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none transition" 
+                                            value={formData.availability} 
+                                            onChange={e => setFormData({...formData, availability: e.target.value})} 
+                                        />
+                                        <p className="text-xs text-brand-medium mt-2">Let us know what days/times generally work best for you (or don't work at all).</p>
+                                    </div>
+
+                                    {/* Preferred Communication */}
+                                    <div>
+                                        <label className="block text-sm font-bold text-brand-dark mb-2">Preferred Communication</label>
+                                        <div className="flex flex-wrap gap-6 pt-1">
+                                            {['Email', 'Phone (Call)', 'Phone (Text)'].map((option) => (
+                                                <label key={option} className="inline-flex items-center cursor-pointer group">
+                                                    <input 
+                                                        type="radio" 
+                                                        name="preferredContact" 
+                                                        value={option}
+                                                        checked={formData.preferredContact === option}
+                                                        onChange={(e) => setFormData({...formData, preferredContact: e.target.value})}
+                                                        // Custom radio style using Tailwind utilities: Border trick creates a dot
+                                                        className="appearance-none w-5 h-5 border-2 border-stone-300 rounded-full checked:border-brand-periwinkle checked:border-[6px] transition-all duration-200 outline-none cursor-pointer"
+                                                    />
+                                                    <span className={`ml-2 transition-colors ${formData.preferredContact === option ? 'text-brand-dark font-medium' : 'text-brand-medium group-hover:text-brand-dark'}`}>
+                                                        {option}
+                                                    </span>
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    
                                     <button disabled={status === 'sending'} className="w-full bg-brand-periwinkle text-brand-white py-4 rounded-xl font-bold hover:bg-brand-periwinkle-dark transition transform hover:-translate-y-1 shadow-lg font-display uppercase tracking-tight">
                                         {status === 'sending' ? 'Sending...' : 'Request Consultation'}
                                     </button>
