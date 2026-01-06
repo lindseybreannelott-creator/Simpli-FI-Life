@@ -553,10 +553,20 @@
 
         const YouTubeFeed = () => {
             // Images representing: Kitchen/Clutter, Garage/Storage, Mudroom
-            const images = [
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg", // Left (Moved from Right)
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-systems-chaos.png", // Middle (Was Left)
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-expected%20mess%20vs%20clutter.png", // Right (Was Middle)
+            // Now stored as objects to include specific video links
+            const items = [
+                {
+                    img: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg", // Left
+                    link: "https://youtu.be/w_-GRGYch8Q?si=Fl6xRwrcy-49yW4y"
+                },
+                {
+                    img: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-systems-chaos.png", // Middle
+                    link: "https://youtu.be/S38HJrCrl7k?si=AlBxoqslCP4Q3PjG"
+                },
+                {
+                    img: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-expected%20mess%20vs%20clutter.png", // Right
+                    link: "https://youtu.be/YvqgLLeX9VQ?si=gAqHSto5CoBDGjIB"
+                }
             ];
 
             return (
@@ -576,11 +586,11 @@
 
                     {/* Image Strip: Grid of 3 (1 row) */}
                     <div className="grid grid-cols-3">
-                        {images.map((img, i) => (
-                            <a href="https://www.youtube.com/@Simpli-FILife" aria-label="Watch on YouTube" key={i} target="_blank" className="block relative group aspect-video overflow-hidden border-r border-stone-100 last:border-r-0">
+                        {items.map((item, i) => (
+                            <a href={item.link} aria-label="Watch on YouTube" key={i} target="_blank" className="block relative group aspect-video overflow-hidden border-r border-stone-100 last:border-r-0">
                                 <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
                                 <img 
-                                    src={img} 
+                                    src={item.img} 
                                     className="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
                                     alt="YouTube Thumbnail" 
                                     onError={(e) => {
