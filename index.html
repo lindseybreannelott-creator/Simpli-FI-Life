@@ -81,6 +81,37 @@
             50% { opacity: 1; transform: scale(1); }
             100% { opacity: 0; transform: scale(0.9); }
         }
+
+        /* Loading Screen Animations */
+        .loading-grid-fade-in {
+            opacity: 0;
+            animation: fadeInGrid 1.5s ease-out 0.8s forwards; /* Delayed start to let rays run first */
+        }
+        
+        .loading-logo-reveal {
+            /* Start fully clipped (hidden) from the right */
+            clip-path: inset(0 100% 0 0);
+            opacity: 1;
+            /* Wipe reveal from left to right */
+            animation: wipeReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) 2.2s forwards; 
+        }
+
+        /* Exit Loader */
+        .loader-exit {
+            animation: fadeOutLoader 0.6s ease-out 4.0s forwards;
+        }
+
+        @keyframes fadeInGrid { 
+            to { opacity: 0.2; } 
+        }
+        
+        @keyframes wipeReveal { 
+            to { clip-path: inset(0 0 0 0); } 
+        }
+
+        @keyframes fadeOutLoader {
+            to { opacity: 0; visibility: hidden; }
+        }
     </style>
 
     <!-- Tailwind Config -->
@@ -146,7 +177,7 @@
 
     <script type="text/babel">
         // Destructure Globals
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect, useRef, useMemo } = React;
         const { HashRouter, Routes, Route, Link, useLocation, useNavigate, useParams } = ReactRouterDOM;
 
         // --- ICON MAPPING ---
@@ -307,7 +338,8 @@
 
         // --- COMPONENTS ---
 
-        const GridBeams = ({ beamColor = "182, 188, 255" }) => {
+        // UPDATED: Added beamWidth prop. Default is 1 (for Hero), Loading screen can override.
+        const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 300, beamWidth = 1 }) => {
             const [beams, setBeams] = useState([]);
             // Lemon Lime RGB: 214, 227, 30 (Matches #D6E31E)
             const lemonLime = "214, 227, 30";
@@ -342,12 +374,13 @@
                     }, beamDuration * 1000);
                 };
                 
-                const interval = setInterval(spawn, 300); // More frequent: Spawn every 300ms
+                // Use the passed spawnRate prop
+                const interval = setInterval(spawn, spawnRate); 
                 return () => {
                     active = false;
                     clearInterval(interval);
                 };
-            }, [beamColor]);
+            }, [beamColor, spawnRate]);
 
             return (
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -356,8 +389,9 @@
                             key={b.id}
                             className="absolute"
                             style={{
-                                height: b.isHorizontal ? '1px' : '300px',
-                                width: b.isHorizontal ? '300px' : '1px',
+                                // UPDATED: Uses beamWidth prop. Defaults to 1px for Hero, 3px for Loading.
+                                height: b.isHorizontal ? `${beamWidth}px` : '300px',
+                                width: b.isHorizontal ? '300px' : `${beamWidth}px`,
                                 top: b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-300px'),
                                 left: !b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-300px'),
                                 // ADDED: Drop-shadow to create the "feathered glow" effect with CUSTOM color support
@@ -374,6 +408,38 @@
                             }}
                         />
                     ))}
+                </div>
+            );
+        };
+
+        const LoadingScreen = ({ onComplete }) => {
+            useEffect(() => {
+                // Total duration increased slightly to accommodate slower reveals
+                const timer = setTimeout(() => {
+                    onComplete();
+                }, 4500); 
+                return () => clearTimeout(timer);
+            }, [onComplete]);
+
+            return (
+                <div className="fixed inset-0 z-[100] bg-brand-base flex items-center justify-center loader-exit overflow-hidden">
+                    {/* 1. Static Grid - Fades In Slowly after delay */}
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] loading-grid-fade-in"></div>
+
+                    {/* 2. Sporadic Light Beams (Always Active, High Frequency Start) */}
+                    <div className="absolute inset-0 opacity-40">
+                        {/* Reduced frequency (150ms) and opacity for a less "busy", more modern feel */}
+                        <GridBeams spawnRate={150} beamWidth={1.5} />
+                    </div>
+
+                    {/* 3. Logo Reveal - Now ALL CAPS and matching header weights/colors */}
+                    <div className="relative z-20 loading-logo-reveal text-center px-4">
+                        {/* Changed tracking-tighter to tracking-[0.25em] for modern wide spacing */}
+                        {/* Slightly reduced font size to text-4xl/6xl to balance the wide spacing */}
+                        <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark">
+                            <span className="font-bold">SIMPLI-FI</span> <span className="font-light text-brand-medium">LIFE</span>
+                        </h1>
+                    </div>
                 </div>
             );
         };
@@ -436,17 +502,16 @@
 
         const InstagramFeed = () => {
             // Updated to use raw.githubusercontent.com with encoded spaces/parentheses for reliability
-            // Switched to 'main' branch to ensure latest renamed files are found
             const images = [
-                // 1. Original Left
+                // 1. Original Left (User provided filename)
                 "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg",
                 // 2. New Adjacent Left
                 "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-NoMoreMissingSocks-Cover.jpg",
                 // 3. New Middle
                 "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-BeigeYTCovershorts.jpeg",
-                // 4. Original Middle (Shifted) - Adjusted encoding for parentheses
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/stop%20keeping%20missing%20things(1)-Cover.jpg",
-                // 5. Original Right
+                // 4. Original Middle (Shifted) - URL encoded properly
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/stop%20keeping%20missing%20things%281%29-Cover.jpg",
+                // 5. Original Right - URL encoded properly
                 "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-evendeclutteringcoacheshave%20clutter.png",
             ];
 
@@ -474,18 +539,11 @@
                     {/* Image Strip: Grid of 5 (1 row on desktop, 2 on mobile) */}
                     <div className="grid grid-cols-2 md:grid-cols-5">
                         {images.map((img, i) => (
-                            // UPDATED: Changed aspect ratio to 9:16 for full portrait view
-                            <a 
-                                href="https://www.instagram.com/simpli_fi_life/" 
-                                aria-label="View on Instagram" 
-                                key={i} 
-                                target="_blank" 
-                                className={`relative group aspect-[9/16] overflow-hidden border-r border-stone-100 last:border-r-0 ${i === 4 ? 'hidden md:block' : 'block'}`}
-                            >
+                            // UPDATED: Changed grid to fit 5 images. Kept aspect-[4/5] for optimal vertical viewing.
+                            <a href="https://www.instagram.com/simpli_fi_life/" aria-label="View on Instagram" key={i} target="_blank" className="block relative group aspect-[4/5] overflow-hidden border-r border-stone-100 last:border-r-0">
                                 <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
                                 <img 
                                     src={img} 
-                                    // Added back group-hover:scale-110 for the zoom effect on hover
                                     className="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
                                     alt="Instagram Post" 
                                     // Added error handler: If image fails, replace with a safe placeholder so layout doesn't break
@@ -553,20 +611,10 @@
 
         const YouTubeFeed = () => {
             // Images representing: Kitchen/Clutter, Garage/Storage, Mudroom
-            // Now stored as objects to include specific video links
-            const items = [
-                {
-                    img: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg", // Left
-                    link: "https://youtu.be/w_-GRGYch8Q?si=Fl6xRwrcy-49yW4y"
-                },
-                {
-                    img: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-systems-chaos.png", // Middle
-                    link: "https://youtu.be/S38HJrCrl7k?si=AlBxoqslCP4Q3PjG"
-                },
-                {
-                    img: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-expected%20mess%20vs%20clutter.png", // Right
-                    link: "https://youtu.be/YvqgLLeX9VQ?si=gAqHSto5CoBDGjIB"
-                }
+            const images = [
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-systems-chaos.png", // Left
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-expected%20mess%20vs%20clutter.png", // Middle
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg", // Right
             ];
 
             return (
@@ -586,11 +634,11 @@
 
                     {/* Image Strip: Grid of 3 (1 row) */}
                     <div className="grid grid-cols-3">
-                        {items.map((item, i) => (
-                            <a href={item.link} aria-label="Watch on YouTube" key={i} target="_blank" className="block relative group aspect-video overflow-hidden border-r border-stone-100 last:border-r-0">
+                        {images.map((img, i) => (
+                            <a href="https://www.youtube.com/@Simpli-FILife" aria-label="Watch on YouTube" key={i} target="_blank" className="block relative group aspect-video overflow-hidden border-r border-stone-100 last:border-r-0">
                                 <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
                                 <img 
-                                    src={item.img} 
+                                    src={img} 
                                     className="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
                                     alt="YouTube Thumbnail" 
                                     onError={(e) => {
@@ -1729,9 +1777,16 @@ ${formData.message}`;
         }
 
         const App = () => {
+            // New Loading State
+            const [isLoading, setIsLoading] = useState(true);
+
             return (
                 <HashRouter>
-                    <div className="min-h-screen bg-brand-base text-brand-dark font-sans flex flex-col">
+                    {/* Render Loading Screen Conditionally */}
+                    {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+                    
+                    {/* Main App Content - hidden or revealed based on loading state if desired, but here we just overlay the loader */}
+                    <div className={`min-h-screen bg-brand-base text-brand-dark font-sans flex flex-col transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
                         <Navbar />
                         <main className="flex-grow">
                             <Routes>
