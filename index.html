@@ -96,7 +96,8 @@
                             medium: '#57534e', // Softer Greige Text
                             periwinkle: '#7178c8', // Primary Accent
                             'periwinkle-light': '#d4d7ff', // Soft Accent/Blob - TONED DOWN
-                            'periwinkle-dark': '#5a60a6', // Hover State
+                            'periwinkle-dark': '#5a60a6', // Hover State (Legacy)
+                            lemon: '#D6E31E', // NEW: Lemon Lime Accent
                         }
                     },
                     fontFamily: {
@@ -308,6 +309,8 @@
 
         const GridBeams = ({ beamColor = "182, 188, 255" }) => {
             const [beams, setBeams] = useState([]);
+            // Lemon Lime RGB: 214, 227, 30 (Matches #D6E31E)
+            const lemonLime = "214, 227, 30";
             
             useEffect(() => {
                 let count = 0;
@@ -323,7 +326,13 @@
                     const offset = lineIndex * 40; 
                     const beamDuration = 1.5 + Math.random() * 2; // Renamed variable
                     
-                    setBeams(prev => [...prev, { id, isHorizontal, isReverse, offset, duration: beamDuration }]);
+                    // Logic: Every 5th beam uses lemon lime, BUT only if the main color is the default purple.
+                    let specificBeamColor = beamColor;
+                    if (beamColor === "182, 188, 255" && id % 5 === 0) {
+                        specificBeamColor = lemonLime;
+                    }
+                    
+                    setBeams(prev => [...prev, { id, isHorizontal, isReverse, offset, duration: beamDuration, color: specificBeamColor }]);
                     
                     // Cleanup old beams after animation
                     setTimeout(() => {
@@ -338,7 +347,7 @@
                     active = false;
                     clearInterval(interval);
                 };
-            }, []);
+            }, [beamColor]);
 
             return (
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -352,11 +361,11 @@
                                 top: b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-300px'),
                                 left: !b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-300px'),
                                 // ADDED: Drop-shadow to create the "feathered glow" effect with CUSTOM color support
-                                filter: `drop-shadow(0 0 4px rgba(${beamColor}, 0.8))`,
+                                filter: `drop-shadow(0 0 4px rgba(${b.color}, 0.8))`,
                                 // Increased core opacity to 1 so the center is bright
                                 background: b.isHorizontal 
-                                    ? `linear-gradient(90deg, transparent, rgba(${beamColor}, 1), transparent)`
-                                    : `linear-gradient(180deg, transparent, rgba(${beamColor}, 1), transparent)`,
+                                    ? `linear-gradient(90deg, transparent, rgba(${b.color}, 1), transparent)`
+                                    : `linear-gradient(180deg, transparent, rgba(${b.color}, 1), transparent)`,
                                 animation: `${
                                     b.isHorizontal 
                                         ? (b.isReverse ? 'beam-h-rev' : 'beam-h') 
@@ -426,11 +435,11 @@
         }
 
         const InstagramFeed = () => {
-            // Updated to match your uploaded screenshots
+            // Updated to use raw.githubusercontent.com with encoded spaces/parentheses for reliability
             const images = [
-                "https://images.unsplash.com/photo-1523554888454-84137e72d3ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Stacked Rocks
-                "https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Messy Pillow Detail
-                "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Storage/Garage/Workspace
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/IG-The%20Secret%20to%20an%20Easy%20Tidy-Up.png",
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/stop%20keeping%20missing%20things%281%29-Cover.jpg",
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/IG-evendeclutteringcoacheshave%20clutter.png",
             ];
 
             return (
@@ -457,7 +466,8 @@
                     {/* Image Strip: Grid of 3 (1 row) */}
                     <div className="grid grid-cols-3">
                         {images.map((img, i) => (
-                            <a href="https://www.instagram.com/simpli_fi_life/" aria-label="View on Instagram" key={i} target="_blank" className="block relative group aspect-square overflow-hidden border-r border-stone-100 last:border-r-0">
+                            // UPDATED: Changed aspect-square to aspect-[4/5] for vertical images
+                            <a href="https://www.instagram.com/simpli_fi_life/" aria-label="View on Instagram" key={i} target="_blank" className="block relative group aspect-[4/5] overflow-hidden border-r border-stone-100 last:border-r-0">
                                 <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
                                 <img src={img} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Instagram Post" />
                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 z-20">
@@ -714,7 +724,8 @@
                     <div className={`overflow-hidden transition-all duration-700 ease-in-out ${hasChecks ? 'max-h-48 opacity-100 mt-8 pt-8 border-t border-stone-200' : 'max-h-0 opacity-0'}`}>
                         <div className="text-center animate-fade-in-up">
                             <p className="text-brand-dark font-medium text-lg mb-6 italic">"{message}"</p>
-                            <Link to={getBookingLink()} className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-periwinkle-dark transition shadow-lg font-display font-bold text-sm uppercase tracking-tight">
+                            {/* Updated Hover State to Lemon Lime */}
+                            <Link to={getBookingLink()} className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-sm uppercase tracking-tight">
                                 Discuss My Project <ArrowRight className="ml-2 w-4 h-4"/>
                             </Link>
                         </div>
@@ -744,7 +755,8 @@
                                 <Link to="/" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">HOME</Link>
                                 <Link to="/enterprise" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">PROFESSIONAL SPACES</Link>
                                 <Link to="/residential" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">RESIDENTIAL SPACES</Link>
-                                <Link to="/booking" className="bg-brand-periwinkle text-brand-white px-6 py-2 rounded-full font-display font-bold hover:bg-brand-periwinkle-dark transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
+                                {/* Updated Hover State to Lemon Lime */}
+                                <Link to="/booking" className="bg-brand-periwinkle text-brand-white px-6 py-2 rounded-full font-display font-bold hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
                             </div>
                             <div className="md:hidden flex items-center">
                                 <button onClick={() => setIsOpen(!isOpen)} className="text-brand-medium hover:text-brand-dark">
@@ -908,7 +920,7 @@
                                 <div className="bg-brand-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-stone-100 reveal opacity-0 translate-y-10 delay-100 flex flex-col relative group hover:scale-[1.02] duration-300">
                                     {/* SVG Border Overlay */}
                                     <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl overflow-visible z-20">
-                                        <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#7178c8" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
+                                        <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
                                     </svg>
                                     
                                     <Building2 className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
@@ -926,7 +938,7 @@
                                 <div className="bg-brand-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-stone-100 reveal opacity-0 translate-y-10 delay-200 flex flex-col relative group hover:scale-[1.02] duration-300">
                                     {/* SVG Border Overlay */}
                                     <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl overflow-visible z-20">
-                                        <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#7178c8" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
+                                        <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
                                     </svg>
 
                                     <HomeIcon className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
@@ -957,9 +969,9 @@
                         <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-2 gap-16 items-center relative z-10">
                             <div className="relative mb-12 lg:mb-0 text-center lg:text-left">
                                 {/* Clean, modern image placement without the border frame */}
-                                {/* PLACEHOLDER IMAGE: Replace the src below with 'Untitled design-25.jpg' to use your uploaded photo */}
+                                {/* UPDATED: Founder Image */}
                                 <img 
-                                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" 
+                                    src="https://github.com/lindseybreannelott-creator/website-assets/blob/d433bd1db169b30aee99ebbc2bf459fd2c985f2f/SImpli-FI%20Life%20PFP-5.png?raw=true" 
                                     className="relative z-10 rounded-2xl shadow-2xl w-full max-w-md mx-auto lg:mx-0 aspect-[4/5] object-cover bg-white" 
                                     alt="Lindsey Lott" 
                                 />
@@ -988,7 +1000,8 @@
                                 {/* Replaced Stats with CTA Button */}
                                 <div className="mt-10 flex flex-col items-center lg:items-start">
                                     <p className="font-display font-bold text-lg text-brand-dark mb-4 uppercase tracking-widest">Ready to chat?</p>
-                                    <Link to="/booking" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-periwinkle-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
+                                    {/* Updated Hover State to Lemon Lime */}
+                                    <Link to="/booking" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
                                         Book Discovery Call <ArrowRight className="ml-2 w-5 h-5" />
                                     </Link>
                                 </div>
@@ -1134,7 +1147,8 @@
 
                                      {/* Updated to Button Style */}
                                      {/* Updated service param */}
-                                     <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-periwinkle-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
+                                     {/* Updated Hover State to Lemon Lime */}
+                                     <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
                                          Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/>
                                      </Link>
                                 </div>
@@ -1189,7 +1203,8 @@
                                             <p>I'm so confident your business can benefit from my organizing services I offer a free 30 min call to clarify any questions you have. Let's remove the questions and bring clarity.</p>
                                         </div>
                                         {/* Updated service param */}
-                                        <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-periwinkle-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
+                                        {/* Updated Hover State to Lemon Lime */}
+                                        <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
                                             Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/>
                                         </Link>
                                     </div>
@@ -1250,21 +1265,17 @@
                             <div 
                                 className={`w-full md:w-1/2 relative z-20 transition-all duration-700 ease-out ${isTestimonialHovered ? 'md:-translate-x-12' : 'md:translate-x-0'}`}
                             >
-                                <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video group cursor-pointer border-4 border-white">
-                                    <img 
-                                        src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80" 
-                                        alt="Lindsey working with client" 
-                                        className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
-                                    />
-                                    {/* Play Button Overlay */}
-                                    <div className="absolute inset-0 bg-brand-dark/20 group-hover:bg-brand-dark/30 transition-colors flex items-center justify-center">
-                                        <div className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm group-hover:scale-110 transition-transform">
-                                            <svg className="w-8 h-8 text-brand-periwinkle fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                        </div>
-                                    </div>
-                                    <div className="absolute bottom-6 left-6 bg-black/50 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider">
-                                        Watch the Process
-                                    </div>
+                                <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video group border-4 border-white bg-brand-dark">
+                                    <video 
+                                        className="w-full h-full object-cover rounded-3xl" 
+                                        controls 
+                                        playsInline
+                                        preload="metadata"
+                                    >
+                                        <source src="https://github.com/lindseybreannelott-creator/website-assets/blob/18ae30e0fb00dc8a8e30ea3a5292874c4fb39e42/IMG_8135.MOV?raw=true" type="video/mp4" />
+                                        <source src="https://github.com/lindseybreannelott-creator/website-assets/blob/18ae30e0fb00dc8a8e30ea3a5292874c4fb39e42/IMG_8135.MOV?raw=true" type="video/quicktime" />
+                                        Your browser does not support the video tag.
+                                    </video>
                                 </div>
                             </div>
 
@@ -1581,7 +1592,8 @@ ${formData.message}`;
                                         </div>
                                     </div>
                                     
-                                    <button disabled={status === 'sending'} className="w-full bg-brand-periwinkle text-brand-white py-4 rounded-xl font-bold hover:bg-brand-periwinkle-dark transition transform hover:-translate-y-1 shadow-lg font-display uppercase tracking-tight">
+                                    {/* Updated Hover State to Lemon Lime */}
+                                    <button disabled={status === 'sending'} className="w-full bg-brand-periwinkle text-brand-white py-4 rounded-xl font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 shadow-lg font-display uppercase tracking-tight">
                                         {status === 'sending' ? 'Sending...' : 'Request Consultation'}
                                     </button>
                                 </form>
