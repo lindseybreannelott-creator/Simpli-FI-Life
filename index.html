@@ -96,7 +96,7 @@
                             medium: '#57534e', // Softer Greige Text
                             periwinkle: '#7178c8', // Primary Accent
                             'periwinkle-light': '#d4d7ff', // Soft Accent/Blob - TONED DOWN
-                            'periwinkle-dark': '#5a60a6', // Hover State (Legacy)
+                            'periwinkle-dark': '#5a60a6', // Hover State
                             lemon: '#D6E31E', // NEW: Lemon Lime Accent
                         }
                     },
@@ -437,7 +437,8 @@
         const InstagramFeed = () => {
             // Updated to use raw.githubusercontent.com with encoded spaces/parentheses for reliability
             const images = [
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/IG-The%20Secret%20to%20an%20Easy%20Tidy-Up.png",
+                // CHANGED to user provided filename with .jpeg extension
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg",
                 "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/stop%20keeping%20missing%20things%281%29-Cover.jpg",
                 "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/IG-evendeclutteringcoacheshave%20clutter.png",
             ];
@@ -469,7 +470,16 @@
                             // UPDATED: Changed aspect-square to aspect-[4/5] for vertical images
                             <a href="https://www.instagram.com/simpli_fi_life/" aria-label="View on Instagram" key={i} target="_blank" className="block relative group aspect-[4/5] overflow-hidden border-r border-stone-100 last:border-r-0">
                                 <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
-                                <img src={img} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Instagram Post" />
+                                <img 
+                                    src={img} 
+                                    className="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
+                                    alt="Instagram Post" 
+                                    // Added error handler: If image fails, replace with a safe placeholder so layout doesn't break
+                                    onError={(e) => {
+                                        e.target.onerror = null; 
+                                        e.target.src = "https://images.unsplash.com/photo-1523554888454-84137e72d3ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80";
+                                    }}
+                                />
                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 z-20">
                                     <Instagram className="text-white w-8 h-8 drop-shadow-md" />
                                 </div>
@@ -1113,7 +1123,7 @@
                         {/* WRAPPER FOR GRID BACKGROUND SECTION - Covers Cards AND CTA */}
                         <div className="relative mt-24 pb-12">
                             {/* Grid Background: Starts here (~100px from checklist) and goes down to footer without fade */}
-                            <div className="absolute inset-0 pointer-events-none -mx-4 md:-mx-8" style={{
+                            <div className="absolute inset-0 pointer-events-none -mx-4 md:-mx-8" style={{ 
                                 height: '100%',
                                 maskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 100%)',
                                 WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 100%)'
@@ -1265,7 +1275,7 @@
                             <div 
                                 className={`w-full md:w-1/2 relative z-20 transition-all duration-700 ease-out ${isTestimonialHovered ? 'md:-translate-x-12' : 'md:translate-x-0'}`}
                             >
-                                <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video group border-4 border-white bg-brand-dark">
+                                <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video group cursor-pointer border-4 border-white bg-brand-dark">
                                     <video 
                                         className="w-full h-full object-cover rounded-3xl" 
                                         controls 
