@@ -436,11 +436,18 @@
 
         const InstagramFeed = () => {
             // Updated to use raw.githubusercontent.com with encoded spaces/parentheses for reliability
+            // Switched to 'main' branch to ensure latest renamed files are found
             const images = [
-                // CHANGED to user provided filename with .jpeg extension
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg",
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/stop%20keeping%20missing%20things%281%29-Cover.jpg",
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/IG-evendeclutteringcoacheshave%20clutter.png",
+                // 1. Original Left
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg",
+                // 2. New Adjacent Left
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-NoMoreMissingSocks-Cover.jpg",
+                // 3. New Middle
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-BeigeYTCovershorts.jpeg",
+                // 4. Original Middle (Shifted) - Adjusted encoding for parentheses
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/stop%20keeping%20missing%20things(1)-Cover.jpg",
+                // 5. Original Right
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-evendeclutteringcoacheshave%20clutter.png",
             ];
 
             return (
@@ -462,16 +469,23 @@
                     </div>
 
                     {/* Thick Horizontal Strip at Top (Darker Periwinkle) - Thinned to h-2 */}
-                    <div className="w-full h-2 bg-brand-periwinkle relative z-20"></div>
+                    <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
 
-                    {/* Image Strip: Grid of 3 (1 row) */}
-                    <div className="grid grid-cols-3">
+                    {/* Image Strip: Grid of 5 (1 row on desktop, 2 on mobile) */}
+                    <div className="grid grid-cols-2 md:grid-cols-5">
                         {images.map((img, i) => (
-                            // UPDATED: Changed aspect-square to aspect-[4/5] for vertical images
-                            <a href="https://www.instagram.com/simpli_fi_life/" aria-label="View on Instagram" key={i} target="_blank" className="block relative group aspect-[4/5] overflow-hidden border-r border-stone-100 last:border-r-0">
+                            // UPDATED: Changed aspect ratio to 9:16 for full portrait view
+                            <a 
+                                href="https://www.instagram.com/simpli_fi_life/" 
+                                aria-label="View on Instagram" 
+                                key={i} 
+                                target="_blank" 
+                                className={`relative group aspect-[9/16] overflow-hidden border-r border-stone-100 last:border-r-0 ${i === 4 ? 'hidden md:block' : 'block'}`}
+                            >
                                 <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
                                 <img 
                                     src={img} 
+                                    // Added back group-hover:scale-110 for the zoom effect on hover
                                     className="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
                                     alt="Instagram Post" 
                                     // Added error handler: If image fails, replace with a safe placeholder so layout doesn't break
@@ -492,9 +506,22 @@
                          <a 
                             href="https://www.instagram.com/simpli_fi_life/" 
                             target="_blank" 
-                            className="block bg-brand-periwinkle-light text-brand-dark px-10 py-4 font-display font-bold tracking-widest text-sm uppercase hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 hover:scale-105 rounded-full shadow-xl border border-white/20"
+                            className="block relative group bg-brand-periwinkle-light text-brand-dark px-10 py-4 font-display font-bold tracking-widest text-sm uppercase hover:bg-brand-base transition-colors duration-300 transform hover:-translate-y-1 hover:scale-105 rounded-full shadow-xl"
                          >
-                            @simpli_fi_life
+                            {/* SVG Border Animation - Fixed to match rounded-full perfectly using calculated calc/rx */}
+                            <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full z-20 overflow-visible">
+                                <rect 
+                                    x="1.5" 
+                                    y="1.5" 
+                                    style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} 
+                                    rx="26" 
+                                    fill="none" 
+                                    stroke="#D6E31E" 
+                                    strokeWidth="3" 
+                                    className="draw-border opacity-0 group-hover:opacity-100" 
+                                />
+                            </svg>
+                            <span className="relative z-10">@simpli_fi_life</span>
                          </a>
                     </div>
                     {/* Mobile version centered and moved up */}
@@ -502,9 +529,22 @@
                          <a 
                             href="https://www.instagram.com/simpli_fi_life/" 
                             target="_blank" 
-                            className="block bg-brand-periwinkle-light text-brand-dark px-8 py-3 font-display font-bold tracking-widest text-xs uppercase rounded-full shadow-xl border border-white/20"
+                            className="block relative group bg-brand-periwinkle-light text-brand-dark px-8 py-3 font-display font-bold tracking-widest text-xs uppercase hover:bg-brand-base transition-colors duration-300 rounded-full shadow-xl"
                          >
-                            @simpli_fi_life
+                            {/* SVG Border Animation - Fixed to match rounded-full perfectly using calculated calc/rx */}
+                            <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full z-20 overflow-visible">
+                                <rect 
+                                    x="1.5" 
+                                    y="1.5" 
+                                    style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} 
+                                    rx="20" 
+                                    fill="none" 
+                                    stroke="#D6E31E" 
+                                    strokeWidth="3" 
+                                    className="draw-border opacity-0 group-hover:opacity-100" 
+                                />
+                            </svg>
+                            <span className="relative z-10">@simpli_fi_life</span>
                          </a>
                     </div>
                 </div>
@@ -514,9 +554,9 @@
         const YouTubeFeed = () => {
             // Images representing: Kitchen/Clutter, Garage/Storage, Mudroom
             const images = [
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-systems-chaos.png", // Left
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-expected%20mess%20vs%20clutter.png", // Middle
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg", // Right
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg", // Left (Moved from Right)
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-systems-chaos.png", // Middle (Was Left)
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-expected%20mess%20vs%20clutter.png", // Right (Was Middle)
             ];
 
             return (
@@ -532,12 +572,12 @@
                     </div>
 
                     {/* Thick Horizontal Strip at Top (Darker Periwinkle) - Thinned to h-2 */}
-                    <div className="w-full h-2 bg-brand-periwinkle relative z-20"></div>
+                    <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
 
                     {/* Image Strip: Grid of 3 (1 row) */}
                     <div className="grid grid-cols-3">
                         {images.map((img, i) => (
-                            <a href="https://www.youtube.com/@Simpli-FILife" aria-label="Watch on YouTube" key={i} target="_blank" className="block relative group aspect-square overflow-hidden border-r border-stone-100 last:border-r-0">
+                            <a href="https://www.youtube.com/@Simpli-FILife" aria-label="Watch on YouTube" key={i} target="_blank" className="block relative group aspect-video overflow-hidden border-r border-stone-100 last:border-r-0">
                                 <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
                                 <img 
                                     src={img} 
@@ -560,9 +600,22 @@
                          <a 
                             href="https://www.youtube.com/@Simpli-FILife" 
                             target="_blank" 
-                            className="block bg-brand-periwinkle-light text-brand-dark px-10 py-4 font-display font-bold tracking-widest text-sm uppercase hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 hover:scale-105 rounded-full shadow-xl border border-white/20"
+                            className="block relative group bg-brand-periwinkle-light text-brand-dark px-10 py-4 font-display font-bold tracking-widest text-sm uppercase hover:bg-brand-base transition-colors duration-300 transform hover:-translate-y-1 hover:scale-105 rounded-full shadow-xl"
                          >
-                            @Simpli-FILife
+                            {/* SVG Border Animation - Fixed to match rounded-full perfectly using calculated calc/rx */}
+                            <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full z-20 overflow-visible">
+                                <rect 
+                                    x="1.5" 
+                                    y="1.5" 
+                                    style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} 
+                                    rx="26" 
+                                    fill="none" 
+                                    stroke="#D6E31E" 
+                                    strokeWidth="3" 
+                                    className="draw-border opacity-0 group-hover:opacity-100" 
+                                />
+                            </svg>
+                            <span className="relative z-10">@Simpli-FILife</span>
                          </a>
                     </div>
                     {/* Mobile version centered */}
@@ -570,9 +623,22 @@
                          <a 
                             href="https://www.youtube.com/@Simpli-FILife" 
                             target="_blank" 
-                            className="block bg-brand-periwinkle-light text-brand-dark px-8 py-3 font-display font-bold tracking-widest text-xs uppercase rounded-full shadow-xl border border-white/20"
+                            className="block relative group bg-brand-periwinkle-light text-brand-dark px-8 py-3 font-display font-bold tracking-widest text-xs uppercase hover:bg-brand-base transition-colors duration-300 rounded-full shadow-xl"
                          >
-                            @Simpli-FILife
+                            {/* SVG Border Animation - Fixed to match rounded-full perfectly using calculated calc/rx */}
+                            <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full z-20 overflow-visible">
+                                <rect 
+                                    x="1.5" 
+                                    y="1.5" 
+                                    style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} 
+                                    rx="20" 
+                                    fill="none" 
+                                    stroke="#D6E31E" 
+                                    strokeWidth="3" 
+                                    className="draw-border opacity-0 group-hover:opacity-100" 
+                                />
+                            </svg>
+                            <span className="relative z-10">@Simpli-FILife</span>
                          </a>
                     </div>
                 </div>
