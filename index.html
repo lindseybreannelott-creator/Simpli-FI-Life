@@ -514,9 +514,9 @@
         const YouTubeFeed = () => {
             // Images representing: Kitchen/Clutter, Garage/Storage, Mudroom
             const images = [
-                "https://images.unsplash.com/photo-1556910103-1c02745a30bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Kitchen Mess/Clutter
-                "https://images.unsplash.com/photo-1595246140625-573b715d1128?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Garage/Storage
-                "https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Mudroom/Entry
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-systems-chaos.png", // Left
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/YT-expected%20mess%20vs%20clutter.png", // Middle
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg", // Right
             ];
 
             return (
@@ -539,7 +539,15 @@
                         {images.map((img, i) => (
                             <a href="https://www.youtube.com/@Simpli-FILife" aria-label="Watch on YouTube" key={i} target="_blank" className="block relative group aspect-square overflow-hidden border-r border-stone-100 last:border-r-0">
                                 <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
-                                <img src={img} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="YouTube Thumbnail" />
+                                <img 
+                                    src={img} 
+                                    className="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
+                                    alt="YouTube Thumbnail" 
+                                    onError={(e) => {
+                                        e.target.onerror = null; 
+                                        e.target.src = "https://images.unsplash.com/photo-1556910103-1c02745a30bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80";
+                                    }}
+                                />
                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 z-20">
                                     <Youtube className="text-white w-12 h-12 drop-shadow-md" />
                                 </div>
