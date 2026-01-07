@@ -847,10 +847,34 @@
             const hasChecks = selectedCount > 0;
 
             const getScore = () => {
-                // Updated color to a cohesive Amber Orange [#F59E0B] instead of standard yellow
-                if (selectedCount <= 2) return { level: "MODERATE LIABILITY", color: "text-[#F59E0B]", msg: "Even small inefficiencies compound significantly over a fiscal year." };
-                if (selectedCount <= 4) return { level: "HIGH LIABILITY", color: "text-orange-600", msg: "Disorganization is likely costing you 10-15% in lost productivity annually." };
-                return { level: "CRITICAL LIABILITY", color: "text-red-600", msg: "Your current systems are actively working against your bottom line and staff retention." };
+                const defaultGoodNews = "We fix these exact issues. Our systems have been known to pay for themselves in recovered inventory alone.";
+
+                // NEW: Added Low Liability tier for single selections (like just visual clutter)
+                if (selectedCount === 1) return { 
+                    level: "LOW LIABILITY", 
+                    color: "text-brand-periwinkle", 
+                    msg: "Your systems are generally healthy, but specific friction points are causing unnecessary stress.",
+                    goodNews: "We can help you fine tune your systems + inventory to remove friction creating an optimal environment for your customers and employees."
+                };
+                // Adjusted thresholds to accommodate the new tier
+                if (selectedCount <= 3) return { 
+                    level: "MODERATE LIABILITY", 
+                    color: "text-[#F59E0B]", 
+                    msg: "Even small inefficiencies compound significantly over a fiscal year.",
+                    goodNews: defaultGoodNews
+                };
+                if (selectedCount <= 5) return { 
+                    level: "HIGH LIABILITY", 
+                    color: "text-orange-600", 
+                    msg: "Disorganization is likely costing you 10-15% in lost productivity annually.",
+                    goodNews: defaultGoodNews
+                };
+                return { 
+                    level: "CRITICAL LIABILITY", 
+                    color: "text-red-600", 
+                    msg: "Your current systems are actively working against your bottom line and staff retention.",
+                    goodNews: defaultGoodNews
+                };
             };
 
             const score = getScore();
@@ -920,8 +944,8 @@
                                     <p className="text-brand-dark font-medium text-lg mb-8 leading-relaxed px-2">{score.msg}</p>
                                     
                                     <div className="inline-block bg-brand-base px-6 py-5 rounded-2xl border border-brand-periwinkle/20 w-full mb-8">
-                                        {/* UPDATED: Verbiage change */}
-                                        <p className="text-sm text-brand-medium"><strong>Good news:</strong> We fix these exact issues. Our systems have been known to pay for themselves in recovered inventory alone.</p>
+                                        {/* UPDATED: Dynamic Good News based on score */}
+                                        <p className="text-sm text-brand-medium"><strong>Good news:</strong> {score.goodNews}</p>
                                     </div>
 
                                     <Link 
