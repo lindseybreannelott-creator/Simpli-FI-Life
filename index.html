@@ -378,7 +378,8 @@
                     const isHorizontal = Math.random() > 0.5;
                     const isReverse = Math.random() > 0.5;
                     // Grid size is 40px, let's align beams to grid
-                    const lineIndex = Math.floor(Math.random() * 50); 
+                    // UPDATED: Increased range from 50 to 100 to cover taller unified section
+                    const lineIndex = Math.floor(Math.random() * 100); 
                     const offset = lineIndex * 40; 
                     const beamDuration = 1.5 + Math.random() * 2; // Renamed variable
                     
@@ -733,7 +734,8 @@
             const extendedTestimonials = [...TESTIMONIALS, ...TESTIMONIALS];
 
             return (
-                <div className="relative w-full overflow-hidden py-10 group bg-brand-base">
+                // UPDATED: Removed bg-brand-base to allow grid to show through behind content
+                <div className="relative w-full overflow-hidden py-10 group">
                     <div className="flex gap-6 w-max animate-marquee">
                         {extendedTestimonials.map((t, i) => (
                             // Removed 'overflow-hidden' so the quote can pop out
@@ -1038,17 +1040,15 @@
 
             return (
                 <div className="overflow-x-hidden">
-                    {/* Hero */}
+                    {/* Unified Wrapper for Hero, Testimonials, and Services to share the background */}
                     <div className="relative bg-brand-base overflow-hidden">
-                        {/* WRAPPER FOR GRID & BEAMS
-                            - h-[105vh]: Increased height to ensure plenty of room below buttons
-                            - lg:h-full: Covers full height on desktop
-                        */}
-                        <div className="absolute top-0 left-0 right-0 h-[105vh] lg:h-full pointer-events-none" style={{ 
-                            /* Updated mask: Stays solid black (visible) for 95% of the height.
-                               This ensures solid lines under the buttons before fading in the last 5%. */
-                            maskImage: 'linear-gradient(to bottom, black 95%, transparent 100%)',
-                            WebkitMaskImage: 'linear-gradient(to bottom, black 95%, transparent 100%)'
+                        
+                        {/* SHARED BACKGROUND GRID & BEAMS */}
+                        {/* Covers Hero, Testimonials, and Services sections */}
+                        <div className="absolute top-0 left-0 right-0 bottom-0 pointer-events-none" style={{ 
+                            /* Updated mask: Stays solid black for most of the height, fading out at the bottom of the Services section */
+                            maskImage: 'linear-gradient(to bottom, black 90%, transparent 100%)',
+                            WebkitMaskImage: 'linear-gradient(to bottom, black 90%, transparent 100%)'
                         }}>
                             {/* Updated Grid: All lines light periwinkle (#b6bcff) */}
                             <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
@@ -1057,25 +1057,18 @@
                             <GridBeams />
                         </div>
 
-                        {/* Container Spacing:
-                            - pt-44: Reduced padding (pt-52 -> pt-44) by ~30px as requested
-                            - pb-12: Standard bottom padding
-                            - text-center: Center alignment
-                        */}
+                        {/* HERO SECTION */}
                         <div className="max-w-7xl mx-auto relative z-10 pt-44 pb-12 px-4 text-center">
                             
                             {/* Centered Hero Content */}
-                            <div className="max-w-5xl mx-auto mb-20"> {/* Added bottom margin for spacing before testimonials */}
-                                {/* Increased margin bottom (mb-6 -> mb-8) */}
+                            <div className="max-w-5xl mx-auto mb-20"> 
                                 <h1 className="font-display text-5xl sm:text-7xl md:text-8xl font-bold text-brand-dark mb-8 tracking-tighter leading-[0.9]">
                                     Get Organized<br />
                                     <span className="text-brand-medium italic pr-2">without the overwhelm.</span>
                                 </h1>
                                 
-                                {/* Increased margin bottom (mb-8 -> mb-10) */}
                                 <p className="text-lg text-brand-medium mb-10 max-w-2xl mx-auto">Life can be chaotic, your space doesn't need to be.</p>
                                 
-                                {/* Increased margin bottom (mb-4 -> mb-6) */}
                                 <p className="text-xl font-display font-normal text-brand-dark mb-6">Let's organize my:</p>
                                 
                                 <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -1083,55 +1076,55 @@
                                     <Link to="/residential" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Residential Space</Link>
                                 </div>
                             </div>
-                            
-                            {/* Testimonial Section - Now centered underneath */}
-                            <div className="relative w-full">
-                                <TestimonialScroller />
-                            </div>
                         </div>
-                    </div>
 
-                    {/* Services Split */}
-                    <div id="services" className="py-24 bg-brand-base">
-                        <div className="max-w-7xl mx-auto px-4">
-                            <div className="text-center mb-16 reveal opacity-0 translate-y-10 duration-1000">
-                                <h2 className="font-display text-6xl md:text-7xl font-bold tracking-tighter text-brand-dark italic">Make Room for More in Your....</h2>
-                            </div>
-                            <div className="grid md:grid-cols-2 gap-12">
-                                {/* Professional Spaces Card */}
-                                <div className="bg-brand-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-stone-100 reveal opacity-0 translate-y-10 delay-100 flex flex-col relative group hover:scale-[1.02] duration-300">
-                                    {/* SVG Border Overlay */}
-                                    <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl overflow-visible z-20">
-                                        <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
-                                    </svg>
-                                    
-                                    <Building2 className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
-                                    <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Professional Spaces</h3>
-                                    
-                                    <div className="text-brand-medium mb-8 flex-grow space-y-8">
-                                        <p>Your back-of-house should fuel your business, not slow it down.</p>
-                                        <p>We transform chaotic supply rooms, offices, and storage spaces into efficient engines—saving your team time and boosting your bottom line.</p>
-                                    </div>
-                                    
-                                    <Link to="/enterprise" className="mt-auto flex items-center justify-center w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-xl font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-sm uppercase tracking-tight relative z-30">Get Organized, Save Money <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                        {/* TESTIMONIALS SECTION - Full Width */}
+                        <div className="relative z-10 w-full mb-16">
+                            <TestimonialScroller />
+                        </div>
+
+                        {/* SERVICES SPLIT SECTION */}
+                        <div id="services" className="relative z-10 pb-24">
+                            <div className="max-w-7xl mx-auto px-4">
+                                <div className="text-center mb-16 reveal opacity-0 translate-y-10 duration-1000">
+                                    <h2 className="font-display text-6xl md:text-7xl font-bold tracking-tighter text-brand-dark italic">Make Room for More in Your....</h2>
                                 </div>
-                                
-                                {/* Residential Spaces Card */}
-                                <div className="bg-brand-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-stone-100 reveal opacity-0 translate-y-10 delay-200 flex flex-col relative group hover:scale-[1.02] duration-300">
-                                    {/* SVG Border Overlay */}
-                                    <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl overflow-visible z-20">
-                                        <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
-                                    </svg>
-
-                                    <HomeIcon className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
-                                    <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Residential Spaces</h3>
-                                    
-                                    <div className="text-brand-medium mb-8 flex-grow space-y-8">
-                                        <p>Your home should be a sanctuary, not a source of stress.</p>
-                                        <p>We create intuitive systems that clear the clutter and calm the chaos, giving you back your time and your peace of mind.</p>
+                                <div className="grid md:grid-cols-2 gap-12">
+                                    {/* Professional Spaces Card */}
+                                    <div className="bg-brand-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-stone-100 reveal opacity-0 translate-y-10 delay-100 flex flex-col relative group hover:scale-[1.02] duration-300">
+                                        {/* SVG Border Overlay */}
+                                        <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl overflow-visible z-20">
+                                            <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
+                                        </svg>
+                                        
+                                        <Building2 className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
+                                        <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Professional Spaces</h3>
+                                        
+                                        <div className="text-brand-medium mb-8 flex-grow space-y-8">
+                                            <p>Your back-of-house should fuel your business, not slow it down.</p>
+                                            <p>We transform chaotic supply rooms, offices, and storage spaces into efficient engines—saving your team time and boosting your bottom line.</p>
+                                        </div>
+                                        
+                                        <Link to="/enterprise" className="mt-auto flex items-center justify-center w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-xl font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-sm uppercase tracking-tight relative z-30">Get Organized, Save Money <ArrowRight className="ml-2 w-4 h-4" /></Link>
                                     </div>
+                                    
+                                    {/* Residential Spaces Card */}
+                                    <div className="bg-brand-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-stone-100 reveal opacity-0 translate-y-10 delay-200 flex flex-col relative group hover:scale-[1.02] duration-300">
+                                        {/* SVG Border Overlay */}
+                                        <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl overflow-visible z-20">
+                                            <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
+                                        </svg>
 
-                                    <Link to="/residential" className="mt-auto flex items-center justify-center w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-xl font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-sm uppercase tracking-tight relative z-30">Get Organized, Lose the Stress <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                                        <HomeIcon className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
+                                        <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Residential Spaces</h3>
+                                        
+                                        <div className="text-brand-medium mb-8 flex-grow space-y-8">
+                                            <p>Your home should be a sanctuary, not a source of stress.</p>
+                                            <p>We create intuitive systems that clear the clutter and calm the chaos, giving you back your time and your peace of mind.</p>
+                                        </div>
+
+                                        <Link to="/residential" className="mt-auto flex items-center justify-center w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-xl font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-sm uppercase tracking-tight relative z-30">Get Organized, Lose the Stress <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
