@@ -1065,22 +1065,25 @@
                         </div>
 
                         {/* Container Spacing:
-                            - pt-52: Increased Top padding to accommodate absolute Navbar (+75px from original pt-32)
+                            - pt-44: Reduced padding (pt-52 -> pt-44) by ~30px as requested
                             - pb-12: Standard bottom padding
                             - text-center: Center alignment
                         */}
-                        <div className="max-w-7xl mx-auto relative z-10 pt-52 pb-12 px-4 text-center">
+                        <div className="max-w-7xl mx-auto relative z-10 pt-44 pb-12 px-4 text-center">
                             
                             {/* Centered Hero Content */}
                             <div className="max-w-5xl mx-auto mb-20"> {/* Added bottom margin for spacing before testimonials */}
-                                <h1 className="font-display text-5xl sm:text-7xl md:text-8xl font-bold text-brand-dark mb-6 tracking-tighter leading-[0.9]">
+                                {/* Increased margin bottom (mb-6 -> mb-8) */}
+                                <h1 className="font-display text-5xl sm:text-7xl md:text-8xl font-bold text-brand-dark mb-8 tracking-tighter leading-[0.9]">
                                     Get Organized<br />
                                     <span className="text-brand-medium italic pr-2">without the overwhelm.</span>
                                 </h1>
                                 
-                                <p className="text-lg text-brand-medium mb-8 max-w-2xl mx-auto">Life can be chaotic, your space doesn't need to be.</p>
+                                {/* Increased margin bottom (mb-8 -> mb-10) */}
+                                <p className="text-lg text-brand-medium mb-10 max-w-2xl mx-auto">Life can be chaotic, your space doesn't need to be.</p>
                                 
-                                <p className="text-xl font-display font-normal text-brand-dark mb-4">Let's organize my:</p>
+                                {/* Increased margin bottom (mb-4 -> mb-6) */}
+                                <p className="text-xl font-display font-normal text-brand-dark mb-6">Let's organize my:</p>
                                 
                                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                                     <Link to="/enterprise" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Professional Space</Link>
@@ -1218,8 +1221,8 @@
             return (
                 <div className="bg-brand-base overflow-x-hidden">
                     {/* Header - Dark Mode with Beams */}
-                    {/* UPDATED: Increased top padding (pt-52) to create space for transparent nav and added gap (+75px from original) */}
-                    <div className="bg-brand-dark text-brand-base pt-52 pb-56 px-4 text-center relative overflow-hidden">
+                    {/* UPDATED: Decreased padding by ~30px (pt-52 -> pt-44) */}
+                    <div className="bg-brand-dark text-brand-base pt-44 pb-56 px-4 text-center relative overflow-hidden">
                         {/* Grid Background */}
                         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                         
@@ -1412,8 +1415,8 @@
             return (
                 <div className="bg-brand-base overflow-x-hidden">
                     {/* Header - Light Periwinkle with White Grid */}
-                    {/* UPDATED: Increased top padding (pt-52) to create space for transparent nav and added gap (+75px from original) */}
-                    <div className="bg-brand-periwinkle-light text-brand-dark pt-52 pb-32 px-4 text-center relative overflow-hidden">
+                    {/* UPDATED: Decreased padding by ~30px (pt-52 -> pt-44) */}
+                    <div className="bg-brand-periwinkle-light text-brand-dark pt-44 pb-32 px-4 text-center relative overflow-hidden">
                         {/* White Grid Background */}
                         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                         
@@ -1643,8 +1646,8 @@ ${formData.message}`;
             };
 
             return (
-                // UPDATED: Increased top padding (pt-52) to create space for transparent nav and added gap (+75px from original)
-                <div className="bg-brand-base min-h-screen pt-52 pb-20 px-4 relative overflow-hidden">
+                // UPDATED: Decreased padding by ~30px (pt-52 -> pt-44)
+                <div className="bg-brand-base min-h-screen pt-44 pb-20 px-4 relative overflow-hidden">
                     {/* Purple Grid on Oatmeal Background */}
                     <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
@@ -1796,8 +1799,8 @@ ${formData.message}`;
             usePageTitle("Articles");
             useEffect(() => { window.scrollTo(0, 0); }, []);
             return (
-                // UPDATED: Increased top padding (pt-52) to create space for transparent nav and added gap (+75px from original)
-                <div className="bg-brand-base min-h-screen pt-52 pb-20 px-4">
+                // UPDATED: Decreased padding by ~30px (pt-52 -> pt-44)
+                <div className="bg-brand-base min-h-screen pt-44 pb-20 px-4">
                     <div className="max-w-7xl mx-auto">
                         <div className="text-center mb-16">
                             <span className="inline-block py-1 px-3 rounded-full bg-brand-periwinkle/10 text-brand-periwinkle text-xs font-bold tracking-wide uppercase mb-4">Simpli-FI Life</span>
