@@ -847,7 +847,8 @@
             const hasChecks = selectedCount > 0;
 
             const getScore = () => {
-                if (selectedCount <= 2) return { level: "MODERATE LIABILITY", color: "text-yellow-600", msg: "Even small inefficiencies compound significantly over a fiscal year." };
+                // Updated color to a cohesive Amber Orange [#F59E0B] instead of standard yellow
+                if (selectedCount <= 2) return { level: "MODERATE LIABILITY", color: "text-[#F59E0B]", msg: "Even small inefficiencies compound significantly over a fiscal year." };
                 if (selectedCount <= 4) return { level: "HIGH LIABILITY", color: "text-orange-600", msg: "Disorganization is likely costing you 10-15% in lost productivity annually." };
                 return { level: "CRITICAL LIABILITY", color: "text-red-600", msg: "Your current systems are actively working against your bottom line and staff retention." };
             };
