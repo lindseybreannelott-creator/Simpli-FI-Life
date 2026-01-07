@@ -183,7 +183,7 @@
                         },
                         marquee: {
                             '0%': { transform: 'translateX(0)' },
-                            '100%': { transform: 'translateX(-50%)' },
+                            '100%': { transform: 'translateX(-50%))' },
                         }
                     }
                 }
@@ -474,62 +474,6 @@
                 </div>
             );
         };
-
-        const TwinkleGrid = ({ theme = 'light' }) => {
-            const [boxes, setBoxes] = useState([]);
-
-            useEffect(() => {
-                // Generate random boxes for the twinkle effect
-                // Increased count to 200 to allow clustering/touching as requested
-                const count = 200; 
-                const newBoxes = Array.from({ length: count }).map((_, i) => {
-                    // If theme is 'periwinkle' (for white bg), use periwinkle with opacity
-                    // If theme is 'light' (for colored bg), use white with opacity
-                    const shade = theme === 'periwinkle' 
-                        ? [
-                            'bg-brand-periwinkle-light', 
-                            'bg-brand-periwinkle-light/80', 
-                            'bg-brand-periwinkle-light/60'
-                          ][Math.floor(Math.random() * 3)]
-                        : [
-                            'bg-white/20', 
-                            'bg-white/40', 
-                            'bg-white/60'
-                          ][Math.floor(Math.random() * 3)];
-
-                    return {
-                        id: i,
-                        col: Math.floor(Math.random() * 50), // Grid columns
-                        row: Math.floor(Math.random() * 25), // Grid rows
-                        shade: shade,
-                        // Much longer duration range (8-20s) combined with the keyframe update
-                        // ensures they appear, vanish, and stay gone for a while before repeating.
-                        duration: 8 + Math.random() * 12, 
-                        delay: Math.random() * 10 // Random start delay
-                    };
-                });
-                setBoxes(newBoxes);
-            }, [theme]);
-
-            return (
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    {boxes.map(b => (
-                        <div
-                            key={b.id}
-                            className={`absolute ${b.shade}`}
-                            style={{
-                                width: '40px',
-                                height: '40px',
-                                left: `${b.col * 40}px`,
-                                top: `${b.row * 40}px`,
-                                opacity: 0,
-                                animation: `twinkle ${b.duration}s ease-in-out infinite ${b.delay}s`
-                            }}
-                        />
-                    ))}
-                </div>
-            );
-        }
 
         const InstagramFeed = () => {
             // Updated to use raw.githubusercontent.com with encoded spaces/parentheses for reliability
@@ -1011,7 +955,8 @@
             const navigate = useNavigate();
 
             // Check if the current page has a dark background in the header area
-            const isDarkHeader = location.pathname === '/enterprise';
+            // Updated to check for /professional-spaces
+            const isDarkHeader = location.pathname === '/professional-spaces';
 
             // Dynamic classes based on background
             const textColorClass = isDarkHeader 
@@ -1036,7 +981,7 @@
                             </div>
                             <div className="hidden md:flex items-center space-x-8">
                                 <Link to="/" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>HOME</Link>
-                                <Link to="/enterprise" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>PROFESSIONAL SPACES</Link>
+                                <Link to="/professional-spaces" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>PROFESSIONAL SPACES</Link>
                                 <Link to="/residential" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>RESIDENTIAL SPACES</Link>
                                 {/* Updated Hover State to Lemon Lime */}
                                 <Link to="/booking" className="bg-brand-periwinkle text-brand-white px-6 py-2 rounded-full font-display font-bold hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
@@ -1052,7 +997,7 @@
                         <div className="md:hidden bg-brand-white border-t border-stone-100 absolute w-full left-0 shadow-lg z-50">
                             <div className="px-4 pt-2 pb-6 space-y-1 flex flex-col">
                                 <Link to="/" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">HOME</Link>
-                                <Link to="/enterprise" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">PROFESSIONAL SPACES</Link>
+                                <Link to="/professional-spaces" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">PROFESSIONAL SPACES</Link>
                                 <Link to="/residential" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">RESIDENTIAL SPACES</Link>
                                 <Link to="/booking" onClick={() => setIsOpen(false)} className="block w-full text-center py-3 mt-4 bg-brand-periwinkle text-brand-white rounded-lg font-display font-bold text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
                             </div>
@@ -1065,7 +1010,7 @@
         const Footer = () => {
             return (
                 <section className="bg-brand-dark text-brand-base py-12 border-t border-brand-dark mt-auto">
-                   <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
                         <div>
                             {/* Updated Logo: Uppercase + Mixed Weight */}
                             <span className="font-display text-2xl font-bold tracking-tight uppercase">
@@ -1080,7 +1025,7 @@
                              <a href="#" aria-label="LinkedIn" className="hover:text-brand-periwinkle transition"><Linkedin className="w-5 h-5" /></a>
                         </div>
                         <p className="text-stone-500 text-xs">&copy; 2025 Simpli-FI Life LLC. All Rights Reserved.</p>
-                   </div>
+                    </div>
                 </section>
             );
         };
@@ -1171,7 +1116,7 @@
                                 <p className="text-xl font-display font-normal text-brand-dark mb-6">Let's organize my:</p>
                                 
                                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                                    <Link to="/enterprise" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Professional Space</Link>
+                                    <Link to="/professional-spaces" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Professional Space</Link>
                                     <Link to="/residential" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Residential Space</Link>
                                 </div>
                             </div>
@@ -1190,173 +1135,209 @@
                                 </div>
                                 <div className="grid md:grid-cols-2 gap-12">
                                     {/* Professional Spaces Card */}
-                                    <div className="bg-brand-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-stone-100 reveal opacity-0 translate-y-10 delay-100 flex flex-col relative group hover:scale-[1.02] duration-300">
+                                    <div className="bg-brand-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all border-2 border-stone-100 reveal opacity-0 translate-y-10 delay-100 flex flex-col relative group hover:scale-[1.02] duration-300 overflow-hidden">
                                         {/* SVG Border Overlay */}
-                                        <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl overflow-visible z-20">
-                                            <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
+                                        <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-2xl overflow-visible z-20">
+                                            <rect x="0" y="0" width="100%" height="100%" rx="16" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
                                         </svg>
                                         
-                                        <Building2 className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
-                                        <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Professional Spaces</h3>
-                                        
-                                        <div className="text-brand-medium mb-8 flex-grow space-y-8">
-                                            <p>Your back-of-house should fuel your business, not slow it down.</p>
-                                            <p>We transform chaotic supply rooms, offices, and storage spaces into efficient engines—saving your team time and boosting your bottom line.</p>
+                                        {/* Citron Quote Mark */}
+                                        <div 
+                                            className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-20 transition-opacity duration-300 group-hover:opacity-40"
+                                            style={{ 
+                                                WebkitTextStroke: '1px #7178c8',
+                                                color: '#D6E31E'
+                                            }}
+                                        >
+                                            “
                                         </div>
                                         
-                                        <Link to="/enterprise" className="mt-auto flex items-center justify-center w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-xl font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-sm uppercase tracking-tight relative z-30">Get Organized, Save Money <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                                        <div className="relative z-10">
+                                            <Building2 className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
+                                            <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Professional Spaces</h3>
+                                            
+                                            <div className="text-brand-medium mb-8 space-y-8">
+                                                <p>Your back-of-house should fuel your business, not slow it down.</p>
+                                                <p>We transform chaotic supply rooms, offices, and storage spaces into efficient engines—saving your team time and boosting your bottom line.</p>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Citron Divider Line + Button */}
+                                        <div className="mt-auto pt-6 border-t border-brand-lemon relative z-10">
+                                            <Link to="/professional-spaces" className="flex items-center justify-center w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-xl font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-sm uppercase tracking-tight">
+                                                Get Organized, Save Money <ArrowRight className="ml-2 w-4 h-4" />
+                                            </Link>
+                                        </div>
                                     </div>
                                     
                                     {/* Residential Spaces Card */}
-                                    <div className="bg-brand-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-stone-100 reveal opacity-0 translate-y-10 delay-200 flex flex-col relative group hover:scale-[1.02] duration-300">
+                                    <div className="bg-brand-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all border-2 border-stone-100 reveal opacity-0 translate-y-10 delay-200 flex flex-col relative group hover:scale-[1.02] duration-300 overflow-hidden">
                                         {/* SVG Border Overlay */}
-                                        <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl overflow-visible z-20">
-                                            <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
+                                        <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-2xl overflow-visible z-20">
+                                            <rect x="0" y="0" width="100%" height="100%" rx="16" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
                                         </svg>
 
-                                        <HomeIcon className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
-                                        <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Residential Spaces</h3>
-                                        
-                                        <div className="text-brand-medium mb-8 flex-grow space-y-8">
-                                            <p>Your home should be a sanctuary, not a source of stress.</p>
-                                            <p>We create intuitive systems that clear the clutter and calm the chaos, giving you back your time and your peace of mind.</p>
+                                        {/* Citron Quote Mark */}
+                                        <div 
+                                            className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-20 transition-opacity duration-300 group-hover:opacity-40"
+                                            style={{ 
+                                                WebkitTextStroke: '1px #7178c8',
+                                                color: '#D6E31E'
+                                            }}
+                                        >
+                                            “
                                         </div>
 
-                                        <Link to="/residential" className="mt-auto flex items-center justify-center w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-xl font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-sm uppercase tracking-tight relative z-30">Get Organized, Lose the Stress <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                                        <div className="relative z-10">
+                                            <HomeIcon className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
+                                            <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Residential Spaces</h3>
+                                            
+                                            <div className="text-brand-medium mb-8 space-y-8">
+                                                <p>Your home should be a sanctuary, not a source of stress.</p>
+                                                <p>We create intuitive systems that clear the clutter and calm the chaos, giving you back your time and your peace of mind.</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Citron Divider Line + Button */}
+                                        <div className="mt-auto pt-6 border-t border-brand-lemon relative z-10">
+                                            <Link to="/residential" className="flex items-center justify-center w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-xl font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-sm uppercase tracking-tight">
+                                                Get Organized, Lose the Stress <ArrowRight className="ml-2 w-4 h-4" />
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* About Section */}
-                    {/* UPDATED: Removed overflow-hidden from section so the shadow strip isn't clipped */}
-                    <section className="pt-24 pb-48 bg-brand-base border-y border-stone-100 reveal opacity-0 translate-y-10 relative">
-                        {/* Modern Geometric Background - Wrapped in overflow-hidden container to contain beams/grid */}
-                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                             {/* Updated Grid: All lines light periwinkle (#b6bcff) */}
-                            <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-                            {/* Added GridBeams animation layer inside overflow container */}
-                            <GridBeams />
-                        </div>
-                        
-                        {/* UPDATED: Changed grid cols to [0.8fr_1.2fr] to widen the text column and pull it left */}
-                        <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.8fr_1.2fr] gap-16 items-center relative z-10">
-                            <div className="relative mb-12 lg:mb-0 text-center lg:text-left z-20">
-                                {/* Clean, modern image placement without the border frame */}
-                                {/* UPDATED: Founder Image - Added object-top to prevent head cutoff */}
-                                <img 
-                                    src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/profile-stripedress-directlook.png" 
-                                    className="relative z-10 rounded-2xl shadow-2xl w-full max-w-md mx-auto lg:mx-0 aspect-[4/5] object-cover object-top bg-brand-base" 
-                                    alt="Lindsey Lott" 
-                                />
+                        {/* About Section */}
+                        {/* UPDATED: Removed overflow-hidden from section so the shadow strip isn't clipped */}
+                        <section className="pt-24 pb-48 bg-brand-base border-y border-stone-100 reveal opacity-0 translate-y-10 relative">
+                            {/* Modern Geometric Background - Wrapped in overflow-hidden container to contain beams/grid */}
+                            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                                 {/* Updated Grid: All lines light periwinkle (#b6bcff) */}
+                                <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+                                {/* Added GridBeams animation layer inside overflow container */}
+                                <GridBeams />
                             </div>
-                            <div>
-                                {/* UPDATED: Removed lg:-ml-6 to align text vertically with Header. Kept shadow for infinite strip effect. */}
-                                <span className="inline-block bg-brand-dark text-brand-lemon px-4 py-1.5 mb-6 text-xs font-bold tracking-[0.2em] uppercase shadow-[-100vw_0_0_0_#2d2a26] relative">
-                                    The Founder
-                                </span>
-                                <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-brand-periwinkle mb-6">Hi, I'm Lindsey.</h2>
-                                
-                                {/* Updated Headline per your latest request */}
-                                <h3 className="text-xl text-brand-medium font-medium mb-6">
-                                    I believe whether in business or at home, your space and the things in it should support your life—not be a source of stress.
-                                </h3>
-                                
-                                {/* Updated Body Text: Removed the "Chaos is unsustainable" line for a more direct flow */}
-                                <div className="text-stone-500 leading-relaxed mb-8 space-y-6">
-                                    <p>
-                                        My appreciation for organization & systems began as a Pediatric Nurse in the ER where structure is essential. However, those skills were truly put to the test—and refined—as I transitioned to raising and homeschooling our four children.
-                                    </p>
-
-                                    <p>
-                                        {/* Updated closing sentence */}
-                                        Today, I apply that unique blend of clinical precision (there truly is no "one-size-fits-all" aspect to organizing) and practical space management to help families and businesses eliminate chaos and friction—saving you time and money so you have the margin to run your corner of the world.
-                                    </p>
-                                </div>
-                                
-                                {/* Replaced Stats with CTA Button */}
-                                <div className="mt-10 flex flex-col items-center lg:items-start">
-                                    <p className="font-display font-bold text-lg text-brand-dark mb-4 uppercase tracking-widest">Ready to chat?</p>
-                                    {/* Updated Hover State to Lemon Lime */}
-                                    <Link to="/booking" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
-                                        Book Discovery Call <ArrowRight className="ml-2 w-5 h-5" />
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    
-                    {/* Instagram Feed Banner */}
-                    <InstagramFeed />
-
-                    {/* 175px Padding Spacer (Increased from 75px) with Grid Background */}
-                    <div className="h-[175px] w-full bg-brand-base relative overflow-hidden">
-                        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-                    </div>
-
-                    {/* YouTube Feed Banner */}
-                    <YouTubeFeed />
-
-                    {/* NEW: Final CTA Section */}
-                    <section className="py-32 bg-brand-dark text-center px-4 relative overflow-hidden border-t border-brand-dark">
-                        {/* Background Pattern */}
-                        <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                        
-                        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
                             
-                            {/* Restored Header: Reverted to Citron (brand-lemon) per request */}
-                            <h2 className="font-display font-bold text-5xl md:text-7xl text-brand-lemon mb-6 uppercase tracking-tighter drop-shadow-lg">
-                                Are you still here?
-                            </h2>
-
-                            <p className="text-xl md:text-2xl text-brand-base font-light leading-relaxed mb-12">
-                                Go ahead and get that free discovery call scheduled.
-                            </p>
-
-                            {/* Rock Salt Checklist - Updated: Box style, Citron Check, Periwinkle Border, Smaller Text */}
-                            <div className="flex flex-col items-start space-y-6 mb-12">
-                                {/* Item 1 */}
-                                <div className="flex items-center gap-5">
-                                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-transparent">
-                                        <Check className="w-5 h-5 md:w-6 md:h-6 text-brand-lemon" />
-                                    </div>
-                                    <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">0% Risk</span>
+                            {/* UPDATED: Changed grid cols to [0.8fr_1.2fr] to widen the text column and pull it left */}
+                            <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.8fr_1.2fr] gap-16 items-center relative z-10">
+                                <div className="relative mb-12 lg:mb-0 text-center lg:text-left z-20">
+                                    {/* Clean, modern image placement without the border frame */}
+                                    {/* UPDATED: Founder Image - Added object-top to prevent head cutoff */}
+                                    <img 
+                                        src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/profile-stripedress-directlook.png" 
+                                        className="relative z-10 rounded-2xl shadow-2xl w-full max-w-md mx-auto lg:mx-0 aspect-[4/5] object-cover object-top bg-brand-base" 
+                                        alt="Lindsey Lott" 
+                                    />
                                 </div>
-                                {/* Item 2 */}
-                                <div className="flex items-center gap-5">
-                                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-transparent">
-                                        <Check className="w-5 h-5 md:w-6 md:h-6 text-brand-lemon" />
+                                <div>
+                                    {/* UPDATED: Removed lg:-ml-6 to align text vertically with Header. Kept shadow for infinite strip effect. */}
+                                    <span className="inline-block bg-brand-dark text-brand-lemon px-4 py-1.5 mb-6 text-xs font-bold tracking-[0.2em] uppercase shadow-[-100vw_0_0_0_#2d2a26] relative">
+                                        The Founder
+                                    </span>
+                                    <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-brand-periwinkle mb-6">Hi, I'm Lindsey.</h2>
+                                    
+                                    {/* Updated Headline per your latest request */}
+                                    <h3 className="text-xl text-brand-medium font-medium mb-6">
+                                        I believe whether in business or at home, your space and the things in it should support your life—not be a source of stress.
+                                    </h3>
+                                    
+                                    {/* Updated Body Text: Removed the "Chaos is unsustainable" line for a more direct flow */}
+                                    <div className="text-stone-500 leading-relaxed mb-8 space-y-6">
+                                        <p>
+                                            My appreciation for organization & systems began as a Pediatric Nurse in the ER where structure is essential. However, those skills were truly put to the test—and refined—as I transitioned to raising and homeschooling our four children.
+                                        </p>
+
+                                        <p>
+                                            {/* Updated closing sentence */}
+                                            Today, I apply that unique blend of clinical precision (there truly is no "one-size-fits-all" aspect to organizing) and practical space management to help families and businesses eliminate chaos and friction—saving you time and money so you have the margin to run your corner of the world.
+                                        </p>
                                     </div>
-                                    <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">0% Pressure</span>
-                                </div>
-                                {/* Item 3 */}
-                                <div className="flex items-center gap-5">
-                                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-transparent">
-                                        <Check className="w-5 h-5 md:w-6 md:h-6 text-brand-lemon" />
+                                    
+                                    {/* Replaced Stats with CTA Button */}
+                                    <div className="mt-10 flex flex-col items-center lg:items-start">
+                                        <p className="font-display font-bold text-lg text-brand-dark mb-4 uppercase tracking-widest">Ready to chat?</p>
+                                        {/* Updated Hover State to Lemon Lime */}
+                                        <Link to="/booking" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
+                                            Book Discovery Call <ArrowRight className="ml-2 w-5 h-5" />
+                                        </Link>
                                     </div>
-                                    <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">100% Possibility</span>
                                 </div>
                             </div>
+                        </section>
+                        
+                        {/* Instagram Feed Banner */}
+                        <InstagramFeed />
 
-                            <p className="text-lg text-brand-base/80 font-light mb-10">
-                                All backed by my <span className="italic text-brand-periwinkle-light font-medium">Simpli-FI Life Satisfaction Guarantee</span>.
-                            </p>
-            
-                            {/* Updated Button to Citron - Now it pops because the text above is neutral */}
-                            <Link to="/booking" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-white hover:scale-105 transition-all duration-300 shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">
-                                Let's Do This <ArrowRight className="ml-2 w-6 h-6"/>
-                            </Link>
+                        {/* 175px Padding Spacer (Increased from 75px) with Grid Background */}
+                        <div className="h-[175px] w-full bg-brand-base relative overflow-hidden">
+                            <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
                         </div>
-                    </section>
 
-                    {/* Testimonials Removed */}
-                    {/* Academy Teaser Removed */}
+                        {/* YouTube Feed Banner */}
+                        <YouTubeFeed />
+
+                        {/* NEW: Final CTA Section */}
+                        <section className="py-32 bg-brand-dark text-center px-4 relative overflow-hidden border-t border-brand-dark">
+                            {/* Background Pattern */}
+                            <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                            
+                            <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+                                
+                                {/* Restored Header: Reverted to Citron (brand-lemon) per request */}
+                                <h2 className="font-display font-bold text-5xl md:text-7xl text-brand-lemon mb-6 uppercase tracking-tighter drop-shadow-lg">
+                                    Are you still here?
+                                </h2>
+
+                                <p className="text-xl md:text-2xl text-brand-base font-light leading-relaxed mb-12">
+                                    Go ahead and get that free discovery call scheduled.
+                                </p>
+
+                                {/* Rock Salt Checklist - Updated: Box style, Citron Check, Periwinkle Border, Smaller Text */}
+                                <div className="flex flex-col items-start space-y-6 mb-12">
+                                    {/* Item 1 */}
+                                    <div className="flex items-center gap-5">
+                                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-transparent">
+                                            <Check className="w-5 h-5 md:w-6 md:h-6 text-brand-lemon" />
+                                        </div>
+                                        <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">0% Risk</span>
+                                    </div>
+                                    {/* Item 2 */}
+                                    <div className="flex items-center gap-5">
+                                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-transparent">
+                                            <Check className="w-5 h-5 md:w-6 md:h-6 text-brand-lemon" />
+                                        </div>
+                                        <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">0% Pressure</span>
+                                    </div>
+                                    {/* Item 3 */}
+                                    <div className="flex items-center gap-5">
+                                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-transparent">
+                                            <Check className="w-5 h-5 md:w-6 md:h-6 text-brand-lemon" />
+                                        </div>
+                                        <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">100% Possibility</span>
+                                    </div>
+                                </div>
+
+                                <p className="text-lg text-brand-base/80 font-light mb-10">
+                                    All backed by my <span className="italic text-brand-periwinkle-light font-medium">Simpli-FI Life Satisfaction Guarantee</span>.
+                                </p>
+                                
+                                {/* Updated Button to Citron - Now it pops because the text above is neutral */}
+                                <Link to="/booking" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-white hover:scale-105 transition-all duration-300 shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">
+                                    Let's Do This <ArrowRight className="ml-2 w-6 h-6"/>
+                                </Link>
+                            </div>
+                        </section>
+
+                        {/* Testimonials Removed */}
+                        {/* Academy Teaser Removed */}
+                    </div>
                 </div>
             );
         };
 
-        const Enterprise = () => {
+        const ProfessionalSpaces = () => {
             usePageTitle("Professional Spaces");
             useEffect(() => { window.scrollTo(0, 0); }, []);
             return (
@@ -1535,7 +1516,7 @@
                                         {/* Updated service param */}
                                         {/* Updated Hover State to Lemon Lime */}
                                         <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
-                                             Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/>
+                                                 Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/>
                                         </Link>
                                     </div>
                                 </div>
@@ -1710,8 +1691,8 @@
                                 We offer white-glove, <span className="text-brand-white font-normal italic">done-for-you</span> service for clients who value their time above all else.
                             </p>
                             
-                            {/* Reverted button to Periwinkle style */}
-                            <Link to="/booking?service=Residential Space Organization&notes=Inquiry regarding Luxury Estate Management" className="inline-block border border-brand-periwinkle/50 text-brand-periwinkle hover:bg-brand-periwinkle hover:text-brand-white hover:border-brand-periwinkle px-10 py-5 rounded-full font-display font-bold transition-all duration-300 transform hover:-translate-y-1 uppercase tracking-widest text-sm shadow-2xl backdrop-blur-sm">
+                            {/* Updated button: Default is transparent Periwinkle, Hover changes text/border to Citron (Lemon) with transparent bg */}
+                            <Link to="/booking?service=Residential Space Organization&notes=Inquiry regarding Luxury Estate Management" className="inline-block border border-brand-periwinkle/50 text-brand-periwinkle hover:text-brand-lemon hover:border-brand-lemon px-10 py-5 rounded-full font-display font-bold transition-all duration-300 transform hover:-translate-y-1 uppercase tracking-widest text-sm shadow-2xl backdrop-blur-sm">
                                 Inquire About Availability
                             </Link>
                         </div>
@@ -1993,7 +1974,7 @@ ${formData.message}`;
                                 <Route path="/articles" element={<ArticleList />} />
                                 <Route path="/articles/:id" element={<ArticleDetail />} />
                                 <Route path="/booking" element={<Booking />} />
-                                <Route path="/enterprise" element={<Enterprise />} />
+                                <Route path="/professional-spaces" element={<ProfessionalSpaces />} />
                                 <Route path="/residential" element={<Residential />} />
                             </Routes>
                         </main>
