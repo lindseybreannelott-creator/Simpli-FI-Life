@@ -1583,7 +1583,9 @@
                                 {/* Video Placeholder (Left) */}
                                 {/* UPDATED: Removed translate transition classes */}
                                 <div className="w-full md:w-1/2 relative z-20">
-                                    <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video border-4 border-white bg-brand-dark">
+                                    {/* UPDATED: Changed border-white to border-brand-lemon to match testimonial card */}
+                                    {/* UPDATED: Decreased border thickness from border-[3.5px] to border-[2.5px] */}
+                                    <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video border-[2.5px] border-brand-lemon bg-brand-dark">
                                         {/* UPDATED: Video with autoplay, loop, muted, no controls, and websalescopymov3 source */}
                                         {/* REMOVED: rounded-3xl from video class to prevent corner mismatch (black gaps) */}
                                         <video 
