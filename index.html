@@ -164,8 +164,13 @@
                         'blob': 'blob 7s infinite',
                         'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
                         'marquee': 'marquee 60s linear infinite',
+                        'spin-top': 'spinY 4s linear infinite', // New 3D spin animation
                     },
                     keyframes: {
+                        spinY: {
+                            '0%': { transform: 'rotateY(0deg)' }, // Reverted to flat spin
+                            '100%': { transform: 'rotateY(360deg)' }, // Reverted to flat spin
+                        },
                         blob: {
                             '0%': { transform: 'translate(0px, 0px) scale(1)' },
                             '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
@@ -1664,28 +1669,28 @@
 
                         {/* NEW SECTION: Your Space, Your Terms (Service Menu) */}
                         <section className="py-24 max-w-7xl mx-auto px-4 relative z-10">
-                            {/* Giant Dark Card Wrapper - CHANGED TO WHITE */}
-                            <div className="bg-brand-white rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl border border-stone-100">
-                                {/* Background grid/texture for dark card - CHANGED TO LIGHT PERIWINKLE */}
-                                <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                            {/* Giant Card Wrapper - Updated Background & Added Hover Effect */}
+                            {/* UPDATED: Changed border to solid periwinkle (border-4 border-brand-periwinkle) and removed SVG overlay */}
+                            <div className="bg-brand-periwinkle-light rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl border-4 border-brand-periwinkle group hover:scale-[1.01] transition-transform duration-500">
                                 
-                                {/* ADD TWINKLE GRID HERE (Periwinkle Theme - now using light periwinkle) */}
-                                <div className="absolute inset-0 pointer-events-none">
-                                    <TwinkleGrid theme="periwinkle" />
-                                </div>
+                                {/* Removed animated SVG border overlay */}
+
+                                {/* Removed background textures (grid/twinkle) for a cleaner look */}
 
                                 {/* Heading - Updated to Roboto Condensed (font-display), Uppercase, and 2 Lines */}
                                 <h2 className="font-display font-bold text-4xl md:text-6xl text-brand-dark mb-8 leading-[0.9] relative z-10 uppercase tracking-tighter">
                                     Your Space Simpli-FI'ed,<br/>
-                                    <span className="text-brand-periwinkle">Your Way</span>
+                                    {/* Changed text color to periwinkle-dark for better contrast on light background */}
+                                    <span className="text-brand-periwinkle-dark">Your Way</span>
                                 </h2>
                                 
-                                <div className="w-24 h-1 bg-brand-periwinkle mx-auto mb-10 rounded-full relative z-10"></div>
+                                {/* Divider - Changed to White for visual relief */}
+                                <div className="w-24 h-1 bg-white mx-auto mb-10 rounded-full relative z-10 opacity-80"></div>
                                 
-                                {/* Text - Changed color to dark/medium */}
-                                <div className="max-w-3xl mx-auto mb-12 relative z-10 text-brand-medium font-light text-lg leading-relaxed space-y-6">
+                                {/* Text - Changed color to dark for readability */}
+                                <div className="max-w-3xl mx-auto mb-12 relative z-10 text-brand-dark/80 font-medium text-lg leading-relaxed space-y-6">
                                     <p>We believe that because we're all so uniquely different, and you're the one who knows your needs and lifestyle best, you should decide how active a role you'd like to play in the process.</p>
-                                    <p className="font-medium text-brand-dark pt-4">Check off the services you're interested in:</p>
+                                    <p className="font-bold text-brand-dark pt-4">Check off the services you're interested in:</p>
                                 </div>
 
                                 {/* Interactive Service Checklist Component - Serves as Inner Oatmeal Card */}
@@ -1705,8 +1710,10 @@
 
                         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
                             <div className="flex justify-center mb-8">
+                                {/* Removed [perspective:800px] to remove the 3D depth distortion */}
                                 <div className="p-4 rounded-full bg-brand-white/5 border border-brand-white/10 backdrop-blur-sm">
-                                    <Gem className="w-8 h-8 text-brand-periwinkle" />
+                                    {/* Changed animation to animate-spin-top for Y-axis rotation */}
+                                    <Gem className="w-8 h-8 text-brand-periwinkle animate-spin-top" />
                                 </div>
                             </div>
                             
