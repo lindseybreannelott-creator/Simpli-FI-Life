@@ -1045,11 +1045,8 @@
                         
                         {/* SHARED BACKGROUND GRID & BEAMS */}
                         {/* Covers Hero, Testimonials, and Services sections */}
-                        <div className="absolute top-0 left-0 right-0 bottom-0 pointer-events-none" style={{ 
-                            /* Updated mask: Stays solid black for most of the height, fading out at the bottom of the Services section */
-                            maskImage: 'linear-gradient(to bottom, black 90%, transparent 100%)',
-                            WebkitMaskImage: 'linear-gradient(to bottom, black 90%, transparent 100%)'
-                        }}>
+                        {/* UPDATED: Removed maskImage style to remove the fade at the bottom */}
+                        <div className="absolute top-0 left-0 right-0 bottom-0 pointer-events-none">
                             {/* Updated Grid: All lines light periwinkle (#b6bcff) */}
                             <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
                             
