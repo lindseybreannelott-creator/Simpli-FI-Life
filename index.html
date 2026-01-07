@@ -1606,11 +1606,20 @@
                                 {/* Static Testimonial Card (Right) */}
                                 {/* UPDATED: Removed mouse enter/leave events and transition logic. */}
                                 <div className="w-full md:w-1/2 relative z-10">
-                                    <div className="bg-brand-white p-12 md:p-16 rounded-[2.5rem] shadow-xl border border-stone-100 h-full flex flex-col justify-center">
-                                        {/* Quotation Mark */}
-                                        <div className="absolute -top-6 -right-6 text-9xl text-brand-periwinkle/10 font-serif leading-none select-none pointer-events-none">”</div>
+                                    {/* Applied settings: Background changed to Oatmeal (bg-brand-base), overflow-hidden removed to show full quote mark */}
+                                    <div className="bg-brand-base p-12 md:p-16 rounded-[2.5rem] shadow-2xl border-2 border-brand-lemon h-full flex flex-col justify-center relative">
+                                        {/* Quotation Mark - Matched Home Page Style */}
+                                        <div 
+                                            className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80"
+                                            style={{ 
+                                                WebkitTextStroke: '1px #7178c8',
+                                                color: '#D6E31E'
+                                            }}
+                                        >
+                                            “
+                                        </div>
                                         
-                                        <div className="relative z-10">
+                                        <div className="relative z-10 pt-8">
                                             {/* Text Container - Static Full Text */}
                                             <div className="text-brand-medium font-light italic leading-relaxed space-y-4 text-sm md:text-base">
                                                 <p>"I was so nervous about letting her into my closet, to see the messiest space in my house, but her encouraging, compassionate personality instantly put me at ease.</p>
@@ -1619,10 +1628,10 @@
                                                 <p>I can’t communicate strongly enough what a great coach Lindsey has been... Lindsey’s tools were simple and easy to implement."</p>
                                             </div>
                                             
-                                            {/* Footer */}
-                                            <div className="mt-8 pt-6 border-t border-stone-100">
+                                            {/* Footer - Matched divider color */}
+                                            <div className="mt-8 pt-6 border-t border-brand-lemon">
                                                 <div>
-                                                    <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-xs">- Lauren V.</p>
+                                                    <p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-sm">- Lauren V.</p>
                                                 </div>
                                             </div>
                                         </div>
