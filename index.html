@@ -742,68 +742,72 @@
             const ITEM_WIDTH = 320;
             const GAP = 24;
             const TOTAL_ITEM_WIDTH = ITEM_WIDTH + GAP;
-            const TOTAL_SET_WIDTH = originalItems.length * TOTAL_ITEM_WIDTH;
+            // Total width of one set of testimonials (5 items)
+            const SET_WIDTH = originalItems.length * TOTAL_ITEM_WIDTH;
 
             useEffect(() => {
                 const container = containerRef.current;
                 if (!container) return;
 
                 // INITIAL SETUP: Center the middle set's middle item (Index 7)
+                // With the padding strategy, scrollLeft = 0 puts index 0 in the center.
+                // So we just scroll to index * total_width.
                 if (!isInitialized) {
-                    const centerIndex = originalItems.length + Math.floor(originalItems.length / 2); // 5 + 2 = 7
-                    const centerPosition = (centerIndex * TOTAL_ITEM_WIDTH) + (ITEM_WIDTH / 2);
-                    const containerCenter = container.clientWidth / 2;
+                    const centerIndex = 7; 
+                    const targetScroll = centerIndex * TOTAL_ITEM_WIDTH;
                     
-                    // Disable scroll snap temporarily for initial setup to prevent fighting
+                    // Disable snapping for instant setup
                     container.style.scrollSnapType = 'none';
-                    container.scrollLeft = centerPosition - containerCenter;
+                    container.scrollLeft = targetScroll;
                     container.style.scrollSnapType = 'x mandatory';
                     
                     setIsInitialized(true);
                 }
-            }, [isInitialized, TOTAL_SET_WIDTH, originalItems.length]);
+            }, [isInitialized, TOTAL_ITEM_WIDTH]);
 
             const handleScroll = () => {
                 const container = containerRef.current;
                 if (!container) return;
 
-                // 1. ACTIVE ITEM DETECTION using getBoundingClientRect for visual accuracy
-                const containerRect = container.getBoundingClientRect();
-                const containerCenter = containerRect.left + containerRect.width / 2;
+                // 1. ACTIVE ITEM DETECTION
+                // Calculate center point of the viewport relative to the scroll container
+                const containerCenter = container.getBoundingClientRect().left + container.clientWidth / 2;
 
                 let minDistance = Infinity;
                 let newActiveIndex = activeIndex;
 
-                const children = container.children;
-                for (let i = 0; i < children.length; i++) {
-                    const child = children[i];
+                const children = Array.from(container.children);
+                children.forEach((child, i) => {
                     const rect = child.getBoundingClientRect();
                     const childCenter = rect.left + rect.width / 2;
                     const distance = Math.abs(childCenter - containerCenter);
 
+                    // Threshold: consider active if within half a card's width of center
                     if (distance < minDistance) {
                         minDistance = distance;
                         newActiveIndex = i;
                     }
-                }
+                });
                 
                 if (newActiveIndex !== activeIndex) {
                     setActiveIndex(newActiveIndex);
                 }
 
                 // 2. INFINITE SCROLL LOOP
+                // We want to keep the user in the "Middle Set" (Indices 5-9)
                 const currentScroll = container.scrollLeft;
-                // If we scroll past the 2nd set (Right), jump back left
-                if (currentScroll >= TOTAL_SET_WIDTH * 2) {
-                    container.style.scrollBehavior = 'auto'; // Disable smooth scroll for jump
-                    container.scrollLeft = currentScroll - TOTAL_SET_WIDTH;
-                    container.style.scrollBehavior = ''; // Re-enable
-                }
-                // If we scroll past the 1st set (Left), jump forward right
-                else if (currentScroll <= TOTAL_SET_WIDTH - 500) { 
+                
+                // If we scroll too far right (into 3rd set), jump back to 2nd set
+                if (currentScroll >= SET_WIDTH * 2 + (ITEM_WIDTH/2)) {
                     container.style.scrollBehavior = 'auto';
-                    container.scrollLeft = currentScroll + TOTAL_SET_WIDTH;
-                    container.style.scrollBehavior = '';
+                    container.scrollLeft = currentScroll - SET_WIDTH;
+                    container.style.scrollBehavior = 'smooth';
+                }
+                // If we scroll too far left (into 1st set), jump forward to 2nd set
+                else if (currentScroll <= SET_WIDTH - (ITEM_WIDTH/2)) { 
+                    container.style.scrollBehavior = 'auto';
+                    container.scrollLeft = currentScroll + SET_WIDTH;
+                    container.style.scrollBehavior = 'smooth';
                 }
             };
 
@@ -813,13 +817,15 @@
                     <div 
                         ref={containerRef}
                         onScroll={handleScroll}
-                        // Added snap-x and snap-mandatory for perfect centering
-                        // UPDATED: Increased py-20 to py-24 to ensure shadow fade is fully visible
-                        className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-24 px-[50vw]" 
+                        // snap-x mandatory ensures it always settles on a center point
+                        // py-24 provides room for the shadows
+                        className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-24" 
                         style={{ 
                             scrollBehavior: 'smooth',
-                            // Negative margin matches the px padding to offset content start
-                            marginLeft: `-${ITEM_WIDTH/2 + GAP}px` 
+                            // CRITICAL: This padding forces the first item to be centered when scroll is 0
+                            // 160px is half of the card width (320px/2)
+                            paddingLeft: 'calc(50% - 160px)',
+                            paddingRight: 'calc(50% - 160px)',
                         }} 
                     >
                         {displayTestimonials.map((t, i) => {
@@ -827,7 +833,7 @@
                             return (
                                 <div 
                                     key={i} 
-                                    // Added snap-center
+                                    // snap-center aligns this element's center with the scroll container's center
                                     className={`
                                         snap-center flex-shrink-0 p-8 rounded-2xl border-2 transition-all duration-500 ease-out flex flex-col justify-between min-h-[400px] relative
                                         ${isActive 
@@ -837,7 +843,9 @@
                                     `}
                                     style={{ 
                                         marginRight: `${GAP}px`, 
-                                        width: `${ITEM_WIDTH}px` 
+                                        width: `${ITEM_WIDTH}px`,
+                                        // Ensure the last item doesn't have a margin that throws off calculation
+                                        // (Optional, but cleaner for math)
                                     }}
                                 >
                                     {/* Quote Mark: Citron Fill, Periwinkle Outline */}
