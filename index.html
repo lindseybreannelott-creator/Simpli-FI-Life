@@ -1599,95 +1599,102 @@
                         </div>
                     </div>
 
-                    {/* Added Interactive Testimonial Section with Video */}
-                    <div className="py-24 px-4 bg-brand-base border-b border-stone-100 overflow-hidden">
-                        {/* Increased max-width and adjusted layout for better spacing */}
-                        {/* UPDATED: Added gap-12 and items-stretch to make layout static and balanced */}
-                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center relative gap-12">
-                            
-                            {/* Video Placeholder (Left) */}
-                            {/* UPDATED: Removed translate transition classes */}
-                            <div className="w-full md:w-1/2 relative z-20">
-                                <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video border-4 border-white bg-brand-dark">
-                                    {/* UPDATED: Video with autoplay, loop, muted, no controls, and websalescopymov3 source */}
-                                    {/* REMOVED: rounded-3xl from video class to prevent corner mismatch (black gaps) */}
-                                    <video 
-                                        className="w-full h-full object-cover pointer-events-none" 
-                                        autoPlay
-                                        loop
-                                        muted
-                                        playsInline
-                                        controlsList="nodownload"
-                                        onContextMenu={(e) => e.preventDefault()}
-                                        preload="auto"
-                                    >
-                                        <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/mp4" />
-                                        <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/quicktime" />
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                            </div>
+                    {/* WRAPPER FOR MIDDLE CONTENT WITH PURPLE GRID */}
+                    <div className="relative">
+                        {/* Purple Grid Background - Changed to Light Periwinkle (#d4d7ff) per request */}
+                        <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-                            {/* Static Testimonial Card (Right) */}
-                            {/* UPDATED: Removed mouse enter/leave events and transition logic. */}
-                            <div className="w-full md:w-1/2 relative z-10">
-                                <div className="bg-brand-white p-12 md:p-16 rounded-[2.5rem] shadow-xl border border-stone-100 h-full flex flex-col justify-center">
-                                    {/* Quotation Mark */}
-                                    <div className="absolute -top-6 -right-6 text-9xl text-brand-periwinkle/10 font-serif leading-none select-none pointer-events-none">”</div>
-                                    
-                                    <div className="relative z-10">
-                                        {/* Text Container - Static Full Text */}
-                                        <div className="text-brand-medium font-light italic leading-relaxed space-y-4 text-sm md:text-base">
-                                            <p>"I was so nervous about letting her into my closet, to see the messiest space in my house, but her encouraging, compassionate personality instantly put me at ease.</p>
-                                            <p>Instead of feeling overwhelmed, I felt empowered to take control of my space at my own pace.</p>
-                                            <p>Lindsey’s practical strategies for organization have not only helped me create systems out of chaos, but have also given me confidence in the process of decluttering my house.</p>
-                                            <p>I can’t communicate strongly enough what a great coach Lindsey has been... Lindsey’s tools were simple and easy to implement."</p>
-                                        </div>
+                        {/* Added Interactive Testimonial Section with Video */}
+                        {/* Removed bg-brand-base so grid shows through, added relative z-10 */}
+                        <div className="py-24 px-4 border-b border-stone-100 overflow-hidden relative z-10">
+                            {/* Increased max-width and adjusted layout for better spacing */}
+                            {/* UPDATED: Added gap-12 and items-stretch to make layout static and balanced */}
+                            <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center relative gap-12">
+                                
+                                {/* Video Placeholder (Left) */}
+                                {/* UPDATED: Removed translate transition classes */}
+                                <div className="w-full md:w-1/2 relative z-20">
+                                    <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video border-4 border-white bg-brand-dark">
+                                        {/* UPDATED: Video with autoplay, loop, muted, no controls, and websalescopymov3 source */}
+                                        {/* REMOVED: rounded-3xl from video class to prevent corner mismatch (black gaps) */}
+                                        <video 
+                                            className="w-full h-full object-cover pointer-events-none" 
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            controlsList="nodownload"
+                                            onContextMenu={(e) => e.preventDefault()}
+                                            preload="auto"
+                                        >
+                                            <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/mp4" />
+                                            <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/quicktime" />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
+                                </div>
+
+                                {/* Static Testimonial Card (Right) */}
+                                {/* UPDATED: Removed mouse enter/leave events and transition logic. */}
+                                <div className="w-full md:w-1/2 relative z-10">
+                                    <div className="bg-brand-white p-12 md:p-16 rounded-[2.5rem] shadow-xl border border-stone-100 h-full flex flex-col justify-center">
+                                        {/* Quotation Mark */}
+                                        <div className="absolute -top-6 -right-6 text-9xl text-brand-periwinkle/10 font-serif leading-none select-none pointer-events-none">”</div>
                                         
-                                        {/* Footer */}
-                                        <div className="mt-8 pt-6 border-t border-stone-100">
-                                            <div>
-                                                <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-xs">- Lauren V.</p>
+                                        <div className="relative z-10">
+                                            {/* Text Container - Static Full Text */}
+                                            <div className="text-brand-medium font-light italic leading-relaxed space-y-4 text-sm md:text-base">
+                                                <p>"I was so nervous about letting her into my closet, to see the messiest space in my house, but her encouraging, compassionate personality instantly put me at ease.</p>
+                                                <p>Instead of feeling overwhelmed, I felt empowered to take control of my space at my own pace.</p>
+                                                <p>Lindsey’s practical strategies for organization have not only helped me create systems out of chaos, but have also given me confidence in the process of decluttering my house.</p>
+                                                <p>I can’t communicate strongly enough what a great coach Lindsey has been... Lindsey’s tools were simple and easy to implement."</p>
+                                            </div>
+                                            
+                                            {/* Footer */}
+                                            <div className="mt-8 pt-6 border-t border-stone-100">
+                                                <div>
+                                                    <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-xs">- Lauren V.</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        {/* NEW SECTION: Your Space, Your Terms (Service Menu) */}
+                        <section className="py-24 max-w-7xl mx-auto px-4 relative z-10">
+                            {/* Giant Dark Card Wrapper - CHANGED TO WHITE */}
+                            <div className="bg-brand-white rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl border border-stone-100">
+                                {/* Background grid/texture for dark card - CHANGED TO LIGHT PERIWINKLE */}
+                                <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                                
+                                {/* ADD TWINKLE GRID HERE (Periwinkle Theme - now using light periwinkle) */}
+                                <div className="absolute inset-0 pointer-events-none">
+                                    <TwinkleGrid theme="periwinkle" />
+                                </div>
+
+                                {/* Heading - Updated to Roboto Condensed (font-display), Uppercase, and 2 Lines */}
+                                <h2 className="font-display font-bold text-4xl md:text-6xl text-brand-dark mb-8 leading-[0.9] relative z-10 uppercase tracking-tighter">
+                                    Your Space Simpli-FI'ed,<br/>
+                                    <span className="text-brand-periwinkle">Your Way</span>
+                                </h2>
+                                
+                                <div className="w-24 h-1 bg-brand-periwinkle mx-auto mb-10 rounded-full relative z-10"></div>
+                                
+                                {/* Text - Changed color to dark/medium */}
+                                <div className="max-w-3xl mx-auto mb-12 relative z-10 text-brand-medium font-light text-lg leading-relaxed space-y-6">
+                                    <p>We believe that because we're all so uniquely different, and you're the one who knows your needs and lifestyle best, you should decide how active a role you'd like to play in the process.</p>
+                                    <p className="font-medium text-brand-dark pt-4">Check off the services you're interested in:</p>
+                                </div>
+
+                                {/* Interactive Service Checklist Component - Serves as Inner Oatmeal Card */}
+                                <div className="max-w-3xl mx-auto relative z-10 text-brand-dark">
+                                    <ServiceChecklist />
+                                </div>
+                            </div>
+                        </section>
                     </div>
-
-                    {/* NEW SECTION: Your Space, Your Terms (Service Menu) */}
-                    <section className="py-24 max-w-7xl mx-auto px-4 relative">
-                        {/* Giant Dark Card Wrapper - CHANGED TO WHITE */}
-                        <div className="bg-brand-white rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl border border-stone-100">
-                             {/* Background grid/texture for dark card - CHANGED TO PURPLE */}
-                             <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                             
-                             {/* ADD TWINKLE GRID HERE (Periwinkle Theme - now using light periwinkle) */}
-                             <div className="absolute inset-0 pointer-events-none">
-                                 <TwinkleGrid theme="periwinkle" />
-                             </div>
-
-                             {/* Heading - Updated to Roboto Condensed (font-display), Uppercase, and 2 Lines */}
-                             <h2 className="font-display font-bold text-4xl md:text-6xl text-brand-dark mb-8 leading-[0.9] relative z-10 uppercase tracking-tighter">
-                                Your Space Simpli-FI'ed,<br/>
-                                <span className="text-brand-periwinkle">Your Way</span>
-                             </h2>
-                             
-                             <div className="w-24 h-1 bg-brand-periwinkle mx-auto mb-10 rounded-full relative z-10"></div>
-                             
-                             {/* Text - Changed color to dark/medium */}
-                             <div className="max-w-3xl mx-auto mb-12 relative z-10 text-brand-medium font-light text-lg leading-relaxed space-y-6">
-                                <p>We believe that because we're all so uniquely different, and you're the one who knows your needs and lifestyle best, you should decide how active a role you'd like to play in the process.</p>
-                                <p className="font-medium text-brand-dark pt-4">Check off the services you're interested in:</p>
-                             </div>
-
-                             {/* Interactive Service Checklist Component - Serves as Inner Oatmeal Card */}
-                             <div className="max-w-3xl mx-auto relative z-10 text-brand-dark">
-                                <ServiceChecklist />
-                             </div>
-                        </div>
-                    </section>
                     
                     {/* UPDATED SECTION: Private Client Services (Luxury Estate Management) */}
                     <section id="private-client" className="py-32 bg-brand-dark relative overflow-hidden">
