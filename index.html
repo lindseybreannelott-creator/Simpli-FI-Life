@@ -1450,13 +1450,14 @@
                             </h1>
 
                             {/* Subhead / Handwritten Accent - Below headline */}
-                            <p className="font-handwriting text-2xl md:text-3xl text-brand-periwinkle-light mb-12 rotate-[-2deg] opacity-90 relative z-20">
+                            {/* UPDATED: Changed text-2xl to text-xl to match Residential page sizing */}
+                            <p className="font-handwriting text-xl md:text-3xl text-brand-periwinkle-light mb-12 rotate-[-2deg] opacity-90 relative z-20">
                                 For Businesses & Institutions
                             </p>
                             
                             {/* Updated Copy per your request */}
                             <p className="text-xl font-light text-stone-300 max-w-3xl mx-auto mb-10 leading-relaxed">
-                                We restructure back-of-house systems to eliminate redundant purchasing, recover lost labor, and reduce waste—helping you win no matter how you slice it.
+                                We restructure back-of-house systems to save you money, recover lost labor hours, and reduce waste—helping you win no matter how you slice it.
                             </p>
                             
                             {/* Updated button: Default Citron text/border + Transparent BG. Hover fills Citron. */}
@@ -1498,8 +1499,10 @@
                                  <div className="mt-10 flex flex-col items-center justify-center">
                                      {/* Updated line to Citron */}
                                      <div className="w-24 h-1 bg-brand-lemon mb-6 rounded-full"></div>
-                                     <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-sm">- M. Bridges, Missions Pastor</p>
-                                     <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">The Heights Church</p>
+                                     {/* Updated Name to match others (First Name + Last Initial) */}
+                                     <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-sm">- Madison B.</p>
+                                     {/* Moved Title down to line 2 with Organization */}
+                                     <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">Missions Pastor, The Heights Church</p>
                                  </div>
                              </div>
                         </div>
@@ -1540,37 +1543,22 @@
                             {/* Content Layer */}
                             <div className="relative z-10 pt-12">
                                 {/* New Section Title for Industry Cards */}
-                                <div className="text-center mb-16">
+                                <div className="text-center mb-12">
                                      {/* Updated to Handwritten Font */}
                                      <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">
                                         No Space Too Big,<br /> No Business Too Small
                                      </h3>
                                      
-                                     {/* Split text for padding/emphasis */}
-                                     <div className="max-w-2xl mx-auto mb-10 space-y-8">
+                                     {/* Intro Text */}
+                                     <div className="max-w-2xl mx-auto space-y-8">
                                          <p className="text-brand-medium text-lg leading-loose">
                                             Whether you're saving lives or serving lattes, your environment dictates your efficiency. Here are a few industries that have benefited from our organizing—though to be clear, <span className="font-bold text-brand-dark">any</span> business can benefit from better systems.
                                          </p>
-                                         
-                                         {/* Visual Divider */}
-                                         <div className="w-16 h-px bg-brand-periwinkle/30 mx-auto"></div>
-
-                                         <p className="text-brand-dark font-display font-bold text-2xl">
-                                            Want to get a step above your competition? <br className="hidden md:block" />
-                                            <span className="font-normal text-brand-medium text-xl mt-2 block">Let's chat how we can organize your space!</span>
-                                         </p>
                                      </div>
-
-                                     {/* Updated to Button Style */}
-                                     {/* Updated service param */}
-                                     {/* Updated Hover State to Lemon Lime */}
-                                     <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
-                                          Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/>
-                                     </Link>
                                 </div>
 
-                                {/* UPDATED: Image Cards (4 Linear Desktop, 2x2 Mobile) */}
-                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                                {/* UPDATED: Image Cards (4 Linear Desktop, 2x2 Mobile) - Moved UP */}
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-24">
                                     {[
                                         { 
                                             label: "Fire & Emergency", 
@@ -1608,6 +1596,26 @@
                                             </div>
                                         </div>
                                     ))}
+                                </div>
+
+                                {/* Closing CTA & Button - Moved DOWN */}
+                                <div className="text-center mb-16">
+                                     <div className="max-w-3xl mx-auto mb-10 space-y-8">
+                                         {/* Visual Divider */}
+                                         <div className="w-16 h-px bg-brand-periwinkle/30 mx-auto"></div>
+
+                                         <p className="text-brand-dark font-display font-bold text-4xl md:text-5xl leading-tight">
+                                            Want to get a step above your competition? <br className="hidden md:block" />
+                                            <span className="font-normal text-brand-medium text-2xl mt-4 block">Let's chat how we can organize your space!</span>
+                                         </p>
+                                     </div>
+
+                                     {/* Updated to Button Style */}
+                                     {/* Updated service param */}
+                                     {/* Updated to Citron (Lemon) background per request */}
+                                     <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
+                                          Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/>
+                                     </Link>
                                 </div>
 
                                 {/* NEW CTA SECTION - NOW INSIDE GRID WRAPPER */}
