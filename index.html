@@ -894,33 +894,38 @@
                             <div className="absolute inset-0 bg-brand-dark/80 backdrop-blur-sm transition-opacity" onClick={() => setShowModal(false)}></div>
                             
                             {/* Modal Content */}
-                            <div className="bg-brand-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative max-w-lg w-full animate-fade-in-up text-center border-4 border-brand-lemon overflow-hidden">
+                            {/* UPDATED: Reduced padding (p-6 md:p-10) and max-width (max-w-md) to shrink size */}
+                            <div className="bg-brand-white rounded-[2rem] p-6 md:p-10 shadow-2xl relative max-w-md w-full animate-fade-in-up text-center border-4 border-brand-lemon overflow-hidden">
                                 {/* Close Button */}
                                 <button 
                                     onClick={() => setShowModal(false)}
                                     className="absolute top-4 right-4 p-2 text-brand-medium hover:text-brand-dark transition bg-stone-100 hover:bg-stone-200 rounded-full z-10"
                                 >
-                                    <X className="w-6 h-6" />
+                                    <X className="w-5 h-5" />
                                 </button>
 
                                 {/* Decorative BG */}
                                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
 
                                 <div className="relative z-10">
-                                    <div className="inline-block bg-stone-100 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase text-brand-medium mb-6">Score Card Evaluator</div>
+                                    {/* UPDATED: Background to light periwinkle, shrunk padding/text size */}
+                                    <div className="inline-block bg-brand-periwinkle-light px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase text-brand-dark mb-6">Score Card Evaluator</div>
                                     
-                                    <p className="text-sm font-bold tracking-widest uppercase text-brand-medium mb-3">Estimated Business Impact</p>
-                                    <p className={`font-display font-bold text-4xl md:text-5xl mb-6 ${score.color}`}>{score.level}</p>
+                                    {/* UPDATED: Font color to text-brand-dark (darker) */}
+                                    <p className="text-xs font-bold tracking-widest uppercase text-brand-dark mb-2">Estimated Business Impact</p>
+                                    {/* Reduced text size slightly to match shrunk card */}
+                                    <p className={`font-display font-bold text-3xl md:text-4xl mb-6 ${score.color}`}>{score.level}</p>
                                     
-                                    <p className="text-brand-dark font-medium text-xl mb-8 leading-relaxed px-2">{score.msg}</p>
+                                    <p className="text-brand-dark font-medium text-lg mb-8 leading-relaxed px-2">{score.msg}</p>
                                     
-                                    <div className="inline-block bg-brand-base px-8 py-6 rounded-2xl border border-brand-periwinkle/20 w-full mb-8">
-                                        <p className="text-base text-brand-medium"><strong>Good news:</strong> We fix these exact issues. Our systems often pay for themselves in recovered inventory alone.</p>
+                                    <div className="inline-block bg-brand-base px-6 py-5 rounded-2xl border border-brand-periwinkle/20 w-full mb-8">
+                                        {/* UPDATED: Verbiage change */}
+                                        <p className="text-sm text-brand-medium"><strong>Good news:</strong> We fix these exact issues. Our systems have been known to pay for themselves in recovered inventory alone.</p>
                                     </div>
 
                                     <Link 
                                         to="/booking?service=Professional Space Organization" 
-                                        className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-dark transition shadow-xl font-display font-bold text-sm uppercase tracking-tight transform hover:-translate-y-1"
+                                        className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-dark transition shadow-xl font-display font-bold text-xs uppercase tracking-tight transform hover:-translate-y-1"
                                     >
                                         Discuss Solutions <ArrowRight className="ml-2 w-4 h-4"/>
                                     </Link>
