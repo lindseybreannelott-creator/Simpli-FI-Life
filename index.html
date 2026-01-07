@@ -943,12 +943,13 @@
             const [checks, setChecks] = useState({});
             
             const services = [
-                "Decluttering",
-                "Finding 'Homes' for Things",
-                "Space Planning",
-                "Organizing",
-                "Packing for a Move",
+                "Decluttering Coaching (I want to learn)",
+                "Decluttering (Done for me)",
+                "Organizing + Space Planning Coaching (I want to learn)",
+                "Organizing + Space Planning (Done for me)",
                 "Unpacking From a Move",
+                "Packing for a Move",
+                "Finding 'Homes' for Things",
                 "Legacy Documenting"
             ];
 
@@ -956,37 +957,16 @@
             const hasChecks = Object.values(checks).some(Boolean);
             const selectedCount = Object.values(checks).filter(Boolean).length;
 
-            // Logic for dynamic personality-filled messages
-            const getMessage = () => {
-                // Priority 0: Legacy Documenting (Specific poignant message)
-                if (checks[6]) {
-                    return "Your loved ones will thank you for this.";
-                }
-                // Priority 1: Unpacking (Origin story)
-                if (checks[5]) { 
-                    return "Great choice. Let's skip the phase where the guest room is full of boxes for a year. (Ask me how I know—it's actually how I got started!)";
-                }
-                // Priority 2: Packing (Clutter logic)
-                if (checks[4]) { 
-                    return "Smart move. There is absolutely no point in packing clutter just to move it to a new house.";
-                }
-                // Priority 3: Heavy lifting (4+ items)
-                if (selectedCount >= 4) {
-                    return "I like the way you think. Let's do it all the way, the right way, the first time.";
-                }
-                // Default
-                return "That's a great first step towards reclaiming your time.";
-            };
-
-            const message = getMessage();
+            // REMOVED: Dynamic "cheeky" messages logic per request
 
             // Generate the link with pre-filled data based on selection
             const getBookingLink = () => {
                 const selectedServices = services.filter((_, i) => checks[i]).join(', ');
                 const notes = selectedServices ? `I'm interested in: ${selectedServices}` : '';
                 
-                // Logic: If only Packing (4) or Unpacking (5) are selected (no other services), switch category
-                const isPackingOnly = (checks[4] || checks[5]) && !checks[0] && !checks[1] && !checks[2] && !checks[3] && !checks[6];
+                // Logic: If only Packing (5) or Unpacking (4) are selected (no other services), switch category
+                // Indices updated to match new list order
+                const isPackingOnly = (checks[4] || checks[5]) && !checks[0] && !checks[1] && !checks[2] && !checks[3] && !checks[6] && !checks[7];
                 
                 const serviceName = isPackingOnly ? "Packing / Unpacking Services" : "Residential Space Organization";
 
@@ -1000,21 +980,23 @@
                         {services.map((item, i) => (
                             // Removed hover:bg and hover:border classes
                             <button key={i} onClick={() => toggle(i)} className="w-full flex items-center gap-4 p-4 rounded-xl transition group text-left border border-transparent">
-                                <div className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 ${checks[i] ? 'bg-brand-periwinkle border-brand-periwinkle scale-110' : 'border-stone-400 group-hover:border-brand-periwinkle'}`}>
-                                    {checks[i] && <Check className="w-4 h-4 text-white" />}
+                                {/* Updated Checkbox Circle: bg-brand-lemon when checked */}
+                                <div className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 ${checks[i] ? 'bg-brand-lemon border-brand-lemon scale-110' : 'border-stone-400 group-hover:border-brand-periwinkle'}`}>
+                                    {/* Updated Checkmark: text-brand-dark for contrast on Citron */}
+                                    {checks[i] && <Check className="w-4 h-4 text-brand-dark" />}
                                 </div>
                                 {/* Added group-hover:text-brand-periwinkle and group-hover:italic */}
-                                <span className={`text-lg transition-all duration-200 ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-medium group-hover:text-brand-periwinkle group-hover:italic'}`}>{item}</span>
+                                <span className={`text-lg transition-all duration-200 ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-dark group-hover:text-brand-periwinkle group-hover:italic'}`}>{item}</span>
                             </button>
                         ))}
                     </div>
                     
                     {/* Dynamic Action Area */}
-                    <div className={`overflow-hidden transition-all duration-700 ease-in-out ${hasChecks ? 'max-h-48 opacity-100 mt-8 pt-8 border-t border-stone-200' : 'max-h-0 opacity-0'}`}>
+                    <div className={`overflow-hidden transition-all duration-700 ease-in-out ${hasChecks ? 'max-h-32 opacity-100 mt-8 pt-8 border-t border-stone-200' : 'max-h-0 opacity-0'}`}>
                         <div className="text-center animate-fade-in-up">
-                            <p className="text-brand-dark font-medium text-lg mb-6 italic">"{message}"</p>
-                            {/* Updated Hover State to Lemon Lime */}
-                            <Link to={getBookingLink()} className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-sm uppercase tracking-tight">
+                            {/* REMOVED: The <p> tag containing the message */}
+                            {/* Updated Button: Default Citron, Hover Periwinkle */}
+                            <Link to={getBookingLink()} className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-sm uppercase tracking-tight">
                                 Discuss My Project <ArrowRight className="ml-2 w-4 h-4"/>
                             </Link>
                         </div>
@@ -1323,7 +1305,7 @@
                         
                         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
                             
-                            {/* Restored Header: Citron + Font Change (Display Font) */}
+                            {/* Restored Header: Reverted to Citron (brand-lemon) per request */}
                             <h2 className="font-display font-bold text-5xl md:text-7xl text-brand-lemon mb-6 uppercase tracking-tighter drop-shadow-lg">
                                 Are you still here?
                             </h2>
@@ -1361,7 +1343,7 @@
                                 All backed by my <span className="italic text-brand-periwinkle-light font-medium">Simpli-FI Life Satisfaction Guarantee</span>.
                             </p>
             
-                            {/* Updated Button to Citron */}
+                            {/* Updated Button to Citron - Now it pops because the text above is neutral */}
                             <Link to="/booking" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-white hover:scale-105 transition-all duration-300 shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">
                                 Let's Do This <ArrowRight className="ml-2 w-6 h-6"/>
                             </Link>
@@ -1597,8 +1579,9 @@
                             </p>
                             
                             {/* Updated service param to Residential Space Organization */}
-                            {/* Updated button background to Citron (bg-brand-lemon) as requested */}
-                            <Link to="/booking?service=Residential Space Organization" className="inline-block bg-brand-lemon text-brand-dark px-10 py-4 rounded-full font-bold hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/50">
+                            {/* DESIGNER FIX: Changed button to Dark Periwinkle with White Text. 
+                                Citron (bg-brand-lemon) moved to Hover state to prevent eye strain. */}
+                            <Link to="/booking?service=Residential Space Organization" className="inline-block bg-brand-periwinkle text-brand-white px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/20">
                                 Ready for your peaceful space?
                             </Link>
                         </div>
@@ -1670,8 +1653,8 @@
                         {/* NEW SECTION: Your Space, Your Terms (Service Menu) */}
                         <section className="py-24 max-w-7xl mx-auto px-4 relative z-10">
                             {/* Giant Card Wrapper - Updated Background & Added Hover Effect */}
-                            {/* UPDATED: Changed border to solid periwinkle (border-4 border-brand-periwinkle) and removed SVG overlay */}
-                            <div className="bg-brand-periwinkle-light rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl border-4 border-brand-periwinkle group hover:scale-[1.01] transition-transform duration-500">
+                            {/* UPDATED: Changed background to bg-brand-periwinkle-light/40 for a lighter, softer look */}
+                            <div className="bg-brand-periwinkle-light/40 rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl border-4 border-brand-periwinkle group hover:scale-[1.01] transition-transform duration-500">
                                 
                                 {/* Removed animated SVG border overlay */}
 
