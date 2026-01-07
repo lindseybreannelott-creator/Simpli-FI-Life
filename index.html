@@ -814,7 +814,8 @@
                         ref={containerRef}
                         onScroll={handleScroll}
                         // Added snap-x and snap-mandatory for perfect centering
-                        className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-12 px-[50vw]" 
+                        // UPDATED: Increased py-20 to py-24 to ensure shadow fade is fully visible
+                        className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-24 px-[50vw]" 
                         style={{ 
                             scrollBehavior: 'smooth',
                             // Negative margin matches the px padding to offset content start
