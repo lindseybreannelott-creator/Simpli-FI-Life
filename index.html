@@ -85,20 +85,26 @@
         /* Loading Screen Animations */
         .loading-grid-fade-in {
             opacity: 0;
-            animation: fadeInGrid 1.5s ease-out 0.8s forwards; /* Delayed start to let rays run first */
+            animation: fadeInGrid 1.5s ease-out 0.1s forwards; 
         }
         
         .loading-logo-reveal {
             /* Start fully clipped (hidden) from the right */
             clip-path: inset(0 100% 0 0);
             opacity: 1;
-            /* Wipe reveal from left to right */
-            animation: wipeReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) 2.2s forwards; 
+            /* CRITICAL FIX: Two-stage animation
+               1. wipeReveal: Enters 0.5s -> 2.0s
+               2. fadeOutElement: Exits 3.0s -> 3.5s (Gone BEFORE background fades)
+            */
+            animation: 
+                wipeReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards,
+                fadeOutElement 0.5s ease-out 3.0s forwards;
         }
 
         /* Exit Loader */
         .loader-exit {
-            animation: fadeOutLoader 0.6s ease-out 4.0s forwards;
+            /* Background starts fading at 3.8s, forcing a gap where only background is visible */
+            animation: fadeOutLoader 1.0s ease-out 3.8s forwards;
         }
 
         @keyframes fadeInGrid { 
@@ -109,8 +115,34 @@
             to { clip-path: inset(0 0 0 0); } 
         }
 
+        @keyframes fadeOutElement {
+            to { opacity: 0; }
+        }
+
         @keyframes fadeOutLoader {
             to { opacity: 0; visibility: hidden; }
+        }
+
+        /* NEW: Logo Move & Scale Animation (Disabled for clean exit logic, using static centering now) */
+        /* Kept for potential reuse but not applied currently to avoid conflict */
+        .loading-logo-move {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            pointer-events: none;
+            z-index: 50; 
+        }
+
+        /* NEW: Text Spacing Animation */
+        .loading-text-spacing {
+            animation: condenseSpacing 1.0s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+        }
+        
+        @keyframes condenseSpacing {
+            from { letter-spacing: 0.25em; }
+            to { letter-spacing: -0.025em; } 
         }
     </style>
 
@@ -414,10 +446,10 @@
 
         const LoadingScreen = ({ onComplete }) => {
             useEffect(() => {
-                // Total duration increased slightly to accommodate slower reveals
+                // Total duration = 4.8s to handle the sequence cleanly
                 const timer = setTimeout(() => {
                     onComplete();
-                }, 4500); 
+                }, 4800); 
                 return () => clearTimeout(timer);
             }, [onComplete]);
 
@@ -436,7 +468,7 @@
                     <div className="relative z-20 loading-logo-reveal text-center px-4">
                         {/* Changed tracking-tighter to tracking-[0.25em] for modern wide spacing */}
                         {/* Slightly reduced font size to text-4xl/6xl to balance the wide spacing */}
-                        <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark">
+                        <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark loading-text-spacing whitespace-nowrap">
                             <span className="font-bold">SIMPLI-FI</span> <span className="font-light text-brand-medium">LIFE</span>
                         </h1>
                     </div>
@@ -881,27 +913,39 @@
             const location = useLocation();
             const navigate = useNavigate();
 
+            // Check if the current page has a dark background in the header area
+            const isDarkHeader = location.pathname === '/enterprise';
+
+            // Dynamic classes based on background
+            const textColorClass = isDarkHeader 
+                ? 'text-brand-base hover:text-brand-periwinkle-light' 
+                : 'text-brand-medium hover:text-brand-periwinkle';
+            
+            const logoColorClass = isDarkHeader ? 'text-brand-base' : 'text-brand-dark';
+            const logoSubColorClass = isDarkHeader ? 'text-stone-400' : 'text-brand-medium';
+            const menuButtonClass = isDarkHeader ? 'text-brand-base' : 'text-brand-medium';
+
             return (
-                <nav className="bg-brand-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-all duration-300 border-b border-stone-100">
+                <nav className="absolute top-0 left-0 w-full z-50">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex justify-between h-20">
                             <div className="flex items-center">
                                 <Link to="/" className="flex-shrink-0 flex items-center gap-2 group">
                                     {/* Updated Logo: Uppercase + Mixed Weight */}
-                                    <span className="font-display font-bold text-2xl text-brand-dark tracking-tight ml-2">
-                                        SIMPLI-FI <span className="font-light text-brand-medium">LIFE</span>
+                                    <span className={`font-display font-bold text-2xl tracking-tight ml-2 ${logoColorClass}`}>
+                                        SIMPLI-FI <span className={`font-light ${logoSubColorClass}`}>LIFE</span>
                                     </span>
                                 </Link>
                             </div>
                             <div className="hidden md:flex items-center space-x-8">
-                                <Link to="/" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">HOME</Link>
-                                <Link to="/enterprise" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">PROFESSIONAL SPACES</Link>
-                                <Link to="/residential" className="text-brand-medium hover:text-brand-periwinkle font-display font-normal transition text-lg tracking-tight uppercase">RESIDENTIAL SPACES</Link>
+                                <Link to="/" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>HOME</Link>
+                                <Link to="/enterprise" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>PROFESSIONAL SPACES</Link>
+                                <Link to="/residential" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>RESIDENTIAL SPACES</Link>
                                 {/* Updated Hover State to Lemon Lime */}
                                 <Link to="/booking" className="bg-brand-periwinkle text-brand-white px-6 py-2 rounded-full font-display font-bold hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
                             </div>
                             <div className="md:hidden flex items-center">
-                                <button onClick={() => setIsOpen(!isOpen)} className="text-brand-medium hover:text-brand-dark">
+                                <button onClick={() => setIsOpen(!isOpen)} className={`${menuButtonClass} hover:opacity-80`}>
                                     {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                                 </button>
                             </div>
@@ -1021,11 +1065,11 @@
                         </div>
 
                         {/* Container Spacing:
-                            - pt-24: Top padding
+                            - pt-52: Increased Top padding to accommodate absolute Navbar (+75px from original pt-32)
                             - pb-12: Standard bottom padding
                             - text-center: Center alignment
                         */}
-                        <div className="max-w-7xl mx-auto relative z-10 pt-24 pb-12 px-4 text-center">
+                        <div className="max-w-7xl mx-auto relative z-10 pt-52 pb-12 px-4 text-center">
                             
                             {/* Centered Hero Content */}
                             <div className="max-w-5xl mx-auto mb-20"> {/* Added bottom margin for spacing before testimonials */}
@@ -1174,8 +1218,8 @@
             return (
                 <div className="bg-brand-base overflow-x-hidden">
                     {/* Header - Dark Mode with Beams */}
-                    {/* UPDATED: Increased bottom padding (pb-56) to allow space for the overlapping card */}
-                    <div className="bg-brand-dark text-brand-base pt-32 pb-56 px-4 text-center relative overflow-hidden">
+                    {/* UPDATED: Increased top padding (pt-52) to create space for transparent nav and added gap (+75px from original) */}
+                    <div className="bg-brand-dark text-brand-base pt-52 pb-56 px-4 text-center relative overflow-hidden">
                         {/* Grid Background */}
                         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                         
@@ -1368,7 +1412,8 @@
             return (
                 <div className="bg-brand-base overflow-x-hidden">
                     {/* Header - Light Periwinkle with White Grid */}
-                    <div className="bg-brand-periwinkle-light text-brand-dark py-32 px-4 text-center relative overflow-hidden">
+                    {/* UPDATED: Increased top padding (pt-52) to create space for transparent nav and added gap (+75px from original) */}
+                    <div className="bg-brand-periwinkle-light text-brand-dark pt-52 pb-32 px-4 text-center relative overflow-hidden">
                         {/* White Grid Background */}
                         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                         
@@ -1598,7 +1643,8 @@ ${formData.message}`;
             };
 
             return (
-                <div className="bg-brand-base min-h-screen py-20 px-4 relative overflow-hidden">
+                // UPDATED: Increased top padding (pt-52) to create space for transparent nav and added gap (+75px from original)
+                <div className="bg-brand-base min-h-screen pt-52 pb-20 px-4 relative overflow-hidden">
                     {/* Purple Grid on Oatmeal Background */}
                     <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
@@ -1750,7 +1796,8 @@ ${formData.message}`;
             usePageTitle("Articles");
             useEffect(() => { window.scrollTo(0, 0); }, []);
             return (
-                <div className="bg-brand-base min-h-screen py-20 px-4">
+                // UPDATED: Increased top padding (pt-52) to create space for transparent nav and added gap (+75px from original)
+                <div className="bg-brand-base min-h-screen pt-52 pb-20 px-4">
                     <div className="max-w-7xl mx-auto">
                         <div className="text-center mb-16">
                             <span className="inline-block py-1 px-3 rounded-full bg-brand-periwinkle/10 text-brand-periwinkle text-xs font-bold tracking-wide uppercase mb-4">Simpli-FI Life</span>
@@ -1785,8 +1832,8 @@ ${formData.message}`;
                     {/* Render Loading Screen Conditionally */}
                     {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
                     
-                    {/* Main App Content - hidden or revealed based on loading state if desired, but here we just overlay the loader */}
-                    <div className={`min-h-screen bg-brand-base text-brand-dark font-sans flex flex-col transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+                    {/* Main App Content - Visible immediately behind loader for smooth transition */}
+                    <div className="min-h-screen bg-brand-base text-brand-dark font-sans flex flex-col">
                         <Navbar />
                         <main className="flex-grow">
                             <Routes>
