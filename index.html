@@ -283,12 +283,12 @@
         const TESTIMONIALS = [
             {
                 quote: "Simpli-fi life has been a game changer in my home.",
-                author: "Lauren V",
+                author: "Lauren V.",
                 role: ""
             },
             {
                 quote: "Working with Lindsey as my decluttering coach was so fun, I could not be more happy with the spaces we redefined. I'm loving my space!!! It's so happy and I love what we did!",
-                author: "Lauren E",
+                author: "Lauren E.",
                 role: ""
             },
             {
@@ -303,7 +303,7 @@
             },
             {
                 quote: "Our shop is useable, clean and organized for the first time in decades. Thank you Lindsey for your excellent work!",
-                author: "K. Tye",
+                author: "Kevin T.",
                 role: "Logistics Captain, Fire Department"
             }
         ];
@@ -730,11 +730,13 @@
         };
 
         const TestimonialScroller = () => {
-            // Tripling the list for infinite scroll (Buffer Left, Main, Buffer Right)
+            // Quadrupling the list for a robust infinite scroll buffer
+            // Sets: [0: Buffer] [1: Main] [2: Main Buffer] [3: End Buffer]
             const originalItems = TESTIMONIALS;
-            const displayTestimonials = [...originalItems, ...originalItems, ...originalItems]; 
+            const displayTestimonials = [...originalItems, ...originalItems, ...originalItems, ...originalItems]; 
             
-            const [activeIndex, setActiveIndex] = useState(7); // Start with index 7 (Middle of middle set) active
+            // Start in the middle of the array (Index 10 = Start of Set 2 + Middle offset)
+            const [activeIndex, setActiveIndex] = useState(10); 
             const containerRef = useRef(null);
             const [isInitialized, setIsInitialized] = useState(false);
 
@@ -749,21 +751,19 @@
                 const container = containerRef.current;
                 if (!container) return;
 
-                // INITIAL SETUP: Center the middle set's middle item (Index 7)
-                // With the padding strategy, scrollLeft = 0 puts index 0 in the center.
-                // So we just scroll to index * total_width.
+                // INITIAL SETUP: Center on the start of Set 2 (Index 5)
+                // This gives us a full buffer set to the left and two sets to the right.
                 if (!isInitialized) {
-                    const centerIndex = 7; 
-                    const targetScroll = centerIndex * TOTAL_ITEM_WIDTH;
+                    const targetScroll = SET_WIDTH; // Start of Set 2
                     
-                    // Disable snapping for instant setup
-                    container.style.scrollSnapType = 'none';
+                    // Instant jump to position
+                    container.style.scrollBehavior = 'auto';
                     container.scrollLeft = targetScroll;
-                    container.style.scrollSnapType = 'x mandatory';
+                    // We don't re-enable scrollBehavior here; we rely on CSS snap for feel
                     
                     setIsInitialized(true);
                 }
-            }, [isInitialized, TOTAL_ITEM_WIDTH]);
+            }, [isInitialized, SET_WIDTH]);
 
             const handleScroll = () => {
                 const container = containerRef.current;
@@ -771,7 +771,8 @@
 
                 // 1. ACTIVE ITEM DETECTION
                 // Calculate center point of the viewport relative to the scroll container
-                const containerCenter = container.getBoundingClientRect().left + container.clientWidth / 2;
+                const containerRect = container.getBoundingClientRect();
+                const containerCenter = containerRect.left + containerRect.width / 2;
 
                 let minDistance = Infinity;
                 let newActiveIndex = activeIndex;
@@ -794,20 +795,20 @@
                 }
 
                 // 2. INFINITE SCROLL LOOP
-                // We want to keep the user in the "Middle Set" (Indices 5-9)
+                // We keep the user trapped between Set 1 and Set 2.
+                // If they scroll into Set 3, we jump back to Set 2.
+                // If they scroll into Set 0, we jump forward to Set 1.
                 const currentScroll = container.scrollLeft;
                 
-                // If we scroll too far right (into 3rd set), jump back to 2nd set
-                if (currentScroll >= SET_WIDTH * 2 + (ITEM_WIDTH/2)) {
-                    container.style.scrollBehavior = 'auto';
+                // If we've scrolled past Set 2 (entering Set 3)
+                if (currentScroll >= SET_WIDTH * 2) {
+                    // Jump back to start of Set 1 (maintaining relative position)
                     container.scrollLeft = currentScroll - SET_WIDTH;
-                    container.style.scrollBehavior = 'smooth';
                 }
-                // If we scroll too far left (into 1st set), jump forward to 2nd set
-                else if (currentScroll <= SET_WIDTH - (ITEM_WIDTH/2)) { 
-                    container.style.scrollBehavior = 'auto';
+                // If we've scrolled back into Set 0
+                else if (currentScroll <= SET_WIDTH - 50) { // Small buffer to prevent locking at 0
+                    // Jump forward to Set 1
                     container.scrollLeft = currentScroll + SET_WIDTH;
-                    container.style.scrollBehavior = 'smooth';
                 }
             };
 
@@ -818,10 +819,9 @@
                         ref={containerRef}
                         onScroll={handleScroll}
                         // snap-x mandatory ensures it always settles on a center point
-                        // py-24 provides room for the shadows
+                        // Removed 'scroll-behavior: smooth' from style to allow instant JS resets
                         className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-24" 
                         style={{ 
-                            scrollBehavior: 'smooth',
                             // CRITICAL: This padding forces the first item to be centered when scroll is 0
                             // 160px is half of the card width (320px/2)
                             paddingLeft: 'calc(50% - 160px)',
@@ -844,8 +844,6 @@
                                     style={{ 
                                         marginRight: `${GAP}px`, 
                                         width: `${ITEM_WIDTH}px`,
-                                        // Ensure the last item doesn't have a margin that throws off calculation
-                                        // (Optional, but cleaner for math)
                                     }}
                                 >
                                     {/* Quote Mark: Citron Fill, Periwinkle Outline */}
