@@ -730,69 +730,114 @@
         };
 
         const TestimonialScroller = () => {
-            // Using original TESTIMONIALS array (no duplication needed for manual scroll)
-            // But doubling it once ensures there's enough content to scroll nicely on large screens
-            const displayTestimonials = [...TESTIMONIALS, ...TESTIMONIALS]; 
-            const [activeIndex, setActiveIndex] = useState(0);
+            // Tripling the list for infinite scroll (Buffer Left, Main, Buffer Right)
+            const originalItems = TESTIMONIALS;
+            const displayTestimonials = [...originalItems, ...originalItems, ...originalItems]; 
+            
+            const [activeIndex, setActiveIndex] = useState(7); // Start with index 7 (Middle of middle set) active
             const containerRef = useRef(null);
+            const [isInitialized, setIsInitialized] = useState(false);
+
+            // Card dimensions (w-80 = 320px, gap-6 = 24px)
+            const ITEM_WIDTH = 320;
+            const GAP = 24;
+            const TOTAL_ITEM_WIDTH = ITEM_WIDTH + GAP;
+            const TOTAL_SET_WIDTH = originalItems.length * TOTAL_ITEM_WIDTH;
 
             useEffect(() => {
                 const container = containerRef.current;
                 if (!container) return;
 
-                // Intersection Observer to detect center element
-                // rootMargin with negative values creates a "sweet spot" in the center of the viewport
-                const observer = new IntersectionObserver(
-                    (entries) => {
-                        entries.forEach((entry) => {
-                            if (entry.isIntersecting) {
-                                setActiveIndex(Number(entry.target.dataset.index));
-                            }
-                        });
-                    },
-                    {
-                        root: container,
-                        threshold: 0.5,
-                        rootMargin: "0px -40% 0px -40%" 
+                // INITIAL SETUP: Center the middle set's middle item (Index 7)
+                // Logic: (Index * Width) + (Half Card) - (Half Screen)
+                if (!isInitialized) {
+                    const centerIndex = originalItems.length + Math.floor(originalItems.length / 2); // 5 + 2 = 7
+                    const centerPosition = (centerIndex * TOTAL_ITEM_WIDTH) + (ITEM_WIDTH / 2);
+                    const containerCenter = container.clientWidth / 2;
+                    
+                    container.scrollLeft = centerPosition - containerCenter;
+                    setIsInitialized(true);
+                }
+            }, [isInitialized, TOTAL_SET_WIDTH, originalItems.length]);
+
+            const handleScroll = () => {
+                const container = containerRef.current;
+                if (!container) return;
+
+                const currentScroll = container.scrollLeft;
+                const containerCenter = currentScroll + (container.clientWidth / 2);
+
+                // 1. ACTIVE ITEM DETECTION
+                // Find which card's center is closest to the screen's center
+                let minDistance = Infinity;
+                let newActiveIndex = activeIndex;
+
+                const children = container.children;
+                for (let i = 0; i < children.length; i++) {
+                    const child = children[i];
+                    // Calculate center relative to the scrolling container
+                    // child.offsetLeft is position within the scrollable track
+                    const childCenter = child.offsetLeft + (child.offsetWidth / 2);
+                    const distance = Math.abs(childCenter - containerCenter);
+
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        newActiveIndex = i;
                     }
-                );
+                }
+                
+                // Only update state if it changed to prevent re-renders
+                if (newActiveIndex !== activeIndex) {
+                    setActiveIndex(newActiveIndex);
+                }
 
-                const cards = container.querySelectorAll('[data-name="testimonial-card"]');
-                cards.forEach((card) => observer.observe(card));
-
-                return () => observer.disconnect();
-            }, []);
+                // 2. INFINITE SCROLL LOOP
+                // If we scroll past the 2nd set (Right), jump back left
+                if (currentScroll >= TOTAL_SET_WIDTH * 2) {
+                    container.scrollLeft = currentScroll - TOTAL_SET_WIDTH;
+                }
+                // If we scroll past the 1st set (Left), jump forward right
+                else if (currentScroll <= TOTAL_SET_WIDTH - 500) { // Buffer of 500px to prevent glitching at 0
+                    container.scrollLeft = currentScroll + TOTAL_SET_WIDTH;
+                }
+            };
 
             return (
-                <div className="relative w-full py-12">
+                <div className="relative w-full py-12 group">
                     {/* Scroll Container */}
                     <div 
                         ref={containerRef}
-                        className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar gap-6 px-8 md:px-[calc(50%-10rem)] pb-12 pt-4 items-center"
+                        onScroll={handleScroll}
+                        className="flex overflow-x-auto no-scrollbar items-center py-12" // Added py-12 to allow scaling room
+                        style={{ scrollBehavior: 'auto' }}
                     >
+                        {/* Spacer to allow first item to be centered if needed (handled by logic, but good for flex alignment) */}
+                        <div className="w-[50vw] flex-shrink-0" style={{ marginLeft: `-${ITEM_WIDTH/2}px`, display: 'none' }}></div>
+
                         {displayTestimonials.map((t, i) => {
                             const isActive = i === activeIndex;
                             return (
                                 <div 
                                     key={i} 
-                                    data-index={i}
-                                    data-name="testimonial-card"
+                                    style={{ marginRight: `${GAP}px`, width: `${ITEM_WIDTH}px` }}
                                     className={`
-                                        snap-center flex-shrink-0 w-80 p-8 rounded-2xl border-2 transition-all duration-500 ease-out flex flex-col justify-between min-h-[400px] relative
+                                        flex-shrink-0 p-8 rounded-2xl border-2 transition-all duration-500 ease-out flex flex-col justify-between min-h-[400px] relative
                                         ${isActive 
-                                            ? 'bg-[rgba(214,227,30,0.15)] border-brand-lemon scale-105 shadow-2xl opacity-100 z-10' 
-                                            : 'bg-brand-white border-brand-periwinkle/10 scale-95 shadow-sm opacity-60 hover:opacity-80'
+                                            ? 'bg-brand-lemon/20 border-brand-lemon scale-110 shadow-2xl opacity-100 z-10' 
+                                            : 'bg-brand-white border-stone-100 scale-90 shadow-sm opacity-60 grayscale-[0.5]'
                                         }
                                     `}
                                 >
-                                    {/* Quote Mark */}
+                                    {/* Quote Mark: Citron Fill, Periwinkle Outline */}
                                     <div 
                                         className={`absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none transition-all duration-500
-                                            ${isActive ? 'opacity-100' : 'opacity-40'}
+                                            ${isActive ? 'opacity-80' : 'opacity-20'}
                                         `}
                                         style={{ 
-                                            WebkitTextStroke: isActive ? '1px #7178c8' : '1px rgba(113, 120, 200, 0.3)',
-                                            color: isActive ? '#D6E31E' : 'transparent'
+                                            // Text Stroke: Periwinkle
+                                            WebkitTextStroke: '1px #7178c8',
+                                            // Text Fill: Citron
+                                            color: '#D6E31E'
                                         }}
                                     >
                                         “
@@ -803,23 +848,14 @@
                                             {t.quote}
                                         </p>
                                     </div>
-                                    <div className={`mt-auto pt-4 border-t transition-colors duration-500 ${isActive ? 'border-brand-periwinkle/30' : 'border-stone-100'}`}>
+                                    {/* Divider Line: Citron */}
+                                    <div className={`mt-auto pt-4 border-t border-brand-lemon transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-50'}`}>
                                         <p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-sm">{t.author}</p>
                                         {t.role && <p className="text-xs text-brand-medium font-medium mt-1">{t.role}</p>}
                                     </div>
                                 </div>
                             );
                         })}
-                    </div>
-                    
-                    {/* Visual Scroll Hint (Mobile Only) */}
-                    <div className="flex justify-center gap-2 mt-4 md:hidden">
-                        {displayTestimonials.map((_, i) => (
-                            <div 
-                                key={i} 
-                                className={`h-1.5 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-6 bg-brand-periwinkle' : 'w-1.5 bg-stone-300'}`}
-                            />
-                        ))}
                     </div>
                 </div>
             );
