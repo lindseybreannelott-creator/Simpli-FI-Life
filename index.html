@@ -1394,8 +1394,7 @@
 
         const Residential = () => {
             usePageTitle("Residential Services");
-            // State for the testimonial card hover effect
-            const [isTestimonialHovered, setIsTestimonialHovered] = useState(false);
+            // Removed state for hover effect as requested
             
             useEffect(() => { window.scrollTo(0, 0); }, []);
             
@@ -1436,61 +1435,51 @@
                     {/* Added Interactive Testimonial Section with Video */}
                     <div className="py-24 px-4 bg-brand-base border-b border-stone-100 overflow-hidden">
                         {/* Increased max-width and adjusted layout for better spacing */}
-                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center relative">
+                        {/* UPDATED: Added gap-12 and items-stretch to make layout static and balanced */}
+                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center relative gap-12">
                             
-                            {/* Video Placeholder (Left) - Adjusted margins for better negative space */}
-                            <div 
-                                className={`w-full md:w-1/2 relative z-20 transition-all duration-700 ease-out ${isTestimonialHovered ? 'md:-translate-x-12' : 'md:translate-x-0'}`}
-                            >
-                                <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video group cursor-pointer border-4 border-white bg-brand-dark">
+                            {/* Video Placeholder (Left) */}
+                            {/* UPDATED: Removed translate transition classes */}
+                            <div className="w-full md:w-1/2 relative z-20">
+                                <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video border-4 border-white bg-brand-dark">
+                                    {/* UPDATED: Video with autoplay, loop, muted, no controls, and websalescopymov3 source */}
                                     <video 
-                                        className="w-full h-full object-cover rounded-3xl" 
-                                        controls 
+                                        className="w-full h-full object-cover rounded-3xl pointer-events-none" 
+                                        autoPlay
+                                        loop
+                                        muted
                                         playsInline
-                                        preload="metadata"
+                                        controlsList="nodownload"
+                                        onContextMenu={(e) => e.preventDefault()}
+                                        preload="auto"
                                     >
-                                        <source src="https://github.com/lindseybreannelott-creator/website-assets/blob/18ae30e0fb00dc8a8e30ea3a5292874c4fb39e42/IMG_8135.MOV?raw=true" type="video/mp4" />
-                                        <source src="https://github.com/lindseybreannelott-creator/website-assets/blob/18ae30e0fb00dc8a8e30ea3a5292874c4fb39e42/IMG_8135.MOV?raw=true" type="video/quicktime" />
+                                        <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/mp4" />
+                                        <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/quicktime" />
                                         Your browser does not support the video tag.
                                     </video>
                                 </div>
                             </div>
 
-                            {/* Interactive Testimonial Card (Right) */}
-                            <div 
-                                className={`w-full md:w-1/2 relative z-10 mt-12 md:mt-0 transition-all duration-700 ease-out ${isTestimonialHovered ? 'md:translate-x-12' : 'md:-ml-12'}`}
-                                onMouseEnter={() => setIsTestimonialHovered(true)}
-                                onMouseLeave={() => setIsTestimonialHovered(false)}
-                            >
-                                <div className="bg-brand-white p-12 md:p-16 rounded-[2.5rem] shadow-xl border border-stone-100 cursor-default group h-full">
+                            {/* Static Testimonial Card (Right) */}
+                            {/* UPDATED: Removed mouse enter/leave events and transition logic. */}
+                            <div className="w-full md:w-1/2 relative z-10">
+                                <div className="bg-brand-white p-12 md:p-16 rounded-[2.5rem] shadow-xl border border-stone-100 h-full flex flex-col justify-center">
                                     {/* Quotation Mark */}
-                                    <div className="absolute -top-6 -right-6 text-9xl text-brand-periwinkle/10 font-serif leading-none select-none pointer-events-none transition-transform group-hover:scale-110 group-hover:text-brand-periwinkle/20">”</div>
+                                    <div className="absolute -top-6 -right-6 text-9xl text-brand-periwinkle/10 font-serif leading-none select-none pointer-events-none">”</div>
                                     
                                     <div className="relative z-10">
-                                        {/* Text Container with smooth height transition */}
-                                        <div className="transition-all duration-500 ease-in-out">
-                                            {isTestimonialHovered ? (
-                                                <div className="animate-fade-in-up text-brand-medium font-light italic leading-relaxed space-y-4 text-sm md:text-base">
-                                                    <p>"I was so nervous about letting her into my closet, to see the messiest space in my house, but her encouraging, compassionate personality instantly put me at ease.</p>
-                                                    <p>Instead of feeling overwhelmed, I felt empowered to take control of my space at my own pace.</p>
-                                                    <p>Lindsey’s practical strategies for organization have not only helped me create systems out of chaos, but have also given me confidence in the process of decluttering my house.</p>
-                                                    <p>I can’t communicate strongly enough what a great coach Lindsey has been... Lindsey’s tools were simple and easy to implement.</p>
-                                                    <p>While I have previously pursued many online 'Take Control of Your Life' types of resources, Lindsey’s in-person assistance has helped make my organizational hopes a reality."</p>
-                                                </div>
-                                            ) : (
-                                                <div className="text-brand-medium font-light italic leading-relaxed text-sm md:text-base space-y-4">
-                                                    <p>"I was so nervous about letting her into my closet, to see the messiest space in my house, but her encouraging, compassionate personality instantly put me at ease..."</p>
-                                                </div>
-                                            )}
+                                        {/* Text Container - Static Full Text */}
+                                        <div className="text-brand-medium font-light italic leading-relaxed space-y-4 text-sm md:text-base">
+                                            <p>"I was so nervous about letting her into my closet, to see the messiest space in my house, but her encouraging, compassionate personality instantly put me at ease.</p>
+                                            <p>Instead of feeling overwhelmed, I felt empowered to take control of my space at my own pace.</p>
+                                            <p>Lindsey’s practical strategies for organization have not only helped me create systems out of chaos, but have also given me confidence in the process of decluttering my house.</p>
+                                            <p>I can’t communicate strongly enough what a great coach Lindsey has been... Lindsey’s tools were simple and easy to implement."</p>
                                         </div>
                                         
-                                        {/* Footer / Trigger */}
-                                        <div className="mt-8 flex items-center justify-between border-t border-stone-100 pt-6">
+                                        {/* Footer */}
+                                        <div className="mt-8 pt-6 border-t border-stone-100">
                                             <div>
                                                 <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-xs">- Lauren V.</p>
-                                            </div>
-                                            <div className={`flex items-center text-xs font-bold text-brand-periwinkle uppercase tracking-widest transition-all duration-300 ${isTestimonialHovered ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}`}>
-                                                See Full Testimonial <ArrowRight className="w-3 h-3 ml-1" />
                                             </div>
                                         </div>
                                     </div>
