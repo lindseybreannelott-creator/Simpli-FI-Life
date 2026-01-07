@@ -831,12 +831,12 @@
             const [checks, setChecks] = useState({});
             
             const problems = [
-                "Have you ever made a duplicate purchase because you didn't know what you already owned?",
-                "Does your staff ever have to search for items because they can't find what they're looking for?",
                 "Have you ever run out of inventory and had to tell a customer/client no?",
+                "Have you ever made a duplicate purchase because you didn't know what inventory you had?",
+                "Do you or your staff ever have to search for items because you/they cant find what you're looking for?",
+                "Does your mission require you to frequently reorder consumables or manage expired inventory?",
                 "Do incoming deliveries turn into box 'pile ups'?",
                 "Do you have surplus assets sitting around that need to be auctioned or sold?",
-                "Have critical items ever gone missing in your 'transit zones'?",
                 "Are you concerned about safety hazards or code violations due to clutter?",
                 "Is visual clutter creating an overstimulating work environment?"
             ];
@@ -858,8 +858,10 @@
                     <div className="space-y-4">
                         {problems.map((item, i) => (
                             <button key={i} onClick={() => toggle(i)} className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-brand-base transition group text-left">
-                                <div className={`w-8 h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 ${checks[i] ? 'bg-brand-periwinkle border-brand-periwinkle scale-110' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
-                                    {checks[i] && <Check className="w-5 h-5 text-white" />}
+                                {/* Updated Checkbox Circle: bg-brand-lemon when checked */}
+                                <div className={`w-8 h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 ${checks[i] ? 'bg-brand-lemon border-brand-lemon scale-110' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
+                                    {/* Updated Checkmark: text-brand-dark for contrast on Citron */}
+                                    {checks[i] && <Check className="w-5 h-5 text-brand-dark" />}
                                 </div>
                                 <span className={`text-lg transition-colors ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
                             </button>
