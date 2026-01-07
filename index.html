@@ -134,16 +134,8 @@
             pointer-events: none;
             z-index: 50; 
         }
-
-        /* NEW: Text Spacing Animation */
-        .loading-text-spacing {
-            animation: condenseSpacing 1.0s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
-        }
         
-        @keyframes condenseSpacing {
-            from { letter-spacing: 0.25em; }
-            to { letter-spacing: -0.025em; } 
-        }
+        /* REMOVED: condenseSpacing animation to keep wide kerning */
     </style>
 
     <!-- Tailwind Config -->
@@ -468,7 +460,8 @@
                     <div className="relative z-20 loading-logo-reveal text-center px-4">
                         {/* Changed tracking-tighter to tracking-[0.25em] for modern wide spacing */}
                         {/* Slightly reduced font size to text-4xl/6xl to balance the wide spacing */}
-                        <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark loading-text-spacing whitespace-nowrap">
+                        {/* Removed loading-text-spacing class to prevent squishing */}
+                        <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark whitespace-nowrap">
                             <span className="font-bold">SIMPLI-FI</span> <span className="font-light text-brand-medium">LIFE</span>
                         </h1>
                     </div>
@@ -1166,8 +1159,11 @@
                                 />
                             </div>
                             <div>
-                                <span className="text-brand-periwinkle font-bold tracking-widest uppercase text-xs block mb-4">The Founder</span>
-                                <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-brand-dark mb-6">Hi, I'm Lindsey.</h2>
+                                {/* UPDATED: Changed to a Dark Gray Tab style with Citron text, negative margin on desktop to 'earmark' it */}
+                                <span className="inline-block bg-brand-dark text-brand-lemon px-4 py-1.5 mb-6 text-xs font-bold tracking-[0.2em] uppercase shadow-sm lg:-ml-6">
+                                    The Founder
+                                </span>
+                                <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-brand-periwinkle mb-6">Hi, I'm Lindsey.</h2>
                                 
                                 {/* Updated Headline per your latest request */}
                                 <h3 className="text-xl text-brand-medium font-medium mb-6">
@@ -1651,39 +1647,42 @@ ${formData.message}`;
                     {/* Purple Grid on Oatmeal Background */}
                     <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-                    {/* NEW: Process Steps Section - Refined */}
-                    <div className="relative z-10 max-w-4xl mx-auto text-center mb-10">
-                        <h2 className="font-display font-bold text-3xl md:text-4xl text-brand-dark mb-4 tracking-tight">How It Works</h2>
-                         <p className="text-brand-medium mb-10">Three simple steps to your organized space.</p>
-
-                        <div className="grid md:grid-cols-3 gap-8 px-4">
-                             {/* Connector Line for Desktop */}
-                            <div className="hidden md:block absolute top-[5.5rem] left-[20%] right-[20%] h-0.5 bg-brand-periwinkle/30 -z-10"></div>
-
-                            <div className="flex flex-col items-center group">
-                                <div className="w-14 h-14 rounded-full bg-brand-base border-2 border-brand-periwinkle text-brand-periwinkle flex items-center justify-center font-display font-bold text-xl mb-4 shadow-sm transition-transform group-hover:scale-110">1</div>
-                                <h3 className="font-bold text-brand-dark text-lg mb-1">Share Details</h3>
-                                <p className="text-brand-medium text-sm leading-snug max-w-[200px]">Fill out the inquiry form below with your goals.</p>
-                            </div>
-                            <div className="flex flex-col items-center relative group">
-                                <div className="w-14 h-14 rounded-full bg-brand-base border-2 border-brand-periwinkle text-brand-periwinkle flex items-center justify-center font-display font-bold text-xl mb-4 shadow-sm transition-transform group-hover:scale-110">2</div>
-                                <h3 className="font-bold text-brand-dark text-lg mb-1">Send Request</h3>
-                                <p className="text-brand-medium text-sm leading-snug max-w-[200px]">Click the button to generate & send your email.</p>
-                            </div>
-                            <div className="flex flex-col items-center relative group">
-                                <div className="w-14 h-14 rounded-full bg-brand-base border-2 border-brand-periwinkle text-brand-periwinkle flex items-center justify-center font-display font-bold text-xl mb-4 shadow-sm transition-transform group-hover:scale-110">3</div>
-                                <h3 className="font-bold text-brand-dark text-lg mb-1">We Connect</h3>
-                                <p className="text-brand-medium text-sm leading-snug max-w-[200px]">We'll reply within 24 hours to schedule your call.</p>
-                            </div>
-                        </div>
+                    {/* NEW: Page Header - Moved "Request a Discovery Call" here */}
+                    <div className="relative z-10 max-w-4xl mx-auto text-center mb-12">
+                        <h1 className="font-display font-bold text-4xl md:text-5xl text-brand-dark mb-4 tracking-tight">Request a Discovery Call</h1>
+                        <p className="text-xl text-brand-medium max-w-2xl mx-auto leading-relaxed">
+                            A free 30-minute call to share your vision. No pressure, no obligation—just a good old chat to see if we're a fit. <br className="hidden md:block" />
+                            <span className="text-brand-periwinkle font-medium mt-2 block">All services backed by our Simpli-FI Satisfaction Guarantee.</span>
+                        </p>
                     </div>
 
-                    <div className="max-w-3xl mx-auto bg-brand-white rounded-2xl shadow-xl overflow-hidden border border-stone-100 relative z-10">
-                        <div className="bg-brand-dark p-8 text-brand-white text-center">
-                            {/* Updated Title and Subtitle */}
-                            <h1 className="font-display text-4xl font-bold tracking-tight mb-2">Request a Discovery Call</h1>
-                            <p className="text-stone-300 font-light max-w-lg mx-auto">A free 30-minute call to share your vision for your space and see if our services are a good fit.</p>
+                    <div className="max-w-4xl mx-auto bg-brand-white rounded-2xl shadow-xl overflow-hidden border border-stone-100 relative z-10">
+                        {/* NEW: Form Header - Moved "How It Works" steps here */}
+                        <div className="bg-brand-base/50 p-8 md:p-10 border-b border-stone-100 text-center">
+                            <h2 className="font-display font-bold text-2xl text-brand-dark mb-8 tracking-tight">How It Works</h2>
+                            
+                            <div className="grid md:grid-cols-3 gap-8 px-2">
+                                {/* Connector Line for Desktop */}
+                                <div className="hidden md:block absolute top-[8.5rem] left-[20%] right-[20%] h-0.5 bg-brand-periwinkle/20 -z-10"></div>
+
+                                <div className="flex flex-col items-center group">
+                                    <div className="w-12 h-12 rounded-full bg-brand-white border-2 border-brand-periwinkle text-brand-periwinkle flex items-center justify-center font-display font-bold text-lg mb-3 shadow-sm transition-transform group-hover:scale-110">1</div>
+                                    <h3 className="font-bold text-brand-dark text-base mb-1">Share Details</h3>
+                                    <p className="text-brand-medium text-xs leading-relaxed max-w-[200px]">Fill out the inquiry form below with your goals.</p>
+                                </div>
+                                <div className="flex flex-col items-center relative group">
+                                    <div className="w-12 h-12 rounded-full bg-brand-white border-2 border-brand-periwinkle text-brand-periwinkle flex items-center justify-center font-display font-bold text-lg mb-3 shadow-sm transition-transform group-hover:scale-110">2</div>
+                                    <h3 className="font-bold text-brand-dark text-base mb-1">Send Request</h3>
+                                    <p className="text-brand-medium text-xs leading-relaxed max-w-[200px]">Click the button to generate & send your email.</p>
+                                </div>
+                                <div className="flex flex-col items-center relative group">
+                                    <div className="w-12 h-12 rounded-full bg-brand-white border-2 border-brand-periwinkle text-brand-periwinkle flex items-center justify-center font-display font-bold text-lg mb-3 shadow-sm transition-transform group-hover:scale-110">3</div>
+                                    <h3 className="font-bold text-brand-dark text-base mb-1">We Connect</h3>
+                                    <p className="text-brand-medium text-xs leading-relaxed max-w-[200px]">We'll reply within 24 hours to schedule your call.</p>
+                                </div>
+                            </div>
                         </div>
+
                         <div className="p-8 md:p-12">
                             {status === 'success' ? (
                                 <div className="text-center py-12">
