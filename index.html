@@ -1305,6 +1305,58 @@
                     {/* YouTube Feed Banner */}
                     <YouTubeFeed />
 
+                    {/* NEW: Final CTA Section */}
+                    <section className="py-32 bg-brand-dark text-center px-4 relative overflow-hidden border-t border-brand-dark">
+                        {/* Background Pattern */}
+                        <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                        
+                        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+                            
+                            {/* Restored Header: Citron + Font Change (Display Font) */}
+                            <h2 className="font-display font-bold text-5xl md:text-7xl text-brand-lemon mb-6 uppercase tracking-tighter drop-shadow-lg">
+                                Are you still here?
+                            </h2>
+
+                            <p className="text-xl md:text-2xl text-brand-base font-light leading-relaxed mb-12">
+                                Go ahead and get that free discovery call scheduled.
+                            </p>
+
+                            {/* Rock Salt Checklist - Updated: Box style, Citron Check, Periwinkle Border, Smaller Text */}
+                            <div className="flex flex-col items-start space-y-6 mb-12">
+                                {/* Item 1 */}
+                                <div className="flex items-center gap-5">
+                                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-transparent">
+                                        <Check className="w-5 h-5 md:w-6 md:h-6 text-brand-lemon" />
+                                    </div>
+                                    <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">0% Risk</span>
+                                </div>
+                                {/* Item 2 */}
+                                <div className="flex items-center gap-5">
+                                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-transparent">
+                                        <Check className="w-5 h-5 md:w-6 md:h-6 text-brand-lemon" />
+                                    </div>
+                                    <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">0% Pressure</span>
+                                </div>
+                                {/* Item 3 */}
+                                <div className="flex items-center gap-5">
+                                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-transparent">
+                                        <Check className="w-5 h-5 md:w-6 md:h-6 text-brand-lemon" />
+                                    </div>
+                                    <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">100% Possibility</span>
+                                </div>
+                            </div>
+
+                            <p className="text-lg text-brand-base/80 font-light mb-10">
+                                All backed by my <span className="italic text-brand-periwinkle-light font-medium">Simpli-FI Life Satisfaction Guarantee</span>.
+                            </p>
+            
+                            {/* Updated Button to Citron */}
+                            <Link to="/booking" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-white hover:scale-105 transition-all duration-300 shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">
+                                Let's Do This <ArrowRight className="ml-2 w-6 h-6"/>
+                            </Link>
+                        </div>
+                    </section>
+
                     {/* Testimonials Removed */}
                     {/* Academy Teaser Removed */}
                 </div>
