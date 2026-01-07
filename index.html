@@ -829,6 +829,7 @@
         // NEW COMPONENT: Interactive Checklist
         const DisorganizationChecklist = () => {
             const [checks, setChecks] = useState({});
+            const [showModal, setShowModal] = useState(false); // New state for modal visibility
             
             const problems = [
                 "Have you ever run out of inventory and had to tell a customer/client no?",
@@ -854,33 +855,80 @@
             const score = getScore();
 
             return (
-                <div className="bg-brand-white rounded-3xl p-8 shadow-xl border border-stone-100 text-left transform transition-all duration-300">
-                    <div className="space-y-4">
-                        {problems.map((item, i) => (
-                            <button key={i} onClick={() => toggle(i)} className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-brand-base transition group text-left">
-                                {/* Updated Checkbox Circle: bg-brand-lemon when checked */}
-                                <div className={`w-8 h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 ${checks[i] ? 'bg-brand-lemon border-brand-lemon scale-110' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
-                                    {/* Updated Checkmark: text-brand-dark for contrast on Citron */}
-                                    {checks[i] && <Check className="w-5 h-5 text-brand-dark" />}
-                                </div>
-                                <span className={`text-lg transition-colors ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
+                <>
+                    <div className="bg-brand-white rounded-3xl p-8 shadow-xl border border-stone-100 text-left transform transition-all duration-300">
+                        <div className="space-y-4">
+                            {problems.map((item, i) => (
+                                <button key={i} onClick={() => toggle(i)} className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-brand-base transition group text-left">
+                                    {/* Updated Checkbox Circle: bg-brand-lemon when checked */}
+                                    <div className={`w-8 h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 ${checks[i] ? 'bg-brand-lemon border-brand-lemon scale-110' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
+                                        {/* Updated Checkmark: text-brand-dark for contrast on Citron */}
+                                        {checks[i] && <Check className="w-5 h-5 text-brand-dark" />}
+                                    </div>
+                                    <span className={`text-lg transition-colors ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
+                                </button>
+                            ))}
+                        </div>
+                        
+                        {/* Trigger Button */}
+                        <div className="mt-8 text-center border-t border-stone-100 pt-8">
+                            <button 
+                                onClick={() => setShowModal(true)}
+                                disabled={!hasChecks}
+                                className={`
+                                    inline-flex items-center justify-center px-10 py-4 rounded-full font-display font-bold text-lg uppercase tracking-tight transition-all duration-300 shadow-lg transform
+                                    ${hasChecks 
+                                        ? 'bg-brand-lemon text-brand-dark hover:scale-105 hover:bg-brand-periwinkle hover:text-brand-white cursor-pointer' 
+                                        : 'bg-stone-100 text-stone-300 cursor-not-allowed'}
+                                `}
+                            >
+                                See My Scorecard
                             </button>
-                        ))}
-                    </div>
-                    
-                    {/* Score Card Evaluator */}
-                    <div className={`overflow-hidden transition-all duration-700 ease-in-out ${hasChecks ? 'max-h-96 opacity-100 mt-8 pt-8 border-t border-stone-100' : 'max-h-0 opacity-0'}`}>
-                        <div className="text-center animate-fade-in-up">
-                            <div className="inline-block bg-stone-100 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase text-brand-medium mb-4">Score Card Evaluator</div>
-                            <p className="text-sm font-bold tracking-widest uppercase text-brand-medium mb-2">Estimated Business Impact</p>
-                            <p className={`font-display font-bold text-3xl md:text-4xl mb-4 ${score.color}`}>{score.level}</p>
-                            <p className="text-brand-dark font-medium text-lg mb-6 leading-relaxed px-4">{score.msg}</p>
-                            <div className="inline-block bg-brand-base px-6 py-4 rounded-xl border border-brand-periwinkle/20">
-                                <p className="text-sm text-brand-medium"><strong>Good news:</strong> We fix these exact issues. Our systems often pay for themselves in recovered inventory alone.</p>
-                            </div>
                         </div>
                     </div>
-                </div>
+
+                    {/* Popup Modal */}
+                    {showModal && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                            {/* Backdrop */}
+                            <div className="absolute inset-0 bg-brand-dark/80 backdrop-blur-sm transition-opacity" onClick={() => setShowModal(false)}></div>
+                            
+                            {/* Modal Content */}
+                            <div className="bg-brand-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative max-w-lg w-full animate-fade-in-up text-center border-4 border-brand-lemon overflow-hidden">
+                                {/* Close Button */}
+                                <button 
+                                    onClick={() => setShowModal(false)}
+                                    className="absolute top-4 right-4 p-2 text-brand-medium hover:text-brand-dark transition bg-stone-100 hover:bg-stone-200 rounded-full z-10"
+                                >
+                                    <X className="w-6 h-6" />
+                                </button>
+
+                                {/* Decorative BG */}
+                                <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+
+                                <div className="relative z-10">
+                                    <div className="inline-block bg-stone-100 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase text-brand-medium mb-6">Score Card Evaluator</div>
+                                    
+                                    <p className="text-sm font-bold tracking-widest uppercase text-brand-medium mb-3">Estimated Business Impact</p>
+                                    <p className={`font-display font-bold text-4xl md:text-5xl mb-6 ${score.color}`}>{score.level}</p>
+                                    
+                                    <p className="text-brand-dark font-medium text-xl mb-8 leading-relaxed px-2">{score.msg}</p>
+                                    
+                                    <div className="inline-block bg-brand-base px-8 py-6 rounded-2xl border border-brand-periwinkle/20 w-full mb-8">
+                                        <p className="text-base text-brand-medium"><strong>Good news:</strong> We fix these exact issues. Our systems often pay for themselves in recovered inventory alone.</p>
+                                    </div>
+
+                                    <Link 
+                                        to="/booking?service=Professional Space Organization" 
+                                        className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-dark transition shadow-xl font-display font-bold text-sm uppercase tracking-tight transform hover:-translate-y-1"
+                                    >
+                                        Discuss Solutions <ArrowRight className="ml-2 w-4 h-4"/>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </>
             );
         }
 
