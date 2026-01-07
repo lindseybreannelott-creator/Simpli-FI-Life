@@ -749,13 +749,16 @@
                 if (!container) return;
 
                 // INITIAL SETUP: Center the middle set's middle item (Index 7)
-                // Logic: (Index * Width) + (Half Card) - (Half Screen)
                 if (!isInitialized) {
                     const centerIndex = originalItems.length + Math.floor(originalItems.length / 2); // 5 + 2 = 7
                     const centerPosition = (centerIndex * TOTAL_ITEM_WIDTH) + (ITEM_WIDTH / 2);
                     const containerCenter = container.clientWidth / 2;
                     
+                    // Disable scroll snap temporarily for initial setup to prevent fighting
+                    container.style.scrollSnapType = 'none';
                     container.scrollLeft = centerPosition - containerCenter;
+                    container.style.scrollSnapType = 'x mandatory';
+                    
                     setIsInitialized(true);
                 }
             }, [isInitialized, TOTAL_SET_WIDTH, originalItems.length]);
@@ -764,20 +767,18 @@
                 const container = containerRef.current;
                 if (!container) return;
 
-                const currentScroll = container.scrollLeft;
-                const containerCenter = currentScroll + (container.clientWidth / 2);
+                // 1. ACTIVE ITEM DETECTION using getBoundingClientRect for visual accuracy
+                const containerRect = container.getBoundingClientRect();
+                const containerCenter = containerRect.left + containerRect.width / 2;
 
-                // 1. ACTIVE ITEM DETECTION
-                // Find which card's center is closest to the screen's center
                 let minDistance = Infinity;
                 let newActiveIndex = activeIndex;
 
                 const children = container.children;
                 for (let i = 0; i < children.length; i++) {
                     const child = children[i];
-                    // Calculate center relative to the scrolling container
-                    // child.offsetLeft is position within the scrollable track
-                    const childCenter = child.offsetLeft + (child.offsetWidth / 2);
+                    const rect = child.getBoundingClientRect();
+                    const childCenter = rect.left + rect.width / 2;
                     const distance = Math.abs(childCenter - containerCenter);
 
                     if (distance < minDistance) {
@@ -786,19 +787,23 @@
                     }
                 }
                 
-                // Only update state if it changed to prevent re-renders
                 if (newActiveIndex !== activeIndex) {
                     setActiveIndex(newActiveIndex);
                 }
 
                 // 2. INFINITE SCROLL LOOP
+                const currentScroll = container.scrollLeft;
                 // If we scroll past the 2nd set (Right), jump back left
                 if (currentScroll >= TOTAL_SET_WIDTH * 2) {
+                    container.style.scrollBehavior = 'auto'; // Disable smooth scroll for jump
                     container.scrollLeft = currentScroll - TOTAL_SET_WIDTH;
+                    container.style.scrollBehavior = ''; // Re-enable
                 }
                 // If we scroll past the 1st set (Left), jump forward right
-                else if (currentScroll <= TOTAL_SET_WIDTH - 500) { // Buffer of 500px to prevent glitching at 0
+                else if (currentScroll <= TOTAL_SET_WIDTH - 500) { 
+                    container.style.scrollBehavior = 'auto';
                     container.scrollLeft = currentScroll + TOTAL_SET_WIDTH;
+                    container.style.scrollBehavior = '';
                 }
             };
 
@@ -808,25 +813,31 @@
                     <div 
                         ref={containerRef}
                         onScroll={handleScroll}
-                        className="flex overflow-x-auto no-scrollbar items-center py-12" // Added py-12 to allow scaling room
-                        style={{ scrollBehavior: 'auto' }}
+                        // Added snap-x and snap-mandatory for perfect centering
+                        className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-12 px-[50vw]" 
+                        style={{ 
+                            scrollBehavior: 'smooth',
+                            // Negative margin matches the px padding to offset content start
+                            marginLeft: `-${ITEM_WIDTH/2 + GAP}px` 
+                        }} 
                     >
-                        {/* Spacer to allow first item to be centered if needed (handled by logic, but good for flex alignment) */}
-                        <div className="w-[50vw] flex-shrink-0" style={{ marginLeft: `-${ITEM_WIDTH/2}px`, display: 'none' }}></div>
-
                         {displayTestimonials.map((t, i) => {
                             const isActive = i === activeIndex;
                             return (
                                 <div 
                                     key={i} 
-                                    style={{ marginRight: `${GAP}px`, width: `${ITEM_WIDTH}px` }}
+                                    // Added snap-center
                                     className={`
-                                        flex-shrink-0 p-8 rounded-2xl border-2 transition-all duration-500 ease-out flex flex-col justify-between min-h-[400px] relative
+                                        snap-center flex-shrink-0 p-8 rounded-2xl border-2 transition-all duration-500 ease-out flex flex-col justify-between min-h-[400px] relative
                                         ${isActive 
                                             ? 'bg-brand-lemon/20 border-brand-lemon scale-110 shadow-2xl opacity-100 z-10' 
                                             : 'bg-brand-white border-stone-100 scale-90 shadow-sm opacity-60 grayscale-[0.5]'
                                         }
                                     `}
+                                    style={{ 
+                                        marginRight: `${GAP}px`, 
+                                        width: `${ITEM_WIDTH}px` 
+                                    }}
                                 >
                                     {/* Quote Mark: Citron Fill, Periwinkle Outline */}
                                     <div 
@@ -834,9 +845,7 @@
                                             ${isActive ? 'opacity-80' : 'opacity-20'}
                                         `}
                                         style={{ 
-                                            // Text Stroke: Periwinkle
                                             WebkitTextStroke: '1px #7178c8',
-                                            // Text Fill: Citron
                                             color: '#D6E31E'
                                         }}
                                     >
