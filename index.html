@@ -256,6 +256,14 @@
             </svg>
         );
 
+        // Hardcoded XMark SVG for the checklist (Bold X)
+        const XMark = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+            </svg>
+        );
+
         const Menu = (p) => <Icon name="menu" {...p} />;
         const X = (p) => <Icon name="x" {...p} />;
         const Building2 = (p) => <Icon name="building-2" {...p} />;
@@ -867,7 +875,7 @@
                     level: "HIGH LIABILITY", 
                     color: "text-orange-600", 
                     msg: "Disorganization is likely costing you 10-15% in lost productivity annually.",
-                    goodNews: defaultGoodNews
+                    goodNews: "We can fix this, but time is of the essence. Disorganization is costing your bottom line."
                 };
                 return { 
                     level: "CRITICAL LIABILITY", 
@@ -887,7 +895,7 @@
                                 <button key={i} onClick={() => toggle(i)} className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-brand-base transition group text-left">
                                     {/* Updated Checkbox Circle: bg-brand-lemon when checked */}
                                     <div className={`w-8 h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 ${checks[i] ? 'bg-brand-lemon border-brand-lemon scale-110' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
-                                        {/* Updated Checkmark: text-brand-dark for contrast on Citron */}
+                                        {/* Updated Checkmark: Reverted to Check, keeping dark color on Citron bg */}
                                         {checks[i] && <Check className="w-5 h-5 text-brand-dark" />}
                                     </div>
                                     <span className={`text-lg transition-colors ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
@@ -922,11 +930,13 @@
                             {/* UPDATED: Reduced padding (p-6 md:p-10) and max-width (max-w-md) to shrink size */}
                             <div className="bg-brand-white rounded-[2rem] p-6 md:p-10 shadow-2xl relative max-w-md w-full animate-fade-in-up text-center border-4 border-brand-lemon overflow-hidden">
                                 {/* Close Button */}
+                                {/* UPDATED: Made 'X' extra visible with Citron background, dark border, and larger size */}
                                 <button 
                                     onClick={() => setShowModal(false)}
-                                    className="absolute top-4 right-4 p-2 text-brand-medium hover:text-brand-dark transition bg-stone-100 hover:bg-stone-200 rounded-full z-10"
+                                    className="absolute top-4 right-4 p-2 text-brand-dark bg-brand-lemon hover:bg-brand-dark hover:text-brand-lemon transition-all duration-300 rounded-full z-50 shadow-lg border-2 border-brand-dark"
+                                    aria-label="Close"
                                 >
-                                    <X className="w-5 h-5" />
+                                    <X className="w-6 h-6" />
                                 </button>
 
                                 {/* Decorative BG */}
