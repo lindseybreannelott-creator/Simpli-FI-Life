@@ -470,10 +470,13 @@
                     <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
                     <div className="grid grid-cols-2 md:grid-cols-5">
                         {images.map((img, i) => (
+                            // UPDATED: Changed aspect-[4/5] to aspect-[9/16] to accommodate taller images (Shorts/Reels)
+                            // Added bg-stone-50 for a clean background in letterboxed areas
                             <a href="https://www.instagram.com/simpli_fi_life/" aria-label="View on Instagram" key={i} target="_blank" className="block relative group aspect-[9/16] overflow-hidden border-r border-stone-100 last:border-r-0 bg-stone-50">
                                 <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
                                 <img 
                                     src={img} 
+                                    // UPDATED: Changed object-cover to object-contain to ensure the WHOLE image shows
                                     className="w-full h-full object-contain transition duration-700 group-hover:scale-105" 
                                     alt="Instagram Post" 
                                     onError={(e) => {
@@ -849,7 +852,6 @@
                                 <Link to="/" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>HOME</Link>
                                 <Link to="/professional-spaces" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>PROFESSIONAL SPACES</Link>
                                 <Link to="/residential" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>RESIDENTIAL SPACES</Link>
-                                {/* Updated Hover State: Citron Default -> Periwinkle Hover */}
                                 <Link to="/booking" className="bg-brand-lemon text-brand-dark px-6 py-2 rounded-full font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
                             </div>
                             <div className="md:hidden flex items-center">
@@ -1098,47 +1100,22 @@
                         <div className="relative z-10 max-w-5xl mx-auto">
                             <h1 className="font-display font-light text-5xl md:text-7xl tracking-tighter mb-6 leading-tight">Operational Excellence,<br/><span className="text-brand-periwinkle-light font-bold">Organized.</span></h1>
                             <p className="font-handwriting text-xl md:text-3xl text-brand-periwinkle-light mb-12 rotate-[-2deg] opacity-90 relative z-20">For Businesses & Institutions</p>
-                            {/* UPDATED: Text changed to "save you money, recover lost labor hours" */}
                             <p className="text-xl font-light text-stone-300 max-w-3xl mx-auto mb-10 leading-relaxed">We restructure back-of-house systems to save you money, recover lost labor hours, and reduce waste—helping you win no matter how you slice it.</p>
-                            {/* Updated button: Default Citron text/border + Transparent BG. Hover fills Citron. */}
                             <Link to="/booking?service=Professional Space Organization" className="inline-block bg-transparent text-brand-lemon border border-brand-lemon px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display text-lg shadow-xl">First, Let's talk about your space</Link>
                         </div>
                     </div>
-                    {/* Added Testimonial Section - NOW OVERLAPPING */}
-                    {/* Uses negative top margin (-mt-32) to pull it up into the dark section */}
                     <div className="px-4 relative z-20 -mt-32 mb-24">
-                        {/* REMOVED: overflow-hidden to allow quotes to hang off */}
                         <div className="max-w-5xl mx-auto bg-brand-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative">
-                             {/* Decorative Grid inside the card for texture */}
-                             {/* ADDED: rounded-3xl to clip the grid background since parent no longer masks overflow */}
                              <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#fbf9f7_1px,transparent_1px),linear-gradient(to_bottom,#fbf9f7_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none rounded-3xl"></div>
-
                              <div className="relative z-10">
-                                 {/* XL Quotation Mark - Updated to Citron style from Home/Residential */}
-                                 {/* UPDATED: Changed -top-16 to -top-24 and -left-4 to -left-8 to make it hang off the card */}
-                                 <div 
-                                     className="absolute -top-24 -left-8 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80"
-                                     style={{ 
-                                         WebkitTextStroke: '1px #7178c8',
-                                         color: '#D6E31E'
-                                     }}
-                                 >
-                                     “
-                                 </div>
-                                 
+                                 <div className="absolute -top-24 -left-8 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
                                  <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4">
                                     Our storage units are re-packed, neat, tidy, clearly labeled, and so so functional thanks to YOU and your amazing work! I am so grateful for you and your team!
-                                    <span className="block mt-6 text-3xl md:text-4xl">
-                                        You helped us turn an <strong className="font-bold text-brand-periwinkle">8 week</strong> set up and tear down into a <strong className="font-bold text-brand-periwinkle">9 day</strong> set up and tear down!
-                                    </span>
+                                    <span className="block mt-6 text-3xl md:text-4xl">You helped us turn an <strong className="font-bold text-brand-periwinkle">8 week</strong> set up and tear down into a <strong className="font-bold text-brand-periwinkle">9 day</strong> set up and tear down!</span>
                                  </p>
-                                 
                                  <div className="mt-10 flex flex-col items-center justify-center">
-                                     {/* Updated line to Citron */}
                                      <div className="w-24 h-1 bg-brand-lemon mb-6 rounded-full"></div>
-                                     {/* Updated Name to match others (First Name + Last Initial) */}
                                      <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-sm">- Madison B.</p>
-                                     {/* Moved Title down to line 2 with Organization */}
                                      <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">Missions Pastor, The Heights Church</p>
                                  </div>
                              </div>
@@ -1147,7 +1124,6 @@
                     <section id="roi" className="py-24 max-w-7xl mx-auto px-4 relative">
                         <div className="bg-brand-dark rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl">
                              <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                             {/* Updated Headline: Stronger, more active voice */}
                              <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6 text-brand-white relative z-10">The Hidden Cost of Disorganization</h2>
                              <div className="w-24 h-1 bg-brand-periwinkle mx-auto mb-12 rounded-full relative z-10"></div>
                              <p className="text-xl text-brand-base/80 font-light leading-relaxed mb-8 max-w-2xl mx-auto relative z-10">Check all that apply to your current operations:</p>
@@ -1158,23 +1134,13 @@
                                  <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
                             </div>
                             <div className="relative z-10 pt-12">
-                                {/* New Section Title for Industry Cards */}
                                 <div className="text-center mb-12">
-                                     {/* Updated to Handwritten Font */}
-                                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">
-                                        No Space Too Big,<br /> No Business Too Small
-                                     </h3>
-                                     
-                                     {/* Intro Text */}
+                                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">No Space Too Big,<br /> No Business Too Small</h3>
                                      <div className="max-w-2xl mx-auto space-y-8">
-                                         <p className="text-brand-medium text-lg leading-loose">
-                                            Whether you're saving lives or serving lattes, your environment dictates your efficiency. Here are a few industries that have benefited from our organizing—though to be clear, <span className="font-bold text-brand-dark">any</span> business can benefit from better systems.
-                                         </p>
+                                         <p className="text-brand-medium text-lg leading-loose">Whether you're saving lives or serving lattes, your environment dictates your efficiency. Here are a few industries that have benefited from our organizing—though to be clear, <span className="font-bold text-brand-dark">any</span> business can benefit from better systems.</p>
                                      </div>
                                 </div>
-
-                                {/* UPDATED: Image Cards (4 Linear Desktop, 2x2 Mobile) - Moved UP */}
-                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-16">
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-24">
                                     {[
                                         { label: "Fire & Emergency", img: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=800&q=80" },
                                         { label: "Restaurants", img: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" },
@@ -1190,28 +1156,13 @@
                                         </div>
                                     ))}
                                 </div>
-
-                                {/* Closing CTA & Button - Moved DOWN */}
                                 <div className="text-center mb-16">
                                      <div className="max-w-3xl mx-auto mb-10 space-y-8">
-                                         {/* Visual Divider */}
                                          <div className="w-16 h-px bg-brand-periwinkle/30 mx-auto"></div>
-
-                                         <p className="text-brand-dark font-display font-bold text-4xl md:text-5xl leading-tight">
-                                            Want to get a step above your competition? <br className="hidden md:block" />
-                                            <span className="font-normal text-brand-medium text-2xl mt-4 block">Let's chat how we can organize your space!</span>
-                                         </p>
+                                         <p className="text-brand-dark font-display font-bold text-4xl md:text-5xl leading-tight">Want to get a step above your competition? <br className="hidden md:block" /><span className="font-normal text-brand-medium text-2xl mt-4 block">Let's chat how we can organize your space!</span></p>
                                      </div>
-
-                                     {/* Updated to Button Style */}
-                                     {/* Updated service param */}
-                                     {/* Updated to Citron (Lemon) background per request */}
-                                     <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
-                                          Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/>
-                                     </Link>
+                                     <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/></Link>
                                 </div>
-
-                                {/* NEW CTA SECTION - NOW INSIDE GRID WRAPPER */}
                                 <div className="mt-24 mb-12 max-w-4xl mx-auto px-4">
                                     <div className="bg-brand-white p-8 md:p-12 rounded-3xl shadow-sm border border-stone-100 text-center">
                                         <h3 className="font-display text-3xl font-bold text-brand-dark mb-6">Curious if your business can benefit from organization?</h3>
@@ -1219,11 +1170,7 @@
                                             <p>Organizing can be an upfront investment, but we custom tailor your organizational systems to your needs so that it can last for years to come.</p>
                                             <p>I'm completely confident your business can benefit from our organizing services. Let's remove the friction points from your business inventory systems so you can do what you were meant to do. serve your customers.</p>
                                         </div>
-                                        {/* Updated service param */}
-                                        {/* Updated Hover State to Lemon Lime */}
-                                        <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
-                                                 Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/>
-                                        </Link>
+                                        <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/></Link>
                                     </div>
                                 </div>
                             </div>
@@ -1235,183 +1182,77 @@
 
         const Residential = () => {
             usePageTitle("Residential Services");
-            // Removed state for hover effect as requested
-            
             useEffect(() => { window.scrollTo(0, 0); }, []);
-            
             return (
                 <div className="bg-brand-base overflow-x-hidden">
-                    {/* Header - Light Periwinkle with White Grid */}
-                    {/* UPDATED: Decreased padding by ~30px (pt-52 -> pt-44) */}
                     <div className="bg-brand-periwinkle-light text-brand-dark pt-44 pb-32 px-4 text-center relative overflow-hidden">
-                        {/* White Grid Background */}
                         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                        
-                        {/* White Grid Beams - RESTORED HERE */}
-                        <div className="absolute inset-0 pointer-events-none opacity-60">
-                             <GridBeams beamColor="255, 255, 255" />
-                        </div>
-
+                        <div className="absolute inset-0 pointer-events-none opacity-60"><GridBeams beamColor="255, 255, 255" /></div>
                         <div className="relative z-10 max-w-5xl mx-auto">
-                            
                             <h1 className="font-display font-light text-5xl md:text-7xl tracking-tighter mb-8 leading-tight text-brand-dark">
                                 Your home should feel like your <span className="font-bold text-brand-white drop-shadow-sm">Sanctuary</span>,<br/> 
-                                {/* Decreased font size further to text-xl md:text-3xl per request */}
                                 <span className="block mt-6 font-handwriting text-xl md:text-3xl text-brand-periwinkle-dark rotate-[-2deg] drop-shadow-sm leading-normal">not a Storage Unit.</span>
                             </h1>
-                            
-                            {/* RESTORED: The "bottom text" as requested */}
-                            <p className="text-xl font-light text-brand-dark max-w-3xl mx-auto mb-10 leading-relaxed">
-                                At Simpli-FI Life we work with you to custom tailor systems that fit your unique needs, and season of life—giving you back your time and a home that feels easy to reset.
-                            </p>
-                            
-                            {/* Updated service param to Residential Space Organization */}
-                            {/* DESIGNER FIX: Changed button to Dark Periwinkle with White Text. 
-                                Citron (bg-brand-lemon) moved to Hover state to prevent eye strain. */}
-                            <Link to="/booking?service=Residential Space Organization" className="inline-block bg-brand-periwinkle text-brand-white px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/20">
-                                Ready for your peaceful space?
-                            </Link>
+                            <p className="text-xl font-light text-brand-dark max-w-3xl mx-auto mb-10 leading-relaxed">At Simpli-FI Life we work with you to custom tailor systems that fit your unique needs, and season of life—giving you back your time and a home that feels easy to reset.</p>
+                            <Link to="/booking?service=Residential Space Organization" className="inline-block bg-brand-lemon text-brand-dark px-10 py-4 rounded-full font-bold hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/20">Ready for your peaceful space?</Link>
                         </div>
                     </div>
-
-                    {/* WRAPPER FOR MIDDLE CONTENT WITH PURPLE GRID */}
                     <div className="relative">
-                        {/* Purple Grid Background - Changed to Light Periwinkle (#d4d7ff) per request */}
                         <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-
-                        {/* Added Interactive Testimonial Section with Video */}
-                        {/* Removed bg-brand-base so grid shows through, added relative z-10 */}
                         <div className="py-24 px-4 border-b border-stone-100 overflow-hidden relative z-10">
-                            {/* Increased max-width and adjusted layout for better spacing */}
-                            {/* UPDATED: Added gap-12 and items-stretch to make layout static and balanced */}
                             <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center relative gap-12">
-                                
-                                {/* Video Placeholder (Left) */}
-                                {/* UPDATED: Removed translate transition classes */}
                                 <div className="w-full md:w-1/2 relative z-20">
-                                    {/* UPDATED: Changed border-white to border-brand-lemon to match testimonial card */}
-                                    {/* UPDATED: Decreased border thickness from border-[3.5px] to border-[2.5px] */}
                                     <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video border-[2.5px] border-brand-lemon bg-brand-dark">
-                                        {/* UPDATED: Video with autoplay, loop, muted, no controls, and websalescopymov3 source */}
-                                        {/* REMOVED: rounded-3xl from video class to prevent corner mismatch (black gaps) */}
-                                        <video 
-                                            className="w-full h-full object-cover pointer-events-none" 
-                                            autoPlay
-                                            loop
-                                            muted
-                                            playsInline
-                                            controlsList="nodownload"
-                                            onContextMenu={(e) => e.preventDefault()}
-                                            preload="auto"
-                                        >
+                                        <video className="w-full h-full object-cover pointer-events-none" autoPlay loop muted playsInline controlsList="nodownload" onContextMenu={(e) => e.preventDefault()} preload="auto">
                                             <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/mp4" />
                                             <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/quicktime" />
                                             Your browser does not support the video tag.
                                         </video>
                                     </div>
                                 </div>
-
-                                {/* Static Testimonial Card (Right) */}
-                                {/* UPDATED: Removed mouse enter/leave events and transition logic. */}
                                 <div className="w-full md:w-1/2 relative z-10">
-                                    {/* Applied settings: Background changed to Oatmeal (bg-brand-base), overflow-hidden removed to show full quote mark */}
                                     <div className="bg-brand-base p-12 md:p-16 rounded-[2.5rem] shadow-2xl border-2 border-brand-lemon h-full flex flex-col justify-center relative">
-                                        {/* Quotation Mark - Matched Home Page Style */}
-                                        <div 
-                                            className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80"
-                                            style={{ 
-                                                WebkitTextStroke: '1px #7178c8',
-                                                color: '#D6E31E'
-                                            }}
-                                        >
-                                            “
-                                        </div>
-                                        
+                                        <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
                                         <div className="relative z-10 pt-8">
-                                            {/* Text Container - Static Full Text */}
                                             <div className="text-brand-medium font-light italic leading-relaxed space-y-4 text-sm md:text-base">
                                                 <p>"I was so nervous about letting her into my closet, to see the messiest space in my house, but her encouraging, compassionate personality instantly put me at ease.</p>
                                                 <p>Instead of feeling overwhelmed, I felt empowered to take control of my space at my own pace.</p>
                                                 <p>Lindsey’s practical strategies for organization have not only helped me create systems out of chaos, but have also given me confidence in the process of decluttering my house.</p>
                                                 <p>I can’t communicate strongly enough what a great coach Lindsey has been... Lindsey’s tools were simple and easy to implement."</p>
                                             </div>
-                                            
-                                            {/* Footer - Matched divider color */}
                                             <div className="mt-8 pt-6 border-t border-brand-lemon">
-                                                <div>
-                                                    <p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-sm">- Lauren V.</p>
-                                                </div>
+                                                <div><p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-sm">- Lauren V.</p></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        {/* NEW SECTION: Your Space, Your Terms (Service Menu) */}
                         <section className="py-24 max-w-7xl mx-auto px-4 relative z-10">
-                            {/* Giant Card Wrapper - Updated Background & Added Hover Effect */}
-                            {/* UPDATED: Changed background to bg-brand-periwinkle-light/40 for a lighter, softer look */}
                             <div className="bg-brand-periwinkle-light/40 rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl border-4 border-brand-periwinkle group hover:scale-[1.01] transition-transform duration-500">
-                                
-                                {/* Removed animated SVG border overlay */}
-
-                                {/* Removed background textures (grid/twinkle) for a cleaner look */}
-
-                                {/* Heading - Updated to Roboto Condensed (font-display), Uppercase, and 2 Lines */}
-                                <h2 className="font-display font-bold text-4xl md:text-6xl text-brand-dark mb-8 leading-[0.9] relative z-10 uppercase tracking-tighter">
-                                    Your Space Simpli-FI'ed,<br/>
-                                    {/* Changed text color to periwinkle-dark for better contrast on light background */}
-                                    <span className="text-brand-periwinkle-dark">Your Way</span>
-                                </h2>
-                                
-                                {/* Divider - Changed to White for visual relief */}
+                                <h2 className="font-display font-bold text-4xl md:text-6xl text-brand-dark mb-8 leading-[0.9] relative z-10 uppercase tracking-tighter">Your Space Simpli-FI'ed,<br/><span className="text-brand-periwinkle-dark">Your Way</span></h2>
                                 <div className="w-24 h-1 bg-white mx-auto mb-10 rounded-full relative z-10 opacity-80"></div>
-                                
-                                {/* Text - Changed color to dark for readability */}
                                 <div className="max-w-3xl mx-auto mb-12 relative z-10 text-brand-dark/80 font-medium text-lg leading-relaxed space-y-6">
                                     <p>We believe that because we're all so uniquely different, and you're the one who knows your needs and lifestyle best, you should decide how active a role you'd like to play in the process.</p>
                                     <p className="font-bold text-brand-dark pt-4">Check off the services you're interested in:</p>
                                 </div>
-
-                                {/* Interactive Service Checklist Component - Serves as Inner Oatmeal Card */}
-                                <div className="max-w-3xl mx-auto relative z-10 text-brand-dark">
-                                    <ServiceChecklist />
-                                </div>
+                                <div className="max-w-3xl mx-auto relative z-10 text-brand-dark"><ServiceChecklist /></div>
                             </div>
                         </section>
                     </div>
-                    
-                    {/* UPDATED SECTION: Private Client Services (Luxury Estate Management) */}
                     <section id="private-client" className="py-32 bg-brand-dark relative overflow-hidden">
-                        {/* Subtle Background Glow */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl opacity-20 pointer-events-none">
                             <div className="w-full h-full bg-brand-periwinkle/30 blur-[120px] rounded-full"></div>
                         </div>
-
                         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
                             <div className="flex justify-center mb-8">
-                                {/* Removed [perspective:800px] to remove the 3D depth distortion */}
-                                <div className="p-4 rounded-full bg-brand-white/5 border border-brand-white/10 backdrop-blur-sm">
-                                    {/* Changed animation to animate-spin-top for Y-axis rotation */}
-                                    <Gem className="w-8 h-8 text-brand-periwinkle animate-spin-top" />
-                                </div>
+                                <div className="p-4 rounded-full bg-brand-white/5 border border-brand-white/10 backdrop-blur-sm"><Gem className="w-8 h-8 text-brand-periwinkle animate-spin-top" /></div>
                             </div>
-                            
                             <span className="text-brand-periwinkle font-bold tracking-[0.25em] uppercase text-xs block mb-6">Private Client Services</span>
-                            
                             <h2 className="font-display text-5xl md:text-6xl font-bold tracking-tight mb-8 text-brand-white">Luxury Estate Management</h2>
-                            
                             <div className="w-24 h-px bg-gradient-to-r from-transparent via-brand-periwinkle to-transparent mx-auto mb-10 opacity-50"></div>
-                            
-                            <p className="text-stone-300 text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-2xl mx-auto">
-                                We offer white-glove, <span className="text-brand-white font-normal italic">done-for-you</span> service for clients who value their time above all else.
-                            </p>
-                            
-                            {/* Updated button: Default is transparent Periwinkle, Hover changes text/border to Citron (Lemon) with transparent bg */}
-                            <Link to="/booking?service=Residential Space Organization&notes=Inquiry regarding Luxury Estate Management" className="inline-block border border-brand-periwinkle/50 text-brand-periwinkle hover:text-brand-lemon hover:border-brand-lemon px-10 py-5 rounded-full font-display font-bold transition-all duration-300 transform hover:-translate-y-1 uppercase tracking-widest text-sm shadow-2xl backdrop-blur-sm">
-                                Inquire About Availability
-                            </Link>
+                            <p className="text-stone-300 text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-2xl mx-auto">We offer white-glove, <span className="text-brand-white font-normal italic">done-for-you</span> service for clients who value their time above all else.</p>
+                            <Link to="/booking?service=Residential Space Organization&notes=Inquiry regarding Luxury Estate Management" className="inline-block border border-brand-periwinkle/50 text-brand-periwinkle hover:text-brand-lemon hover:border-brand-lemon px-10 py-5 rounded-full font-display font-bold transition-all duration-300 transform hover:-translate-y-1 uppercase tracking-widest text-sm shadow-2xl backdrop-blur-sm">Inquire About Availability</Link>
                         </div>
                     </section>
                 </div>
@@ -1420,17 +1261,16 @@
 
         const Booking = () => {
             usePageTitle("Book a Session");
-            // Updated state to include businessName and default to the new Residential name
             const [formData, setFormData] = useState({ 
                 name: '', 
                 email: '', 
                 phone: '', 
-                businessName: '', // New Field State
-                moveStatus: '', // New Field State for Moves
+                businessName: '', 
+                moveStatus: '', 
                 type: 'Residential Space Organization', 
                 message: '',
-                availability: '', // Added availability field
-                preferredContact: 'Email' // Added preferred contact
+                availability: '', 
+                preferredContact: 'Phone (Text)' 
             });
             const [status, setStatus] = useState('idle');
             const location = useLocation();
@@ -1442,7 +1282,6 @@
                 const service = params.get('service');
                 const notes = params.get('notes');
 
-                // If service param exists, set it. Logic handles the name mapping.
                 if (service) {
                     setFormData(prev => ({ 
                         ...prev, 
@@ -1461,7 +1300,6 @@
                 e.preventDefault();
                 setStatus('sending');
                 
-                // Format the email body
                 const subject = `New Inquiry: ${formData.type} - ${formData.name}`;
                 const body = `Name: ${formData.name}
 Email: ${formData.email}
@@ -1475,42 +1313,30 @@ Availability: ${formData.availability}
 Project Goals:
 ${formData.message}`;
 
-                // Create the mailto link
                 const mailtoLink = `mailto:lindsey@simpli-fi-life.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-                // Trigger the email client
                 window.location.href = mailtoLink;
-
-                // Show success state in UI
                 setTimeout(() => setStatus('success'), 1500);
             };
 
             return (
-                // UPDATED: Decreased padding by ~30px (pt-52 -> pt-44)
                 <div className="bg-brand-base min-h-screen pt-44 pb-20 px-4 relative overflow-hidden">
-                    {/* Purple Grid on Oatmeal Background */}
                     <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-                    {/* NEW: Citron Header Card */}
                     <div className="relative z-10 max-w-4xl mx-auto mb-12">
-                        <div className="bg-brand-lemon rounded-3xl p-10 shadow-xl border-2 border-brand-dark/5 text-center">
+                        <div className="bg-brand-lemon/[.18] backdrop-blur-sm rounded-3xl p-10 shadow-xl border-2 border-brand-lemon text-center">
                             <h1 className="font-display font-bold text-4xl md:text-5xl text-brand-dark mb-4 tracking-tight">Request a Discovery Call</h1>
                             <p className="text-xl text-brand-dark/90 max-w-2xl mx-auto leading-relaxed">
-                                A free 30-minute call to share your vision. No pressure, no obligation—just a good old chat to see if we're a fit. <br className="hidden md:block" />
-                                <span className="font-medium mt-2 block">All services backed by our Simpli-FI Satisfaction Guarantee.</span>
+                                A free 30-minute call to share your vision.<br /> No pressure, no obligation—just a good old chat to see if we're a fit.
+                                <span className="font-bold mt-4 block text-[10px] tracking-widest uppercase opacity-80">***All services backed by our Simpli-FI Satisfaction Guarantee.***</span>
                             </p>
                         </div>
                     </div>
 
-                    {/* UPDATED: Form Container */}
-                    <div className="max-w-4xl mx-auto rounded-2xl shadow-2xl overflow-hidden border border-brand-periwinkle/20 relative z-10">
-                        
-                        {/* How It Works - Light Periwinkle */}
-                        <div className="bg-brand-periwinkle-light p-8 md:p-10 border-b border-brand-periwinkle/10 text-center">
-                            <h2 className="font-display font-bold text-2xl text-brand-dark mb-8 tracking-tight">How It Works</h2>
+                    <div className="max-w-4xl mx-auto rounded-2xl shadow-2xl overflow-hidden border-2 border-brand-periwinkle relative z-10">
+                        <div className="bg-brand-periwinkle-light/35 p-8 md:p-10 border-b border-brand-periwinkle/10 text-center backdrop-blur-sm">
+                            <h2 className="font-display font-bold text-3xl md:text-4xl text-brand-dark mb-8 tracking-tight">Schedule in 3 Easy Steps</h2>
                             
                             <div className="grid md:grid-cols-3 gap-8 px-2">
-                                {/* Connector Line for Desktop */}
                                 <div className="hidden md:block absolute top-[8.5rem] left-[20%] right-[20%] h-0.5 bg-brand-white/50 -z-10"></div>
 
                                 <div className="flex flex-col items-center group">
@@ -1531,8 +1357,7 @@ ${formData.message}`;
                             </div>
                         </div>
 
-                        {/* Form Section - Periwinkle 70% Opaque */}
-                        <div className="p-8 md:p-12 bg-brand-periwinkle/70 backdrop-blur-sm">
+                        <div className="p-8 md:p-12 bg-brand-periwinkle/90 backdrop-blur-sm">
                             {status === 'success' ? (
                                 <div className="text-center py-12">
                                     <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -1547,7 +1372,6 @@ ${formData.message}`;
                                     <div className="grid md:grid-cols-2 gap-6">
                                         <div>
                                             <label className="block text-sm font-bold text-brand-white mb-2">Name</label>
-                                            {/* UPDATED: Added bg-brand-white to inputs */}
                                             <input required className="w-full px-4 py-3 border border-transparent rounded-lg focus:ring-2 focus:ring-brand-lemon outline-none transition bg-brand-white text-brand-dark shadow-md" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
                                         </div>
                                         <div>
@@ -1561,7 +1385,6 @@ ${formData.message}`;
                                         <input required type="email" className="w-full px-4 py-3 border border-transparent rounded-lg focus:ring-2 focus:ring-brand-lemon outline-none transition bg-brand-white text-brand-dark shadow-md" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
                                     </div>
 
-                                    {/* Service Interest Dropdown with Updated Options */}
                                     <div>
                                         <label className="block text-sm font-bold text-brand-white mb-2">Service Interest</label>
                                         <select className="w-full px-4 py-3 border border-transparent rounded-lg focus:ring-2 focus:ring-brand-lemon outline-none transition bg-brand-white text-brand-dark shadow-md" value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})}>
@@ -1572,7 +1395,6 @@ ${formData.message}`;
                                         </select>
                                     </div>
 
-                                    {/* Conditional Field: Business Name */}
                                     {formData.type === 'Professional Space Organization' && (
                                         <div className="animate-fade-in-up">
                                             <label className="block text-sm font-bold text-brand-white mb-2">Business / Organization Name</label>
@@ -1580,7 +1402,6 @@ ${formData.message}`;
                                         </div>
                                     )}
 
-                                    {/* Conditional Field: Move Status */}
                                     {formData.type === 'Packing / Unpacking Services' && (
                                         <div className="animate-fade-in-up">
                                             <label className="block text-sm font-bold text-brand-white mb-2">Do you have a set move date?</label>
@@ -1594,13 +1415,11 @@ ${formData.message}`;
                                         </div>
                                     )}
 
-                                    {/* Updated Textarea Label */}
                                     <div>
                                         <label className="block text-sm font-bold text-brand-white mb-2">Project Overview & Goals</label>
                                         <textarea rows="4" className="w-full px-4 py-3 border border-transparent rounded-lg focus:ring-2 focus:ring-brand-lemon outline-none transition bg-brand-white text-brand-dark shadow-md" value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})}></textarea>
                                     </div>
 
-                                    {/* Scheduling Field */}
                                     <div>
                                         <label className="block text-sm font-bold text-brand-white mb-2">Preferred Availability</label>
                                         <input 
@@ -1613,7 +1432,6 @@ ${formData.message}`;
                                         <p className="text-xs text-brand-white/80 mt-2">Let us know what days/times generally work best for you (or don't work at all).</p>
                                     </div>
 
-                                    {/* Preferred Communication */}
                                     <div>
                                         <label className="block text-sm font-bold text-brand-white mb-2">Preferred Communication</label>
                                         <div className="flex flex-wrap gap-6 pt-1">
@@ -1625,8 +1443,6 @@ ${formData.message}`;
                                                         value={option}
                                                         checked={formData.preferredContact === option}
                                                         onChange={(e) => setFormData({...formData, preferredContact: e.target.value})}
-                                                        // Custom radio style using Tailwind utilities: Border trick creates a dot
-                                                        // UPDATED: Added bg-brand-white to radio buttons
                                                         className="appearance-none w-5 h-5 border-2 border-transparent rounded-full checked:border-brand-lemon checked:border-[6px] transition-all duration-200 outline-none cursor-pointer bg-brand-white shadow-sm"
                                                     />
                                                     <span className={`ml-2 transition-colors ${formData.preferredContact === option ? 'text-brand-white font-bold' : 'text-brand-white/80 group-hover:text-brand-white'}`}>
@@ -1637,7 +1453,6 @@ ${formData.message}`;
                                         </div>
                                     </div>
                                     
-                                    {/* Updated Hover State to Lemon Lime */}
                                     <button disabled={status === 'sending'} className="w-full bg-brand-lemon text-brand-dark py-4 rounded-xl font-bold hover:bg-brand-white hover:text-brand-periwinkle transition transform hover:-translate-y-1 shadow-lg font-display uppercase tracking-tight">
                                         {status === 'sending' ? 'Sending...' : 'Request Consultation'}
                                     </button>
@@ -1653,7 +1468,6 @@ ${formData.message}`;
             usePageTitle("Articles");
             useEffect(() => { window.scrollTo(0, 0); }, []);
             return (
-                // UPDATED: Decreased padding by ~30px (pt-52 -> pt-44)
                 <div className="bg-brand-base min-h-screen pt-44 pb-20 px-4">
                     <div className="max-w-7xl mx-auto">
                         <div className="text-center mb-16">
@@ -1681,15 +1495,10 @@ ${formData.message}`;
         }
 
         const App = () => {
-            // New Loading State
             const [isLoading, setIsLoading] = useState(true);
-
             return (
                 <HashRouter>
-                    {/* Render Loading Screen Conditionally */}
                     {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-                    
-                    {/* Main App Content - Visible immediately behind loader for smooth transition */}
                     <div className="min-h-screen bg-brand-base text-brand-dark font-sans flex flex-col">
                         <Navbar />
                         <main className="flex-grow">
