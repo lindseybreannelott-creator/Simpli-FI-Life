@@ -449,8 +449,8 @@
                 "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg",
                 "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-NoMoreMissingSocks-Cover.jpg",
                 "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-BeigeYTCovershorts.jpeg",
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/stop%20keeping%20missing%20things%281%29-Cover.jpg",
-                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-evendeclutteringcoacheshave%20clutter.png",
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/IG-stopkeepingmissingthings.jpg",
+                "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/6.jpg",
             ];
 
             return (
@@ -470,11 +470,14 @@
                     <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
                     <div className="grid grid-cols-2 md:grid-cols-5">
                         {images.map((img, i) => (
-                            <a href="https://www.instagram.com/simpli_fi_life/" aria-label="View on Instagram" key={i} target="_blank" className="block relative group aspect-[4/5] overflow-hidden border-r border-stone-100 last:border-r-0">
+                            // UPDATED: Changed aspect-[4/5] to aspect-[9/16] to accommodate taller images (Shorts/Reels)
+                            // Added bg-stone-50 for a clean background in letterboxed areas
+                            <a href="https://www.instagram.com/simpli_fi_life/" aria-label="View on Instagram" key={i} target="_blank" className="block relative group aspect-[9/16] overflow-hidden border-r border-stone-100 last:border-r-0 bg-stone-50">
                                 <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-colors z-10 pointer-events-none"></div>
                                 <img 
                                     src={img} 
-                                    className="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
+                                    // UPDATED: Changed object-cover to object-contain to ensure the WHOLE image shows
+                                    className="w-full h-full object-contain transition duration-700 group-hover:scale-105" 
                                     alt="Instagram Post" 
                                     onError={(e) => {
                                         e.target.onerror = null; 
@@ -954,11 +957,14 @@
                                     <h2 className="font-display text-6xl md:text-7xl font-bold tracking-tighter text-brand-dark italic">Make Room for More in Your....</h2>
                                 </div>
                                 <div className="grid md:grid-cols-2 gap-12">
+                                    {/* Professional Spaces Card */}
                                     <div className="bg-brand-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all border-2 border-stone-100 reveal opacity-0 translate-y-10 delay-100 flex flex-col relative group hover:scale-[1.02] duration-300 overflow-hidden">
                                         <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-2xl overflow-visible z-20">
                                             <rect x="0" y="0" width="100%" height="100%" rx="16" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
                                         </svg>
-                                        <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-20 transition-opacity duration-300 group-hover:opacity-40" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
+                                        
+                                        {/* Removed Citron Quote Mark */}
+                                        
                                         <div className="relative z-10">
                                             <Building2 className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
                                             <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Professional Spaces</h3>
@@ -973,11 +979,15 @@
                                             </Link>
                                         </div>
                                     </div>
+                                    
+                                    {/* Residential Spaces Card */}
                                     <div className="bg-brand-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all border-2 border-stone-100 reveal opacity-0 translate-y-10 delay-200 flex flex-col relative group hover:scale-[1.02] duration-300 overflow-hidden">
                                         <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-2xl overflow-visible z-20">
                                             <rect x="0" y="0" width="100%" height="100%" rx="16" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
                                         </svg>
-                                        <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-20 transition-opacity duration-300 group-hover:opacity-40" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
+
+                                        {/* Removed Citron Quote Mark */}
+
                                         <div className="relative z-10">
                                             <HomeIcon className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
                                             <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Residential Spaces</h3>
