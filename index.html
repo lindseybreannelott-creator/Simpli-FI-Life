@@ -902,13 +902,20 @@ A: ${formData.consent ? 'Yes' : 'No'}
             const RadioGroup = ({ options, field, label, required = false }) => (
                 <div className="mb-6">
                     <label className="block text-brand-dark font-bold mb-3 text-lg">{label} {required && '*'}</label>
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                         {options.map(opt => (
-                            // UPDATED: Changed items-center to items-start for top alignment on multi-line text
-                            <label key={opt} className="flex items-start gap-3 cursor-pointer group">
-                                {/* UPDATED: Added mt-1 for vertical alignment and flex-shrink-0 to prevent squishing into an oval */}
-                                <input type="radio" name={field} value={opt} checked={formData[field] === opt} onChange={(e) => setFormData({...formData, [field]: e.target.value})} className="mt-1 flex-shrink-0 appearance-none w-5 h-5 border-2 border-stone-300 rounded-full checked:border-brand-periwinkle checked:border-[6px] transition-all cursor-pointer" />
-                                <span className="text-brand-medium group-hover:text-brand-dark transition-colors">{opt}</span>
+                            // UPDATED: items-start allows multi-line text to wrap nicely next to the button
+                            <label key={opt} className="flex items-start gap-4 cursor-pointer group">
+                                {/* UPDATED: flex-shrink-0 prevents squishing. mt-[0.3rem] aligns circle with the first line of text */}
+                                <input 
+                                    type="radio" 
+                                    name={field} 
+                                    value={opt} 
+                                    checked={formData[field] === opt} 
+                                    onChange={(e) => setFormData({...formData, [field]: e.target.value})} 
+                                    className="mt-[0.3rem] flex-shrink-0 appearance-none w-5 h-5 border-2 border-stone-300 rounded-full checked:border-brand-periwinkle checked:border-[6px] transition-all cursor-pointer" 
+                                />
+                                <span className="text-brand-medium group-hover:text-brand-dark transition-colors leading-relaxed">{opt}</span>
                             </label>
                         ))}
                     </div>
@@ -1075,8 +1082,8 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                 label="In general, what's your organizing aesthetic?"
                                 field="aesthetic"
                                 options={[
-                                    "light and bright (think whites and warm woods)",
-                                    "dark and moody ( think blacks, dark woods)",
+                                    "Light and bright (think whites and warm woods)",
+                                    "Dark and moody (think blacks, dark woods)",
                                     "Depends on the room/space"
                                 ]}
                             />
@@ -1510,7 +1517,8 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                  <div className="mt-10 flex flex-col items-center justify-center">
                                      <div className="w-24 h-1 bg-brand-lemon mb-6 rounded-full"></div>
                                      <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-sm">- Madison B.</p>
-                                     <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">Missions Pastor, The Heights Church</p>
+                                     {/* UPDATED: Changed specific title to broader sector for wider appeal */}
+                                     <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">Non-Profit Organization</p>
                                  </div>
                              </div>
                         </div>
@@ -1550,21 +1558,33 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                         </div>
                                     ))}
                                 </div>
-                                <div className="text-center mb-16">
-                                     <div className="max-w-3xl mx-auto mb-10 space-y-8">
-                                         <div className="w-16 h-px bg-brand-periwinkle/30 mx-auto"></div>
-                                         <p className="text-brand-dark font-display font-bold text-4xl md:text-5xl leading-tight">Want to get a step above your competition? <br className="hidden md:block" /><span className="font-normal text-brand-medium text-2xl mt-4 block">Let's chat how we can organize your space!</span></p>
-                                     </div>
-                                     <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/></Link>
-                                </div>
-                                <div className="mt-24 mb-12 max-w-4xl mx-auto px-4">
-                                    <div className="bg-brand-white p-8 md:p-12 rounded-3xl shadow-sm border border-stone-100 text-center">
-                                        <h3 className="font-display text-3xl font-bold text-brand-dark mb-6">Curious if your business can benefit from organization?</h3>
-                                        <div className="text-brand-medium text-lg leading-relaxed space-y-6 mb-8 max-w-2xl mx-auto">
-                                            <p>Organizing can be an upfront investment, but we custom tailor your organizational systems to your needs so that it can last for years to come.</p>
-                                            <p>I'm completely confident your business can benefit from our organizing services. Let's remove the friction points from your business inventory systems so you can do what you were meant to do. serve your customers.</p>
+                                {/* REMOVED: Redundant CTA Section ("Want to get a step above...") */}
+                                <div className="mt-24 mb-12 max-w-5xl mx-auto px-4">
+                                    {/* UPDATED: Increased padding, rounded corners, and shadow for better container feel */}
+                                    <div className="bg-brand-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle text-center">
+                                        
+                                        {/* UPDATED HEADLINE: Bigger, bolder, and focused on necessity */}
+                                        <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark mb-10 leading-none tracking-tight">
+                                            Organizing isn't a luxury for your business—<br className="hidden md:block" />
+                                            <span className="text-brand-periwinkle">it's essential.</span>
+                                        </h3>
+                                        
+                                        <div className="text-brand-medium text-xl leading-relaxed space-y-8 mb-12 max-w-3xl mx-auto">
+                                            <p>Organizing can be an upfront investment, but we custom tailor your systems to your needs so they last for years to come...</p>
+                                            
+                                            {/* UPDATED: Handwritten style, smaller, periwinkle accent to break up the text block */}
+                                            <p className="font-handwriting text-brand-periwinkle text-base md:text-lg transform -rotate-1 opacity-90 leading-loose">
+                                                ...meaning you keep reaping the benefits of saved money, recovered time, and a better customer experience.
+                                            </p>
+                                            
+                                            {/* UPDATED COPY: Removed "I'm confident" and added Guarantee for stronger risk reversal */}
+                                            <p>Let's eliminate the friction in your inventory systems so you can get back to what you were meant to do: serve your customers. <span className="font-bold text-brand-dark block mt-4 text-lg">All backed by our Simpli-FI Satisfaction Guarantee.</span></p>
                                         </div>
-                                        <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">Book Discovery Call <ArrowRight className="ml-2 w-5 h-5"/></Link>
+                                        
+                                        {/* UPDATED BUTTON: Static Citron (bg-brand-lemon) -> Hover Periwinkle */}
+                                        <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">
+                                            Book Discovery Call <ArrowRight className="ml-2 w-6 h-6"/>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
