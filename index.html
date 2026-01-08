@@ -753,7 +753,6 @@
                         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                             <div className="absolute inset-0 bg-brand-dark/80 backdrop-blur-sm transition-opacity" onClick={() => setShowModal(false)}></div>
                             <div className="bg-brand-white rounded-[2rem] p-6 md:p-10 shadow-2xl relative max-w-md w-full animate-fade-in-up text-center border-4 border-brand-lemon overflow-hidden">
-                                {/* Close Button Updated: Uses bold XMark for visibility */}
                                 <button 
                                     onClick={() => setShowModal(false)}
                                     className="absolute top-4 right-4 p-2 text-brand-dark hover:bg-stone-100 transition-colors rounded-full z-50"
@@ -767,11 +766,9 @@
                                     <p className="text-xs font-bold tracking-widest uppercase text-brand-dark mb-2">Estimated Business Impact</p>
                                     <p className={`font-display font-bold text-3xl md:text-4xl mb-6 ${score.color}`}>{score.level}</p>
                                     <p className="text-brand-dark font-medium text-lg mb-8 leading-relaxed px-2">{score.msg}</p>
-                                    {/* UPDATED: Background to light periwinkle, "GOOD NEWS" all caps */}
                                     <div className="inline-block bg-brand-periwinkle-light px-6 py-5 rounded-2xl border border-brand-periwinkle/20 w-full mb-8">
                                         <p className="text-sm text-brand-dark"><strong>GOOD NEWS:</strong> {score.goodNews}</p>
                                     </div>
-                                    {/* UPDATED: Text to "Let's Talk Solutions", Citron default -> Periwinkle Hover */}
                                     <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-xl font-display font-bold text-xs uppercase tracking-tight transform hover:-translate-y-1">
                                         Let's Talk Solutions <ArrowRight className="ml-2 w-4 h-4"/>
                                     </Link>
@@ -785,20 +782,30 @@
 
         const ServiceChecklist = () => {
             const [checks, setChecks] = useState({});
+            
+            // UPDATED: Converted strings to objects to handle multi-line formatting cleanly
             const services = [
-                "Decluttering Coaching (I want to learn)",
-                "Decluttering (Done for me)",
-                "Organizing + Space Planning Coaching (I want to learn)",
-                "Organizing + Space Planning (Done for me)",
-                "Unpacking From a Move",
-                "Packing for a Move",
-                "Finding 'Homes' for Things",
-                "Legacy Documenting"
+                // UPDATED: Changed "I want to learn" to "Done with you" for better symmetry with "Done for me"
+                { label: "Decluttering Coaching", sub: "(Done with you)" },
+                { label: "Decluttering", sub: "(Done for me)" },
+                { label: "Organizing + Space Planning Coaching", sub: "(Done with you)" },
+                { label: "Organizing + Space Planning", sub: "(Done for me)" },
+                { label: "Unpacking From a Move" },
+                { label: "Packing for a Move" },
+                { label: "Finding 'Homes' for Things" },
+                { label: "Legacy Documenting" }
             ];
+
             const toggle = (i) => setChecks(p => ({...p, [i]: !p[i]}));
             const hasChecks = Object.values(checks).some(Boolean);
+            
             const getBookingLink = () => {
-                const selectedServices = services.filter((_, i) => checks[i]).join(', ');
+                // Reconstruct full string for email including subtitle
+                const selectedServices = services
+                    .filter((_, i) => checks[i])
+                    .map(s => s.label + (s.sub ? " " + s.sub : ""))
+                    .join(', ');
+                    
                 const notes = selectedServices ? `I'm interested in: ${selectedServices}` : '';
                 const isPackingOnly = (checks[4] || checks[5]) && !checks[0] && !checks[1] && !checks[2] && !checks[3] && !checks[6] && !checks[7];
                 const serviceName = isPackingOnly ? "Packing / Unpacking Services" : "Residential Space Organization";
@@ -809,11 +816,17 @@
                 <div className="bg-brand-base rounded-3xl p-8 shadow-xl border border-stone-200 text-left transform transition-all duration-300">
                     <div className="grid md:grid-cols-2 gap-4">
                         {services.map((item, i) => (
-                            <button key={i} onClick={() => toggle(i)} className="w-full flex items-center gap-4 p-4 rounded-xl transition group text-left border border-transparent">
-                                <div className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 ${checks[i] ? 'bg-brand-lemon border-brand-lemon scale-110' : 'border-stone-400 group-hover:border-brand-periwinkle'}`}>
+                            // UPDATED: Added items-start to align checkbox at top of multi-line text
+                            <button key={i} onClick={() => toggle(i)} className="w-full flex items-start gap-4 p-4 rounded-xl transition group text-left border border-transparent">
+                                {/* Added mt-1 to align checkbox with first line of text */}
+                                <div className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 mt-1 ${checks[i] ? 'bg-brand-lemon border-brand-lemon scale-110' : 'border-stone-400 group-hover:border-brand-periwinkle'}`}>
                                     {checks[i] && <Check className="w-4 h-4 text-brand-dark" />}
                                 </div>
-                                <span className={`text-lg transition-all duration-200 ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-dark group-hover:text-brand-periwinkle group-hover:italic'}`}>{item}</span>
+                                <div className={`text-lg transition-all duration-200 ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-dark group-hover:text-brand-periwinkle group-hover:italic'}`}>
+                                    {item.label}
+                                    {/* Render subtitle on new line if it exists */}
+                                    {item.sub && <span className="block text-base opacity-70 not-italic mt-0.5">{item.sub}</span>}
+                                </div>
                             </button>
                         ))}
                     </div>
@@ -1230,11 +1243,12 @@
                         </div>
                         <section className="py-24 max-w-7xl mx-auto px-4 relative z-10">
                             <div className="bg-brand-periwinkle-light/40 rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl border-4 border-brand-periwinkle group hover:scale-[1.01] transition-transform duration-500">
-                                <h2 className="font-display font-bold text-4xl md:text-6xl text-brand-dark mb-8 leading-[0.9] relative z-10 uppercase tracking-tighter">Your Space Simpli-FI'ed,<br/><span className="text-brand-periwinkle-dark">Your Way</span></h2>
+                                <h2 className="font-display font-bold text-4xl md:text-6xl text-brand-dark mb-8 leading-[0.9] relative z-10 uppercase tracking-tighter">Your Space Simpli-Fied,<br/><span className="text-brand-periwinkle-dark">Your Way</span></h2>
                                 <div className="w-24 h-1 bg-white mx-auto mb-10 rounded-full relative z-10 opacity-80"></div>
                                 <div className="max-w-3xl mx-auto mb-12 relative z-10 text-brand-dark/80 font-medium text-lg leading-relaxed space-y-6">
-                                    <p>We believe that because we're all so uniquely different, and you're the one who knows your needs and lifestyle best, you should decide how active a role you'd like to play in the process.</p>
-                                    <p className="font-bold text-brand-dark pt-4">Check off the services you're interested in:</p>
+                                    {/* UPDATED COPY: Stronger hook about unique needs and seasons */}
+                                    <p>Every home has a different rhythm. Because your needs, priorities, and season of life are unique, we don't believe in a "one-size-fits-all" approach.</p>
+                                    <p className="font-bold text-brand-dark pt-4">You know your needs best—so you decide how active a role you'd like to play:</p>
                                 </div>
                                 <div className="max-w-3xl mx-auto relative z-10 text-brand-dark"><ServiceChecklist /></div>
                             </div>
