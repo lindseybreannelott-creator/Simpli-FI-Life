@@ -664,6 +664,18 @@
             const [checks, setChecks] = useState({});
             const [showModal, setShowModal] = useState(false); 
             
+            // Effect to lock body scroll when modal is open
+            useEffect(() => {
+                if (showModal) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = 'unset';
+                }
+                return () => {
+                    document.body.style.overflow = 'unset';
+                };
+            }, [showModal]);
+
             const problems = [
                 "Have you ever run out of inventory and had to tell a customer/client no?",
                 "Have you ever made a duplicate purchase because you didn't know what inventory you had?",
@@ -741,12 +753,13 @@
                         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                             <div className="absolute inset-0 bg-brand-dark/80 backdrop-blur-sm transition-opacity" onClick={() => setShowModal(false)}></div>
                             <div className="bg-brand-white rounded-[2rem] p-6 md:p-10 shadow-2xl relative max-w-md w-full animate-fade-in-up text-center border-4 border-brand-lemon overflow-hidden">
+                                {/* Close Button Updated: Uses bold XMark for visibility */}
                                 <button 
                                     onClick={() => setShowModal(false)}
-                                    className="absolute top-4 right-4 p-2 text-brand-dark bg-brand-lemon hover:bg-brand-dark hover:text-brand-lemon transition-all duration-300 rounded-full z-50 shadow-lg border-2 border-brand-dark"
+                                    className="absolute top-4 right-4 p-2 text-brand-dark hover:bg-stone-100 transition-colors rounded-full z-50"
                                     aria-label="Close"
                                 >
-                                    <X className="w-6 h-6" />
+                                    <XMark className="w-6 h-6" />
                                 </button>
                                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
                                 <div className="relative z-10">
@@ -919,6 +932,9 @@
 
         const Home = () => {
             usePageTitle("Home");
+            // Added state for the CTA button hover effect
+            const [ctaHover, setCtaHover] = useState(false);
+
             useEffect(() => {
                 const observer = new IntersectionObserver((entries) => entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('opacity-100', 'translate-y-0');
@@ -1054,7 +1070,15 @@
                                     </div>
                                 </div>
                                 <p className="text-lg text-brand-base/80 font-light mb-10">All backed by my <span className="italic text-brand-periwinkle-light font-medium">Simpli-FI Life Satisfaction Guarantee</span>.</p>
-                                <Link to="/booking" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-white hover:scale-105 transition-all duration-300 shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">Let's Do This <ArrowRight className="ml-2 w-6 h-6"/></Link>
+                                {/* UPDATED: Button Hover Effect - Turns light periwinkle and says "GREAT CHOICE!" */}
+                                <Link 
+                                    to="/booking" 
+                                    onMouseEnter={() => setCtaHover(true)}
+                                    onMouseLeave={() => setCtaHover(false)}
+                                    className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle-light hover:scale-105 transition-all duration-300 shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1 min-w-[280px]"
+                                >
+                                    {ctaHover ? "GREAT CHOICE!" : <><span className="mr-2">Let's Do This</span> <ArrowRight className="w-6 h-6"/></>}
+                                </Link>
                             </div>
                         </section>
                     </div>
