@@ -778,7 +778,8 @@
         }
 
         const NewSpaceIntake = () => {
-            usePageTitle("New Client Intake");
+            // UPDATED: Changed page title to "New Space Intake"
+            usePageTitle("New Space Intake");
             const [formData, setFormData] = useState({
                 firstName: '', lastName: '', email: '', phone: '',
                 reason: '', services: [], spaceFeel: '', areas: [],
@@ -801,10 +802,87 @@
 
             const handleSubmit = (e) => {
                 e.preventDefault();
-                // Construct mailto body
-                const body = `New Client Intake:\n\nName: ${formData.firstName} ${formData.lastName}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nReason: ${formData.reason}\nServices: ${formData.services.join(', ')}\nGoal Feel: ${formData.spaceFeel}\nAreas: ${formData.areas.join(', ')}\nPriority Area: ${formData.priorityArea}\nGoing Well: ${formData.priorityGoingWell}\nToughness: ${formData.clutterToughness}\nManagement Score: ${formData.managementScore}/10\nEmotions: ${formData.emotions.join(', ')}\nPast Attempts: ${formData.pastAttempts}\nHardest Items: ${formData.hardestItems}\nMotivations: Declutter (${formData.motivationDeclutter}/10), Organize (${formData.motivationOrganize}/10)\nProduct Type: ${formData.productType}\nAesthetic: ${formData.aesthetic}\nLife Changes: ${formData.lifeChanges}\nWorked with Pro: ${formData.workedWithPro}\nCommunication: ${formData.communication.join(', ')}\nFilming: ${formData.filming}\nPets: ${formData.pets}\nSmoking: ${formData.smoking}\nConsent: ${formData.consent ? 'Yes' : 'No'}`;
                 
-                window.location.href = `mailto:lindsey@simpli-fi-life.com?subject=New Client Intake - ${formData.firstName} ${formData.lastName}&body=${encodeURIComponent(body)}`;
+                const subject = `New Space Intake - ${formData.firstName} ${formData.lastName}`;
+                
+                // Construct detailed email body with full questions
+                const body = `NEW CLIENT INTAKE FORM
+                
+CONTACT INFO
+Name: ${formData.firstName} ${formData.lastName}
+Email: ${formData.email}
+Phone: ${formData.phone}
+
+--------------------------------------------------
+
+Q: Why are you seeking Simpli-FI Life services right now?
+A: ${formData.reason}
+
+Q: Which services would you like Simpli-FI Life's help with?
+A: ${formData.services.join(', ')}
+
+Q: How do you want your space to feel after it’s decluttered/Organized?
+A: ${formData.spaceFeel}
+
+Q: Which areas of your home are you itching to declutter/organize?
+A: ${formData.areas.join(', ')}
+
+Q: Let's pretend time is limited. Which part of your home is your top priority?
+A: ${formData.priorityArea}
+
+Q: What’s one thing going well in your priority space right now?
+A: ${formData.priorityGoingWell}
+
+Q: What’s making your top clutter area so tough to declutter?
+A: ${formData.clutterToughness}
+
+Q: How easy is it for you to manage the items currently in your home right now? (1-10)
+A: ${formData.managementScore}/10
+
+Q: How do you feel when you walk into your home?
+A: ${formData.emotions.join(', ')}
+
+Q: Have you tried to declutter or organize your space in the past?
+A: ${formData.pastAttempts}
+
+Q: What items or types of stuff are hardest for you to declutter?
+A: ${formData.hardestItems}
+
+Q: How motivated are you to start decluttering your home? (1-10)
+A: ${formData.motivationDeclutter}/10
+
+Q: How motivated are you to start organizing your home? (1-10)
+A: ${formData.motivationOrganize}/10
+
+Q: In general, what type of organizing product do you need?
+A: ${formData.productType}
+
+Q: In general, what's your organizing aesthetic?
+A: ${formData.aesthetic}
+
+Q: Are there any big life changes or deadlines coming up that might affect your ability to declutter/get organized?
+A: ${formData.lifeChanges}
+
+Q: Have you worked with a decluttering coach or professional organizer before?
+A: ${formData.workedWithPro}
+
+Q: How do you prefer to stay in touch for our Organizing services?
+A: ${formData.communication.join(', ')}
+
+Q: Are you okay with me filming our organizing sessions for professional use?
+A: ${formData.filming}
+
+Q: Do you have any indoor pets?
+A: ${formData.pets}
+
+Q: Is there smoking in the home?
+A: ${formData.smoking}
+
+Q: Consent given for organizer access?
+A: ${formData.consent ? 'Yes' : 'No'}
+`;
+                
+                window.location.href = `mailto:lindsey@simpli-fi-life.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             };
 
             const CheckGroup = ({ options, field, label }) => (
@@ -813,7 +891,7 @@
                     <div className="space-y-2">
                         {options.map(opt => (
                             <label key={opt} className="flex items-start gap-3 cursor-pointer group">
-                                <input type="checkbox" value={opt} checked={formData[field].includes(opt)} onChange={(e) => handleCheckboxChange(e, field)} className="mt-1 appearance-none w-5 h-5 border-2 border-stone-300 rounded checked:bg-brand-lemon checked:border-brand-lemon transition-colors cursor-pointer" />
+                                <input type="checkbox" value={opt} checked={formData[field].includes(opt)} onChange={(e) => handleCheckboxChange(e, field)} className="mt-1 appearance-none w-5 h-5 border-2 border-stone-300 rounded checked:bg-brand-lemon checked:border-brand-lemon transition-colors cursor-pointer flex-shrink-0" />
                                 <span className="text-brand-medium group-hover:text-brand-dark transition-colors">{opt}</span>
                             </label>
                         ))}
@@ -826,8 +904,10 @@
                     <label className="block text-brand-dark font-bold mb-3 text-lg">{label} {required && '*'}</label>
                     <div className="space-y-2">
                         {options.map(opt => (
-                            <label key={opt} className="flex items-center gap-3 cursor-pointer group">
-                                <input type="radio" name={field} value={opt} checked={formData[field] === opt} onChange={(e) => setFormData({...formData, [field]: e.target.value})} className="appearance-none w-5 h-5 border-2 border-stone-300 rounded-full checked:border-brand-periwinkle checked:border-[6px] transition-all cursor-pointer" />
+                            // UPDATED: Changed items-center to items-start for top alignment on multi-line text
+                            <label key={opt} className="flex items-start gap-3 cursor-pointer group">
+                                {/* UPDATED: Added mt-1 for vertical alignment and flex-shrink-0 to prevent squishing into an oval */}
+                                <input type="radio" name={field} value={opt} checked={formData[field] === opt} onChange={(e) => setFormData({...formData, [field]: e.target.value})} className="mt-1 flex-shrink-0 appearance-none w-5 h-5 border-2 border-stone-300 rounded-full checked:border-brand-periwinkle checked:border-[6px] transition-all cursor-pointer" />
                                 <span className="text-brand-medium group-hover:text-brand-dark transition-colors">{opt}</span>
                             </label>
                         ))}
@@ -841,7 +921,8 @@
                     
                     <div className="max-w-3xl mx-auto relative z-10">
                         <div className="text-center mb-12">
-                            <h1 className="font-display font-bold text-4xl md:text-5xl text-brand-dark mb-4 tracking-tight">New Client Intake</h1>
+                            {/* UPDATED: Title changed to "New Space Intake" */}
+                            <h1 className="font-display font-bold text-4xl md:text-5xl text-brand-dark mb-4 tracking-tight">New Space Intake</h1>
                             <p className="text-brand-medium">Tell us about your space so we can hit the ground running.</p>
                         </div>
 
@@ -871,7 +952,8 @@
 
                             <div className="pt-6 border-t border-stone-100">
                                 <label className="block text-lg font-bold text-brand-dark mb-2">Why are you seeking Simpli-FI Life services right now?</label>
-                                <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="3" value={formData.reason} onChange={e => setFormData({...formData, reason: e.target.value})}></textarea>
+                                {/* Added Placeholder */}
+                                <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="3" value={formData.reason} onChange={e => setFormData({...formData, reason: e.target.value})} placeholder="e.g. I keep tidying, but the clutter keeps coming back..."></textarea>
                             </div>
 
                             <CheckGroup 
@@ -891,7 +973,8 @@
 
                             <div>
                                 <label className="block text-lg font-bold text-brand-dark mb-2">How do you want your space to feel after it’s decluttered/Organized?</label>
-                                <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="3" value={formData.spaceFeel} onChange={e => setFormData({...formData, spaceFeel: e.target.value})}></textarea>
+                                {/* Added Placeholder */}
+                                <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="3" value={formData.spaceFeel} onChange={e => setFormData({...formData, spaceFeel: e.target.value})} placeholder="e.g. Peaceful, functional, and easy to reset at the end of the day."></textarea>
                             </div>
 
                             <CheckGroup 
@@ -903,15 +986,17 @@
                             <div className="space-y-6">
                                 <div>
                                     <label className="block text-lg font-bold text-brand-dark mb-2">Let's pretend time is limited. Which part of your home is your top priority?</label>
-                                    <input className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" value={formData.priorityArea} onChange={e => setFormData({...formData, priorityArea: e.target.value})} />
+                                    {/* Added Placeholder */}
+                                    <input className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" value={formData.priorityArea} onChange={e => setFormData({...formData, priorityArea: e.target.value})} placeholder="Please specify the space and if you want to prioritize decluttering, organizing, or both." />
                                 </div>
                                 <div>
                                     <label className="block text-lg font-bold text-brand-dark mb-2">What’s one thing going well in your priority space right now?</label>
-                                    <input className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" value={formData.priorityGoingWell} onChange={e => setFormData({...formData, priorityGoingWell: e.target.value})} />
+                                    <input className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" value={formData.priorityGoingWell} onChange={e => setFormData({...formData, priorityGoingWell: e.target.value})} placeholder="e.g. The layout works, or I like the furniture..." />
                                 </div>
                                 <div>
                                     <label className="block text-lg font-bold text-brand-dark mb-2">What’s making your top clutter area so tough to declutter?</label>
-                                    <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="2" value={formData.clutterToughness} onChange={e => setFormData({...formData, clutterToughness: e.target.value})}></textarea>
+                                    {/* Updated Placeholder to focus on decluttering obstacles */}
+                                    <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="2" value={formData.clutterToughness} onChange={e => setFormData({...formData, clutterToughness: e.target.value})} placeholder="e.g. I struggle with sentimental attachment, or I get overwhelmed by the volume of stuff."></textarea>
                                 </div>
                             </div>
 
@@ -951,7 +1036,8 @@
 
                             <div>
                                 <label className="block text-lg font-bold text-brand-dark mb-2">What items or types of stuff are hardest for you to declutter?</label>
-                                <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="2" value={formData.hardestItems} onChange={e => setFormData({...formData, hardestItems: e.target.value})}></textarea>
+                                {/* Added Placeholder */}
+                                <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="2" value={formData.hardestItems} onChange={e => setFormData({...formData, hardestItems: e.target.value})} placeholder="e.g. Sentimental items, kids' artwork, or expensive items I never used."></textarea>
                             </div>
 
                             <div className="space-y-8">
@@ -979,7 +1065,8 @@
                                 label="In general, what type of organizing product do you need?"
                                 field="productType"
                                 options={[
-                                    "highly visible/See through ( if I can't see it, I forget I own it!)",
+                                    // UPDATED: Capitalized "Highly"
+                                    "Highly visible/See through ( if I can't see it, I forget I own it!)",
                                     "Hidden/Opaque ( I get stressed when I see all my stuff out, I wont forget I have it if I don't see it, and I prefer it hidden)"
                                 ]}
                             />
