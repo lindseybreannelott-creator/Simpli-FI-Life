@@ -767,11 +767,13 @@
                                     <p className="text-xs font-bold tracking-widest uppercase text-brand-dark mb-2">Estimated Business Impact</p>
                                     <p className={`font-display font-bold text-3xl md:text-4xl mb-6 ${score.color}`}>{score.level}</p>
                                     <p className="text-brand-dark font-medium text-lg mb-8 leading-relaxed px-2">{score.msg}</p>
-                                    <div className="inline-block bg-brand-base px-6 py-5 rounded-2xl border border-brand-periwinkle/20 w-full mb-8">
-                                        <p className="text-sm text-brand-medium"><strong>Good news:</strong> {score.goodNews}</p>
+                                    {/* UPDATED: Background to light periwinkle, "GOOD NEWS" all caps */}
+                                    <div className="inline-block bg-brand-periwinkle-light px-6 py-5 rounded-2xl border border-brand-periwinkle/20 w-full mb-8">
+                                        <p className="text-sm text-brand-dark"><strong>GOOD NEWS:</strong> {score.goodNews}</p>
                                     </div>
-                                    <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-dark transition shadow-xl font-display font-bold text-xs uppercase tracking-tight transform hover:-translate-y-1">
-                                        Discuss Solutions <ArrowRight className="ml-2 w-4 h-4"/>
+                                    {/* UPDATED: Text to "Let's Talk Solutions", Citron default -> Periwinkle Hover */}
+                                    <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-xl font-display font-bold text-xs uppercase tracking-tight transform hover:-translate-y-1">
+                                        Let's Talk Solutions <ArrowRight className="ml-2 w-4 h-4"/>
                                     </Link>
                                 </div>
                             </div>
