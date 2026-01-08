@@ -1073,8 +1073,8 @@
                                 <Link to="/" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>HOME</Link>
                                 <Link to="/professional-spaces" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>PROFESSIONAL SPACES</Link>
                                 <Link to="/residential" className={`${textColorClass} font-display font-normal transition text-lg tracking-tight uppercase`}>RESIDENTIAL SPACES</Link>
-                                {/* Updated Hover State to Lemon Lime */}
-                                <Link to="/booking" className="bg-brand-periwinkle text-brand-white px-6 py-2 rounded-full font-display font-bold hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
+                                {/* Updated Hover State: Citron Default -> Periwinkle Hover */}
+                                <Link to="/booking" className="bg-brand-lemon text-brand-dark px-6 py-2 rounded-full font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
                             </div>
                             <div className="md:hidden flex items-center">
                                 <button onClick={() => setIsOpen(!isOpen)} className={`${menuButtonClass} hover:opacity-80`}>
@@ -1089,7 +1089,8 @@
                                 <Link to="/" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">HOME</Link>
                                 <Link to="/professional-spaces" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">PROFESSIONAL SPACES</Link>
                                 <Link to="/residential" onClick={() => setIsOpen(false)} className="block py-3 text-brand-medium font-display font-normal text-lg tracking-tight uppercase">RESIDENTIAL SPACES</Link>
-                                <Link to="/booking" onClick={() => setIsOpen(false)} className="block w-full text-center py-3 mt-4 bg-brand-periwinkle text-brand-white rounded-lg font-display font-bold text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
+                                {/* Mobile Menu Button Updated */}
+                                <Link to="/booking" onClick={() => setIsOpen(false)} className="block w-full text-center py-3 mt-4 bg-brand-lemon text-brand-dark rounded-lg font-display font-bold text-lg tracking-tight uppercase">BOOK DISCOVERY CALL</Link>
                             </div>
                         </div>
                     )}
@@ -1206,8 +1207,9 @@
                                 <p className="text-xl font-display font-normal text-brand-dark mb-6">Let's organize my:</p>
                                 
                                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                                    <Link to="/professional-spaces" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Professional Space</Link>
-                                    <Link to="/residential" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Residential Space</Link>
+                                    {/* UPDATED: Buttons Static Light Periwinkle -> Hover Citron */}
+                                    <Link to="/professional-spaces" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Professional Space</Link>
+                                    <Link to="/residential" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Residential Space</Link>
                                 </div>
                             </div>
                         </div>
@@ -1460,8 +1462,8 @@
                                 We restructure back-of-house systems to save you money, recover lost labor hours, and reduce waste—helping you win no matter how you slice it.
                             </p>
                             
-                            {/* Updated button: Default Citron text/border + Transparent BG. Hover fills Citron. */}
-                            <Link to="/booking?service=Professional Space Organization" className="inline-block bg-transparent text-brand-lemon border border-brand-lemon px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display text-lg shadow-xl">
+                            {/* Updated button: Reverted to Solid, Flip-Flopped Discovery Colors (Citron -> Periwinkle) */}
+                            <Link to="/booking?service=Professional Space Organization" className="inline-block bg-brand-lemon text-brand-dark px-10 py-4 rounded-full font-bold hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 font-display text-lg shadow-xl">
                                 First, Let's talk about your space
                             </Link>
                         </div>
@@ -1672,10 +1674,8 @@
                                 At Simpli-FI Life we work with you to custom tailor systems that fit your unique needs, and season of life—giving you back your time and a home that feels easy to reset.
                             </p>
                             
-                            {/* Updated service param to Residential Space Organization */}
-                            {/* DESIGNER FIX: Changed button to Dark Periwinkle with White Text. 
-                                Citron (bg-brand-lemon) moved to Hover state to prevent eye strain. */}
-                            <Link to="/booking?service=Residential Space Organization" className="inline-block bg-brand-periwinkle text-brand-white px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/20">
+                            {/* Updated button: Citron Default -> Periwinkle Hover */}
+                            <Link to="/booking?service=Residential Space Organization" className="inline-block bg-brand-lemon text-brand-dark px-10 py-4 rounded-full font-bold hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/20">
                                 Ready for your peaceful space?
                             </Link>
                         </div>
