@@ -1335,7 +1335,7 @@ A: ${formData.consent ? 'Yes' : 'No'}
                         <div className="mt-16 p-8 bg-brand-white rounded-2xl border-l-4 border-brand-periwinkle shadow-sm">
                             <h3 className="font-display text-2xl font-bold text-brand-dark mb-2">Need help implementing this?</h3>
                             <p className="text-brand-medium mb-4">We can help you set up this system in your own home.</p>
-                            <Link to="/booking" className="text-brand-periwinkle font-bold flex items-center hover:translate-x-1 transition">Book Discovery Call <ArrowRight className="ml-2 w-4 h-4 ml-2"/></Link>
+                            <Link to="/booking" className="text-brand-periwinkle font-bold flex items-center hover:translate-x-1 transition">Book Discovery Call <ArrowRight className="w-4 h-4 ml-2"/></Link>
                         </div>
                     </div>
                 </div>
@@ -1492,8 +1492,8 @@ A: ${formData.consent ? 'Yes' : 'No'}
             useEffect(() => { window.scrollTo(0, 0); }, []);
             return (
                 <div className="bg-brand-base overflow-x-hidden min-h-screen">
-                    {/* Dark Hero Section */}
-                    <div className="bg-brand-dark text-brand-base pt-44 pb-56 px-4 text-center relative overflow-hidden">
+                    {/* Dark Hero Section (Lower Padding, Lower Z-Index) */}
+                    <div className="bg-brand-dark text-brand-base pt-44 pb-80 px-4 text-center relative z-10 overflow-hidden">
                         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                         <div className="absolute inset-0 pointer-events-none opacity-40"><GridBeams /></div>
                         <div className="relative z-10 max-w-5xl mx-auto">
@@ -1504,22 +1504,23 @@ A: ${formData.consent ? 'Yes' : 'No'}
                         </div>
                     </div>
 
-                    {/* Unified Oatmeal/Periwinkle Section for the rest of the page */}
-                    <div className="relative bg-brand-base">
-                        {/* THE GLOBAL GRID PATTERN AND BEAMS */}
+                    {/* Unified Oatmeal/Periwinkle Section - PULLED UP TO OVERLAP HERO */}
+                    <div className="relative bg-brand-base z-20 -mt-40">
+                        {/* GLOBAL GRID PATTERN AND BEAMS */}
                         <div className="absolute inset-0 pointer-events-none overflow-hidden">
                             <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
                             <GridBeams />
                         </div>
 
-                        {/* Content Container */}
-                        <div className="relative z-10">
-                            {/* Testimonial overlap */}
-                            <div className="max-w-5xl mx-auto px-4 -mt-32 mb-24 relative z-30">
+                        {/* Content Container (Layered Overlap) */}
+                        <div className="relative z-10 pt-1"> 
+                            {/* Testimonial overlap card */}
+                            <div className="max-w-5xl mx-auto px-4 mb-24 relative z-30">
                                 <div className="bg-brand-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative">
                                      <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#fbf9f7_1px,transparent_1px),linear-gradient(to_bottom,#fbf9f7_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none rounded-3xl overflow-hidden"></div>
                                      <div className="relative z-10">
-                                         <div className="absolute -top-24 -left-8 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
+                                         {/* Quote marks adjusted for clearance */}
+                                         <div className="absolute -top-20 -left-6 text-[10rem] md:text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
                                          <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4">
                                             Our storage units are...so functional thanks to YOU and your amazing work! 
                                             <br /><br />
