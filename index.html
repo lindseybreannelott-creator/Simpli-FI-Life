@@ -1335,7 +1335,7 @@ A: ${formData.consent ? 'Yes' : 'No'}
                         <div className="mt-16 p-8 bg-brand-white rounded-2xl border-l-4 border-brand-periwinkle shadow-sm">
                             <h3 className="font-display text-2xl font-bold text-brand-dark mb-2">Need help implementing this?</h3>
                             <p className="text-brand-medium mb-4">We can help you set up this system in your own home.</p>
-                            <Link to="/booking" className="text-brand-periwinkle font-bold flex items-center hover:translate-x-1 transition">Book Discovery Call <ArrowRight className="w-4 h-4 ml-2"/></Link>
+                            <Link to="/booking" className="text-brand-periwinkle font-bold flex items-center hover:translate-x-1 transition">Book Discovery Call <ArrowRight className="ml-2 w-4 h-4 ml-2"/></Link>
                         </div>
                     </div>
                 </div>
@@ -1504,105 +1504,106 @@ A: ${formData.consent ? 'Yes' : 'No'}
                         </div>
                     </div>
 
-                    {/* Testimonial Card Section (Pulling it up to overlap the hero) */}
-                    <div className="relative z-30 px-4 -mt-32">
-                        <div className="max-w-5xl mx-auto">
-                            {/* Removed overflow-hidden from the main card container to allow quotes to bleed out */}
-                            <div className="bg-brand-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative">
-                                 {/* Moved overflow-hidden to a wrapper for the background pattern specifically */}
-                                 <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#fbf9f7_1px,transparent_1px),linear-gradient(to_bottom,#fbf9f7_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none rounded-3xl overflow-hidden"></div>
-                                 
-                                 <div className="relative z-10">
-                                     {/* Quote marks now safe from clipping */}
-                                     <div className="absolute -top-24 -left-8 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
-                                     
-                                     <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4">
-                                        Our storage units are...so functional thanks to YOU and your amazing work! 
-                                        <br /><br />
-                                        I am so grateful for you and your team!
-                                        <span className="block mt-6 text-3xl md:text-4xl">You helped us turn an <strong className="font-bold text-brand-periwinkle">8 week</strong> set up and tear down into a <strong className="font-bold text-brand-periwinkle">9 day</strong> set up and tear down!</span>
-                                     </p>
-                                     <div className="mt-10 flex flex-col items-center justify-center">
-                                         <div className="w-24 h-1 bg-brand-lemon mb-6 rounded-full"></div>
-                                         <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-sm">- Madison B.</p>
-                                         <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">Non-Profit Organization</p>
+                    {/* Unified Oatmeal/Periwinkle Section for the rest of the page */}
+                    <div className="relative bg-brand-base">
+                        {/* THE GLOBAL GRID PATTERN AND BEAMS */}
+                        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                            <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+                            <GridBeams />
+                        </div>
+
+                        {/* Content Container */}
+                        <div className="relative z-10">
+                            {/* Testimonial overlap */}
+                            <div className="max-w-5xl mx-auto px-4 -mt-32 mb-24 relative z-30">
+                                <div className="bg-brand-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative">
+                                     <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#fbf9f7_1px,transparent_1px),linear-gradient(to_bottom,#fbf9f7_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none rounded-3xl overflow-hidden"></div>
+                                     <div className="relative z-10">
+                                         <div className="absolute -top-24 -left-8 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
+                                         <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4">
+                                            Our storage units are...so functional thanks to YOU and your amazing work! 
+                                            <br /><br />
+                                            I am so grateful for you and your team!
+                                            <span className="block mt-6 text-3xl md:text-4xl">You helped us turn an <strong className="font-bold text-brand-periwinkle">8 week</strong> set up and tear down into a <strong className="font-bold text-brand-periwinkle">9 day</strong> set up and tear down!</span>
+                                         </p>
+                                         <div className="mt-10 flex flex-col items-center justify-center">
+                                             <div className="w-24 h-1 bg-brand-lemon mb-6 rounded-full"></div>
+                                             <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-sm">- Madison B.</p>
+                                             <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">Non-Profit Organization</p>
+                                         </div>
                                      </div>
-                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Main Content Area (Oatmeal Background Continuity) */}
-                    <div className="relative z-20 bg-brand-base pt-24 pb-24">
-                        
-                        {/* Industry Videos Section */}
-                        <div className="max-w-7xl mx-auto px-4 relative mb-24">
-                            <div className="text-center mb-12">
-                                 <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">No Space Too Big,<br /> No Business Too Small</h3>
-                                 <div className="max-w-2xl mx-auto space-y-8">
-                                     <p className="text-brand-medium text-lg leading-loose">Whether you're saving lives or serving lattes, your environment dictates your efficiency. Here are a few industries that have benefited from our organizing—though to be clear, <span className="font-bold text-brand-dark">any</span> business can benefit from better systems.</p>
-                                 </div>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-                                {[
-                                    { label: "Fire & Medical Services", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/DFD.mov" },
-                                    { label: "Restaurants & Hospitality", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/WOlaundry.mov" },
-                                    { label: "Non Profit", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/theheights.mov" }
-                                ].map((item, i) => (
-                                    <div key={i} className="relative group rounded-3xl overflow-hidden shadow-lg aspect-[2/3] border border-stone-100 cursor-pointer bg-brand-dark">
-                                        <video 
-                                            className="w-full h-full object-cover transition duration-700 group-hover:scale-110 pointer-events-none" 
-                                            autoPlay loop muted playsInline 
-                                            controlsList="nodownload" 
-                                            onContextMenu={(e) => e.preventDefault()}
-                                            preload="auto"
-                                        >
-                                            <source src={item.video} type="video/mp4" />
-                                            <source src={item.video} type="video/quicktime" />
-                                        </video>
-                                        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
-                                        <div className="absolute bottom-4 left-4 right-4 text-center md:text-left md:bottom-6 md:left-6 md:right-auto">
-                                            <div className="bg-brand-periwinkle text-brand-white px-4 py-2 md:px-5 md:py-2 rounded-full font-display font-bold tracking-widest text-[10px] md:text-xs uppercase shadow-md border border-white/20 transform transition group-hover:-translate-y-1 inline-block">{item.label}</div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* The Hidden Cost Section (Oatmeal/Periwinkle theme) */}
-                        <section id="roi" className="py-24 max-w-7xl mx-auto px-4 relative">
-                            <div className="bg-brand-periwinkle-light/20 rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-xl border-2 border-brand-periwinkle/30">
-                                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                                 <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
-                                 <div className="w-24 h-1 bg-brand-periwinkle mx-auto mb-12 rounded-full relative z-10"></div>
-                                 <p className="text-xl text-brand-medium font-light leading-relaxed mb-8 max-w-2xl mx-auto relative z-10">Check all that apply to your current operations:</p>
-                                 <div className="max-w-2xl mx-auto relative z-10 text-brand-dark"><DisorganizationChecklist /></div>
-                            </div>
-                        </section>
-
-                        {/* Essential Investment Section */}
-                        <div className="mt-24 max-w-5xl mx-auto px-4">
-                            <div className="bg-brand-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle text-center">
-                                <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark mb-10 leading-none tracking-tight">
-                                    Organizing isn't a luxury for your business—<br className="hidden md:block" />
-                                    <span className="text-brand-periwinkle">it's essential.</span>
-                                </h3>
-                                <div className="text-brand-medium text-xl leading-relaxed space-y-8 mb-12 max-w-3xl mx-auto">
-                                    <p>Organizing can be an upfront investment, but we custom tailor your systems to your needs so they last for years to come...</p>
-                                    <p className="font-handwriting text-brand-periwinkle text-[18px] md:text-[20px] transform -rotate-1 opacity-90 leading-loose">
-                                        {/* Multi-line highlighter effect */}
-                                        <span className="relative inline highlight-wrap bg-brand-lemon/40 px-2 py-1 rounded-sm shadow-[2px_2px_10px_rgba(214,227,30,0.2)]">
-                                            ...meaning you keep reaping the benefits of saved money, recovered time, and a better customer experience.
-                                        </span>
-                                    </p>
-                                    <p>Let's eliminate the friction in your inventory systems so you can get back to what you were meant to do: serve your customers. <span className="font-bold text-brand-dark block mt-4 text-lg">All backed by our Simpli-FI Satisfaction Guarantee.</span></p>
                                 </div>
-                                <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">
-                                    Book Discovery Call <ArrowRight className="ml-2 w-4 h-4"/>
-                                </Link>
+                            </div>
+
+                            {/* Industry Videos Section */}
+                            <div className="max-w-7xl mx-auto px-4 relative mb-24 pt-12">
+                                <div className="text-center mb-12">
+                                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">No Space Too Big,<br /> No Business Too Small</h3>
+                                     <div className="max-w-2xl mx-auto space-y-8">
+                                         <p className="text-brand-medium text-lg leading-loose">Whether you're saving lives or serving lattes, your environment dictates your efficiency. Here are a few industries that have benefited from our organizing—though to be clear, <span className="font-bold text-brand-dark">any</span> business can benefit from better systems.</p>
+                                     </div>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                                    {[
+                                        { label: "Fire & Medical Services", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/DFD.mov" },
+                                        { label: "Restaurants & Hospitality", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/WOlaundry.mov" },
+                                        { label: "Non Profit", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/theheights.mov" }
+                                    ].map((item, i) => (
+                                        <div key={i} className="relative group rounded-3xl overflow-hidden shadow-lg aspect-[2/3] border border-stone-100 cursor-pointer bg-brand-dark">
+                                            <video 
+                                                className="w-full h-full object-cover transition duration-700 group-hover:scale-110 pointer-events-none" 
+                                                autoPlay loop muted playsInline 
+                                                controlsList="nodownload" 
+                                                onContextMenu={(e) => e.preventDefault()}
+                                                preload="auto"
+                                            >
+                                                <source src={item.video} type="video/mp4" />
+                                                <source src={item.video} type="video/quicktime" />
+                                            </video>
+                                            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                                            <div className="absolute bottom-4 left-4 right-4 text-center md:text-left md:bottom-6 md:left-6 md:right-auto">
+                                                <div className="bg-brand-periwinkle text-brand-white px-4 py-2 md:px-5 md:py-2 rounded-full font-display font-bold tracking-widest text-[10px] md:text-xs uppercase shadow-md border border-white/20 transform transition group-hover:-translate-y-1 inline-block">{item.label}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* The Hidden Cost Section */}
+                            <section id="roi" className="py-24 max-w-7xl mx-auto px-4 relative">
+                                <div className="bg-brand-periwinkle-light/20 rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-xl border-2 border-brand-periwinkle/30 backdrop-blur-sm">
+                                     <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
+                                     <div className="w-24 h-1 bg-brand-periwinkle mx-auto mb-12 rounded-full relative z-10"></div>
+                                     <p className="text-xl text-brand-medium font-light leading-relaxed mb-8 max-w-2xl mx-auto relative z-10">Check all that apply to your current operations:</p>
+                                     <div className="max-w-2xl mx-auto relative z-10 text-brand-dark"><DisorganizationChecklist /></div>
+                                </div>
+                            </section>
+
+                            {/* Essential Investment Section */}
+                            <div className="mt-24 pb-24 max-w-5xl mx-auto px-4">
+                                <div className="bg-brand-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle text-center relative overflow-hidden">
+                                     <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#fbf9f7_1px,transparent_1px),linear-gradient(to_bottom,#fbf9f7_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none rounded-3xl overflow-hidden"></div>
+                                     <div className="relative z-10">
+                                         <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark mb-10 leading-none tracking-tight">
+                                             Organizing isn't a luxury for your business—<br className="hidden md:block" />
+                                             <span className="text-brand-periwinkle">it's essential.</span>
+                                         </h3>
+                                         <div className="text-brand-medium text-xl leading-relaxed space-y-8 mb-12 max-w-3xl mx-auto">
+                                             <p>Organizing can be an upfront investment, but we custom tailor your systems to your needs so they last for years to come...</p>
+                                             <p className="font-handwriting text-brand-periwinkle text-[18px] md:text-[20px] transform -rotate-1 opacity-90 leading-loose">
+                                                 <span className="relative inline highlight-wrap bg-brand-lemon/40 px-2 py-1 rounded-sm shadow-[2px_2px_10px_rgba(214,227,30,0.2)]">
+                                                     ...meaning you keep reaping the benefits of saved money, recovered time, and a better customer experience.
+                                                 </span>
+                                             </p>
+                                             <p>Let's eliminate the friction in your inventory systems so you can get back to what you were meant to do: serve your customers. <span className="font-bold text-brand-dark block mt-4 text-lg">All backed by our Simpli-FI Satisfaction Guarantee.</span></p>
+                                         </div>
+                                         <Link to="/booking?service=Professional Space Organization" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">
+                                             Book Discovery Call <ArrowRight className="ml-2 w-4 h-4"/>
+                                         </Link>
+                                     </div>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             );
