@@ -173,7 +173,7 @@
                         },
                         marquee: {
                             '0%': { transform: 'translateX(0)' },
-                            '100%': { transform: 'translateX(-50%))' },
+                            '100%': { transform: 'translateX(-50%)' },
                         }
                     }
                 }
@@ -1338,7 +1338,6 @@ A: ${formData.consent ? 'Yes' : 'No'}
 
         const Home = () => {
             usePageTitle("Home");
-            // Added state for the CTA button hover effect
             const [ctaHover, setCtaHover] = useState(false);
 
             useEffect(() => {
@@ -1365,7 +1364,6 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                 <p className="text-lg text-brand-medium mb-10 max-w-2xl mx-auto">Life can be chaotic, your space doesn't need to be.</p>
                                 <p className="text-xl font-display font-normal text-brand-dark mb-6">Let's organize my:</p>
                                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                                    {/* UPDATED: Buttons Static Light Periwinkle -> Hover Citron */}
                                     <Link to="/professional-spaces" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Professional Space</Link>
                                     <Link to="/residential" className="flex items-center justify-center px-8 py-4 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon hover:text-brand-dark transition shadow-lg font-display font-bold text-lg uppercase tracking-tight">Residential Space</Link>
                                 </div>
@@ -1380,14 +1378,10 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                     <h2 className="font-display text-6xl md:text-7xl font-bold tracking-tighter text-brand-dark italic">Make Room for More in Your....</h2>
                                 </div>
                                 <div className="grid md:grid-cols-2 gap-12">
-                                    {/* Professional Spaces Card */}
                                     <div className="bg-brand-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all border-2 border-stone-100 reveal opacity-0 translate-y-10 delay-100 flex flex-col relative group hover:scale-[1.02] duration-300 overflow-hidden">
                                         <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-2xl overflow-visible z-20">
                                             <rect x="0" y="0" width="100%" height="100%" rx="16" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
                                         </svg>
-                                        
-                                        {/* Removed Citron Quote Mark */}
-                                        
                                         <div className="relative z-10">
                                             <Building2 className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
                                             <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Professional Spaces</h3>
@@ -1402,15 +1396,10 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                             </Link>
                                         </div>
                                     </div>
-                                    
-                                    {/* Residential Spaces Card */}
                                     <div className="bg-brand-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all border-2 border-stone-100 reveal opacity-0 translate-y-10 delay-200 flex flex-col relative group hover:scale-[1.02] duration-300 overflow-hidden">
                                         <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-2xl overflow-visible z-20">
                                             <rect x="0" y="0" width="100%" height="100%" rx="16" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
                                         </svg>
-
-                                        {/* Removed Citron Quote Mark */}
-
                                         <div className="relative z-10">
                                             <HomeIcon className="w-14 h-14 text-brand-dark mb-6 bg-stone-50 p-3 rounded-2xl" />
                                             <h3 className="font-display text-3xl font-bold mb-6 tracking-tight text-brand-dark">Residential Spaces</h3>
@@ -1477,7 +1466,6 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                     </div>
                                 </div>
                                 <p className="text-lg text-brand-base/80 font-light mb-10">All backed by my <span className="italic text-brand-periwinkle-light font-medium">Simpli-FI Life Satisfaction Guarantee</span>.</p>
-                                {/* UPDATED: Button Hover Effect - Turns light periwinkle and says "GREAT CHOICE!" */}
                                 <Link 
                                     to="/booking" 
                                     onMouseEnter={() => setCtaHover(true)}
