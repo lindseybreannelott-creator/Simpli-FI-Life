@@ -1492,7 +1492,7 @@ A: ${formData.consent ? 'Yes' : 'No'}
             useEffect(() => { window.scrollTo(0, 0); }, []);
             return (
                 <div className="bg-brand-base overflow-x-hidden min-h-screen">
-                    {/* Dark Hero Section (Extended Bottom) */}
+                    {/* Dark Hero Section (Deep Padding to allow card overlap visibility) */}
                     <div className="bg-brand-dark text-brand-base pt-44 pb-96 px-4 text-center relative z-10 overflow-visible">
                         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                         <div className="absolute inset-0 pointer-events-none opacity-40"><GridBeams /></div>
@@ -1506,13 +1506,9 @@ A: ${formData.consent ? 'Yes' : 'No'}
 
                     {/* Content Area with Layered Background Logic */}
                     <div className="relative z-20">
-                        {/* BACKGROUND WRAPPER
-                          This container stays bg-transparent for the top overlap part
-                          allowing the Dark Hero grid to show through behind the top half of the card.
-                        */}
+                        {/* BACKGROUND WRAPPER - oatmeal starts halfway down the card */}
                         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                             {/* The Oatmeal background and grid start further down (approx mid-card) */}
-                             <div className="absolute inset-x-0 bottom-0 top-[180px] bg-brand-base">
+                             <div className="absolute inset-x-0 bottom-0 top-[200px] bg-brand-base">
                                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
                                 <GridBeams />
                              </div>
@@ -1520,14 +1516,14 @@ A: ${formData.consent ? 'Yes' : 'No'}
 
                         {/* ACTUAL CONTENT */}
                         <div className="relative z-30">
-                            {/* Testimonial card pulled up to straddle the Dark Hero / Oatmeal line */}
-                            <div className="max-w-5xl mx-auto px-4 -mt-48 mb-24 relative overflow-visible">
+                            {/* Testimonial card straddling the Hero/Oatmeal line */}
+                            <div className="max-w-5xl mx-auto px-4 -mt-64 mb-24 relative overflow-visible">
                                 <div className="bg-brand-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative overflow-visible">
-                                     {/* Inner overflow-hidden container for background pattern specifically */}
+                                     {/* Inner background pattern restricted to card box */}
                                      <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#fbf9f7_1px,transparent_1px),linear-gradient(to_bottom,#fbf9f7_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none rounded-3xl overflow-hidden"></div>
                                      
                                      <div className="relative z-10">
-                                         {/* Quote marks safe from clipping due to overflow-visible on parent card */}
+                                         {/* Quote marks bleeds out without clipping */}
                                          <div className="absolute -top-24 -left-8 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
                                          <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4">
                                             Our storage units are...so functional thanks to YOU and your amazing work! 
@@ -1544,7 +1540,7 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                 </div>
                             </div>
 
-                            {/* Industry Videos Section */}
+                            {/* Industry Videos Section (Oatmeal Background Context) */}
                             <div className="max-w-7xl mx-auto px-4 relative mb-24">
                                 <div className="text-center mb-12">
                                      <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">No Space Too Big,<br /> No Business Too Small</h3>
@@ -1565,9 +1561,10 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                                 controlsList="nodownload" 
                                                 onContextMenu={(e) => e.preventDefault()}
                                                 preload="auto"
+                                                crossOrigin="anonymous"
                                             >
-                                                <source src={item.video} type="video/mp4" />
                                                 <source src={item.video} type="video/quicktime" />
+                                                <source src={item.video} type="video/mp4" />
                                             </video>
                                             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
                                             <div className="absolute bottom-4 left-4 right-4 text-center md:text-left md:bottom-6 md:left-6 md:right-auto">
@@ -1578,7 +1575,7 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                 </div>
                             </div>
 
-                            {/* The Hidden Cost Section */}
+                            {/* The Hidden Cost Section (Oatmeal Background Context) */}
                             <section id="roi" className="py-24 max-w-7xl mx-auto px-4 relative">
                                 <div className="bg-brand-periwinkle-light/20 rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-xl border-2 border-brand-periwinkle/30 backdrop-blur-sm">
                                      <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
@@ -1588,7 +1585,7 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                 </div>
                             </section>
 
-                            {/* Essential Investment Section */}
+                            {/* Essential Investment Section (Oatmeal Background Context) */}
                             <div className="mt-24 pb-24 max-w-5xl mx-auto px-4">
                                 <div className="bg-brand-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle text-center relative overflow-hidden">
                                      <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#fbf9f7_1px,transparent_1px),linear-gradient(to_bottom,#fbf9f7_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none rounded-3xl overflow-hidden"></div>
