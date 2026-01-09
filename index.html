@@ -1013,11 +1013,11 @@ A: ${formData.consent ? 'Yes' : 'No'}
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-sm font-bold text-brand-dark mb-2">Email Address *</label>
-                                    <input required type="email" className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                                    <input required type="email" className="w-full px-4 py-3 border border-transparent rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-bold text-brand-dark mb-2">Phone *</label>
-                                    <input required type="tel" className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+                                    <input required type="tel" className="w-full px-4 py-3 border border-transparent rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
                                 </div>
                             </div>
 
@@ -1318,7 +1318,7 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                 <div className="flex items-center gap-4 text-sm font-medium">
                                     <span>{post.author}</span>
                                     <span className="w-1 h-1 rounded-full bg-brand-white/50"></span>
-                                    <span className="padding-left: 1px;">{post.date}</span>
+                                    <span style={{ paddingLeft: '1px' }}>{post.date}</span>
                                     <span className="bg-brand-periwinkle px-2 py-0.5 rounded text-xs">{post.category}</span>
                                 </div>
                             </div>
@@ -1534,15 +1534,26 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                          <p className="text-brand-medium text-lg leading-loose">Whether you're saving lives or serving lattes, your environment dictates your efficiency. Here are a few industries that have benefited from our organizing—though to be clear, <span className="font-bold text-brand-dark">any</span> business can benefit from better systems.</p>
                                      </div>
                                 </div>
-                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-24">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-24">
                                     {[
-                                        { label: "Fire & Emergency", img: "https://images.unsplash.com/photo-1558487739-166291a1344e?auto=format&fit=crop&w=800&q=80" },
-                                        { label: "Restaurants", img: "https://images.unsplash.com/photo-1608611832049-74d32a9c3726?auto=format&fit=crop&w=800&q=80" },
-                                        { label: "Medical", img: "https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=800&q=80" },
-                                        { label: "Non Profit", img: "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=800&q=80" }
+                                        { label: "Fire & Medical Services", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/DFD.mov" },
+                                        { label: "Restaurants & Hospitality", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/WOlaundry.mov" },
+                                        { label: "Non Profit", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/theheights.mov" }
                                     ].map((item, i) => (
-                                        <div key={i} className="relative group rounded-3xl overflow-hidden shadow-lg aspect-[2/3] border border-stone-100 cursor-pointer">
-                                            <img src={item.img} alt={item.label} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
+                                        <div key={i} className="relative group rounded-3xl overflow-hidden shadow-lg aspect-[2/3] border border-stone-100 cursor-pointer bg-brand-dark">
+                                            <video 
+                                                className="w-full h-full object-cover transition duration-700 group-hover:scale-110 pointer-events-none" 
+                                                autoPlay 
+                                                loop 
+                                                muted 
+                                                playsInline 
+                                                controlsList="nodownload" 
+                                                onContextMenu={(e) => e.preventDefault()}
+                                                preload="auto"
+                                            >
+                                                <source src={item.video} type="video/mp4" />
+                                                <source src={item.video} type="video/quicktime" />
+                                            </video>
                                             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
                                             <div className="absolute bottom-4 left-4 right-4 text-center md:text-left md:bottom-6 md:left-6 md:right-auto">
                                                 <div className="bg-brand-periwinkle text-brand-white px-4 py-2 md:px-5 md:py-2 rounded-full font-display font-bold tracking-widest text-[10px] md:text-xs uppercase shadow-md border border-white/20 transform transition group-hover:-translate-y-1 inline-block">{item.label}</div>
