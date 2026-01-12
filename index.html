@@ -863,7 +863,8 @@
                 hardestItems: '', motivationDeclutter: '5', motivationOrganize: '5',
                 productType: '', aesthetic: '', lifeChanges: '',
                 workedWithPro: '', communication: [], filming: '',
-                pets: '', smoking: '', consent: false
+                pets: '', smoking: '', consent: false,
+                hp_trap: '' // BOT SECURITY: Hidden field
             });
 
             const handleCheckboxChange = (e, field) => {
@@ -877,10 +878,13 @@
 
             const handleSubmit = (e) => {
                 e.preventDefault();
+
+                // BOT SECURITY: If the hidden field is filled, it's a bot. Stop immediately.
+                if (formData.hp_trap !== '') return;
                 
                 const subject = `New Space Intake - ${formData.firstName} ${formData.lastName}`;
                 
-                // Construct detailed email body with full questions
+                // Construct detailed email body
                 const body = `NEW CLIENT INTAKE FORM
                 
 CONTACT INFO
@@ -957,7 +961,10 @@ Q: Consent given for organizer access?
 A: ${formData.consent ? 'Yes' : 'No'}
 `;
                 
-                window.location.href = `mailto:lindsey@simpli-fi-life.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                // EMAIL OBFUSCATION: Split the email parts to hide from automated scrapers
+                const user = "lindsey";
+                const domain = "simpli-fi-life.com";
+                window.location.href = `mailto:${user}@${domain}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             };
 
             const CheckGroup = ({ options, field, label }) => (
@@ -979,9 +986,7 @@ A: ${formData.consent ? 'Yes' : 'No'}
                     <label className="block text-brand-dark font-bold mb-3 text-lg">{label} {required && '*'}</label>
                     <div className="space-y-3">
                         {options.map(opt => (
-                            // UPDATED: items-start allows multi-line text to wrap nicely next to the button
                             <label key={opt} className="flex items-start gap-4 cursor-pointer group">
-                                {/* UPDATED: flex-shrink-0 prevents squishing. mt-[0.3rem] aligns circle with the first line of text */}
                                 <input 
                                     type="radio" 
                                     name={field} 
@@ -1003,7 +1008,6 @@ A: ${formData.consent ? 'Yes' : 'No'}
                     
                     <div className="max-w-3xl mx-auto relative z-10">
                         <div className="text-center mb-12">
-                            {/* UPDATED: Title changed to "New Space Intake" */}
                             <h1 className="font-display font-bold text-4xl md:text-5xl text-brand-dark mb-4 tracking-tight">New Space Intake</h1>
                             <p className="text-brand-medium">Tell us about your space so we can hit the ground running.</p>
                         </div>
@@ -1034,7 +1038,6 @@ A: ${formData.consent ? 'Yes' : 'No'}
 
                             <div className="pt-6 border-t border-stone-100">
                                 <label className="block text-lg font-bold text-brand-dark mb-2">Why are you seeking Simpli-FI Life services right now?</label>
-                                {/* Added Placeholder */}
                                 <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="3" value={formData.reason} onChange={e => setFormData({...formData, reason: e.target.value})} placeholder="e.g. I keep tidying, but the clutter keeps coming back..."></textarea>
                             </div>
 
@@ -1055,7 +1058,6 @@ A: ${formData.consent ? 'Yes' : 'No'}
 
                             <div>
                                 <label className="block text-lg font-bold text-brand-dark mb-2">How do you want your space to feel after it’s decluttered/Organized?</label>
-                                {/* Added Placeholder */}
                                 <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="3" value={formData.spaceFeel} onChange={e => setFormData({...formData, spaceFeel: e.target.value})} placeholder="e.g. Peaceful, functional, and easy to reset at the end of the day."></textarea>
                             </div>
 
@@ -1068,7 +1070,6 @@ A: ${formData.consent ? 'Yes' : 'No'}
                             <div className="space-y-6">
                                 <div>
                                     <label className="block text-lg font-bold text-brand-dark mb-2">Let's pretend time is limited. Which part of your home is your top priority?</label>
-                                    {/* Added Placeholder */}
                                     <input className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" value={formData.priorityArea} onChange={e => setFormData({...formData, priorityArea: e.target.value})} placeholder="Please specify the space and if you want to prioritize decluttering, organizing, or both." />
                                 </div>
                                 <div>
@@ -1077,7 +1078,6 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                 </div>
                                 <div>
                                     <label className="block text-lg font-bold text-brand-dark mb-2">What’s making your top clutter area so tough to declutter?</label>
-                                    {/* Updated Placeholder to focus on decluttering obstacles */}
                                     <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="2" value={formData.clutterToughness} onChange={e => setFormData({...formData, clutterToughness: e.target.value})} placeholder="e.g. I struggle with sentimental attachment, or I get overwhelmed by the volume of stuff."></textarea>
                                 </div>
                             </div>
@@ -1118,7 +1118,6 @@ A: ${formData.consent ? 'Yes' : 'No'}
 
                             <div>
                                 <label className="block text-lg font-bold text-brand-dark mb-2">What items or types of stuff are hardest for you to declutter?</label>
-                                {/* Added Placeholder */}
                                 <textarea className="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-2 focus:ring-brand-periwinkle outline-none bg-stone-50" rows="2" value={formData.hardestItems} onChange={e => setFormData({...formData, hardestItems: e.target.value})} placeholder="e.g. Sentimental items, kids' artwork, or expensive items I never used."></textarea>
                             </div>
 
@@ -1147,7 +1146,6 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                 label="In general, what type of organizing product do you need?"
                                 field="productType"
                                 options={[
-                                    // UPDATED: Capitalized "Highly"
                                     "Highly visible/See through ( if I can't see it, I forget I own it!)",
                                     "Hidden/Opaque ( I get stressed when I see all my stuff out, I wont forget I have it if I don't see it, and I prefer it hidden)"
                                 ]}
@@ -1228,6 +1226,11 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                     <input type="checkbox" className="hidden" checked={formData.consent} onChange={e => setFormData({...formData, consent: e.target.checked})} />
                                     <span className="text-sm text-brand-medium">I confirm that I have informed my spouse/partner and all other legal adults in the home about Simpli-FI Life's services, and they consent to the organizer accessing our shared space. * <br/><span className="font-bold text-brand-dark">I agree</span></span>
                                 </label>
+                            </div>
+
+                            {/* BOT SECURITY: Invisible Honeypot Field */}
+                            <div className="hidden" aria-hidden="true" style={{ display: 'none' }}>
+                                <input type="text" value={formData.hp_trap} onChange={e => setFormData({...formData, hp_trap: e.target.value})} tabIndex="-1" autoComplete="off" />
                             </div>
 
                             <button className="w-full bg-brand-periwinkle text-brand-white py-4 rounded-xl font-display font-bold text-xl uppercase tracking-widest hover:bg-brand-lemon hover:text-brand-dark transition-all shadow-lg transform hover:-translate-y-1">
@@ -1709,7 +1712,8 @@ A: ${formData.consent ? 'Yes' : 'No'}
                 type: 'Residential Space Organization', 
                 message: '',
                 availability: '', 
-                preferredContact: 'Phone (Text)' 
+                preferredContact: 'Phone (Text)',
+                hp_trap: '' // BOT SECURITY: Hidden field
             });
             const [status, setStatus] = useState('idle');
             const location = useLocation();
@@ -1737,6 +1741,10 @@ A: ${formData.consent ? 'Yes' : 'No'}
 
             const handleSubmit = (e) => {
                 e.preventDefault();
+
+                // BOT SECURITY: If the hidden trap field is filled, it's a bot submission.
+                if (formData.hp_trap !== '') return;
+
                 setStatus('sending');
                 
                 const subject = `New Inquiry: ${formData.type} - ${formData.name}`;
@@ -1752,7 +1760,11 @@ Availability: ${formData.availability}
 Project Goals:
 ${formData.message}`;
 
-                const mailtoLink = `mailto:lindsey@simpli-fi-life.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                // EMAIL OBFUSCATION: Assembling address via script to hide from bot harvesters
+                const u = "lindsey";
+                const d = "simpli-fi-life.com";
+                const mailtoLink = `mailto:${u}@${d}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
                 window.location.href = mailtoLink;
                 setTimeout(() => setStatus('success'), 1500);
             };
@@ -1892,6 +1904,11 @@ ${formData.message}`;
                                         </div>
                                     </div>
                                     
+                                    {/* BOT SECURITY: Invisible Honeypot Field */}
+                                    <div className="hidden" aria-hidden="true" style={{ display: 'none' }}>
+                                        <input type="text" value={formData.hp_trap} onChange={e => setFormData({...formData, hp_trap: e.target.value})} tabIndex="-1" autoComplete="off" />
+                                    </div>
+
                                     <button disabled={status === 'sending'} className="w-full bg-brand-lemon text-brand-dark py-4 rounded-xl font-bold hover:bg-brand-white hover:text-brand-periwinkle transition transform hover:-translate-y-1 shadow-lg font-display uppercase tracking-tight">
                                         {status === 'sending' ? 'Sending...' : 'Request Consultation'}
                                     </button>
