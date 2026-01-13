@@ -1,4 +1,4 @@
-// --- RESIDENTIAL SPACES COMPONENTS ---
+// --- RESIDENTIAL SPACES PAGE ---
 
 const ServiceChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -26,26 +26,26 @@ const ServiceChecklist = () => {
     };
 
     return (
-        <div className="bg-brand-base rounded-3xl p-8 shadow-xl border border-stone-200 text-left transform transition-all duration-300">
+        <div className="bg-brand-base rounded-3xl p-8 shadow-xl border border-stone-200 text-left">
             <div className="grid md:grid-cols-2 gap-4">
                 {services.map((item, i) => (
                     <button key={i} onClick={() => toggle(i)} className="w-full flex items-start gap-4 p-4 rounded-xl transition group text-left border border-transparent">
-                        <div className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-300 mt-1 ${checks[i] ? 'bg-brand-lemon border-brand-lemon scale-110' : 'border-stone-400 group-hover:border-brand-periwinkle'}`}>
+                        <div className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all mt-1 ${checks[i] ? 'bg-brand-lemon border-brand-lemon' : 'border-stone-400 group-hover:border-brand-periwinkle'}`}>
                             {checks[i] && <Icon name="check" className="w-4 h-4 text-brand-dark" />}
                         </div>
-                        <div className={`text-lg transition-all duration-200 ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-dark group-hover:text-brand-periwinkle group-hover:italic'}`}>
+                        <div className={`text-lg ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-dark group-hover:text-brand-periwinkle group-hover:italic'}`}>
                             {item.label}
                             {item.sub && <span className="block text-base opacity-70 not-italic mt-0.5">{item.sub}</span>}
                         </div>
                     </button>
                 ))}
             </div>
-            <div className={`overflow-hidden transition-all duration-700 ease-in-out ${hasChecks ? 'max-h-[500px] opacity-100 mt-8 pt-8 border-t border-stone-200 pb-4' : 'max-h-0 opacity-0'}`}>
-                <div className="text-center animate-fade-in-up">
+            <div className={`overflow-hidden transition-all duration-700 ${hasChecks ? 'max-h-[500px] opacity-100 mt-8 pt-8 border-t border-stone-200 pb-4' : 'max-h-0 opacity-0'}`}>
+                <div className="text-center">
                     <p className="font-sans italic font-medium text-brand-periwinkle text-[14px] mb-8 leading-relaxed max-w-xl mx-auto px-4">
                         "No need to tidy up before our call—leaving your space as-is actually gives us the clues we need to pinpoint exactly what needs to change. And we don't judge 😉"
                     </p>
-                    <Link to={getBookingLink()} className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-sm uppercase tracking-tight transform hover:-translate-y-1">
+                    <Link to={getBookingLink()} className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-sm uppercase tracking-tight">
                         Discuss My Project <Icon name="arrow-right" className="ml-2 w-4 h-4"/>
                     </Link>
                 </div>
@@ -79,25 +79,21 @@ const Residential = () => {
                 
                 {/* VIDEO & TESTIMONIAL SECTION */}
                 <div className="py-24 px-4 border-b border-stone-100 relative z-10">
-                    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center relative gap-12">
-                        <div className="w-full md:w-1/2 relative z-20">
+                    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center gap-12">
+                        <div className="w-full md:w-1/2">
                             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video border-[2.5px] border-brand-lemon bg-brand-dark">
-                                <video className="w-full h-full object-cover pointer-events-none" autoPlay loop muted playsInline controlsList="nodownload" onContextMenu={(e) => e.preventDefault()} preload="auto">
-                                    <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/mp4" />
-                                </video>
+                                <video className="w-full h-full object-cover" autoPlay loop muted playsInline controlsList="nodownload"><source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/mp4" /></video>
                             </div>
                         </div>
-                        <div className="w-full md:w-1/2 relative z-10">
+                        <div className="w-full md:w-1/2">
                             <div className="bg-brand-base p-12 md:p-16 rounded-[2.5rem] shadow-2xl border-2 border-brand-lemon h-full flex flex-col justify-center relative">
                                 <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
                                 <div className="relative z-10 pt-8">
                                     <div className="text-brand-medium font-light italic leading-relaxed space-y-4">
-                                        <p>"I was so nervous about letting her into my closet, to see the messiest space in my house, but her encouraging, compassionate personality instantly put me at ease."</p>
+                                        <p>"I was so nervous about letting her into my closet, but her encouraging, compassionate personality instantly put me at ease."</p>
                                         <p>"Lindsey’s practical strategies for organization have not only helped me create systems out of chaos, but have also given me confidence in the process of decluttering my house."</p>
                                     </div>
-                                    <div className="mt-8 pt-6 border-t border-brand-lemon">
-                                        <p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-sm">- Lauren V.</p>
-                                    </div>
+                                    <div className="mt-8 pt-6 border-t border-brand-lemon"><p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-sm">- Lauren V.</p></div>
                                 </div>
                             </div>
                         </div>
@@ -106,22 +102,16 @@ const Residential = () => {
 
                 {/* PATHWAY SECTION */}
                 <section className="py-24 max-w-7xl mx-auto px-4 relative z-10">
-                    <div className="bg-brand-periwinkle-light/40 rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl border-4 border-brand-periwinkle group hover:scale-[1.01] transition-transform duration-500">
-                        <h2 className="font-display font-bold text-4xl md:text-6xl text-brand-dark mb-8 leading-[0.9] relative z-10 uppercase tracking-tighter">Your Space Simpli-Fied,<br/><span className="text-brand-periwinkle-dark">Your Way</span></h2>
-                        <div className="w-24 h-1 bg-white mx-auto mb-10 rounded-full relative z-10 opacity-80"></div>
-                        <div className="max-w-3xl mx-auto mb-12 relative z-10 text-brand-dark/80 font-medium text-lg leading-relaxed">
-                            <p>Every home has a different rhythm. Because your needs, priorities, and season of life are unique, we don't believe in a "one-size-fits-all" approach.</p>
-                        </div>
-                        <div className="max-w-3xl mx-auto relative z-10 text-brand-dark"><ServiceChecklist /></div>
+                    <div className="bg-brand-periwinkle-light/40 rounded-[3rem] p-8 md:p-16 text-center shadow-2xl border-4 border-brand-periwinkle">
+                        <h2 className="font-display font-bold text-4xl md:text-6xl text-brand-dark mb-8 tracking-tighter uppercase leading-[0.9]">Your Space Simpli-Fied,<br/><span className="text-brand-periwinkle-dark">Your Way</span></h2>
+                        <div className="max-w-3xl mx-auto mb-12 text-brand-dark/80 font-medium text-lg leading-relaxed"><p>Every home has a different rhythm. Because your needs are unique, we don't believe in a "one-size-fits-all" approach.</p></div>
+                        <div className="max-w-3xl mx-auto text-brand-dark"><ServiceChecklist /></div>
                     </div>
                 </section>
             </div>
 
             {/* LUXURY ESTATE MANAGEMENT */}
             <section id="private-client" className="py-32 bg-brand-dark relative overflow-hidden">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl opacity-20 pointer-events-none">
-                    <div className="w-full h-full bg-brand-periwinkle/30 blur-[120px] rounded-full"></div>
-                </div>
                 <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
                     <div className="flex justify-center mb-8">
                         <div className="p-4 rounded-full bg-brand-white/5 border border-brand-white/10 backdrop-blur-sm">
@@ -130,9 +120,8 @@ const Residential = () => {
                     </div>
                     <span className="text-brand-periwinkle font-bold tracking-[0.25em] uppercase text-xs block mb-6">Private Client Services</span>
                     <h2 className="font-display text-5xl md:text-6xl font-bold tracking-tight mb-8 text-brand-white">Luxury Estate Management</h2>
-                    <div className="w-24 h-px bg-gradient-to-r from-transparent via-brand-periwinkle to-transparent mx-auto mb-10 opacity-50"></div>
                     <p className="text-stone-300 text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-2xl mx-auto">We offer white-glove, <span className="text-brand-white font-normal italic">done-for-you</span> service for clients who value their time above all else.</p>
-                    <Link to="/booking?service=Residential Space Organization&notes=Inquiry regarding Luxury Estate Management" className="inline-block border border-brand-periwinkle/50 text-brand-periwinkle hover:text-brand-lemon hover:border-brand-lemon px-10 py-5 rounded-full font-display font-bold transition-all duration-300 transform hover:-translate-y-1 uppercase tracking-widest text-sm shadow-xl backdrop-blur-sm">Inquire About Availability</Link>
+                    <Link to="/booking?service=Residential Space Organization&notes=Inquiry regarding Luxury Estate Management" className="inline-block border border-brand-periwinkle/50 text-brand-periwinkle hover:text-brand-lemon hover:border-brand-lemon px-10 py-5 rounded-full font-display font-bold transition-all uppercase tracking-widest text-sm shadow-xl">Inquire About Availability</Link>
                 </div>
             </section>
         </div>
