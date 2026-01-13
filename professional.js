@@ -18,14 +18,26 @@ const DisorganizationChecklist = () => {
     const toggle = (i) => setChecks(p => ({...p, [i]: !p[i]}));
     const score = Object.values(checks).filter(Boolean).length;
 
-    const getScoreMessage = () => {
-        if (score >= 6) return { title: "Critical Friction", desc: "Your current systems are actively costing you significant revenue and labor hours. Immediate intervention is recommended." };
-        if (score >= 3) return { title: "Operational Leakage", desc: "You have 'leaks' in your efficiency. These small frictions are compounding into major annual waste." };
-        return { title: "Preventative Stage", desc: "You have a solid foundation, but scaling will likely break your current manual processes." };
+    const getResults = () => {
+        if (score >= 6) return { 
+            level: "High Priority", 
+            message: "Your business is currently leaking revenue through labor loss and inventory friction. Your systems are no longer supporting your growth—they are actively hindering it.",
+            action: "Schedule Audit Immediately" 
+        };
+        if (score >= 3) return { 
+            level: "Medium Priority", 
+            message: "Friction is slowing your team's efficiency. While you are operational, you are likely over-spending on consumables and losing hours to 'searching' rather than 'serving'.",
+            action: "Discuss System Optimization" 
+        };
+        return { 
+            level: "Low Priority", 
+            message: "You have a baseline for order, but your current systems may not be scalable. Now is the time to build the framework for your next level of growth.",
+            action: "Explore Scalable Systems" 
+        };
     };
 
     return (
-        <div className="relative">
+        <div className="relative min-h-[500px]">
             {!showResults ? (
                 <div className="bg-brand-white rounded-3xl p-8 shadow-xl border border-stone-100 text-left">
                     <div className="space-y-4 mb-8">
@@ -40,21 +52,32 @@ const DisorganizationChecklist = () => {
                     </div>
                     <button 
                         onClick={() => setShowResults(true)}
-                        className="w-full bg-brand-periwinkle text-white py-4 rounded-xl font-display font-bold text-xl uppercase tracking-widest hover:bg-brand-lemon hover:text-brand-dark transition-all"
+                        className="w-full bg-brand-periwinkle text-white py-5 rounded-xl font-display font-bold text-xl uppercase tracking-widest hover:bg-brand-dark transition-all shadow-lg"
                     >
-                        Analyze Operational Risk
+                        Analyze My Operational Risk
                     </button>
                 </div>
             ) : (
-                <div className="bg-brand-dark text-brand-base rounded-3xl p-10 shadow-2xl border-2 border-brand-lemon animate-fade-in-up">
-                    <h3 className="font-display text-2xl uppercase tracking-widest text-brand-lemon mb-2">Your Results:</h3>
-                    <div className="text-5xl font-bold mb-6 font-display">{score}/8 <span className="text-lg font-light text-stone-400">Risk Factors</span></div>
-                    <div className="border-t border-white/10 pt-6">
-                        <h4 className="text-2xl font-bold text-brand-periwinkle-light mb-2">{getScoreMessage().title}</h4>
-                        <p className="text-stone-300 leading-relaxed mb-8">{getScoreMessage().desc}</p>
-                        <div className="flex gap-4">
-                            <button onClick={() => setShowResults(false)} className="text-sm underline opacity-50 hover:opacity-100">Reset Test</button>
-                            <Link to="/booking" className="bg-brand-lemon text-brand-dark px-6 py-2 rounded-lg font-bold text-sm uppercase">Fix My Systems</Link>
+                <div className="bg-brand-periwinkle rounded-[2.5rem] p-10 md:p-16 text-brand-white shadow-2xl border-4 border-brand-lemon animate-fade-in-up relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-8 opacity-10"><Icon name="bar-chart" className="w-32 h-32" /></div>
+                    <div className="relative z-10">
+                        <h3 className="font-display text-2xl uppercase tracking-[0.2em] text-brand-lemon mb-4">Risk Analysis Complete</h3>
+                        <div className="text-6xl md:text-8xl font-bold mb-8 font-display tracking-tighter">
+                            {score}<span className="text-3xl opacity-50 ml-2">/ 8</span>
+                        </div>
+                        <div className="space-y-6 max-w-xl">
+                            <h4 className="text-3xl font-bold border-b border-white/20 pb-4">{getResults().level}</h4>
+                            <p className="text-xl text-brand-periwinkle-light leading-relaxed italic">
+                                "{getResults().message}"
+                            </p>
+                        </div>
+                        <div className="mt-12 flex flex-col md:flex-row gap-6">
+                            <Link to="/booking" className="bg-brand-lemon text-brand-dark px-10 py-4 rounded-full font-bold uppercase tracking-widest text-center hover:scale-105 transition-transform shadow-xl">
+                                {getResults().action}
+                            </Link>
+                            <button onClick={() => setShowResults(false)} className="text-white/60 hover:text-white underline underline-offset-4 text-sm font-medium">
+                                Retake Analysis
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -83,7 +106,6 @@ const ProfessionalSpaces = () => {
 
             {/* CONTENT AREA WITH PERIWINKLE GRID CONTINUITY */}
             <div className="relative z-20 bg-brand-base">
-                {/* THIS IS THE GRID YOU WERE MISSING */}
                 <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
                 <div className="max-w-5xl mx-auto px-4 -mt-48 mb-24 relative">
@@ -102,7 +124,6 @@ const ProfessionalSpaces = () => {
                     </div>
                 </div>
 
-                {/* INDUSTRY VIDEOS */}
                 <div className="max-w-7xl mx-auto px-4 mb-24 relative z-10">
                     <div className="text-center mb-12">
                         <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">No Space Too Big,<br /> No Business Too Small</h3>
@@ -122,7 +143,6 @@ const ProfessionalSpaces = () => {
                     </div>
                 </div>
 
-                {/* ROI CHECKLIST SECTION */}
                 <section className="py-24 max-w-7xl mx-auto px-4 relative z-10">
                     <div className="bg-brand-periwinkle-light/20 rounded-[3rem] p-8 md:p-16 text-center border-2 border-brand-periwinkle/30 backdrop-blur-sm">
                         <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6 text-brand-dark">The Hidden Cost of Disorganization</h2>
@@ -131,7 +151,6 @@ const ProfessionalSpaces = () => {
                     </div>
                 </section>
 
-                {/* FINAL CALL TO ACTION - RESTORED FULL TEXT */}
                 <div className="mt-24 pb-24 max-w-5xl mx-auto px-4 text-center relative z-10">
                     <div className="bg-brand-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle relative overflow-hidden">
                         <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark mb-10 tracking-tight leading-[1.1]">Organizing isn't a luxury for your business— <span className="text-brand-periwinkle italic">it's essential.</span></h3>
