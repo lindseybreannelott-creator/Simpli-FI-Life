@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+    
     <title>Simpli-FI Life | Systems for Home & Business</title>
-    <meta name="description" content="Professional organizing for DFW homes and businesses. We build systems that work so you don't have to work so hard.">
+    <meta name="description" content="Professional organizing for DFW homes and businesses. We build systems that work so you don't have to work so hard. Serving Frisco, Denton, and Dallas.">
+    
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Roboto+Condensed:wght@300;400;500;700&family=Rock+Salt&display=swap" rel="stylesheet">
@@ -22,7 +25,11 @@
         .translate-y-10 { transform: translateY(40px); }
         .translate-y-0 { transform: translateY(0); }
         .group:hover .animate-marquee { animation-play-state: paused; }
-        .draw-border { stroke-dasharray: 2000; stroke-dashoffset: 2000; transition: stroke-dashoffset 0.8s ease-in-out; }
+        .draw-border {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            transition: stroke-dashoffset 0.8s ease-in-out;
+        }
         .group:hover .draw-border { stroke-dashoffset: 0; }
         body { display: flex; flex-direction: column; min-height: 100vh; }
         #root { flex-grow: 1; }
@@ -30,19 +37,23 @@
         .prose h2 { font-family: 'Roboto Condensed', sans-serif; font-weight: 700; color: #2d2a26; font-size: 1.8em; margin-top: 1.5em; margin-bottom: 0.5em; }
         .prose ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1.5em; color: #57534e; }
         .prose strong { color: #2d2a26; font-weight: 600; }
+
         @keyframes beam-h { from { left: -300px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: 100%; opacity: 0; } }
         @keyframes beam-h-rev { from { left: 100%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: -300px; opacity: 0; } }
         @keyframes beam-v { from { top: -300px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { top: 100%; opacity: 0; } }
         @keyframes beam-v-rev { from { top: 100%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: -300px; opacity: 0; } }
         @keyframes twinkle { 0% { opacity: 0; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.9); } }
         .loading-grid-fade-in { opacity: 0; animation: fadeInGrid 1.5s ease-out 0.1s forwards; }
-        .loading-logo-reveal { clip-path: inset(0 100% 0 0); opacity: 1; animation: wipeReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards, fadeOutElement 0.5s ease-out 3.0s forwards; }
+        .loading-logo-reveal {
+            clip-path: inset(0 100% 0 0);
+            opacity: 1;
+            animation: wipeReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards, fadeOutElement 0.5s ease-out 3.0s forwards;
+        }
         .loader-exit { animation: fadeOutLoader 1.0s ease-out 3.8s forwards; }
         @keyframes fadeInGrid { to { opacity: 0.2; } }
         @keyframes wipeReveal { to { clip-path: inset(0 0 0 0); } }
         @keyframes fadeOutElement { to { opacity: 0; } }
         @keyframes fadeOutLoader { to { opacity: 0; visibility: hidden; } }
-        .loading-logo-move { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; pointer-events: none; z-index: 50; }
         .highlight-wrap { box-decoration-break: clone; -webkit-box-decoration-break: clone; }
     </style>
 
@@ -61,7 +72,12 @@
                         display: ['"Roboto Condensed"', 'sans-serif'],
                         handwriting: ['"Rock Salt"', 'cursive'],
                     },
-                    animation: { 'blob': 'blob 7s infinite', 'fade-in-up': 'fadeInUp 0.5s ease-out forwards', 'marquee': 'marquee 60s linear infinite', 'spin-top': 'spinY 4s linear infinite' },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                        'marquee': 'marquee 60s linear infinite',
+                        'spin-top': 'spinY 4s linear infinite',
+                    },
                     keyframes: {
                         spinY: { '0%': { transform: 'rotateY(0deg)' }, '100%': { transform: 'rotateY(360deg)' } },
                         blob: { '0%': { transform: 'translate(0px, 0px) scale(1)' }, '33%': { transform: 'translate(30px, -50px) scale(1.1)' }, '66%': { transform: 'translate(-20px, 20px) scale(0.9)' }, '100%': { transform: 'translate(0px, 0px) scale(1)' } },
@@ -81,6 +97,13 @@
     <script src="https://unpkg.com/lucide@0.263.1"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <script src="data.js"></script>
+    <script type="text/babel" src="home.js"></script>
+    <script type="text/babel" src="professional.js"></script>
+    <script type="text/babel" src="residential.js"></script>
+    <script type="text/babel" src="booking.js"></script>
+    <script type="text/babel" src="intake.js"></script>
+    
     <script type="text/babel" src="app.js"></script>
 </head>
 <body class="bg-brand-base text-brand-dark font-sans antialiased">
