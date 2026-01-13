@@ -6,23 +6,21 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     
-    <!-- SEO & Social Sharing Tags -->
+    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none';">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+    
     <title>Simpli-FI Life | Systems for Home & Business</title>
     <meta name="description" content="Professional organizing for DFW homes and businesses. We build systems that work so you don't have to work so hard. Serving Frisco, Denton, and Dallas.">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" crossorigin="anonymous"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Fonts: Poppins (Body), Roboto Condensed (Headings), Rock Salt (Handwritten) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Roboto+Condensed:wght@300;400;500;700&family=Rock+Salt&display=swap" rel="stylesheet">
     
-    <!-- Custom Styles -->
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -135,7 +133,6 @@
         }
     </style>
 
-    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
@@ -188,13 +185,11 @@
         }
     </script>
 
-    <!-- React & Dependencies -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/history@5/umd/history.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.production.min.js" crossorigin></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@0.263.1"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
@@ -856,6 +851,11 @@
         const NewSpaceIntake = () => {
             // UPDATED: Changed page title to "New Space Intake"
             usePageTitle("New Space Intake");
+            
+            // SECURITY: Time-based bot trap
+            const [mountTime] = useState(Date.now());
+            const [isSubmitting, setIsSubmitting] = useState(false);
+
             const [formData, setFormData] = useState({
                 firstName: '', lastName: '', email: '', phone: '',
                 reason: '', services: [], spaceFeel: '', areas: [],
@@ -883,10 +883,20 @@
                 // BOT SECURITY: If the hidden field is filled, it's a bot. Stop immediately.
                 if (formData.hp_trap !== '') return;
                 
+                // BOT SECURITY: Time-based trap. If submitted faster than 3 seconds, reject.
+                if (Date.now() - mountTime < 3000) return;
+                
+                // Prevent double submissions
+                if (isSubmitting) return;
+                setIsSubmitting(true);
+                
                 // BACKEND BEST PRACTICE: Sanitize inputs by trimming whitespace
                 const fName = formData.firstName.trim();
                 const lName = formData.lastName.trim();
-                if (!fName || !lName) return;
+                if (!fName || !lName) {
+                    setIsSubmitting(false);
+                    return;
+                }
 
                 const subject = `New Space Intake - ${fName} ${lName}`;
                 
@@ -971,6 +981,9 @@ A: ${formData.consent ? 'Yes' : 'No'}
                 const user = "lindsey";
                 const domain = "simpli-fi-life.com";
                 window.location.href = `mailto:${user}@${domain}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+                // Reset submitting state after a delay to allow for mail client to open
+                setTimeout(() => setIsSubmitting(false), 2000);
             };
 
             const CheckGroup = ({ options, field, label }) => (
@@ -1239,8 +1252,8 @@ A: ${formData.consent ? 'Yes' : 'No'}
                                 <input type="text" value={formData.hp_trap} onChange={e => setFormData({...formData, hp_trap: e.target.value})} tabIndex="-1" autoComplete="off" />
                             </div>
 
-                            <button className="w-full bg-brand-periwinkle text-brand-white py-4 rounded-xl font-display font-bold text-xl uppercase tracking-widest hover:bg-brand-lemon hover:text-brand-dark transition-all shadow-lg transform hover:-translate-y-1">
-                                Send Message
+                            <button disabled={isSubmitting} className="w-full bg-brand-periwinkle text-brand-white py-4 rounded-xl font-display font-bold text-xl uppercase tracking-widest hover:bg-brand-lemon hover:text-brand-dark transition-all shadow-lg transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed">
+                                {isSubmitting ? 'Sending...' : 'Send Message'}
                             </button>
 
                         </form>
@@ -1630,7 +1643,7 @@ A: ${formData.consent ? 'Yes' : 'No'}
             );
         };
 
-        const Residential = () => {
+      const Residential = () => {
             usePageTitle("Residential Services");
             useEffect(() => { window.scrollTo(0, 0); }, []);
             return (
@@ -1711,6 +1724,10 @@ A: ${formData.consent ? 'Yes' : 'No'}
 
         const Booking = () => {
             usePageTitle("Book a Session");
+            
+            // SECURITY: Time-based bot trap
+            const [mountTime] = useState(Date.now());
+            
             const [formData, setFormData] = useState({ 
                 name: '', 
                 email: '', 
@@ -1752,6 +1769,9 @@ A: ${formData.consent ? 'Yes' : 'No'}
 
                 // BOT SECURITY: If the hidden trap field is filled, it's a bot submission.
                 if (formData.hp_trap !== '') return;
+                
+                // BOT SECURITY: Time-based trap. If submitted faster than 3 seconds, reject.
+                if (Date.now() - mountTime < 3000) return;
 
                 // BACKEND BEST PRACTICE: Sanitize inputs
                 const name = formData.name.trim();
