@@ -1,4 +1,4 @@
-// --- HOME PAGE: CRASH FIX + ALIGNMENT + SHADOW LOCKDOWN ---
+// --- HOME PAGE: FINAL CTA & CHECKLIST LOCKDOWN ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
@@ -6,7 +6,6 @@ const TestimonialScroller = () => {
     const containerRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    // FIX: Defining isMobile for the component scope
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     useEffect(() => {
         const handleRes = () => setIsMobile(window.innerWidth < 768);
@@ -64,14 +63,13 @@ const TestimonialScroller = () => {
     }, [originalItems.length, isMobile]);
 
     return (
-        /* Increased pb-16 to ensure shadows don't clip */
         <div className="relative w-full mt-5 md:mt-0 pt-2 pb-16 md:pb-20 group z-30">
             {isMobile && (
                 <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
-                    <button onClick={() => scrollManual(-1)} className="p-1.5 rounded-full bg-brand-lemon shadow-lg pointer-events-auto border border-brand-dark/5 active:scale-90 transition-transform">
+                    <button onClick={() => scrollManual(-1)} className="p-1.5 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/5 active:scale-90 transition-transform">
                         <Icon name="chevron-left" className="w-4 h-4 text-brand-dark" />
                     </button>
-                    <button onClick={() => scrollManual(1)} className="p-1.5 rounded-full bg-brand-lemon shadow-lg pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
+                    <button onClick={() => scrollManual(1)} className="p-1.5 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
                         <Icon name="chevron-right" className="w-4 h-4 text-brand-dark" />
                     </button>
                 </div>
@@ -246,14 +244,18 @@ const Home = () => {
                 </SocialSection>
             </div>
 
+            {/* FINAL CTA SECTION - RECALIBRATED HEADLINE WIDTH */}
             <section className="py-24 md:py-32 bg-brand-dark text-center px-4 relative overflow-hidden border-t border-brand-dark">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                 <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-                    <h2 className="font-display font-bold text-5xl md:text-6xl text-brand-lemon mb-6 uppercase tracking-tighter drop-shadow-lg">Are you still here?</h2>
+                    {/* Desktop Headline boosted to text-[5rem] to be wider than footer phrase */}
+                    <h2 className="font-display font-bold text-5xl md:text-[5rem] text-brand-lemon mb-6 uppercase tracking-tighter drop-shadow-lg leading-none">Are you still here?</h2>
                     <p className="text-lg md:text-xl text-brand-base font-light leading-relaxed mb-10 md:mb-12 px-4">Go ahead and get that free clarity call scheduled.</p>
+                    
                     <div className="flex flex-col items-start space-y-6 mb-10 md:mb-12">
                         {["0% Risk", "0% Pressure", "100% Possibility"].map((txt, i) => (
                             <div key={i} className="flex items-center gap-5">
+                                {/* PURPLE BOX WITH CITRON CHECK */}
                                 <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-brand-periwinkle/10">
                                     <Icon name="check" className="w-5 h-5 text-brand-lemon" />
                                 </div>
@@ -261,7 +263,9 @@ const Home = () => {
                             </div>
                         ))}
                     </div>
+
                     <p className="text-sm md:text-lg text-brand-base/80 font-light mb-8 md:mb-10 text-center px-4 uppercase tracking-widest">All backed by my <span className="italic text-brand-periwinkle-light font-medium">Simpli-FI Life Satisfaction Guarantee</span>.</p>
+                    
                     <Link to="/booking" onMouseEnter={() => setCtaHover(true)} onMouseLeave={() => setCtaHover(false)} className="inline-flex items-center justify-center px-8 py-4 md:px-10 md:py-4 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle-light transition-all duration-300 shadow-2xl font-display font-bold text-base md:text-lg uppercase tracking-tight transform hover:-translate-y-1">
                         {ctaHover ? "GREAT CHOICE!" : <><span className="mr-2">Let's Do This</span> <Icon name="arrow-right" className="w-5 h-5"/></>}
                     </Link>
