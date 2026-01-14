@@ -30,8 +30,7 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
         const spawn = () => {
             if (!active) return;
             const id = count++;
-            // SLOWER PACE: 3 to 5 seconds travel time
-            const beamDuration = 3.0 + Math.random() * 2.0;
+            const beamDuration = 3.0 + Math.random() * 2.0; // Slower glide
             const isHorizontal = Math.random() > 0.5;
             
             setBeams(prev => [...prev, { 
@@ -40,22 +39,17 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
                 isReverse: Math.random() > 0.5, 
                 offset: Math.floor(Math.random() * 100) * 40, 
                 duration: beamDuration, 
-                color: (id % 4 === 0) ? "214, 227, 30" : beamColor // Slightly more frequent Citron pops
+                color: (id % 4 === 0) ? "214, 227, 30" : beamColor 
             }]);
 
-            // Cleanup
             setTimeout(() => { 
                 if (active) setBeams(prev => prev.filter(b => b.id !== id)); 
             }, beamDuration * 1000);
         };
 
-        // IMMEDIATE START: Run once right now
-        spawn();
-        spawn(); // Double spawn on start to fill the grid immediately
-        
-        // HIGHER FREQUENCY: interval set by spawnRate prop
+        // Instant Start for immediate visual feedback
+        spawn(); spawn(); spawn(); 
         const interval = setInterval(spawn, spawnRate);
-        
         return () => { active = false; clearInterval(interval); };
     }, [beamColor, spawnRate]);
 
@@ -78,11 +72,17 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
     );
 };
 
+// --- UPDATED LOADING SCREEN: NOW INCLUDES BEAMS ---
 const LoadingScreen = ({ onComplete }) => {
     useEffect(() => { const t = setTimeout(onComplete, 4800); return () => clearTimeout(t); }, [onComplete]);
     return (
         <div className="fixed inset-0 z-[100] bg-brand-base flex items-center justify-center loader-exit overflow-hidden">
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] loading-grid-fade-in opacity-20"></div>
+            {/* Background Grid */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
+            
+            {/* ACTIVE BEAMS IN INTRO */}
+            <GridBeams spawnRate={150} /> 
+
             <div className="relative z-20 loading-logo-reveal text-center px-4">
                 <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark uppercase">
                     <span className="font-bold">SIMPLI-FI</span> <span className="font-light text-brand-medium">LIFE</span>
