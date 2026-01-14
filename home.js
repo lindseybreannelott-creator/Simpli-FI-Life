@@ -1,4 +1,4 @@
-// --- HOME PAGE: FINAL AESTHETIC CALIBRATION ---
+// --- HOME PAGE: FINAL DESIGN RECALIBRATION ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
@@ -6,33 +6,40 @@ const TestimonialScroller = () => {
     const containerRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    const CARD_WIDTH_VW = 18; 
-    const GAP_VW = 2;
+    const ITEM_WIDTH = 320;
+    const GAP = 24;
+    const TOTAL_SPACE = ITEM_WIDTH + GAP;
 
     const handleScroll = () => {
         if (!containerRef.current) return;
         const container = containerRef.current;
         const scrollPos = container.scrollLeft;
         const width = container.offsetWidth;
-        const centerLine = scrollPos + (width / 2);
-        const cardFullWidth = (width * (CARD_WIDTH_VW / 100)) + (width * (GAP_VW / 100));
         
-        const index = Math.round(centerLine / cardFullWidth) % originalItems.length;
-        setActiveIndex(index);
+        // --- SPOTLIGHT MATH ---
+        // Find center of viewport relative to the scroll content
+        const centerOfViewport = scrollPos + (width / 2);
+        
+        // Calculate which card is closest to that center point
+        // We use Math.floor with a half-card offset to center the "active zone"
+        const index = Math.round((centerOfViewport - (width / 2) + (ITEM_WIDTH / 2)) / TOTAL_SPACE) % originalItems.length;
+        
+        setActiveIndex(Math.abs(index));
 
-        const totalContentWidth = container.scrollWidth / 3;
+        // Infinite Loop Reset
+        const setWidth = originalItems.length * TOTAL_SPACE;
         if (scrollPos < 10) {
-            container.scrollLeft = totalContentWidth;
+            container.scrollLeft = setWidth;
         } else if (scrollPos > (container.scrollWidth - width - 10)) {
-            container.scrollLeft = totalContentWidth;
+            container.scrollLeft = setWidth;
         }
     };
 
     useEffect(() => {
         if (containerRef.current) {
             const container = containerRef.current;
-            const totalContentWidth = container.scrollWidth / 3;
-            container.scrollLeft = totalContentWidth;
+            const setWidth = originalItems.length * TOTAL_SPACE;
+            container.scrollLeft = setWidth;
             handleScroll();
         }
     }, [originalItems.length]);
@@ -43,7 +50,7 @@ const TestimonialScroller = () => {
                 ref={containerRef}
                 onScroll={handleScroll}
                 className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-24"
-                style={{ paddingLeft: '2vw', paddingRight: '2vw' }}
+                style={{ paddingLeft: 'calc(50% - 160px)', paddingRight: 'calc(50% - 160px)' }}
             >
                 {displayItems.map((t, i) => {
                     const isActive = (i % originalItems.length) === activeIndex;
@@ -52,16 +59,12 @@ const TestimonialScroller = () => {
                             key={i} 
                             className={`snap-center flex-shrink-0 p-8 rounded-3xl border-2 transition-all duration-700 ease-in-out flex flex-col justify-between min-h-[420px] relative shadow-2xl
                                 ${isActive 
-                                    ? 'bg-brand-white border-brand-lemon scale-110 z-40 opacity-100 blur-none ring-8 ring-brand-lemon/5' 
-                                    : 'bg-brand-white border-stone-100 scale-90 z-10 opacity-40 blur-[1.5px]'
+                                    ? 'bg-brand-lemon/20 border-brand-lemon scale-110 z-40 opacity-100 blur-none' 
+                                    : 'bg-brand-white border-stone-100 scale-90 z-10 opacity-40 blur-[1px]'
                                 }`}
-                            style={{ 
-                                marginRight: `${GAP_VW}vw`, 
-                                width: `${CARD_WIDTH_VW}vw`,
-                                minWidth: '280px' 
-                            }}
+                            style={{ marginRight: `${GAP}px`, width: `${ITEM_WIDTH}px` }}
                         >
-                            <div className={`absolute -top-10 -left-4 text-[10rem] font-serif leading-none select-none pointer-events-none transition-opacity duration-500 ${isActive ? 'opacity-80' : 'opacity-10'}`}
+                            <div className={`absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none transition-opacity duration-500 ${isActive ? 'opacity-80' : 'opacity-10'}`}
                                  style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
                             
                             <div className="relative z-10 pt-12">
@@ -78,33 +81,28 @@ const TestimonialScroller = () => {
     );
 };
 
-const SocialHeader = ({ label, handle, link }) => (
-    <div className="text-center py-16 bg-brand-base relative">
-        <p className="font-sans text-xs font-bold tracking-[0.3em] text-brand-medium uppercase mb-3">Follow me on</p>
-        <h3 className="font-display text-5xl font-bold text-brand-dark mb-4 uppercase tracking-tighter">{label}</h3>
-        <a href={link} target="_blank" rel="noopener noreferrer" className="font-display text-brand-periwinkle font-bold hover:text-brand-lemon transition uppercase tracking-widest text-sm italic">
-            {handle}
-        </a>
-    </div>
-);
-
 const SocialSection = ({ platform, handle, link, children }) => (
-    <div className="relative w-full bg-brand-base z-10">
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-full text-center z-40">
-            <p className="font-display font-light text-brand-dark leading-none">
-                <span className="block text-sm mb-1 uppercase tracking-[0.3em] opacity-60">follow me on</span>
-                <span className="text-3xl font-bold tracking-tight uppercase">{platform}</span>
-            </p>
-        </div>
-        <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
-        {children}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
-             <a href={link} target="_blank" className="block relative group bg-brand-periwinkle-light text-brand-dark px-12 py-4 font-display font-bold tracking-widest text-sm uppercase rounded-full shadow-xl hover:bg-white hover:scale-105 transition-all duration-300">
-                <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full overflow-visible">
-                    <rect x="1.5" y="1.5" style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} rx="26" fill="none" stroke="#D6E31E" strokeWidth="3" className="draw-border opacity-0 group-hover:opacity-100" />
-                </svg>
-                <span className="relative z-10">{handle}</span>
-             </a>
+    <div className="relative w-full bg-brand-base">
+        {/* Continuous Grid Background */}
+        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+        
+        <div className="relative z-10 pt-32">
+            <div className="text-center mb-16">
+                <p className="font-sans text-xs font-bold tracking-[0.3em] text-brand-medium uppercase mb-3">Follow me on</p>
+                <h3 className="font-display text-5xl font-bold text-brand-dark uppercase tracking-tighter">{platform}</h3>
+            </div>
+            
+            <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
+            {children}
+            
+            <div className="absolute top-[232px] left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+                 <a href={link} target="_blank" className="block relative group bg-brand-periwinkle-light text-brand-dark px-12 py-4 font-display font-bold tracking-widest text-sm uppercase rounded-full shadow-xl hover:bg-white hover:scale-105 transition-all duration-300">
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full overflow-visible">
+                        <rect x="1.5" y="1.5" style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} rx="26" fill="none" stroke="#D6E31E" strokeWidth="3" className="draw-border opacity-0 group-hover:opacity-100" />
+                    </svg>
+                    <span className="relative z-10">{handle}</span>
+                 </a>
+            </div>
         </div>
     </div>
 );
@@ -163,17 +161,15 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* ABOUT SECTION: PERIWINKLE BACKGROUND & CITRON STATIC BUTTON */}
+            {/* ABOUT SECTION: RECALIBRATED IMAGE SIZE & GRID */}
             <section className="py-40 relative overflow-hidden border-y border-stone-100 z-10">
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.9fr_1.1fr] gap-24 items-center relative z-10">
-                    {/* PHOTO CARD: Periwinkle bg with Reverse Oatmeal Grid */}
                     <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-brand-periwinkle group">
-                        {/* Oatmeal grid lines (#F9F6F0) over Periwinkle */}
                         <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#F9F6F0_1px,transparent_1px),linear-gradient(to_bottom,#F9F6F0_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                         <img 
                             src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/profile-stripedress-directlook.png" 
-                            className="relative z-10 w-full aspect-[4/5] object-cover object-top mt-16 transform transition-transform duration-700 group-hover:scale-105" 
+                            className="relative z-10 w-full aspect-[4/5] object-cover object-top mt-16 scale-[1.08] transform transition-transform duration-700 group-hover:scale-[1.15]" 
                             alt="Lindsey Lott" 
                         />
                     </div>
@@ -184,7 +180,6 @@ const Home = () => {
                             <p>My appreciation for organization began as a Pediatric Nurse in the ER where structure is essential. Transitioning to homeschooling four children truly refined that clinical precision.</p>
                             <p>Today, I help families and businesses eliminate chaos—saving you time and money so you have the margin to run your world.</p>
                         </div>
-                        {/* BUTTON: Citron Static -> Light Periwinkle Hover */}
                         <Link to="/booking" className="mt-12 inline-flex items-center justify-center px-10 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle-light transition-all duration-300 font-display font-bold uppercase tracking-widest text-sm shadow-xl">
                             Book Clarity Call
                         </Link>
@@ -192,32 +187,29 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* SOCIAL FEEDS */}
+            {/* SOCIAL FEEDS WITH GRID CONTINUITY */}
             <div className="bg-brand-base">
-                <SocialHeader label="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/" />
-                <div className="grid grid-cols-2 md:grid-cols-5 border-t-4 border-brand-periwinkle-light">
-                    {["IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg", "IG-NoMoreMissingSocks-Cover.jpg", "IG-BeigeYTCovershorts.jpeg", "IG-stopkeepingmissingthings.jpg", "6.jpg"].map((img, i) => (
-                        <a key={i} href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="aspect-[9/16] overflow-hidden group relative border-r border-stone-100 last:border-r-0">
-                            <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
-                            <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="instagram" className="text-white w-8 h-8 drop-shadow-lg" /></div>
-                        </a>
-                    ))}
-                </div>
+                <SocialSection platform="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/">
+                    <div className="grid grid-cols-2 md:grid-cols-5 relative z-10">
+                        {["IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg", "IG-NoMoreMissingSocks-Cover.jpg", "IG-BeigeYTCovershorts.jpeg", "IG-stopkeepingmissingthings.jpg", "6.jpg"].map((img, i) => (
+                            <a key={i} href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="aspect-[9/16] overflow-hidden group relative border-r border-stone-100 last:border-r-0">
+                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
+                                <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="instagram" className="text-white w-8 h-8 drop-shadow-lg" /></div>
+                            </a>
+                        ))}
+                    </div>
+                </SocialSection>
 
-                <div className="h-48 w-full relative overflow-hidden">
-                    <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                    <GridBeams spawnRate={500} />
-                </div>
-
-                <SocialHeader label="YouTube" handle="@Simpli-FILife" link="https://www.youtube.com/@Simpli-FILife" />
-                <div className="grid grid-cols-1 md:grid-cols-3 border-t-4 border-brand-periwinkle-light">
-                    {["angie%20Storage%20Organized-Cover.jpg", "YT-systems-chaos.png", "YT-expected%20mess%20vs%20clutter.png"].map((img, i) => (
-                        <a key={i} href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="aspect-video overflow-hidden group relative border-r border-stone-100 last:border-r-0">
-                            <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
-                            <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="youtube" className="text-white w-12 h-12 drop-shadow-lg" /></div>
-                        </a>
-                    ))}
-                </div>
+                <SocialSection platform="YouTube" handle="@Simpli-FILife" link="https://www.youtube.com/@Simpli-FILife">
+                    <div className="grid grid-cols-1 md:grid-cols-3 relative z-10">
+                        {["angie%20Storage%20Organized-Cover.jpg", "YT-systems-chaos.png", "YT-expected%20mess%20vs%20clutter.png"].map((img, i) => (
+                            <a key={i} href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="aspect-video overflow-hidden group relative border-r border-stone-100 last:border-r-0">
+                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
+                                <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="youtube" className="text-white w-12 h-12 drop-shadow-lg" /></div>
+                            </a>
+                        ))}
+                    </div>
+                </SocialSection>
             </div>
 
             {/* FINAL CTA SECTION */}
