@@ -1,4 +1,4 @@
-// --- HOME PAGE: FINAL TRANSITION & DESIGN LOCKDOWN ---
+// --- HOME PAGE: TRANSITION FLIP & CHECKMARK LOCKDOWN ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
@@ -221,10 +221,9 @@ const Home = () => {
                 </SocialSection>
             </div>
 
-            {/* NEW TRANSITION STRIP: OATMEAL PERIWINKLE GRID */}
-            <div className="h-24 w-full relative overflow-hidden bg-brand-periwinkle">
-                <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#F9F6F0_1px,transparent_1px),linear-gradient(to_bottom,#F9F6F0_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
-                <GridBeams spawnRate={400} />
+            {/* FLIPPED TRANSITION STRIP: OATMEAL BG + PERIWINKLE GRID (NO ANIMATION) */}
+            <div className="h-40 w-full relative overflow-hidden bg-brand-base">
+                <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
             </div>
 
             {/* FINAL CTA SECTION */}
@@ -237,7 +236,8 @@ const Home = () => {
                         {["0% Risk", "0% Pressure", "100% Possibility"].map((txt, i) => (
                             <div key={i} className="flex items-center gap-5">
                                 <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-brand-periwinkle/10">
-                                    <Icon name="check" className="w-5 h-5 text-brand-lemon" />
+                                    {/* EXPLICIT CITRON COLOR FOR THE CHECK ICON */}
+                                    <Icon name="check" className="w-5 h-5 text-[#D6E31E]" />
                                 </div>
                                 <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">{txt}</span>
                             </div>
