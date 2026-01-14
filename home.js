@@ -1,4 +1,4 @@
-// --- HOME PAGE: 100% DESIGN FIDELITY VERSION ---
+// --- HOME PAGE: FINAL DESIGN LOCKDOWN ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
@@ -52,7 +52,7 @@ const TestimonialScroller = () => {
                             key={i} 
                             className={`snap-center flex-shrink-0 p-8 rounded-3xl border-2 transition-all duration-700 ease-in-out flex flex-col justify-between min-h-[420px] relative shadow-2xl
                                 ${isActive 
-                                    ? 'bg-brand-lemon/20 border-brand-lemon scale-110 z-40 opacity-100 blur-none ring-8 ring-brand-lemon/5' 
+                                    ? 'bg-brand-white border-brand-lemon scale-110 z-40 opacity-100 blur-none ring-8 ring-brand-lemon/5' 
                                     : 'bg-brand-white border-stone-100 scale-90 z-10 opacity-40 blur-[1.5px]'
                                 }`}
                             style={{ 
@@ -163,12 +163,14 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* ABOUT SECTION */}
+            {/* ABOUT SECTION: NEW PERIWINKLE/OATMEAL BACKGROUND */}
             <section className="py-40 relative overflow-hidden border-y border-stone-100 z-10">
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.9fr_1.1fr] gap-24 items-center relative z-10">
-                    <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-brand-lemon/25 group">
-                        <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
+                    {/* PHOTO CARD with Full Opacity Periwinkle Light & Oatmeal Grid */}
+                    <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-brand-periwinkle-light group">
+                        {/* Grid overlay using oatmeal color (#F9F6F0) */}
+                        <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,#F9F6F0_1px,transparent_1px),linear-gradient(to_bottom,#F9F6F0_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                         <img 
                             src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/profile-stripedress-directlook.png" 
                             className="relative z-10 w-full aspect-[4/5] object-cover object-top mt-16 transform transition-transform duration-700 group-hover:scale-105" 
@@ -190,7 +192,7 @@ const Home = () => {
             {/* SOCIAL FEEDS */}
             <div className="bg-brand-base">
                 <SocialSection platform="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/">
-                    <div className="grid grid-cols-2 md:grid-cols-5 border-t border-stone-100">
+                    <div className="grid grid-cols-2 md:grid-cols-5 border-t-4 border-brand-periwinkle-light">
                         {["IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg", "IG-NoMoreMissingSocks-Cover.jpg", "IG-BeigeYTCovershorts.jpeg", "IG-stopkeepingmissingthings.jpg", "6.jpg"].map((img, i) => (
                             <a key={i} href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="aspect-[9/16] overflow-hidden group relative border-r border-stone-100 last:border-r-0">
                                 <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
@@ -206,7 +208,7 @@ const Home = () => {
                 </div>
 
                 <SocialSection platform="YouTube" handle="@Simpli-FILife" link="https://www.youtube.com/@Simpli-FILife">
-                    <div className="grid grid-cols-1 md:grid-cols-3 border-t border-stone-100">
+                    <div className="grid grid-cols-1 md:grid-cols-3 border-t-4 border-brand-periwinkle-light">
                         {["angie%20Storage%20Organized-Cover.jpg", "YT-systems-chaos.png", "YT-expected%20mess%20vs%20clutter.png"].map((img, i) => (
                             <a key={i} href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="aspect-video overflow-hidden group relative border-r border-stone-100 last:border-r-0">
                                 <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
@@ -217,29 +219,31 @@ const Home = () => {
                 </SocialSection>
             </div>
 
-            {/* FINAL CTA */}
-            <section className="py-48 bg-brand-dark text-center px-4 relative overflow-hidden">
+            {/* FINAL CTA SECTION - CALIBRATED SIZE & COPY */}
+            <section className="py-32 bg-brand-dark text-center px-4 relative overflow-hidden border-t border-brand-dark">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                 <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-                    <h2 className="font-display font-bold text-6xl md:text-8xl text-brand-lemon mb-8 uppercase tracking-tighter">Are you still here?</h2>
-                    <p className="text-xl md:text-2xl text-brand-base font-light mb-16 opacity-80 leading-relaxed">Go ahead and get that free clarity call scheduled.</p>
+                    <h2 className="font-display font-bold text-5xl md:text-6xl text-brand-lemon mb-6 uppercase tracking-tighter drop-shadow-lg">Are you still here?</h2>
+                    <p className="text-lg md:text-xl text-brand-base font-light leading-relaxed mb-12">Go ahead and get that free clarity call scheduled.</p>
                     
-                    <div className="flex flex-col items-center space-y-8 mb-20">
+                    <div className="flex flex-col items-start space-y-6 mb-12">
                         {["0% Risk", "0% Pressure", "100% Possibility"].map((txt, i) => (
-                            <div key={i} className="flex items-center gap-6 group">
-                                <div className="w-10 h-10 rounded border-2 border-brand-periwinkle flex items-center justify-center bg-brand-periwinkle/10">
-                                    <Icon name="check" className="w-6 h-6 text-brand-lemon" />
+                            <div key={i} className="flex items-center gap-5">
+                                <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-transparent">
+                                    <Icon name="check" className="w-5 h-5 text-brand-lemon" />
                                 </div>
-                                <span className="font-handwriting text-3xl md:text-5xl text-brand-periwinkle transform -rotate-1">{txt}</span>
+                                <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">{txt}</span>
                             </div>
                         ))}
                     </div>
 
+                    <p className="text-base md:text-lg text-brand-base/80 font-light mb-10">All backed by my <span className="italic text-brand-periwinkle-light font-medium">Simpli-FI Life Satisfaction Guarantee</span>.</p>
+
                     <Link to="/booking" 
                           onMouseEnter={() => setCtaHover(true)}
                           onMouseLeave={() => setCtaHover(false)}
-                          className="inline-flex items-center justify-center px-16 py-6 rounded-full bg-brand-lemon text-brand-dark hover:bg-white transition-all shadow-2xl font-display font-bold text-2xl uppercase tracking-tighter transform hover:scale-110 active:scale-95">
-                        {ctaHover ? "GREAT CHOICE!" : "Let's Do This"}
+                          className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle-light transition-all duration-300 shadow-2xl font-display font-bold text-lg uppercase tracking-tight transform hover:-translate-y-1">
+                        {ctaHover ? "GREAT CHOICE!" : <><span className="mr-2">Let's Do This</span> <Icon name="arrow-right" className="w-5 h-5"/></>}
                     </Link>
                 </div>
             </section>
