@@ -1,12 +1,11 @@
-// --- HOME PAGE: MOBILE SPACING & UX LOCKDOWN ---
+// --- HOME PAGE: ABSOLUTE DESIGN LOCKDOWN ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
-    const displayItems = [...originalItems, ...originalItems, ...originalItems];
+    const displayItems = [...originalItems, ...originalItems, ...originalItems, ...originalItems, ...originalItems];
     const containerRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    // --- GEOMETRY CALIBRATION ---
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     useEffect(() => {
         const handleRes = () => setIsMobile(window.innerWidth < 768);
@@ -14,7 +13,6 @@ const TestimonialScroller = () => {
         return () => window.removeEventListener('resize', handleRes);
     }, []);
 
-    // Mobile: 65% width creates a "stacked" peek of 17.5% on each side.
     const ITEM_WIDTH = isMobile ? window.innerWidth * 0.65 : 320;
     const GAP = isMobile ? 12 : 24;
     const TOTAL_SPACE = ITEM_WIDTH + GAP;
@@ -48,18 +46,21 @@ const TestimonialScroller = () => {
         if (containerRef.current) {
             const container = containerRef.current;
             const setWidth = originalItems.length * TOTAL_SPACE;
-            container.scrollLeft = setWidth; 
+            container.scrollLeft = setWidth * 2; 
             setTimeout(handleScroll, 100);
         }
     }, [originalItems.length, isMobile]);
 
     return (
         <div className="relative w-full py-6 md:py-12 group z-30">
-            {/* MOBILE ONLY ARROWS */}
             {isMobile && (
                 <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
-                    <button onClick={() => scrollManual(-1)} className="p-2 rounded-full bg-brand-white/80 shadow-lg pointer-events-auto border border-stone-100"><Icon name="chevron-left" className="w-5 h-5 text-brand-periwinkle" /></button>
-                    <button onClick={() => scrollManual(1)} className="p-2 rounded-full bg-brand-white/80 shadow-lg pointer-events-auto border border-stone-100"><Icon name="chevron-right" className="w-5 h-5 text-brand-periwinkle" /></button>
+                    <button onClick={() => scrollManual(-1)} className="p-3 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 transform active:scale-90 transition-transform">
+                        <Icon name="chevron-left" className="w-6 h-6 text-brand-dark" />
+                    </button>
+                    <button onClick={() => scrollManual(1)} className="p-3 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 transform active:scale-90 transition-transform">
+                        <Icon name="chevron-right" className="w-6 h-6 text-brand-dark" />
+                    </button>
                 </div>
             )}
 
@@ -87,7 +88,8 @@ const TestimonialScroller = () => {
                             <div className="relative z-10 pt-8 md:pt-12">
                                 <p className="text-brand-dark text-sm md:text-lg italic leading-relaxed">"{t.quote}"</p>
                             </div>
-                            <div className={`mt-auto pt-4 border-t border-brand-lemon transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}>
+                            
+                            <div className={`mt-auto pt-4 border-t border-brand-periwinkle transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}>
                                 <p className="font-display font-bold text-brand-periwinkle uppercase text-[10px] md:text-xs tracking-[0.2em]">{t.author}</p>
                             </div>
                         </div>
@@ -104,7 +106,7 @@ const SocialSection = ({ platform, handle, link, children }) => (
         <div className="relative z-10 pt-24 md:pt-40">
             <div className="text-center mb-10 md:mb-12 px-4">
                 <p className="font-sans text-[10px] md:text-xs font-bold tracking-[0.4em] text-brand-medium uppercase mb-2 md:mb-3">Follow me on</p>
-                <h3 className="font-display text-4xl md:text-7xl font-bold text-brand-dark uppercase tracking-tighter">{platform}</h3>
+                <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark uppercase tracking-tighter">{platform}</h3>
             </div>
             <div className="relative">
                 <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
@@ -128,7 +130,6 @@ const Home = () => {
 
     return (
         <div className="overflow-x-hidden bg-brand-base">
-            {/* HERO SECTION - TIGHTER MOBILE PADDING */}
             <div className="relative overflow-hidden min-h-screen flex flex-col justify-center">
                 <div className="absolute inset-0 z-0">
                     <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
@@ -147,7 +148,6 @@ const Home = () => {
                 <TestimonialScroller />
             </div>
 
-            {/* SERVICES SECTION - TIGHTER MOBILE TOP PADDING */}
             <section className="py-20 md:py-32 relative z-10 border-t border-stone-100">
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
@@ -175,7 +175,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* ABOUT SECTION - TIGHTER MOBILE TOP PADDING */}
             <section className="py-24 md:py-40 relative overflow-hidden border-y border-stone-100 z-10">
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.9fr_1.1fr] gap-12 md:gap-24 items-center relative z-10">
@@ -195,7 +194,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* SOCIAL FEEDS */}
             <div className="bg-brand-base">
                 <SocialSection platform="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/">
                     <div className="grid grid-cols-2 md:grid-cols-5 relative z-10">
@@ -219,7 +217,6 @@ const Home = () => {
                 </SocialSection>
             </div>
 
-            {/* FINAL CTA SECTION - TIGHTER MOBILE SPACING */}
             <section className="py-24 md:py-32 bg-brand-dark text-center px-4 relative overflow-hidden border-t border-brand-dark">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                 <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
@@ -228,14 +225,14 @@ const Home = () => {
                     <div className="flex flex-col items-start space-y-6 mb-10 md:mb-12">
                         {["0% Risk", "0% Pressure", "100% Possibility"].map((txt, i) => (
                             <div key={i} className="flex items-center gap-5">
-                                <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-transparent">
+                                <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-brand-periwinkle/10">
                                     <Icon name="check" className="w-5 h-5 text-brand-lemon" />
                                 </div>
                                 <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">{txt}</span>
                             </div>
                         ))}
                     </div>
-                    <p className="text-sm md:text-lg text-brand-base/80 font-light mb-8 md:mb-10 text-center px-4">All backed by my <span className="italic text-brand-periwinkle-light font-medium uppercase">Simpli-FI Life Satisfaction Guarantee</span>.</p>
+                    <p className="text-sm md:text-lg text-brand-base/80 font-light mb-8 md:mb-10 text-center px-4 uppercase tracking-widest">All backed by my <span className="italic text-brand-periwinkle-light font-medium">Simpli-FI Life Satisfaction Guarantee</span>.</p>
                     <Link to="/booking" onMouseEnter={() => setCtaHover(true)} onMouseLeave={() => setCtaHover(false)} className="inline-flex items-center justify-center px-8 py-4 md:px-10 md:py-4 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle-light transition-all duration-300 shadow-2xl font-display font-bold text-base md:text-lg uppercase tracking-tight transform hover:-translate-y-1">
                         {ctaHover ? "GREAT CHOICE!" : <><span className="mr-2">Let's Do This</span> <Icon name="arrow-right" className="w-5 h-5"/></>}
                     </Link>
