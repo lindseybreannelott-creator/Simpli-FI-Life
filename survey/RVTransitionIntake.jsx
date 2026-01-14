@@ -1,469 +1,365 @@
-import React, { useState } from 'react';
-import { 
-  CheckCircle2, 
-  Coffee, 
-  Bed, 
-  Bath, 
-  Sparkles, 
-  Compass,
-  Layout,
-  Send,
-  Tent,
-  Gem
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RV Transition Essentials - Concierge Intake</title>
+    <!-- Load React and ReactDOM from stable CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Load Babel for JSX support -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .animate-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Premium Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #fbf9f7; }
+        ::-webkit-scrollbar-thumb { background: #7178c84d; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
 
-const App = () => {
-  const [answers, setAnswers] = useState({});
-  const [items, setItems] = useState({});
-  const [itemDetails, setItemDetails] = useState({}); 
-  const [notes, setNotes] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
+    <script type="text/babel">
+        const { useState } = React;
 
-  // Brand Colors mapped for easy use
-  const colors = {
-    oatmeal: '#fbf9f7',
-    darkGreige: '#2d2a26',
-    softerGreige: '#57534e',
-    white: '#ffffff',
-    periwinkle: '#7178c8',
-    periwinkleLight: '#d4d7ff',
-    periwinkleDark: '#5a60a6',
-    lemon: '#D6E31E'
-  };
-
-  const handleItemSelect = (category, item, status) => {
-    setItems(prev => ({
-      ...prev,
-      [category]: {
-        ...(prev[category] || {}),
-        [item]: status
-      }
-    }));
-  };
-
-  const handleDetailChange = (item, value) => {
-    setItemDetails(prev => ({ ...prev, [item]: value }));
-  };
-
-  const handleNoteChange = (category, value) => {
-    setNotes(prev => ({ ...prev, [category]: value }));
-  };
-
-  const OptionButton = ({ label, value, current, onClick }) => (
-    <button
-      onClick={() => onClick(value)}
-      style={{
-        borderColor: current === value ? colors.periwinkle : '#e2e8f0',
-        backgroundColor: current === value ? colors.periwinkleLight : colors.white,
-        color: current === value ? colors.darkGreige : colors.softerGreige
-      }}
-      className="w-full p-4 mb-3 text-left rounded-xl border-2 transition-all duration-200 flex items-center justify-between shadow-sm"
-    >
-      <span className="font-medium text-sm leading-snug">{label}</span>
-      {current === value && <CheckCircle2 className="w-5 h-5 flex-shrink-0 ml-2" style={{ color: colors.periwinkle }} />}
-    </button>
-  );
-
-  const ItemRow = ({ category, item, showQty = false, detailLabel = "", detailPlaceholder = "" }) => {
-    const statuses = [
-      { id: 'bring', label: "I'll Bring", activeBg: colors.periwinkleLight, activeText: colors.darkGreige },
-      { id: 'unneeded', label: 'Not Needed', activeBg: '#f1f5f9', activeText: colors.softerGreige },
-      { id: 'buy_me', label: 'Please Buy', activeBg: colors.periwinkle, activeText: colors.white },
-      { id: 'buy_self', label: 'I\'ll Purchase', activeBg: '#dcfce7', activeText: '#166534' }
-    ];
-
-    const currentStatus = items[category]?.[item];
-
-    return (
-      <div style={{ backgroundColor: colors.white }} className="mb-4 p-4 rounded-2xl border border-slate-100 shadow-sm">
-        <p style={{ color: colors.darkGreige }} className="font-semibold mb-3 text-sm">{item}</p>
-        <div className="grid grid-cols-2 gap-2">
-          {statuses.map((s) => (
-            <button
-              key={s.id}
-              onClick={() => handleItemSelect(category, item, s.id)}
-              style={{
-                backgroundColor: currentStatus === s.id ? s.activeBg : '#f8fafc',
-                color: currentStatus === s.id ? s.activeText : '#94a3b8'
-              }}
-              className="text-[11px] py-2 px-1 rounded-lg font-bold transition-all uppercase tracking-tight"
+        // Custom SVG Icon Components (Replacing lucide-react to fix browser errors)
+        const Icon = ({ children, size = 20, className = "" }) => (
+            <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width={size} 
+                height={size} 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className={className}
             >
-              {s.label}
-            </button>
-          ))}
-        </div>
-        
-        {/* Conditional input for specific item details (Qty or Type) */}
-        {currentStatus === 'buy_me' && (showQty || detailLabel) && (
-          <div className="mt-3 animate-in fade-in slide-in-from-top-1 duration-200">
-            <label style={{ color: colors.softerGreige }} className="text-[10px] font-bold uppercase tracking-wider mb-1 block ml-1">
-              {detailLabel || "Quantity Preference (Recommended 2-4)"}
-            </label>
-            <input 
-              type="text"
-              placeholder={detailPlaceholder || "Enter details..."}
-              style={{ backgroundColor: colors.oatmeal }}
-              className="w-full p-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-200 outline-none"
-              value={itemDetails[item] || ''}
-              onChange={(e) => handleDetailChange(item, e.target.value)}
-            />
-          </div>
-        )}
-      </div>
-    );
-  };
+                {children}
+            </svg>
+        );
 
-  const SectionHeader = ({ icon: Icon, title, description, customBlock }) => (
-    <div className="pt-10 mb-6 border-t border-slate-200 first:border-t-0 first:pt-0">
-      <div className="flex items-center gap-3 mb-2">
-        <div style={{ backgroundColor: colors.periwinkleLight, color: colors.periwinkle }} className="p-2 rounded-lg">
-          <Icon size={20} />
-        </div>
-        <h2 style={{ color: colors.darkGreige }} className="text-xl font-bold">{title}</h2>
-      </div>
-      {description && <p style={{ color: colors.softerGreige }} className="text-sm italic ml-11 mb-2">{description}</p>}
-      {customBlock && (
-        <div style={{ backgroundColor: colors.white, color: colors.softerGreige, borderLeft: `4px solid ${colors.lemon}` }} className="ml-11 p-4 rounded-xl text-sm leading-relaxed italic shadow-sm">
-          {customBlock}
-        </div>
-      )}
-    </div>
-  );
+        const CheckCircle2 = (props) => <Icon {...props}><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></Icon>;
+        const Coffee = (props) => <Icon {...props}><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></Icon>;
+        const Bed = (props) => <Icon {...props}><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></Icon>;
+        const Bath = (props) => <Icon {...props}><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-1.5 1.5 1.5 0 0 0-1.5 1.5L6.5 6"/><path d="M2 11h20v4a8 8 0 0 1-8 8h-4a8 8 0 0 1-8-8Z"/><path d="M7 11V7a2 2 0 0 1 2-2h6"/><path d="M11 11V8a2 2 0 0 1 2-2h2"/></Icon>;
+        const Sparkles = (props) => <Icon {...props}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></Icon>;
+        const Compass = (props) => <Icon {...props}><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></Icon>;
+        const Layout = (props) => <Icon {...props}><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></Icon>;
+        const Send = (props) => <Icon {...props}><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></Icon>;
+        const Tent = (props) => <Icon {...props}><path d="M3.5 21 12 3l8.5 18"/><path d="M12 21l4-8"/><path d="M12 21l-4-8"/><path d="M2 21h20"/></Icon>;
 
-  if (isSubmitted) {
-    return (
-      <div style={{ backgroundColor: colors.oatmeal }} className="min-h-screen flex items-center justify-center p-6 text-center">
-        <div className="max-w-md animate-in zoom-in duration-300">
-          <div style={{ backgroundColor: colors.periwinkleLight }} className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="w-10 h-10" style={{ color: colors.periwinkle }} />
-          </div>
-          <h2 style={{ color: colors.darkGreige }} className="text-3xl font-bold mb-4">All Set!</h2>
-          <p style={{ color: colors.softerGreige }} className="mb-8 leading-relaxed text-sm">
-            I've received your preferences. I'll get to work on the sourcing and organization so you don't have to worry about a thing.
-          </p>
-        </div>
-      </div>
-    );
-  }
+        const App = () => {
+            const [answers, setAnswers] = useState({});
+            const [items, setItems] = useState({});
+            const [itemDetails, setItemDetails] = useState({}); 
+            const [notes, setNotes] = useState({});
+            const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const isCook = answers.cook_plan === 'yes' || answers.cook_plan === 'sometimes';
+            // Brand Colors
+            const colors = {
+                oatmeal: '#fbf9f7',
+                darkGreige: '#2d2a26',
+                softerGreige: '#57534e',
+                white: '#ffffff',
+                periwinkle: '#7178c8',
+                periwinkleLight: '#d4d7ff',
+                periwinkleDark: '#5a60a6',
+                lemon: '#D6E31E'
+            };
 
-  return (
-    <div style={{ backgroundColor: colors.oatmeal }} className="min-h-screen font-sans pb-32">
-      <div style={{ backgroundColor: `${colors.white}e6` }} className="sticky top-0 backdrop-blur-md border-b border-slate-200 z-10 p-4">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <h1 style={{ color: colors.darkGreige }} className="font-bold text-lg">RV Transition Essentials</h1>
-          <span style={{ backgroundColor: colors.periwinkleLight, color: colors.periwinkle }} className="text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Concierge Intake</span>
-        </div>
-      </div>
+            const handleItemSelect = (category, item, status) => {
+                setItems(prev => ({
+                    ...prev,
+                    [category]: { ...(prev[category] || {}), [item]: status }
+                }));
+            };
 
-      <main className="max-w-2xl mx-auto p-6 space-y-2">
-        
-        <SectionHeader icon={Layout} title="General Preferences" />
-        
-        <div className="space-y-6">
-          <section>
-            <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-3">1) Organizing Preferences</h3>
-            <OptionButton 
-              label="Highly visible / See through (If I can't see it, I forget I own it!)" 
-              value="visible" 
-              current={answers.org_type}
-              onClick={(v) => setAnswers({...answers, org_type: v})}
-            />
-            <OptionButton 
-              label="Hidden / Opaque (I prefer items tucked away and out of sight; I won't forget what I own.)" 
-              value="hidden" 
-              current={answers.org_type}
-              onClick={(v) => setAnswers({...answers, org_type: v})}
-            />
-            <OptionButton 
-              label="Not sure" 
-              value="unsure" 
-              current={answers.org_type}
-              onClick={(v) => setAnswers({...answers, org_type: v})}
-            />
-            <OptionButton 
-              label="No preference" 
-              value="no_preference" 
-              current={answers.org_type}
-              onClick={(v) => setAnswers({...answers, org_type: v})}
-            />
-          </section>
+            const handleDetailChange = (item, value) => {
+                setItemDetails(prev => ({ ...prev, [item]: value }));
+            };
 
-          <section>
-            <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-3">2) Do you have organizing aesthetic preferences?</h3>
-            <OptionButton 
-              label="Light and bright (think whites and warm woods)" 
-              value="light" 
-              current={answers.aesthetic}
-              onClick={(v) => setAnswers({...answers, aesthetic: v})}
-            />
-            <OptionButton 
-              label="Dark and moody (think blacks, dark woods)" 
-              value="dark" 
-              current={answers.aesthetic}
-              onClick={(v) => setAnswers({...answers, aesthetic: v})}
-            />
-            <OptionButton 
-              label="No preference" 
-              value="none" 
-              current={answers.aesthetic}
-              onClick={(v) => setAnswers({...answers, aesthetic: v})}
-            />
-          </section>
+            const handleNoteChange = (category, value) => {
+                setNotes(prev => ({ ...prev, [category]: value }));
+            };
 
-          <section>
-            <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-1">3) Leisure & Hobbies</h3>
-            <p style={{ color: colors.softerGreige }} className="text-xs mb-3">Do you have any items for hobbies you want to prioritize space for?</p>
-            <textarea 
-              style={{ backgroundColor: colors.white }}
-              className="w-full p-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-periwinkle outline-none min-h-[100px] text-sm shadow-sm"
-              placeholder="e.g. Reading, watching TV, games, outdoor hobbies, no priority."
-              value={answers.leisure || ''}
-              onChange={(e) => setAnswers({...answers, leisure: e.target.value})}
-            />
-          </section>
+            const OptionButton = ({ label, value, current, onClick }) => (
+                <button
+                    onClick={() => onClick(value)}
+                    style={{
+                        borderColor: current === value ? colors.periwinkle : '#e2e8f0',
+                        backgroundColor: current === value ? colors.periwinkleLight : colors.white,
+                        color: current === value ? colors.darkGreige : colors.softerGreige
+                    }}
+                    className="w-full p-4 mb-3 text-left rounded-xl border-2 transition-all duration-200 flex items-center justify-between shadow-sm active:scale-[0.98]"
+                >
+                    <span className="font-medium text-sm leading-snug">{label}</span>
+                    {current === value && <CheckCircle2 className="flex-shrink-0 ml-2" style={{ color: colors.periwinkle }} />}
+                </button>
+            );
 
-          <section>
-            <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-3">4) Will you be working from the RV?</h3>
-            <OptionButton 
-              label="Yes, I need to prioritize office organization" 
-              value="yes" 
-              current={answers.work}
-              onClick={(v) => setAnswers({...answers, work: v})}
-            />
-            {answers.work === 'yes' && (
-              <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-                <p style={{ color: colors.softerGreige }} className="text-xs mb-2 ml-1 italic">Please list priority items that need organized:</p>
-                <textarea 
-                  style={{ backgroundColor: colors.white }}
-                  className="w-full p-4 mb-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-periwinkle outline-none text-sm shadow-sm"
-                  placeholder="e.g. Laptop, desktop, files, inventory, etc."
-                  value={answers.work_details || ''}
-                  onChange={(e) => setAnswers({...answers, work_details: e.target.value})}
-                />
-              </div>
-            )}
-            <OptionButton 
-              label="No office space needed" 
-              value="no" 
-              current={answers.work}
-              onClick={(v) => setAnswers({...answers, work: v})}
-            />
-          </section>
+            const ItemRow = ({ category, item, showQty = false, detailLabel = "", detailPlaceholder = "" }) => {
+                const statuses = [
+                    { id: 'bring', label: "I'll Bring", activeBg: colors.periwinkleLight, activeText: colors.darkGreige },
+                    { id: 'unneeded', label: 'Not Needed', activeBg: '#f1f5f9', activeText: colors.softerGreige },
+                    { id: 'buy_me', label: 'Please Buy', activeBg: colors.periwinkle, activeText: colors.white },
+                    { id: 'buy_self', label: "I'll Purchase", activeBg: '#dcfce7', activeText: '#166534' }
+                ];
+                const currentStatus = items[category]?.[item];
 
-          <section>
-            <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-1">5) Professional Use</h3>
-            <p style={{ color: colors.softerGreige }} className="text-xs mb-3">Are you okay with me filming the organizing sessions for professional use (testimonials or marketing)?</p>
-            <OptionButton 
-              label="Yes—film and use freely" 
-              value="yes" 
-              current={answers.film}
-              onClick={(v) => setAnswers({...answers, film: v})}
-            />
-            <OptionButton 
-              label="Maybe—I need more details" 
-              value="maybe" 
-              current={answers.film}
-              onClick={(v) => setAnswers({...answers, film: v})}
-            />
-            <OptionButton 
-              label="No" 
-              value="no" 
-              current={answers.film}
-              onClick={(v) => setAnswers({...answers, film: v})}
-            />
-          </section>
+                return (
+                    <div style={{ backgroundColor: colors.white }} className="mb-4 p-4 rounded-2xl border border-slate-100 shadow-sm animate-in">
+                        <p style={{ color: colors.darkGreige }} className="font-semibold mb-3 text-sm">{item}</p>
+                        <div className="grid grid-cols-2 gap-2">
+                            {statuses.map((s) => (
+                                <button
+                                    key={s.id}
+                                    onClick={() => handleItemSelect(category, item, s.id)}
+                                    style={{
+                                        backgroundColor: currentStatus === s.id ? s.activeBg : '#f8fafc',
+                                        color: currentStatus === s.id ? s.activeText : '#94a3b8'
+                                    }}
+                                    className="text-[11px] py-2 px-1 rounded-lg font-bold transition-all uppercase tracking-tight active:scale-95"
+                                >
+                                    {s.label}
+                                </button>
+                            ))}
+                        </div>
+                        {currentStatus === 'buy_me' && (showQty || detailLabel) && (
+                            <div className="mt-3 animate-in">
+                                <label style={{ color: colors.softerGreige }} className="text-[10px] font-bold uppercase tracking-wider mb-1 block ml-1">
+                                    {detailLabel || "Quantity Preference (Recommended 2-4)"}
+                                </label>
+                                <input 
+                                    type="text"
+                                    placeholder={detailPlaceholder || "Enter details..."}
+                                    style={{ backgroundColor: colors.oatmeal }}
+                                    className="w-full p-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-200 outline-none"
+                                    value={itemDetails[item] || ''}
+                                    onChange={(e) => handleDetailChange(item, e.target.value)}
+                                />
+                            </div>
+                        )}
+                    </div>
+                );
+            };
 
-          <section className="pt-4">
-            <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-1">6) Sourcing & Quality Preference</h3>
-            <p style={{ color: colors.softerGreige }} className="text-xs mb-3">Help me understand the quality level you'd like me to target for new items.</p>
-            <OptionButton 
-              label="Standard & Functional (Reliable, high-quality essentials)" 
-              value="standard" 
-              current={answers.quality}
-              onClick={(v) => setAnswers({...answers, quality: v})}
-            />
-            <OptionButton 
-              label="Premium & Elevated (Upgraded materials and recognized brands)" 
-              value="premium" 
-              current={answers.quality}
-              onClick={(v) => setAnswers({...answers, quality: v})}
-            />
-            <OptionButton 
-              label="Top of the Line (The absolute 'best of the best' / Luxury options)" 
-              value="luxury" 
-              current={answers.quality}
-              onClick={(v) => setAnswers({...answers, quality: v})}
-            />
-          </section>
-        </div>
+            const SectionHeader = ({ icon: IconComponent, title, description, customBlock }) => (
+                <div className="pt-10 mb-6 border-t border-slate-200 first:border-t-0 first:pt-0">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div style={{ backgroundColor: colors.periwinkleLight, color: colors.periwinkle }} className="p-2 rounded-lg">
+                            {IconComponent && <IconComponent size={20} />}
+                        </div>
+                        <h2 style={{ color: colors.darkGreige }} className="text-xl font-bold">{title}</h2>
+                    </div>
+                    {description && <p style={{ color: colors.softerGreige }} className="text-sm italic ml-11 mb-2">{description}</p>}
+                    {customBlock && (
+                        <div style={{ backgroundColor: colors.white, color: colors.softerGreige, borderLeft: `4px solid ${colors.lemon}` }} className="ml-11 p-4 rounded-xl text-sm leading-relaxed italic shadow-sm">
+                            {customBlock}
+                        </div>
+                    )}
+                </div>
+            );
 
-        <div className="pt-10 border-t border-slate-200">
-          <div style={{ backgroundColor: colors.white, borderLeft: `4px solid ${colors.lemon}` }} className="p-4 rounded-xl text-sm leading-relaxed mb-6 italic shadow-sm">
-            "Here is a general list of things you may have/want to consider having in the RV. I'm happy to source any items you may need but not currently have if it would be of help to you."
-          </div>
-        </div>
+            if (isSubmitted) {
+                return (
+                    <div style={{ backgroundColor: colors.oatmeal }} className="min-h-screen flex items-center justify-center p-6 text-center">
+                        <div className="max-w-md animate-in">
+                            <div style={{ backgroundColor: colors.periwinkleLight }} className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <CheckCircle2 size={40} style={{ color: colors.periwinkle }} />
+                            </div>
+                            <h2 style={{ color: colors.darkGreige }} className="text-3xl font-bold mb-4">All Set!</h2>
+                            <p style={{ color: colors.softerGreige }} className="mb-8 leading-relaxed text-sm">
+                                I've received your preferences. I'll get to work on the sourcing and organization so you don't have to worry about a thing.
+                            </p>
+                        </div>
+                    </div>
+                );
+            }
 
-        <SectionHeader icon={Coffee} title="Kitchen & Dining" />
-        
-        <div style={{ backgroundColor: colors.periwinkleLight }} className="p-4 rounded-2xl border border-indigo-100 mb-6 shadow-sm">
-          <h3 style={{ color: colors.periwinkleDark }} className="text-xs font-bold uppercase tracking-wider mb-3">Do you plan to cook in the RV?</h3>
-          <div className="grid grid-cols-3 gap-2">
-            {['yes', 'sometimes', 'no'].map((opt) => (
-              <button
-                key={opt}
-                onClick={() => setAnswers({...answers, cook_plan: opt})}
-                style={{
-                  backgroundColor: answers.cook_plan === opt ? colors.periwinkle : colors.white,
-                  color: answers.cook_plan === opt ? colors.white : colors.periwinkle,
-                  borderColor: answers.cook_plan === opt ? colors.periwinkle : colors.periwinkleLight
-                }}
-                className="py-2 px-1 rounded-lg text-xs font-bold uppercase tracking-tight transition-all border shadow-sm"
-              >
-                {opt}
-              </button>
-            ))}
-          </div>
-        </div>
+            const isCook = answers.cook_plan === 'yes' || answers.cook_plan === 'sometimes';
 
-        <ItemRow category="kitchen" item="Plates, bowls, cups" showQty={true} />
-        <ItemRow category="kitchen" item="Silverware set" />
-        <ItemRow category="kitchen" item="Sharp knives set" />
-        <ItemRow category="kitchen" item="Cutting board" />
-        
-        {isCook && (
-          <div className="animate-in fade-in slide-in-from-top-4 duration-500">
-            <div className="flex items-center gap-2 mb-4 px-1 mt-2">
-              <div className="h-px bg-slate-200 flex-grow"></div>
-              <span style={{ color: colors.softerGreige }} className="text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">Cooking Essentials</span>
-              <div className="h-px bg-slate-200 flex-grow"></div>
-            </div>
-            <ItemRow category="kitchen" item="Skillet" />
-            <ItemRow category="kitchen" item="Small pot" />
-            <ItemRow category="kitchen" item="Instant Pot" />
-            <ItemRow category="kitchen" item="Air Fryer" />
-            <ItemRow category="kitchen" item="Blender" />
-            <ItemRow category="kitchen" item="Toaster" />
-            <ItemRow category="kitchen" item="Essential Spices" />
-            <ItemRow category="kitchen" item="Colander" />
-          </div>
-        )}
+            return (
+                <div style={{ backgroundColor: colors.oatmeal }} className="min-h-screen font-sans pb-32">
+                    <div style={{ backgroundColor: `${colors.white}e6` }} className="sticky top-0 backdrop-blur-md border-b border-slate-200 z-10 p-4">
+                        <div className="max-w-2xl mx-auto flex items-center justify-between">
+                            <h1 style={{ color: colors.darkGreige }} className="font-bold text-lg">RV Transition Essentials</h1>
+                            <span style={{ backgroundColor: colors.periwinkleLight, color: colors.periwinkle }} className="text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Concierge Intake</span>
+                        </div>
+                    </div>
 
-        <ItemRow 
-          category="kitchen" 
-          item="Coffee maker" 
-          detailLabel="Preference (Keurig/Pods, Pour Over, Drip, Other)"
-          detailPlaceholder="e.g. Drip coffee maker, Keurig, etc."
-        />
-        <ItemRow category="kitchen" item="Reusable storage containers" />
-        <ItemRow category="kitchen" item="Dish drainer (if hand washing)" />
-        <ItemRow category="kitchen" item="Dish towels & hot pads" />
-        <ItemRow category="kitchen" item="Can opener" />
-        <ItemRow category="kitchen" item="Lighter / Matches" />
-        <ItemRow category="kitchen" item="Trash bags" />
+                    <main className="max-w-2xl mx-auto p-6 space-y-2">
+                        <SectionHeader icon={Layout} title="General Preferences" />
+                        
+                        <div className="space-y-6">
+                            <section>
+                                <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-3">1) Organizing Preferences</h3>
+                                <OptionButton label="Highly visible / See through (If I can't see it, I forget I own it!)" value="visible" current={answers.org_type} onClick={(v) => setAnswers({...answers, org_type: v})} />
+                                <OptionButton label="Hidden / Opaque (I prefer items tucked away and out of sight; I won't forget what I own.)" value="hidden" current={answers.org_type} onClick={(v) => setAnswers({...answers, org_type: v})} />
+                                <OptionButton label="Not sure" value="unsure" current={answers.org_type} onClick={(v) => setAnswers({...answers, org_type: v})} />
+                                <OptionButton label="No preference" value="no_preference" current={answers.org_type} onClick={(v) => setAnswers({...answers, org_type: v})} />
+                            </section>
 
-        <textarea 
-          style={{ backgroundColor: colors.white }}
-          className="w-full p-4 mb-8 rounded-xl border border-slate-200 outline-none text-sm shadow-sm"
-          placeholder="Share any preferences here: brands, likes/dislikes, colors, etc."
-          value={notes.kitchen || ''}
-          onChange={(e) => handleNoteChange('kitchen', e.target.value)}
-        />
+                            <section>
+                                <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-3">2) Do you have organizing aesthetic preferences?</h3>
+                                <OptionButton label="Light and bright (think whites and warm woods)" value="light" current={answers.aesthetic} onClick={(v) => setAnswers({...answers, aesthetic: v})} />
+                                <OptionButton label="Dark and moody (think blacks, dark woods)" value="dark" current={answers.aesthetic} onClick={(v) => setAnswers({...answers, aesthetic: v})} />
+                                <OptionButton label="No preference" value="none" current={answers.aesthetic} onClick={(v) => setAnswers({...answers, aesthetic: v})} />
+                            </section>
 
-        <SectionHeader icon={Bed} title="Bedroom & Sleep" />
-        <ItemRow 
-          category="bedroom" 
-          item="Bedding (Sheets, comforter/duvet)" 
-          detailLabel="Bed Size (King or Queen)" 
-          detailPlaceholder="e.g. Queen, King..."
-        />
-        <ItemRow 
-          category="bedroom" 
-          item="Pillows & extra blanket" 
-          detailLabel="Pillow Preference (Memory foam, down, firm, etc.)" 
-          detailPlaceholder="e.g. Memory foam, hypoallergenic..."
-        />
-        <ItemRow category="bedroom" item="Under-mattress pad (Anti-mold for humidity)" />
-        
-        <textarea 
-          style={{ backgroundColor: colors.white }}
-          className="w-full p-4 mb-8 rounded-xl border border-slate-200 outline-none text-sm shadow-sm"
-          placeholder="Share any preferences here..."
-          value={notes.bedroom || ''}
-          onChange={(e) => handleNoteChange('bedroom', e.target.value)}
-        />
+                            <section>
+                                <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-1">3) Leisure & Hobbies</h3>
+                                <p style={{ color: colors.softerGreige }} className="text-xs mb-3">Do you have any items for hobbies you want to prioritize space for?</p>
+                                <textarea style={{ backgroundColor: colors.white }} className="w-full p-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-periwinkle outline-none min-h-[100px] text-sm shadow-sm" placeholder="e.g. Reading, watching TV, games, outdoor hobbies, no priority." value={answers.leisure || ''} onChange={(e) => setAnswers({...answers, leisure: e.target.value})} />
+                            </section>
 
-        <SectionHeader icon={Bath} title="Bathroom" />
-        <ItemRow category="bathroom" item="Towel sets" />
-        <ItemRow 
-          category="bathroom" 
-          item="Wall dispenser for shower toiletries" 
-          detailLabel="Confirm contents (Soap, shampoo, conditioner, etc.)" 
-          detailPlaceholder="e.g. All three, or just shampoo and soap..."
-        />
-        <ItemRow category="bathroom" item="Toiletries (Shampoo, soap, conditioner, deodorant, etc.)" />
-        <ItemRow category="bathroom" item="RV-safe toilet paper" />
-        
-        <textarea 
-          style={{ backgroundColor: colors.white }}
-          className="w-full p-4 mb-8 rounded-xl border border-slate-200 outline-none text-sm shadow-sm"
-          placeholder="Share any preferences here..."
-          value={notes.bathroom || ''}
-          onChange={(e) => handleNoteChange('bathroom', e.target.value)}
-        />
+                            <section>
+                                <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-3">4) Will you be working from the RV?</h3>
+                                <OptionButton label="Yes, I need to prioritize office organization" value="yes" current={answers.work} onClick={(v) => setAnswers({...answers, work: v})} />
+                                {answers.work === 'yes' && (
+                                    <div className="animate-in">
+                                        <p style={{ color: colors.softerGreige }} className="text-xs mb-2 ml-1 italic">Please list priority items that need organized:</p>
+                                        <textarea style={{ backgroundColor: colors.white }} className="w-full p-4 mb-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-periwinkle outline-none text-sm shadow-sm" placeholder="e.g. Laptop, desktop, files, inventory, etc." value={answers.work_details || ''} onChange={(e) => setAnswers({...answers, work_details: e.target.value})} />
+                                    </div>
+                                )}
+                                <OptionButton label="No office space needed" value="no" current={answers.work} onClick={(v) => setAnswers({...answers, work: v})} />
+                            </section>
 
-        <SectionHeader icon={Sparkles} title="Cleaning & Comfort" />
-        {[
-          'Cleaning supplies kit',
-          'Cordless vacuum',
-          'Small Dehumidifier',
-          'Safe space heater',
-          'Fire extinguisher'
-        ].map(item => <ItemRow key={item} category="cleaning" item={item} />)}
-        
-        <textarea 
-          style={{ backgroundColor: colors.white }}
-          className="w-full p-4 mb-8 rounded-xl border border-slate-200 outline-none text-sm shadow-sm"
-          placeholder="Share any preferences here..."
-          value={notes.cleaning || ''}
-          onChange={(e) => handleNoteChange('cleaning', e.target.value)}
-        />
+                            <section>
+                                <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-1">5) Professional Use</h3>
+                                <p style={{ color: colors.softerGreige }} className="text-xs mb-3">Are you okay with me filming the organizing sessions for professional use (testimonials or marketing)?</p>
+                                <OptionButton label="Yes—film and use freely" value="yes" current={answers.film} onClick={(v) => setAnswers({...answers, film: v})} />
+                                <OptionButton label="Maybe—I need more details" value="maybe" current={answers.film} onClick={(v) => setAnswers({...answers, film: v})} />
+                                <OptionButton label="No" value="no" current={answers.film} onClick={(v) => setAnswers({...answers, film: v})} />
+                            </section>
 
-        <SectionHeader icon={Compass} title="Outdoor Hobbies & Extras" description="Gear for your active lifestyle outside the RV." />
-        {[
-          'Outdoor Hobby Storage (Specific for gear/tools)',
-          'Portable Grill or Camp Stove',
-          'Hammock or Outdoor Relaxation Gear',
-          'Outdoor Rug',
-          'Premium Camping Chairs',
-          'First Aid Kit + Basic Meds',
-          'Bug Spray & Sunscreen Station'
-        ].map(item => <ItemRow key={item} category="extras" item={item} />)}
-        
-        <textarea 
-          style={{ backgroundColor: colors.white }}
-          className="w-full p-4 mb-8 rounded-xl border border-slate-200 outline-none text-sm shadow-sm"
-          placeholder="Share preferences for outdoor gear..."
-          value={notes.extras || ''}
-          onChange={(e) => handleNoteChange('extras', e.target.value)}
-        />
+                            <section className="pt-4">
+                                <h3 style={{ color: colors.softerGreige }} className="text-xs font-bold uppercase tracking-wider mb-1">6) Sourcing & Quality Preference</h3>
+                                <p style={{ color: colors.softerGreige }} className="text-xs mb-3">Help me understand the quality level you'd like me to target for new items.</p>
+                                <OptionButton label="Standard & Functional (Reliable, high-quality essentials)" value="standard" current={answers.quality} onClick={(v) => setAnswers({...answers, quality: v})} />
+                                <OptionButton label="Premium & Elevated (Upgraded materials and recognized brands)" value="premium" current={answers.quality} onClick={(v) => setAnswers({...answers, quality: v})} />
+                                <OptionButton label="Top of the Line (The absolute 'best of the best' / Luxury options)" value="luxury" current={answers.quality} onClick={(v) => setAnswers({...answers, quality: v})} />
+                            </section>
+                        </div>
 
-        <div className="pt-10 pb-10">
-          <button 
-            onClick={() => setIsSubmitted(true)}
-            style={{ backgroundColor: colors.lemon, color: colors.darkGreige }}
-            className="w-full py-5 font-bold rounded-2xl shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-3 border border-slate-200"
-          >
-            <Send size={20} />
-            Complete Questionnaire
-          </button>
-          <p style={{ color: colors.softerGreige }} className="text-center text-xs mt-4">I'll receive these selections immediately once you hit complete.</p>
-        </div>
+                        <div className="pt-10 border-t border-slate-200">
+                            <div style={{ backgroundColor: colors.white, borderLeft: `4px solid ${colors.lemon}` }} className="p-4 rounded-xl text-sm leading-relaxed mb-6 italic shadow-sm">
+                                "Here is a general list of things you may have/want to consider having in the RV. I'm happy to source any items you may need but not currently have if it would be of help to you."
+                            </div>
+                        </div>
 
-      </main>
-    </div>
-  );
-};
+                        <SectionHeader icon={Coffee} title="Kitchen & Dining" />
+                        
+                        <div style={{ backgroundColor: colors.periwinkleLight }} className="p-4 rounded-2xl border border-indigo-100 mb-6 shadow-sm">
+                            <h3 style={{ color: colors.periwinkleDark }} className="text-xs font-bold uppercase tracking-wider mb-3">Do you plan to cook in the RV?</h3>
+                            <div className="grid grid-cols-3 gap-2">
+                                {['yes', 'sometimes', 'no'].map((opt) => (
+                                    <button
+                                        key={opt}
+                                        onClick={() => setAnswers({...answers, cook_plan: opt})}
+                                        style={{
+                                            backgroundColor: answers.cook_plan === opt ? colors.periwinkle : colors.white,
+                                            color: answers.cook_plan === opt ? colors.white : colors.periwinkle,
+                                            borderColor: answers.cook_plan === opt ? colors.periwinkle : colors.periwinkleLight
+                                        }}
+                                        className="py-2 px-1 rounded-lg text-xs font-bold uppercase tracking-tight transition-all border shadow-sm"
+                                    >
+                                        {opt}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
 
-export default App;
+                        <ItemRow category="kitchen" item="Plates, bowls, cups" showQty={true} />
+                        <ItemRow category="kitchen" item="Silverware set" />
+                        <ItemRow category="kitchen" item="Sharp knives set" />
+                        <ItemRow category="kitchen" item="Cutting board" />
+                        
+                        {isCook && (
+                            <div className="animate-in">
+                                <div className="flex items-center gap-2 mb-4 px-1 mt-2">
+                                    <div className="h-px bg-slate-200 flex-grow"></div>
+                                    <span style={{ color: colors.softerGreige }} className="text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">Cooking Essentials</span>
+                                    <div className="h-px bg-slate-200 flex-grow"></div>
+                                </div>
+                                <ItemRow category="kitchen" item="Skillet" />
+                                <ItemRow category="kitchen" item="Small pot" />
+                                <ItemRow category="kitchen" item="Instant Pot" />
+                                <ItemRow category="kitchen" item="Air Fryer" />
+                                <ItemRow category="kitchen" item="Blender" />
+                                <ItemRow category="kitchen" item="Toaster" />
+                                <ItemRow category="kitchen" item="Essential Spices" />
+                                <ItemRow category="kitchen" item="Colander" />
+                            </div>
+                        )}
+
+                        <ItemRow category="kitchen" item="Coffee maker" detailLabel="Preference (Keurig/Pods, Pour Over, Drip, Other)" detailPlaceholder="e.g. Drip coffee maker, Keurig, etc." />
+                        <ItemRow category="kitchen" item="Reusable storage containers" />
+                        <ItemRow category="kitchen" item="Dish drainer (if hand washing)" />
+                        <ItemRow category="kitchen" item="Dish towels & hot pads" />
+                        <ItemRow category="kitchen" item="Can opener" />
+                        <ItemRow category="kitchen" item="Lighter / Matches" />
+                        <ItemRow category="kitchen" item="Trash bags" />
+
+                        <textarea style={{ backgroundColor: colors.white }} className="w-full p-4 mb-8 rounded-xl border border-slate-200 outline-none text-sm shadow-sm" placeholder="Share any preferences here: brands, likes/dislikes, colors, etc." value={notes.kitchen || ''} onChange={(e) => handleNoteChange('kitchen', e.target.value)} />
+
+                        <SectionHeader icon={Bed} title="Bedroom & Sleep" />
+                        <ItemRow category="bedroom" item="Bedding (Sheets, comforter/duvet)" detailLabel="Bed Size (King or Queen)" detailPlaceholder="e.g. Queen, King..." />
+                        <ItemRow category="bedroom" item="Pillows & extra blanket" detailLabel="Pillow Preference (Memory foam, down, firm, etc.)" detailPlaceholder="e.g. Memory foam, hypoallergenic..." />
+                        <ItemRow category="bedroom" item="Under-mattress pad (Anti-mold for humidity)" />
+                        <textarea style={{ backgroundColor: colors.white }} className="w-full p-4 mb-8 rounded-xl border border-slate-200 outline-none text-sm shadow-sm" placeholder="Share any preferences here..." value={notes.bedroom || ''} onChange={(e) => handleNoteChange('bedroom', e.target.value)} />
+
+                        <SectionHeader icon={Bath} title="Bathroom" />
+                        <ItemRow category="bathroom" item="Towel sets" />
+                        <ItemRow category="bathroom" item="Wall dispenser for shower toiletries" detailLabel="Confirm contents (Soap, shampoo, conditioner, etc.)" detailPlaceholder="e.g. All three, or just shampoo and soap..." />
+                        <ItemRow category="bathroom" item="Toiletries (Shampoo, soap, conditioner, deodorant, etc.)" />
+                        <ItemRow category="bathroom" item="RV-safe toilet paper" />
+                        <textarea style={{ backgroundColor: colors.white }} className="w-full p-4 mb-8 rounded-xl border border-slate-200 outline-none text-sm shadow-sm" placeholder="Share any preferences here..." value={notes.bathroom || ''} onChange={(e) => handleNoteChange('bathroom', e.target.value)} />
+
+                        <SectionHeader icon={Sparkles} title="Cleaning & Comfort" />
+                        {['Cleaning supplies kit', 'Cordless vacuum', 'Small Dehumidifier', 'Safe space heater', 'Fire extinguisher'].map(item => <ItemRow key={item} category="cleaning" item={item} />)}
+                        <textarea style={{ backgroundColor: colors.white }} className="w-full p-4 mb-8 rounded-xl border border-slate-200 outline-none text-sm shadow-sm" placeholder="Share any preferences here..." value={notes.cleaning || ''} onChange={(e) => handleNoteChange('cleaning', e.target.value)} />
+
+                        <SectionHeader icon={Tent} title="Outdoor Hobbies & Extras" description="Gear for your active lifestyle outside the RV." />
+                        {['Outdoor Hobby Storage (Specific for gear/tools)', 'Portable Grill or Camp Stove', 'Hammock or Outdoor Relaxation Gear', 'Outdoor Rug', 'Premium Camping Chairs', 'First Aid Kit + Basic Meds', 'Bug Spray & Sunscreen Station'].map(item => <ItemRow key={item} category="extras" item={item} />)}
+                        <textarea style={{ backgroundColor: colors.white }} className="w-full p-4 mb-8 rounded-xl border border-slate-200 outline-none text-sm shadow-sm" placeholder="Share preferences for outdoor gear..." value={notes.extras || ''} onChange={(e) => handleNoteChange('extras', e.target.value)} />
+
+                        <div className="pt-10 pb-10">
+                            <button 
+                                onClick={() => setIsSubmitted(true)}
+                                style={{ backgroundColor: colors.lemon, color: colors.darkGreige }}
+                                className="w-full py-5 font-bold rounded-2xl shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-3 border border-slate-200"
+                            >
+                                <Send size={20} />
+                                Complete Questionnaire
+                            </button>
+                            <p style={{ color: colors.softerGreige }} className="text-center text-xs mt-4">I'll receive these selections immediately once you hit complete.</p>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
