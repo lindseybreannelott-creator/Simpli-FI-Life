@@ -1,14 +1,16 @@
-// --- HOME PAGE: INFINITE LOOP & SOCIAL CALIBRATION ---
+// --- HOME PAGE: MOBILE CALIBRATION & INFINITE LOOP ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
-    // Using 5 sets for a massive buffer to ensure a truly seamless infinite loop
     const displayItems = [...originalItems, ...originalItems, ...originalItems, ...originalItems, ...originalItems];
     const containerRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    const ITEM_WIDTH = 320;
-    const GAP = 24;
+    // --- MOBILE SENSITIVE GEOMETRY ---
+    // Cards are 75% of screen width on mobile, 320px on desktop
+    const isMobile = window.innerWidth < 768;
+    const ITEM_WIDTH = isMobile ? window.innerWidth * 0.75 : 320;
+    const GAP = 20;
     const TOTAL_SPACE = ITEM_WIDTH + GAP;
 
     const handleScroll = () => {
@@ -17,14 +19,13 @@ const TestimonialScroller = () => {
         const scrollPos = container.scrollLeft;
         const width = container.offsetWidth;
         
-        // --- SPOTLIGHT MATH ---
+        // Spotlight calculation centered on the viewport
         const centerOfViewport = scrollPos + (width / 2);
         const index = Math.round((centerOfViewport - (width / 2) + (ITEM_WIDTH / 2)) / TOTAL_SPACE) % originalItems.length;
         setActiveIndex(Math.abs(index));
 
-        // --- TRUE INFINITE LOOP LOGIC ---
+        // Infinite Loop directional logic
         const setWidth = originalItems.length * TOTAL_SPACE;
-        // If user scrolls too far left or right, silently jump back to the middle set
         if (scrollPos < setWidth) {
             container.scrollLeft = scrollPos + setWidth;
         } else if (scrollPos > setWidth * 3) {
@@ -36,7 +37,6 @@ const TestimonialScroller = () => {
         if (containerRef.current) {
             const container = containerRef.current;
             const setWidth = originalItems.length * TOTAL_SPACE;
-            // Start at the exact beginning of the 3rd set (the true middle)
             container.scrollLeft = setWidth * 2;
             handleScroll();
         }
@@ -48,25 +48,29 @@ const TestimonialScroller = () => {
                 ref={containerRef}
                 onScroll={handleScroll}
                 className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-24"
-                style={{ paddingLeft: 'calc(50% - 160px)', paddingRight: 'calc(50% - 160px)' }}
+                style={{ 
+                    paddingLeft: '12.5vw', // Ensures side cards hang off the edges
+                    paddingRight: '12.5vw' 
+                }}
             >
                 {displayItems.map((t, i) => {
                     const isActive = (i % originalItems.length) === activeIndex;
                     return (
                         <div 
                             key={i} 
-                            className={`snap-center flex-shrink-0 p-8 rounded-3xl border-2 transition-all duration-700 ease-in-out flex flex-col justify-between min-h-[420px] relative shadow-2xl
+                            className={`snap-center flex-shrink-0 p-8 rounded-3xl border-2 transition-all duration-700 ease-in-out flex flex-col justify-between min-h-[400px] md:min-h-[420px] relative shadow-2xl
                                 ${isActive 
-                                    ? 'bg-brand-lemon/20 border-brand-lemon scale-110 z-40 opacity-100 blur-none' 
-                                    : 'bg-brand-white border-stone-100 scale-90 z-10 opacity-40 blur-[1px]'
+                                    ? 'bg-brand-white border-brand-lemon scale-100 md:scale-110 z-40 opacity-100 blur-none' 
+                                    : 'bg-brand-white border-stone-100 scale-90 z-10 opacity-30 blur-[1px]'
                                 }`}
                             style={{ marginRight: `${GAP}px`, width: `${ITEM_WIDTH}px` }}
                         >
-                            <div className={`absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none transition-opacity duration-500 ${isActive ? 'opacity-80' : 'opacity-10'}`}
+                            {/* Unified Quote Marks across all versions */}
+                            <div className={`absolute -top-10 -left-4 text-[10rem] md:text-[12rem] font-serif leading-none select-none pointer-events-none transition-opacity duration-500 ${isActive ? 'opacity-80' : 'opacity-10'}`}
                                  style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
                             
                             <div className="relative z-10 pt-12">
-                                <p className="text-brand-dark text-lg italic leading-relaxed">"{t.quote}"</p>
+                                <p className="text-brand-dark text-base md:text-lg italic leading-relaxed">"{t.quote}"</p>
                             </div>
                             <div className={`mt-auto pt-4 border-t border-brand-lemon transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}>
                                 <p className="font-display font-bold text-brand-periwinkle uppercase text-xs tracking-[0.2em]">{t.author}</p>
@@ -81,25 +85,17 @@ const TestimonialScroller = () => {
 
 const SocialSection = ({ platform, handle, link, children }) => (
     <div className="relative w-full bg-brand-base">
-        {/* Continuous Grid Background */}
         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-        
         <div className="relative z-10 pt-40">
             <div className="text-center mb-12">
                 <p className="font-sans text-xs font-bold tracking-[0.4em] text-brand-medium uppercase mb-3">Follow me on</p>
-                <h3 className="font-display text-6xl font-bold text-brand-dark uppercase tracking-tighter">{platform}</h3>
+                <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark uppercase tracking-tighter">{platform}</h3>
             </div>
-            
             <div className="relative">
-                {/* The Periwinkle Line */}
                 <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
-                
-                {/* The Image Strip */}
                 {children}
-                
-                {/* THE HALF-AND-HALF BUTTON */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
-                     <a href={link} target="_blank" className="block relative group bg-brand-periwinkle-light text-brand-dark px-12 py-5 font-display font-bold tracking-widest text-sm uppercase rounded-full shadow-2xl hover:bg-white hover:scale-105 transition-all duration-300">
+                     <a href={link} target="_blank" rel="noopener noreferrer" className="block relative group bg-brand-periwinkle-light text-brand-dark px-10 py-4 font-display font-bold tracking-widest text-xs md:text-sm uppercase rounded-full shadow-2xl hover:bg-white hover:scale-105 transition-all duration-300">
                         <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full overflow-visible">
                             <rect x="1.5" y="1.5" style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} rx="28" fill="none" stroke="#D6E31E" strokeWidth="3" className="draw-border opacity-0 group-hover:opacity-100" />
                         </svg>
@@ -123,9 +119,8 @@ const Home = () => {
                     <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
                     <GridBeams />
                 </div>
-                
                 <div className="max-w-7xl mx-auto relative z-10 pt-44 pb-12 px-4 text-center">
-                    <h1 className="font-display text-6xl sm:text-7xl md:text-8xl font-bold text-brand-dark mb-8 tracking-tighter leading-[0.9]">
+                    <h1 className="font-display text-5xl sm:text-7xl md:text-8xl font-bold text-brand-dark mb-8 tracking-tighter leading-[0.9]">
                         Get Organized<br />
                         <span className="text-brand-medium italic pr-2">without the overwhelm.</span>
                     </h1>
@@ -148,7 +143,7 @@ const Home = () => {
                                 <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" />
                             </svg>
                             <Icon name="building-2" className="w-16 h-16 text-brand-dark mb-8 bg-stone-50 p-4 rounded-3xl" />
-                            <h3 className="font-display text-4xl font-bold mb-6 text-brand-dark uppercase tracking-tight">Professional Spaces</h3>
+                            <h3 className="font-display text-3xl md:text-4xl font-bold mb-6 text-brand-dark uppercase tracking-tight">Professional Spaces</h3>
                             <p className="text-brand-medium text-lg mb-10 leading-relaxed max-w-sm font-light">Your back-of-house should fuel your business, not slow it down. We transform chaotic stock rooms into efficient engines.</p>
                             <Link to="/professional-spaces" className="w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-2xl font-bold hover:bg-brand-periwinkle hover:text-brand-white transition-all uppercase tracking-widest text-xs shadow-md">Get Organized, Save Money</Link>
                         </div>
@@ -157,7 +152,7 @@ const Home = () => {
                                 <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" />
                             </svg>
                             <Icon name="home" className="w-16 h-16 text-brand-dark mb-8 bg-stone-50 p-4 rounded-3xl" />
-                            <h3 className="font-display text-4xl font-bold mb-6 text-brand-dark uppercase tracking-tight">Residential Spaces</h3>
+                            <h3 className="font-display text-3xl md:text-4xl font-bold mb-6 text-brand-dark uppercase tracking-tight">Residential Spaces</h3>
                             <p className="text-brand-medium text-lg mb-10 leading-relaxed max-w-sm font-light">Your home should be a sanctuary, not a source of stress. We create intuitive systems that clear the clutter and calm the chaos.</p>
                             <Link to="/residential" className="w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-2xl font-bold hover:bg-brand-periwinkle hover:text-brand-white transition-all uppercase tracking-widest text-xs shadow-md">Get Organized, Lose the Stress</Link>
                         </div>
@@ -179,8 +174,8 @@ const Home = () => {
                     </div>
                     <div className="pt-12 lg:pt-0">
                         <span className="inline-block bg-brand-dark text-brand-lemon px-6 py-2 mb-8 text-xs font-bold tracking-[0.3em] uppercase rounded-full">The Founder</span>
-                        <h2 className="font-display text-6xl md:text-7xl font-bold text-brand-periwinkle mb-8 tracking-tighter leading-none">Hi, I'm Lindsey.</h2>
-                        <div className="text-stone-600 text-xl space-y-8 leading-relaxed font-light">
+                        <h2 className="font-display text-5xl md:text-7xl font-bold text-brand-periwinkle mb-8 tracking-tighter leading-none">Hi, I'm Lindsey.</h2>
+                        <div className="text-stone-600 text-lg space-y-8 leading-relaxed font-light">
                             <p>My appreciation for organization began as a Pediatric Nurse in the ER where structure is essential. Transitioning to homeschooling four children truly refined that clinical precision.</p>
                             <p>Today, I help families and businesses eliminate chaos—saving you time and money so you have the margin to run your world.</p>
                         </div>
@@ -197,18 +192,17 @@ const Home = () => {
                     <div className="grid grid-cols-2 md:grid-cols-5 relative z-10">
                         {["IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg", "IG-NoMoreMissingSocks-Cover.jpg", "IG-BeigeYTCovershorts.jpeg", "IG-stopkeepingmissingthings.jpg", "6.jpg"].map((img, i) => (
                             <a key={i} href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="aspect-[9/16] overflow-hidden group relative border-r border-stone-100 last:border-r-0">
-                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
+                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Instagram Post" />
                                 <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="instagram" className="text-white w-8 h-8 drop-shadow-lg" /></div>
                             </a>
                         ))}
                     </div>
                 </SocialSection>
-
                 <SocialSection platform="YouTube" handle="@Simpli-FILife" link="https://www.youtube.com/@Simpli-FILife">
                     <div className="grid grid-cols-1 md:grid-cols-3 relative z-10">
                         {["angie%20Storage%20Organized-Cover.jpg", "YT-systems-chaos.png", "YT-expected%20mess%20vs%20clutter.png"].map((img, i) => (
                             <a key={i} href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="aspect-video overflow-hidden group relative border-r border-stone-100 last:border-r-0">
-                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
+                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="YouTube Video" />
                                 <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="youtube" className="text-white w-12 h-12 drop-shadow-lg" /></div>
                             </a>
                         ))}
@@ -222,7 +216,6 @@ const Home = () => {
                 <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
                     <h2 className="font-display font-bold text-5xl md:text-6xl text-brand-lemon mb-6 uppercase tracking-tighter drop-shadow-lg">Are you still here?</h2>
                     <p className="text-lg md:text-xl text-brand-base font-light leading-relaxed mb-12">Go ahead and get that free clarity call scheduled.</p>
-                    
                     <div className="flex flex-col items-start space-y-6 mb-12">
                         {["0% Risk", "0% Pressure", "100% Possibility"].map((txt, i) => (
                             <div key={i} className="flex items-center gap-5">
@@ -233,9 +226,7 @@ const Home = () => {
                             </div>
                         ))}
                     </div>
-
-                    <p className="text-base md:text-lg text-brand-base/80 font-light mb-10">All backed by my <span className="italic text-brand-periwinkle-light font-medium">Simpli-FI Life Satisfaction Guarantee</span>.</p>
-
+                    <p className="text-base md:text-lg text-brand-base/80 font-light mb-10 text-center">All backed by my <span className="italic text-brand-periwinkle-light font-medium uppercase">Simpli-FI Life Satisfaction Guarantee</span>.</p>
                     <Link to="/booking" 
                           onMouseEnter={() => setCtaHover(true)}
                           onMouseLeave={() => setCtaHover(false)}
