@@ -1,4 +1,4 @@
-// --- HOME PAGE: ABSOLUTE DESIGN LOCKDOWN ---
+// --- HOME PAGE: FINAL UI & MOBILE VISIBILITY LOCKDOWN ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
@@ -6,29 +6,30 @@ const TestimonialScroller = () => {
     const containerRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-    useEffect(() => {
-        const handleRes = () => setIsMobile(window.innerWidth < 768);
-        window.addEventListener('resize', handleRes);
-        return () => window.removeEventListener('resize', handleRes);
-    }, []);
-
-    const ITEM_WIDTH = isMobile ? window.innerWidth * 0.65 : 320;
-    const GAP = isMobile ? 12 : 24;
-    const TOTAL_SPACE = ITEM_WIDTH + GAP;
-    const SIDE_PADDING = (window.innerWidth - ITEM_WIDTH) / 2;
+    // Geometry Constants
+    const ITEM_WIDTH_DESKTOP = 320;
+    const GAP_DESKTOP = 24;
+    const TOTAL_SPACE_DESKTOP = ITEM_WIDTH_DESKTOP + GAP_DESKTOP;
 
     const handleScroll = () => {
         if (!containerRef.current) return;
         const container = containerRef.current;
         const scrollPos = container.scrollLeft;
-        const viewportCenter = container.offsetWidth / 2;
+        const viewportWidth = container.offsetWidth;
+        const isMobile = viewportWidth < 768;
+
+        const itemWidth = isMobile ? viewportWidth * 0.65 : ITEM_WIDTH_DESKTOP;
+        const gap = isMobile ? 12 : GAP_DESKTOP;
+        const totalSpace = itemWidth + gap;
+        const sidePadding = (viewportWidth - itemWidth) / 2;
+
+        const viewportCenter = viewportWidth / 2;
         const spotlightPoint = scrollPos + viewportCenter;
         
-        const index = Math.round((spotlightPoint - SIDE_PADDING - (ITEM_WIDTH / 2)) / TOTAL_SPACE) % originalItems.length;
+        const index = Math.round((spotlightPoint - sidePadding - (itemWidth / 2)) / totalSpace) % originalItems.length;
         setActiveIndex(Math.abs(index));
 
-        const setWidth = originalItems.length * TOTAL_SPACE;
+        const setWidth = originalItems.length * totalSpace;
         if (scrollPos < (setWidth * 0.5)) {
             container.scrollLeft = scrollPos + setWidth;
         } else if (scrollPos > (setWidth * 2.5)) {
@@ -39,36 +40,41 @@ const TestimonialScroller = () => {
     const scrollManual = (dir) => {
         if (!containerRef.current) return;
         const container = containerRef.current;
-        container.scrollBy({ left: dir * TOTAL_SPACE, behavior: 'smooth' });
+        const viewportWidth = container.offsetWidth;
+        const itemWidth = viewportWidth < 768 ? viewportWidth * 0.65 : ITEM_WIDTH_DESKTOP;
+        const gap = viewportWidth < 768 ? 12 : GAP_DESKTOP;
+        container.scrollBy({ left: dir * (itemWidth + gap), behavior: 'smooth' });
     };
 
     useEffect(() => {
         if (containerRef.current) {
             const container = containerRef.current;
-            const setWidth = originalItems.length * TOTAL_SPACE;
-            container.scrollLeft = setWidth * 2; 
+            const viewportWidth = container.offsetWidth;
+            const itemWidth = viewportWidth < 768 ? viewportWidth * 0.65 : ITEM_WIDTH_DESKTOP;
+            const gap = viewportWidth < 768 ? 12 : GAP_DESKTOP;
+            const totalSpace = itemWidth + gap;
+            container.scrollLeft = originalItems.length * totalSpace * 2; 
             setTimeout(handleScroll, 100);
         }
-    }, [originalItems.length, isMobile]);
+    }, [originalItems.length]);
 
     return (
         <div className="relative w-full py-6 md:py-12 group z-30">
-            {isMobile && (
-                <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
-                    <button onClick={() => scrollManual(-1)} className="p-3 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 transform active:scale-90 transition-transform">
-                        <Icon name="chevron-left" className="w-6 h-6 text-brand-dark" />
-                    </button>
-                    <button onClick={() => scrollManual(1)} className="p-3 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 transform active:scale-90 transition-transform">
-                        <Icon name="chevron-right" className="w-6 h-6 text-brand-dark" />
-                    </button>
-                </div>
-            )}
+            {/* MOBILE SCROLL ARROWS - CITRON (Hidden on Desktop) */}
+            <div className="md:hidden absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
+                <button onClick={() => scrollManual(-1)} className="p-3 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
+                    <Icon name="chevron-left" className="w-6 h-6 text-brand-dark" />
+                </button>
+                <button onClick={() => scrollManual(1)} className="p-3 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
+                    <Icon name="chevron-right" className="w-6 h-6 text-brand-dark" />
+                </button>
+            </div>
 
             <div 
                 ref={containerRef}
                 onScroll={handleScroll}
                 className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-16 md:py-24"
-                style={{ paddingLeft: `${SIDE_PADDING}px`, paddingRight: `${SIDE_PADDING}px` }}
+                style={{ paddingLeft: 'calc(50% - 160px)', paddingRight: 'calc(50% - 160px)' }}
             >
                 {displayItems.map((t, i) => {
                     const isActive = (i % originalItems.length) === activeIndex;
@@ -80,7 +86,11 @@ const TestimonialScroller = () => {
                                     ? 'bg-brand-lemon/20 border-brand-lemon scale-100 md:scale-110 z-40 opacity-100 blur-none' 
                                     : 'bg-brand-white border-stone-100 scale-90 z-10 opacity-30 blur-[1.5px]'
                                 }`}
-                            style={{ marginRight: `${GAP}px`, width: `${ITEM_WIDTH}px` }}
+                            style={{ 
+                                marginRight: '16px', 
+                                width: '320px', 
+                                maxWidth: '65vw' 
+                            }}
                         >
                             <div className={`absolute -top-10 -left-4 text-[8rem] md:text-[12rem] font-serif leading-none select-none pointer-events-none transition-opacity duration-500 ${isActive ? 'opacity-80' : 'opacity-10'}`}
                                  style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
@@ -89,6 +99,7 @@ const TestimonialScroller = () => {
                                 <p className="text-brand-dark text-sm md:text-lg italic leading-relaxed">"{t.quote}"</p>
                             </div>
                             
+                            {/* DIVIDER LINE: LOCKED TO PERIWINKLE */}
                             <div className={`mt-auto pt-4 border-t border-brand-periwinkle transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}>
                                 <p className="font-display font-bold text-brand-periwinkle uppercase text-[10px] md:text-xs tracking-[0.2em]">{t.author}</p>
                             </div>
@@ -130,6 +141,7 @@ const Home = () => {
 
     return (
         <div className="overflow-x-hidden bg-brand-base">
+            {/* HERO SECTION */}
             <div className="relative overflow-hidden min-h-screen flex flex-col justify-center">
                 <div className="absolute inset-0 z-0">
                     <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
@@ -148,6 +160,7 @@ const Home = () => {
                 <TestimonialScroller />
             </div>
 
+            {/* SERVICES SECTION */}
             <section className="py-20 md:py-32 relative z-10 border-t border-stone-100">
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
@@ -175,6 +188,7 @@ const Home = () => {
                 </div>
             </section>
 
+            {/* ABOUT SECTION */}
             <section className="py-24 md:py-40 relative overflow-hidden border-y border-stone-100 z-10">
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.9fr_1.1fr] gap-12 md:gap-24 items-center relative z-10">
@@ -194,6 +208,7 @@ const Home = () => {
                 </div>
             </section>
 
+            {/* SOCIAL FEEDS */}
             <div className="bg-brand-base">
                 <SocialSection platform="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/">
                     <div className="grid grid-cols-2 md:grid-cols-5 relative z-10">
@@ -217,6 +232,7 @@ const Home = () => {
                 </SocialSection>
             </div>
 
+            {/* FINAL CTA SECTION */}
             <section className="py-24 md:py-32 bg-brand-dark text-center px-4 relative overflow-hidden border-t border-brand-dark">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                 <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
@@ -226,6 +242,7 @@ const Home = () => {
                         {["0% Risk", "0% Pressure", "100% Possibility"].map((txt, i) => (
                             <div key={i} className="flex items-center gap-5">
                                 <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-brand-periwinkle/10">
+                                    {/* CITRON CHECK MARK */}
                                     <Icon name="check" className="w-5 h-5 text-brand-lemon" />
                                 </div>
                                 <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">{txt}</span>
