@@ -1,4 +1,4 @@
-// --- HOME PAGE: FINAL MOBILE CALIBRATION LOCKDOWN ---
+// --- HOME PAGE: ALIGNMENT & SHADOW FIDELITY LOCKDOWN ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
@@ -57,17 +57,18 @@ const TestimonialScroller = () => {
     }, [originalItems.length]);
 
     return (
-        /* Added mt-5 on mobile to provide that extra 20px padding */
-        <div className="relative w-full mt-5 md:mt-0 py-2 md:py-4 group z-30">
-            {/* MOBILE SCROLL ARROWS - REDUCED BY 1/2 */}
-            <div className="md:hidden absolute inset-x-2 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
-                <button onClick={() => scrollManual(-1)} className="p-1.5 rounded-full bg-brand-lemon shadow-lg pointer-events-auto border border-brand-dark/5 active:scale-90 transition-transform">
-                    <Icon name="chevron-left" className="w-4 h-4 text-brand-dark" />
-                </button>
-                <button onClick={() => scrollManual(1)} className="p-1.5 rounded-full bg-brand-lemon shadow-lg pointer-events-auto border border-brand-dark/5 active:scale-90 transition-transform">
-                    <Icon name="chevron-right" className="w-4 h-4 text-brand-dark" />
-                </button>
-            </div>
+        /* Increased pb-12 to ensure shadows don't clip */
+        <div className="relative w-full mt-5 md:mt-0 pt-2 pb-12 md:pb-16 group z-30">
+            {isMobile && (
+                <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
+                    <button onClick={() => scrollManual(-1)} className="p-1.5 rounded-full bg-brand-lemon shadow-lg pointer-events-auto border border-brand-dark/5 active:scale-90 transition-transform">
+                        <Icon name="chevron-left" className="w-4 h-4 text-brand-dark" />
+                    </button>
+                    <button onClick={() => scrollManual(1)} className="p-1.5 rounded-full bg-brand-lemon shadow-lg pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
+                        <Icon name="chevron-right" className="w-4 h-4 text-brand-dark" />
+                    </button>
+                </div>
+            )}
 
             <div 
                 ref={containerRef}
@@ -137,7 +138,7 @@ const Home = () => {
 
     return (
         <div className="overflow-x-hidden bg-brand-base">
-            {/* HERO SECTION - MOBILE CALIBRATION */}
+            {/* HERO SECTION */}
             <div className="relative overflow-hidden min-h-screen flex flex-col justify-start">
                 <div className="absolute inset-0 z-0">
                     <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
@@ -145,7 +146,6 @@ const Home = () => {
                 </div>
                 
                 <div className="max-w-7xl mx-auto relative z-10 pt-48 md:pt-64 pb-2 md:pb-4 px-4 text-center">
-                    {/* MOBILE HEADING INCREASED TO text-6xl / 3.5rem */}
                     <h1 className="font-display text-[3.5rem] leading-[0.9] sm:text-7xl md:text-[7.2rem] font-bold text-brand-dark mb-8 md:mb-10 tracking-tighter md:leading-[0.85]">
                         Get Organized<br />
                         <span className="text-brand-medium italic pr-2">without the overwhelm.</span>
@@ -157,7 +157,6 @@ const Home = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-8 mb-4 md:mb-6">
-                        {/* MOBILE BUTTONS SET TO 3/4 WIDTH (w-3/4) */}
                         <Link to="/professional-spaces" className="inline-block w-3/4 sm:w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Professional Space</Link>
                         <Link to="/residential" className="inline-block w-3/4 sm:w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Residential Space</Link>
                     </div>
@@ -168,28 +167,36 @@ const Home = () => {
                 </div>
             </div>
 
-            {/* SERVICES SECTION */}
+            {/* SERVICES SECTION - ALIGNED BUTTONS & ZOOM */}
             <section className="py-20 md:py-32 relative z-10 border-t border-stone-100">
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
                     <h2 className="font-display text-4xl md:text-7xl font-bold tracking-tighter text-brand-dark italic mb-16 md:mb-24 leading-none">Make Room for More in Your....</h2>
                     <div className="grid md:grid-cols-2 gap-8 md:gap-16 max-w-5xl mx-auto">
-                        <div className="group relative bg-brand-white rounded-3xl p-8 md:p-10 border-2 border-stone-100 flex flex-col items-center transition-all hover:shadow-2xl">
+                        {/* Professional Space Card */}
+                        <div className="group relative bg-brand-white rounded-3xl p-8 md:p-10 border-2 border-stone-100 flex flex-col items-center transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]">
                             <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl z-20">
                                 <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" />
                             </svg>
                             <Icon name="building-2" className="w-12 h-12 md:w-16 md:h-16 text-brand-dark mb-6 md:mb-8 bg-stone-50 p-3 md:p-4 rounded-3xl" />
                             <h3 className="font-display text-2xl md:text-4xl font-bold mb-4 md:mb-6 text-brand-dark uppercase tracking-tight">Professional Spaces</h3>
-                            <p className="text-brand-medium text-base md:text-lg mb-8 md:mb-10 leading-relaxed max-w-sm font-light">Your back-of-house should fuel your business, not slow it down. We transform chaotic stock rooms into efficient engines.</p>
+                            {/* flex-grow pushes the button to the bottom */}
+                            <div className="flex-grow flex flex-col justify-start">
+                                <p className="text-brand-medium text-base md:text-lg mb-8 md:mb-10 leading-relaxed max-w-sm font-light">Your back-of-house should fuel your business, not slow it down. We transform chaotic stock rooms into efficient engines.</p>
+                            </div>
                             <Link to="/professional-spaces" className="w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-2xl font-bold hover:bg-brand-periwinkle hover:text-brand-white transition-all uppercase tracking-widest text-[10px] md:text-xs shadow-md">Get Organized, Save Money</Link>
                         </div>
-                        <div className="group relative bg-brand-white rounded-3xl p-8 md:p-10 border-2 border-stone-100 flex flex-col items-center transition-all hover:shadow-2xl">
+                        {/* Residential Space Card */}
+                        <div className="group relative bg-brand-white rounded-3xl p-8 md:p-10 border-2 border-stone-100 flex flex-col items-center transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]">
                             <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl z-20">
                                 <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" />
                             </svg>
                             <Icon name="home" className="w-12 h-12 md:w-16 md:h-16 text-brand-dark mb-6 md:mb-8 bg-stone-50 p-3 md:p-4 rounded-3xl" />
                             <h3 className="font-display text-2xl md:text-4xl font-bold mb-4 md:mb-6 text-brand-dark uppercase tracking-tight">Residential Spaces</h3>
-                            <p className="text-brand-medium text-base md:text-lg mb-8 md:mb-10 leading-relaxed max-w-sm font-light">Your home should be a sanctuary, not a source of stress. We create intuitive systems that clear the clutter and calm the chaos.</p>
+                            {/* flex-grow pushes the button to the bottom */}
+                            <div className="flex-grow flex flex-col justify-start">
+                                <p className="text-brand-medium text-base md:text-lg mb-8 md:mb-10 leading-relaxed max-w-sm font-light">Your home should be a sanctuary, not a source of stress. We create intuitive systems that clear the clutter and calm the chaos.</p>
+                            </div>
                             <Link to="/residential" className="w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-2xl font-bold hover:bg-brand-periwinkle hover:text-brand-white transition-all uppercase tracking-widest text-[10px] md:text-xs shadow-md">Get Organized, Lose the Stress</Link>
                         </div>
                     </div>
