@@ -1,4 +1,4 @@
-// --- HOME PAGE: HERO SCALE & MOBILE BUTTON LOCKDOWN ---
+// --- HOME PAGE: FINAL MOBILE CALIBRATION LOCKDOWN ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
@@ -57,14 +57,15 @@ const TestimonialScroller = () => {
     }, [originalItems.length]);
 
     return (
-        <div className="relative w-full py-2 md:py-4 group z-30">
-            {/* MOBILE SCROLL ARROWS */}
-            <div className="md:hidden absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
-                <button onClick={() => scrollManual(-1)} className="p-3 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
-                    <Icon name="chevron-left" className="w-6 h-6 text-brand-dark" />
+        /* Added mt-5 on mobile to provide that extra 20px padding */
+        <div className="relative w-full mt-5 md:mt-0 py-2 md:py-4 group z-30">
+            {/* MOBILE SCROLL ARROWS - REDUCED BY 1/2 */}
+            <div className="md:hidden absolute inset-x-2 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
+                <button onClick={() => scrollManual(-1)} className="p-1.5 rounded-full bg-brand-lemon shadow-lg pointer-events-auto border border-brand-dark/5 active:scale-90 transition-transform">
+                    <Icon name="chevron-left" className="w-4 h-4 text-brand-dark" />
                 </button>
-                <button onClick={() => scrollManual(1)} className="p-3 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
-                    <Icon name="chevron-right" className="w-6 h-6 text-brand-dark" />
+                <button onClick={() => scrollManual(1)} className="p-1.5 rounded-full bg-brand-lemon shadow-lg pointer-events-auto border border-brand-dark/5 active:scale-90 transition-transform">
+                    <Icon name="chevron-right" className="w-4 h-4 text-brand-dark" />
                 </button>
             </div>
 
@@ -118,7 +119,7 @@ const SocialSection = ({ platform, handle, link, children }) => (
                 <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
                 {children}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
-                     <a href={link} target="_blank" rel="noopener noreferrer" className="block relative group bg-brand-periwinkle-light text-brand-dark px-8 py-3 md:px-12 md:py-5 font-display font-bold tracking-widest text-[10px] md:text-sm uppercase rounded-full shadow-xl hover:bg-white hover:scale-105 transition-all duration-300">
+                     <a href={link} target="_blank" rel="noopener noreferrer" className="block relative group bg-brand-periwinkle-light text-brand-dark px-10 py-4 font-display font-bold tracking-widest text-[10px] md:text-sm uppercase rounded-full shadow-xl hover:bg-white hover:scale-105 transition-all duration-300">
                         <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full overflow-visible">
                             <rect x="1.5" y="1.5" style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} rx="28" fill="none" stroke="#D6E31E" strokeWidth="3" className="draw-border opacity-0 group-hover:opacity-100" />
                         </svg>
@@ -136,34 +137,32 @@ const Home = () => {
 
     return (
         <div className="overflow-x-hidden bg-brand-base">
-            {/* HERO SECTION - RECALIBRATED PADDING & SIZES */}
+            {/* HERO SECTION - MOBILE CALIBRATION */}
             <div className="relative overflow-hidden min-h-screen flex flex-col justify-start">
                 <div className="absolute inset-0 z-0">
                     <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
                     <GridBeams />
                 </div>
                 
-                {/* Responsive Padding: pt-48 for mobile, pt-64 for desktop */}
                 <div className="max-w-7xl mx-auto relative z-10 pt-48 md:pt-64 pb-2 md:pb-4 px-4 text-center">
-                    <h1 className="font-display text-5xl sm:text-7xl md:text-[7.2rem] font-bold text-brand-dark mb-8 md:mb-10 tracking-tighter leading-[0.95] md:leading-[0.85]">
+                    {/* MOBILE HEADING INCREASED TO text-6xl / 3.5rem */}
+                    <h1 className="font-display text-[3.5rem] leading-[0.9] sm:text-7xl md:text-[7.2rem] font-bold text-brand-dark mb-8 md:mb-10 tracking-tighter md:leading-[0.85]">
                         Get Organized<br />
                         <span className="text-brand-medium italic pr-2">without the overwhelm.</span>
                     </h1>
                     
-                    {/* RESTORED SUB COPY */}
                     <div className="max-w-3xl mx-auto space-y-2 mb-10 md:mb-12">
-                        <p className="text-lg md:text-xl text-brand-medium">Life can be chaotic, your space doesn't have to be.</p>
+                        <p className="text-lg md:text-xl text-brand-medium">Life can be chaotic, your space doesn't need to be.</p>
                         <p className="text-xl md:text-2xl font-display font-bold text-brand-dark uppercase tracking-widest pt-2">Let's organize my:</p>
                     </div>
 
                     <div className="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-8 mb-4 md:mb-6">
-                        {/* Mobile buttons: w-fit ensures they aren't full width */}
-                        <Link to="/professional-spaces" className="inline-block w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Professional Space</Link>
-                        <Link to="/residential" className="inline-block w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Residential Space</Link>
+                        {/* MOBILE BUTTONS SET TO 3/4 WIDTH (w-3/4) */}
+                        <Link to="/professional-spaces" className="inline-block w-3/4 sm:w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Professional Space</Link>
+                        <Link to="/residential" className="inline-block w-3/4 sm:w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Residential Space</Link>
                     </div>
                 </div>
                 
-                {/* Decreased spacing before testimonials */}
                 <div className="mt-2 md:mt-0">
                     <TestimonialScroller />
                 </div>
