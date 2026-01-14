@@ -1,4 +1,4 @@
-// --- HOME PAGE: FINAL UI & MOBILE VISIBILITY LOCKDOWN ---
+// --- HOME PAGE: HERO SCALE & MOBILE BUTTON LOCKDOWN ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
@@ -6,10 +6,8 @@ const TestimonialScroller = () => {
     const containerRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    // Geometry Constants
     const ITEM_WIDTH_DESKTOP = 320;
     const GAP_DESKTOP = 24;
-    const TOTAL_SPACE_DESKTOP = ITEM_WIDTH_DESKTOP + GAP_DESKTOP;
 
     const handleScroll = () => {
         if (!containerRef.current) return;
@@ -59,8 +57,8 @@ const TestimonialScroller = () => {
     }, [originalItems.length]);
 
     return (
-        <div className="relative w-full py-6 md:py-12 group z-30">
-            {/* MOBILE SCROLL ARROWS - CITRON (Hidden on Desktop) */}
+        <div className="relative w-full py-2 md:py-4 group z-30">
+            {/* MOBILE SCROLL ARROWS */}
             <div className="md:hidden absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
                 <button onClick={() => scrollManual(-1)} className="p-3 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
                     <Icon name="chevron-left" className="w-6 h-6 text-brand-dark" />
@@ -73,7 +71,7 @@ const TestimonialScroller = () => {
             <div 
                 ref={containerRef}
                 onScroll={handleScroll}
-                className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-16 md:py-24"
+                className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-8 md:py-16"
                 style={{ paddingLeft: 'calc(50% - 160px)', paddingRight: 'calc(50% - 160px)' }}
             >
                 {displayItems.map((t, i) => {
@@ -94,12 +92,9 @@ const TestimonialScroller = () => {
                         >
                             <div className={`absolute -top-10 -left-4 text-[8rem] md:text-[12rem] font-serif leading-none select-none pointer-events-none transition-opacity duration-500 ${isActive ? 'opacity-80' : 'opacity-10'}`}
                                  style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
-                            
                             <div className="relative z-10 pt-8 md:pt-12">
                                 <p className="text-brand-dark text-sm md:text-lg italic leading-relaxed">"{t.quote}"</p>
                             </div>
-                            
-                            {/* DIVIDER LINE: LOCKED TO PERIWINKLE */}
                             <div className={`mt-auto pt-4 border-t border-brand-periwinkle transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}>
                                 <p className="font-display font-bold text-brand-periwinkle uppercase text-[10px] md:text-xs tracking-[0.2em]">{t.author}</p>
                             </div>
@@ -125,7 +120,7 @@ const SocialSection = ({ platform, handle, link, children }) => (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
                      <a href={link} target="_blank" rel="noopener noreferrer" className="block relative group bg-brand-periwinkle-light text-brand-dark px-8 py-3 md:px-12 md:py-5 font-display font-bold tracking-widest text-[10px] md:text-sm uppercase rounded-full shadow-xl hover:bg-white hover:scale-105 transition-all duration-300">
                         <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full overflow-visible">
-                            <rect x="1" y="1" style={{ width: "calc(100% - 2px)", height: "calc(100% - 2px)" }} rx="24" fill="none" stroke="#D6E31E" strokeWidth="2.5" className="draw-border opacity-0 group-hover:opacity-100" />
+                            <rect x="1.5" y="1.5" style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} rx="28" fill="none" stroke="#D6E31E" strokeWidth="3" className="draw-border opacity-0 group-hover:opacity-100" />
                         </svg>
                         <span className="relative z-10">{handle}</span>
                      </a>
@@ -141,23 +136,37 @@ const Home = () => {
 
     return (
         <div className="overflow-x-hidden bg-brand-base">
-            {/* HERO SECTION */}
-            <div className="relative overflow-hidden min-h-screen flex flex-col justify-center">
+            {/* HERO SECTION - RECALIBRATED PADDING & SIZES */}
+            <div className="relative overflow-hidden min-h-screen flex flex-col justify-start">
                 <div className="absolute inset-0 z-0">
                     <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
                     <GridBeams />
                 </div>
-                <div className="max-w-7xl mx-auto relative z-10 pt-32 md:pt-44 pb-6 md:pb-12 px-4 text-center">
-                    <h1 className="font-display text-5xl sm:text-7xl md:text-8xl font-bold text-brand-dark mb-6 md:mb-8 tracking-tighter leading-[0.95] md:leading-[0.9]">
+                
+                {/* Responsive Padding: pt-48 for mobile, pt-64 for desktop */}
+                <div className="max-w-7xl mx-auto relative z-10 pt-48 md:pt-64 pb-2 md:pb-4 px-4 text-center">
+                    <h1 className="font-display text-5xl sm:text-7xl md:text-[7.2rem] font-bold text-brand-dark mb-8 md:mb-10 tracking-tighter leading-[0.95] md:leading-[0.85]">
                         Get Organized<br />
                         <span className="text-brand-medium italic pr-2">without the overwhelm.</span>
                     </h1>
-                    <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6 mb-8 md:mb-16">
-                        <Link to="/professional-spaces" className="px-8 py-4 md:px-10 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Professional Space</Link>
-                        <Link to="/residential" className="px-8 py-4 md:px-10 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Residential Space</Link>
+                    
+                    {/* RESTORED SUB COPY */}
+                    <div className="max-w-3xl mx-auto space-y-2 mb-10 md:mb-12">
+                        <p className="text-lg md:text-xl text-brand-medium">Life can be chaotic, your space doesn't have to be.</p>
+                        <p className="text-xl md:text-2xl font-display font-bold text-brand-dark uppercase tracking-widest pt-2">Let's organize my:</p>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-8 mb-4 md:mb-6">
+                        {/* Mobile buttons: w-fit ensures they aren't full width */}
+                        <Link to="/professional-spaces" className="inline-block w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Professional Space</Link>
+                        <Link to="/residential" className="inline-block w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Residential Space</Link>
                     </div>
                 </div>
-                <TestimonialScroller />
+                
+                {/* Decreased spacing before testimonials */}
+                <div className="mt-2 md:mt-0">
+                    <TestimonialScroller />
+                </div>
             </div>
 
             {/* SERVICES SECTION */}
@@ -188,7 +197,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* ABOUT SECTION */}
             <section className="py-24 md:py-40 relative overflow-hidden border-y border-stone-100 z-10">
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.9fr_1.1fr] gap-12 md:gap-24 items-center relative z-10">
@@ -208,7 +216,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* SOCIAL FEEDS */}
             <div className="bg-brand-base">
                 <SocialSection platform="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/">
                     <div className="grid grid-cols-2 md:grid-cols-5 relative z-10">
@@ -232,7 +239,6 @@ const Home = () => {
                 </SocialSection>
             </div>
 
-            {/* FINAL CTA SECTION */}
             <section className="py-24 md:py-32 bg-brand-dark text-center px-4 relative overflow-hidden border-t border-brand-dark">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                 <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
@@ -242,7 +248,6 @@ const Home = () => {
                         {["0% Risk", "0% Pressure", "100% Possibility"].map((txt, i) => (
                             <div key={i} className="flex items-center gap-5">
                                 <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-brand-periwinkle/10">
-                                    {/* CITRON CHECK MARK */}
                                     <Icon name="check" className="w-5 h-5 text-brand-lemon" />
                                 </div>
                                 <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">{txt}</span>
