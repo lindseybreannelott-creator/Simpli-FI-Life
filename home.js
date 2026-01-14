@@ -1,4 +1,4 @@
-// --- HOME PAGE: TRANSITION FLIP & CHECKMARK LOCKDOWN ---
+// --- HOME PAGE: FAILSAFE SVG LOCKDOWN ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
@@ -221,12 +221,12 @@ const Home = () => {
                 </SocialSection>
             </div>
 
-            {/* FLIPPED TRANSITION STRIP: OATMEAL BG + PERIWINKLE GRID (NO ANIMATION) */}
+            {/* TRANSITION STRIP */}
             <div className="h-40 w-full relative overflow-hidden bg-brand-base">
                 <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
             </div>
 
-            {/* FINAL CTA SECTION */}
+            {/* FINAL CTA SECTION - FAILSAFE CHECKMARKS */}
             <section className="py-24 md:py-32 bg-brand-dark text-center px-4 relative overflow-hidden border-t border-brand-dark">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                 <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
@@ -236,8 +236,10 @@ const Home = () => {
                         {["0% Risk", "0% Pressure", "100% Possibility"].map((txt, i) => (
                             <div key={i} className="flex items-center gap-5">
                                 <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-brand-periwinkle/10">
-                                    {/* EXPLICIT CITRON COLOR FOR THE CHECK ICON */}
-                                    <Icon name="check" className="w-5 h-5 text-[#D6E31E]" />
+                                    {/* HARD-CODED INLINE SVG CHECKMARK FOR RELIABILITY */}
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D6E31E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
                                 </div>
                                 <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">{txt}</span>
                             </div>
