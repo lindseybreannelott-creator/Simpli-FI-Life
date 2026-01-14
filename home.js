@@ -1,4 +1,4 @@
-// --- HOME PAGE: FINAL DESIGN LOCKDOWN ---
+// --- HOME PAGE: FINAL AESTHETIC CALIBRATION ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
@@ -163,14 +163,14 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* ABOUT SECTION: NEW PERIWINKLE/OATMEAL BACKGROUND */}
+            {/* ABOUT SECTION: PERIWINKLE BACKGROUND & CITRON STATIC BUTTON */}
             <section className="py-40 relative overflow-hidden border-y border-stone-100 z-10">
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.9fr_1.1fr] gap-24 items-center relative z-10">
-                    {/* PHOTO CARD with Full Opacity Periwinkle Light & Oatmeal Grid */}
-                    <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-brand-periwinkle-light group">
-                        {/* Grid overlay using oatmeal color (#F9F6F0) */}
-                        <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,#F9F6F0_1px,transparent_1px),linear-gradient(to_bottom,#F9F6F0_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
+                    {/* PHOTO CARD: Periwinkle bg with Reverse Oatmeal Grid */}
+                    <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-brand-periwinkle group">
+                        {/* Oatmeal grid lines (#F9F6F0) over Periwinkle */}
+                        <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#F9F6F0_1px,transparent_1px),linear-gradient(to_bottom,#F9F6F0_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                         <img 
                             src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/profile-stripedress-directlook.png" 
                             className="relative z-10 w-full aspect-[4/5] object-cover object-top mt-16 transform transition-transform duration-700 group-hover:scale-105" 
@@ -184,42 +184,43 @@ const Home = () => {
                             <p>My appreciation for organization began as a Pediatric Nurse in the ER where structure is essential. Transitioning to homeschooling four children truly refined that clinical precision.</p>
                             <p>Today, I help families and businesses eliminate chaos—saving you time and money so you have the margin to run your world.</p>
                         </div>
-                        <Link to="/booking" className="mt-12 inline-flex items-center justify-center px-10 py-5 rounded-full bg-brand-periwinkle text-brand-white hover:bg-brand-lemon hover:text-brand-dark transition-all font-display font-bold uppercase tracking-widest text-sm shadow-xl">Book Clarity Call</Link>
+                        {/* BUTTON: Citron Static -> Light Periwinkle Hover */}
+                        <Link to="/booking" className="mt-12 inline-flex items-center justify-center px-10 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle-light transition-all duration-300 font-display font-bold uppercase tracking-widest text-sm shadow-xl">
+                            Book Clarity Call
+                        </Link>
                     </div>
                 </div>
             </section>
 
             {/* SOCIAL FEEDS */}
             <div className="bg-brand-base">
-                <SocialSection platform="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/">
-                    <div className="grid grid-cols-2 md:grid-cols-5 border-t-4 border-brand-periwinkle-light">
-                        {["IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg", "IG-NoMoreMissingSocks-Cover.jpg", "IG-BeigeYTCovershorts.jpeg", "IG-stopkeepingmissingthings.jpg", "6.jpg"].map((img, i) => (
-                            <a key={i} href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="aspect-[9/16] overflow-hidden group relative border-r border-stone-100 last:border-r-0">
-                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
-                                <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="instagram" className="text-white w-8 h-8 drop-shadow-lg" /></div>
-                            </a>
-                        ))}
-                    </div>
-                </SocialSection>
+                <SocialHeader label="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/" />
+                <div className="grid grid-cols-2 md:grid-cols-5 border-t-4 border-brand-periwinkle-light">
+                    {["IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg", "IG-NoMoreMissingSocks-Cover.jpg", "IG-BeigeYTCovershorts.jpeg", "IG-stopkeepingmissingthings.jpg", "6.jpg"].map((img, i) => (
+                        <a key={i} href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="aspect-[9/16] overflow-hidden group relative border-r border-stone-100 last:border-r-0">
+                            <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
+                            <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="instagram" className="text-white w-8 h-8 drop-shadow-lg" /></div>
+                        </a>
+                    ))}
+                </div>
 
                 <div className="h-48 w-full relative overflow-hidden">
                     <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                     <GridBeams spawnRate={500} />
                 </div>
 
-                <SocialSection platform="YouTube" handle="@Simpli-FILife" link="https://www.youtube.com/@Simpli-FILife">
-                    <div className="grid grid-cols-1 md:grid-cols-3 border-t-4 border-brand-periwinkle-light">
-                        {["angie%20Storage%20Organized-Cover.jpg", "YT-systems-chaos.png", "YT-expected%20mess%20vs%20clutter.png"].map((img, i) => (
-                            <a key={i} href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="aspect-video overflow-hidden group relative border-r border-stone-100 last:border-r-0">
-                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
-                                <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="youtube" className="text-white w-12 h-12 drop-shadow-lg" /></div>
-                            </a>
-                        ))}
-                    </div>
-                </SocialSection>
+                <SocialHeader label="YouTube" handle="@Simpli-FILife" link="https://www.youtube.com/@Simpli-FILife" />
+                <div className="grid grid-cols-1 md:grid-cols-3 border-t-4 border-brand-periwinkle-light">
+                    {["angie%20Storage%20Organized-Cover.jpg", "YT-systems-chaos.png", "YT-expected%20mess%20vs%20clutter.png"].map((img, i) => (
+                        <a key={i} href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="aspect-video overflow-hidden group relative border-r border-stone-100 last:border-r-0">
+                            <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
+                            <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="youtube" className="text-white w-12 h-12 drop-shadow-lg" /></div>
+                        </a>
+                    ))}
+                </div>
             </div>
 
-            {/* FINAL CTA SECTION - CALIBRATED SIZE & COPY */}
+            {/* FINAL CTA SECTION */}
             <section className="py-32 bg-brand-dark text-center px-4 relative overflow-hidden border-t border-brand-dark">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                 <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
