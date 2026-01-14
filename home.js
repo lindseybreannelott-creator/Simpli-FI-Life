@@ -1,8 +1,9 @@
-// --- HOME PAGE: FINAL DESIGN RECALIBRATION ---
+// --- HOME PAGE: INFINITE LOOP & SOCIAL CALIBRATION ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
-    const displayItems = [...originalItems, ...originalItems, ...originalItems];
+    // Using 5 sets for a massive buffer to ensure a truly seamless infinite loop
+    const displayItems = [...originalItems, ...originalItems, ...originalItems, ...originalItems, ...originalItems];
     const containerRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -17,21 +18,17 @@ const TestimonialScroller = () => {
         const width = container.offsetWidth;
         
         // --- SPOTLIGHT MATH ---
-        // Find center of viewport relative to the scroll content
         const centerOfViewport = scrollPos + (width / 2);
-        
-        // Calculate which card is closest to that center point
-        // We use Math.floor with a half-card offset to center the "active zone"
         const index = Math.round((centerOfViewport - (width / 2) + (ITEM_WIDTH / 2)) / TOTAL_SPACE) % originalItems.length;
-        
         setActiveIndex(Math.abs(index));
 
-        // Infinite Loop Reset
+        // --- TRUE INFINITE LOOP LOGIC ---
         const setWidth = originalItems.length * TOTAL_SPACE;
-        if (scrollPos < 10) {
-            container.scrollLeft = setWidth;
-        } else if (scrollPos > (container.scrollWidth - width - 10)) {
-            container.scrollLeft = setWidth;
+        // If user scrolls too far left or right, silently jump back to the middle set
+        if (scrollPos < setWidth) {
+            container.scrollLeft = scrollPos + setWidth;
+        } else if (scrollPos > setWidth * 3) {
+            container.scrollLeft = scrollPos - setWidth;
         }
     };
 
@@ -39,7 +36,8 @@ const TestimonialScroller = () => {
         if (containerRef.current) {
             const container = containerRef.current;
             const setWidth = originalItems.length * TOTAL_SPACE;
-            container.scrollLeft = setWidth;
+            // Start at the exact beginning of the 3rd set (the true middle)
+            container.scrollLeft = setWidth * 2;
             handleScroll();
         }
     }, [originalItems.length]);
@@ -86,22 +84,28 @@ const SocialSection = ({ platform, handle, link, children }) => (
         {/* Continuous Grid Background */}
         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
         
-        <div className="relative z-10 pt-32">
-            <div className="text-center mb-16">
-                <p className="font-sans text-xs font-bold tracking-[0.3em] text-brand-medium uppercase mb-3">Follow me on</p>
-                <h3 className="font-display text-5xl font-bold text-brand-dark uppercase tracking-tighter">{platform}</h3>
+        <div className="relative z-10 pt-40">
+            <div className="text-center mb-12">
+                <p className="font-sans text-xs font-bold tracking-[0.4em] text-brand-medium uppercase mb-3">Follow me on</p>
+                <h3 className="font-display text-6xl font-bold text-brand-dark uppercase tracking-tighter">{platform}</h3>
             </div>
             
-            <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
-            {children}
-            
-            <div className="absolute top-[232px] left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
-                 <a href={link} target="_blank" className="block relative group bg-brand-periwinkle-light text-brand-dark px-12 py-4 font-display font-bold tracking-widest text-sm uppercase rounded-full shadow-xl hover:bg-white hover:scale-105 transition-all duration-300">
-                    <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full overflow-visible">
-                        <rect x="1.5" y="1.5" style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} rx="26" fill="none" stroke="#D6E31E" strokeWidth="3" className="draw-border opacity-0 group-hover:opacity-100" />
-                    </svg>
-                    <span className="relative z-10">{handle}</span>
-                 </a>
+            <div className="relative">
+                {/* The Periwinkle Line */}
+                <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
+                
+                {/* The Image Strip */}
+                {children}
+                
+                {/* THE HALF-AND-HALF BUTTON */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
+                     <a href={link} target="_blank" className="block relative group bg-brand-periwinkle-light text-brand-dark px-12 py-5 font-display font-bold tracking-widest text-sm uppercase rounded-full shadow-2xl hover:bg-white hover:scale-105 transition-all duration-300">
+                        <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full overflow-visible">
+                            <rect x="1.5" y="1.5" style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} rx="28" fill="none" stroke="#D6E31E" strokeWidth="3" className="draw-border opacity-0 group-hover:opacity-100" />
+                        </svg>
+                        <span className="relative z-10">{handle}</span>
+                     </a>
+                </div>
             </div>
         </div>
     </div>
@@ -161,7 +165,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* ABOUT SECTION: RECALIBRATED IMAGE SIZE & GRID */}
+            {/* ABOUT SECTION */}
             <section className="py-40 relative overflow-hidden border-y border-stone-100 z-10">
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.9fr_1.1fr] gap-24 items-center relative z-10">
@@ -187,7 +191,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* SOCIAL FEEDS WITH GRID CONTINUITY */}
+            {/* SOCIAL FEEDS */}
             <div className="bg-brand-base">
                 <SocialSection platform="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/">
                     <div className="grid grid-cols-2 md:grid-cols-5 relative z-10">
