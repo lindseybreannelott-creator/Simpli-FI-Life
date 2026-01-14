@@ -69,26 +69,50 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const loc = useLocation();
     const isDark = loc.pathname === '/professional-spaces';
+    
+    // Exact vertical alignment logic for the header elements
     return (
         <nav className="absolute top-0 left-0 w-full z-50">
             <div className="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
-                <Link to="/" className="font-display font-bold text-2xl tracking-tight text-brand-dark">
-                    <span className={isDark ? 'text-brand-base' : 'text-brand-dark'}>SIMPLI-FI <span className="font-light opacity-70">LIFE</span></span>
+                {/* LOGO */}
+                <Link to="/" className="font-display font-bold text-2xl tracking-tight flex items-center h-full">
+                    <span className={isDark ? 'text-brand-base' : 'text-brand-dark'}>
+                        SIMPLI-FI <span className="font-light opacity-70">LIFE</span>
+                    </span>
                 </Link>
-                <div className="hidden md:flex space-x-8">
+
+                {/* NAV LINKS - Adjusted spacing and vertical center */}
+                <div className="hidden md:flex items-center space-x-10 h-full">
                     {['HOME', 'PROFESSIONAL SPACES', 'RESIDENTIAL SPACES'].map((name) => (
-                        <Link key={name} to={name === 'HOME' ? '/' : `/${name.toLowerCase().replace(' ', '-')}`} className={`text-lg font-display tracking-tight uppercase transition ${isDark ? 'text-brand-base hover:text-brand-periwinkle-light' : 'text-brand-medium hover:text-brand-periwinkle'}`}>{name}</Link>
+                        <Link 
+                            key={name} 
+                            to={name === 'HOME' ? '/' : `/${name.toLowerCase().replace(' ', '-')}`} 
+                            className={`text-[15px] font-display font-medium tracking-[0.1em] uppercase transition-all duration-300 leading-none ${
+                                isDark ? 'text-brand-base hover:text-brand-periwinkle-light' : 'text-brand-medium hover:text-brand-periwinkle'
+                            }`}
+                        >
+                            {name}
+                        </Link>
                     ))}
-                    <Link to="/booking" className="bg-brand-lemon text-brand-dark px-6 py-2 rounded-full font-display font-bold hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg">BOOK CLARITY CALL</Link>
+                    {/* BUTTON - Vertically centered with links */}
+                    <Link to="/booking" className="bg-brand-lemon text-brand-dark px-7 py-2.5 rounded-full font-display font-bold text-sm tracking-widest uppercase hover:bg-brand-periwinkle hover:text-brand-white transition-all shadow-lg active:scale-95">
+                        BOOK CLARITY CALL
+                    </Link>
                 </div>
-                <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2"><Icon name={isOpen ? "x" : "menu"} className={isDark ? "text-brand-base" : "text-brand-dark"} /></button>
+
+                {/* MOBILE MENU TOGGLE */}
+                <button onClick={() => setIsOpen(!isOpen)} className="md:hidden flex items-center h-full p-2">
+                    <Icon name={isOpen ? "x" : "menu"} className={isDark ? "text-brand-base" : "text-brand-dark"} />
+                </button>
             </div>
+
+            {/* MOBILE DROPDOWN */}
             {isOpen && (
-                <div className="md:hidden bg-brand-white border-t p-4 space-y-4 absolute w-full shadow-xl">
-                    <Link to="/" onClick={() => setIsOpen(false)} className="block py-2 text-lg uppercase">Home</Link>
-                    <Link to="/professional-spaces" onClick={() => setIsOpen(false)} className="block py-2 text-lg uppercase">Professional Spaces</Link>
-                    <Link to="/residential" onClick={() => setIsOpen(false)} className="block py-2 text-lg uppercase">Residential Spaces</Link>
-                    <Link to="/booking" onClick={() => setIsOpen(false)} className="block w-full text-center py-3 bg-brand-lemon rounded-lg font-bold">BOOK CLARITY CALL</Link>
+                <div className="md:hidden bg-brand-white border-t p-4 space-y-4 absolute w-full shadow-2xl animate-fade-in-up">
+                    <Link to="/" onClick={() => setIsOpen(false)} className="block py-2 text-lg font-display uppercase">Home</Link>
+                    <Link to="/professional-spaces" onClick={() => setIsOpen(false)} className="block py-2 text-lg font-display uppercase">Professional Spaces</Link>
+                    <Link to="/residential" onClick={() => setIsOpen(false)} className="block py-2 text-lg font-display uppercase">Residential Spaces</Link>
+                    <Link to="/booking" onClick={() => setIsOpen(false)} className="block w-full text-center py-4 bg-brand-lemon rounded-xl font-display font-bold uppercase">BOOK CLARITY CALL</Link>
                 </div>
             )}
         </nav>
@@ -98,10 +122,17 @@ const Navbar = () => {
 const Footer = () => (
     <section className="bg-brand-dark text-brand-base py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div><span className="font-display text-2xl font-bold uppercase">Simpli-FI <span className="font-light opacity-50">Life</span></span><p className="text-stone-400 text-sm mt-2">Serving the Greater DFW Area | Available Virtually</p></div>
+            <div>
+                <span className="font-display text-2xl font-bold uppercase tracking-tight">Simpli-FI <span className="font-light opacity-50">Life</span></span>
+                <p className="text-stone-400 text-sm mt-2">Serving the Greater DFW Area | Available Virtually</p>
+            </div>
+            <div className="flex gap-6 items-center">
+                <a href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="hover:text-brand-lemon transition"><Icon name="instagram" className="w-5 h-5"/></a>
+                <a href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="hover:text-brand-lemon transition"><Icon name="youtube" className="w-5 h-5"/></a>
+            </div>
             <div className="text-center md:text-right">
                 <p className="text-stone-500 text-xs">&copy; 2026 Simpli-FI Life LLC. All Rights Reserved.</p>
-                <Link to="/new-space-intake" className="text-stone-600 text-[10px] hover:text-brand-periwinkle transition mt-1 inline-block">New Space Intake</Link>
+                <Link to="/new-space-intake" className="text-stone-600 text-[10px] hover:text-brand-periwinkle transition mt-1 inline-block uppercase tracking-widest font-bold">New Space Intake</Link>
             </div>
         </div>
     </section>
