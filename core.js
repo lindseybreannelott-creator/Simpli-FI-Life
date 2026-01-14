@@ -30,7 +30,7 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
         const spawn = () => {
             if (!active) return;
             const id = count++;
-            const beamDuration = 3.0 + Math.random() * 2.0; // Slower glide
+            const beamDuration = 3.5 + Math.random() * 2.0; 
             const isHorizontal = Math.random() > 0.5;
             
             setBeams(prev => [...prev, { 
@@ -47,7 +47,6 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
             }, beamDuration * 1000);
         };
 
-        // Instant Start for immediate visual feedback
         spawn(); spawn(); spawn(); 
         const interval = setInterval(spawn, spawnRate);
         return () => { active = false; clearInterval(interval); };
@@ -72,17 +71,12 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
     );
 };
 
-// --- UPDATED LOADING SCREEN: NOW INCLUDES BEAMS ---
 const LoadingScreen = ({ onComplete }) => {
     useEffect(() => { const t = setTimeout(onComplete, 4800); return () => clearTimeout(t); }, [onComplete]);
     return (
         <div className="fixed inset-0 z-[100] bg-brand-base flex items-center justify-center loader-exit overflow-hidden">
-            {/* Background Grid */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
-            
-            {/* ACTIVE BEAMS IN INTRO */}
             <GridBeams spawnRate={150} /> 
-
             <div className="relative z-20 loading-logo-reveal text-center px-4">
                 <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark uppercase">
                     <span className="font-bold">SIMPLI-FI</span> <span className="font-light text-brand-medium">LIFE</span>
@@ -98,13 +92,22 @@ const Navbar = () => {
     const isDark = loc.pathname === '/professional-spaces';
     
     return (
-        <nav className="absolute top-0 left-0 w-full z-50 pt-2">
-            <div className="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
-                <Link to="/" className="font-display font-bold text-2xl md:text-3xl tracking-tight flex items-center h-full pl-2 transition-transform active:scale-95">
+        <nav className="absolute top-0 left-0 w-full z-50">
+            {/* HEIGHT CALIBRATION:
+                Grid size is 40px. Grid lines at 40, 80, 120.
+                h-[120px] with items-center puts elements exactly at 60px.
+                60px is perfectly centered between the 40px and 80px grid lines.
+            */}
+            <div className="max-w-7xl mx-auto px-6 h-[120px] flex justify-between items-center">
+                
+                {/* LOGO: Added pl-4 for that requested padding increase */}
+                <Link to="/" className="font-display font-bold text-2xl md:text-3xl tracking-tight flex items-center h-full pl-4 transition-transform active:scale-95">
                     <span className={isDark ? 'text-brand-base' : 'text-brand-dark'}>
                         SIMPLI-FI <span className="font-light opacity-70">LIFE</span>
                     </span>
                 </Link>
+
+                {/* DESKTOP NAV */}
                 <div className="hidden md:flex items-center space-x-10 h-full">
                     {['HOME', 'PROFESSIONAL SPACES', 'RESIDENTIAL SPACES'].map((name) => (
                         <Link 
@@ -121,6 +124,8 @@ const Navbar = () => {
                         BOOK CLARITY CALL
                     </Link>
                 </div>
+
+                {/* MOBILE HAMBURGER: Vertically centered on the 60px axis */}
                 <button onClick={() => setIsOpen(!isOpen)} className="md:hidden flex items-center h-full px-4 z-[60] relative" aria-label="Toggle Menu">
                     <div className="w-8 h-8 flex items-center justify-center">
                         {isOpen ? (
@@ -135,6 +140,8 @@ const Navbar = () => {
                     </div>
                 </button>
             </div>
+
+            {/* MOBILE MENU */}
             {isOpen && (
                 <div className="md:hidden fixed inset-0 bg-brand-white z-50 flex flex-col items-center justify-center space-y-8 animate-fade-in-up">
                     <Link to="/" onClick={() => setIsOpen(false)} className="text-3xl font-display font-bold text-brand-dark uppercase tracking-widest">Home</Link>
