@@ -52,7 +52,7 @@ const TestimonialScroller = () => {
                             key={i} 
                             className={`snap-center flex-shrink-0 p-8 rounded-3xl border-2 transition-all duration-700 ease-in-out flex flex-col justify-between min-h-[420px] relative shadow-2xl
                                 ${isActive 
-                                    ? 'bg-brand-white border-brand-lemon scale-110 z-40 opacity-100 blur-none ring-8 ring-brand-lemon/5' 
+                                    ? 'bg-brand-lemon/20 border-brand-lemon scale-110 z-40 opacity-100 blur-none ring-8 ring-brand-lemon/5' 
                                     : 'bg-brand-white border-stone-100 scale-90 z-10 opacity-40 blur-[1.5px]'
                                 }`}
                             style={{ 
@@ -85,6 +85,27 @@ const SocialHeader = ({ label, handle, link }) => (
         <a href={link} target="_blank" rel="noopener noreferrer" className="font-display text-brand-periwinkle font-bold hover:text-brand-lemon transition uppercase tracking-widest text-sm italic">
             {handle}
         </a>
+    </div>
+);
+
+const SocialSection = ({ platform, handle, link, children }) => (
+    <div className="relative w-full bg-brand-base z-10">
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-full text-center z-40">
+            <p className="font-display font-light text-brand-dark leading-none">
+                <span className="block text-sm mb-1 uppercase tracking-[0.3em] opacity-60">follow me on</span>
+                <span className="text-3xl font-bold tracking-tight uppercase">{platform}</span>
+            </p>
+        </div>
+        <div className="w-full h-1.5 bg-brand-periwinkle-light relative z-20"></div>
+        {children}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+             <a href={link} target="_blank" className="block relative group bg-brand-periwinkle-light text-brand-dark px-12 py-4 font-display font-bold tracking-widest text-sm uppercase rounded-full shadow-xl hover:bg-white hover:scale-105 transition-all duration-300">
+                <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full overflow-visible">
+                    <rect x="1.5" y="1.5" style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} rx="26" fill="none" stroke="#D6E31E" strokeWidth="3" className="draw-border opacity-0 group-hover:opacity-100" />
+                </svg>
+                <span className="relative z-10">{handle}</span>
+             </a>
+        </div>
     </div>
 );
 
@@ -142,13 +163,11 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* ABOUT SECTION: PHOTO DIMENSION & GRID FIX */}
+            {/* ABOUT SECTION */}
             <section className="py-40 relative overflow-hidden border-y border-stone-100 z-10">
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.9fr_1.1fr] gap-24 items-center relative z-10">
-                    {/* PHOTO CARD WITH DIMENSION */}
                     <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-brand-lemon/25 group">
-                        {/* Grid on top of citron color, but behind photo */}
                         <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                         <img 
                             src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/profile-stripedress-directlook.png" 
@@ -170,31 +189,32 @@ const Home = () => {
 
             {/* SOCIAL FEEDS */}
             <div className="bg-brand-base">
-                <SocialHeader label="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/" />
-                <div className="grid grid-cols-2 md:grid-cols-5 border-t-4 border-brand-periwinkle-light">
-                    {["IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg", "IG-NoMoreMissingSocks-Cover.jpg", "IG-BeigeYTCovershorts.jpeg", "IG-stopkeepingmissingthings.jpg", "6.jpg"].map((img, i) => (
-                        <a key={i} href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="aspect-[9/16] overflow-hidden group relative border-r border-stone-100 last:border-r-0">
-                            <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
-                            <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="instagram" className="text-white w-8 h-8 drop-shadow-lg" /></div>
-                        </a>
-                    ))}
-                </div>
+                <SocialSection platform="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/">
+                    <div className="grid grid-cols-2 md:grid-cols-5 border-t border-stone-100">
+                        {["IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg", "IG-NoMoreMissingSocks-Cover.jpg", "IG-BeigeYTCovershorts.jpeg", "IG-stopkeepingmissingthings.jpg", "6.jpg"].map((img, i) => (
+                            <a key={i} href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="aspect-[9/16] overflow-hidden group relative border-r border-stone-100 last:border-r-0">
+                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
+                                <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="instagram" className="text-white w-8 h-8 drop-shadow-lg" /></div>
+                            </a>
+                        ))}
+                    </div>
+                </SocialSection>
 
-                {/* GRID SPACER */}
                 <div className="h-48 w-full relative overflow-hidden">
                     <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                     <GridBeams spawnRate={500} />
                 </div>
 
-                <SocialHeader label="YouTube" handle="@Simpli_FI_Life_SHORTS" link="https://www.youtube.com/@Simpli_FI_Life_SHORTS" />
-                <div className="grid grid-cols-1 md:grid-cols-3 border-t-4 border-brand-periwinkle-light">
-                    {["angie%20Storage%20Organized-Cover.jpg", "YT-systems-chaos.png", "YT-expected%20mess%20vs%20clutter.png"].map((img, i) => (
-                        <a key={i} href="https://www.youtube.com/@Simpli_FI_Life_SHORTS" target="_blank" className="aspect-video overflow-hidden group relative border-r border-stone-100 last:border-r-0">
-                            <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
-                            <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="youtube" className="text-white w-12 h-12 drop-shadow-lg" /></div>
-                        </a>
-                    ))}
-                </div>
+                <SocialSection platform="YouTube" handle="@Simpli-FILife" link="https://www.youtube.com/@Simpli-FILife">
+                    <div className="grid grid-cols-1 md:grid-cols-3 border-t border-stone-100">
+                        {["angie%20Storage%20Organized-Cover.jpg", "YT-systems-chaos.png", "YT-expected%20mess%20vs%20clutter.png"].map((img, i) => (
+                            <a key={i} href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="aspect-video overflow-hidden group relative border-r border-stone-100 last:border-r-0">
+                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
+                                <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="youtube" className="text-white w-12 h-12 drop-shadow-lg" /></div>
+                            </a>
+                        ))}
+                    </div>
+                </SocialSection>
             </div>
 
             {/* FINAL CTA */}
@@ -202,4 +222,27 @@ const Home = () => {
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
                 <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
                     <h2 className="font-display font-bold text-6xl md:text-8xl text-brand-lemon mb-8 uppercase tracking-tighter">Are you still here?</h2>
-                    <p className
+                    <p className="text-xl md:text-2xl text-brand-base font-light mb-16 opacity-80 leading-relaxed">Go ahead and get that free clarity call scheduled.</p>
+                    
+                    <div className="flex flex-col items-center space-y-8 mb-20">
+                        {["0% Risk", "0% Pressure", "100% Possibility"].map((txt, i) => (
+                            <div key={i} className="flex items-center gap-6 group">
+                                <div className="w-10 h-10 rounded border-2 border-brand-periwinkle flex items-center justify-center bg-brand-periwinkle/10">
+                                    <Icon name="check" className="w-6 h-6 text-brand-lemon" />
+                                </div>
+                                <span className="font-handwriting text-3xl md:text-5xl text-brand-periwinkle transform -rotate-1">{txt}</span>
+                            </div>
+                        ))}
+                    </div>
+
+                    <Link to="/booking" 
+                          onMouseEnter={() => setCtaHover(true)}
+                          onMouseLeave={() => setCtaHover(false)}
+                          className="inline-flex items-center justify-center px-16 py-6 rounded-full bg-brand-lemon text-brand-dark hover:bg-white transition-all shadow-2xl font-display font-bold text-2xl uppercase tracking-tighter transform hover:scale-110 active:scale-95">
+                        {ctaHover ? "GREAT CHOICE!" : "Let's Do This"}
+                    </Link>
+                </div>
+            </section>
+        </div>
+    );
+};
