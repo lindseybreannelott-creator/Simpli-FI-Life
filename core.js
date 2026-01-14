@@ -32,8 +32,6 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 300, beamWidth = 1
             setBeams(prev => [...prev, { id, isHorizontal, isReverse: Math.random() > 0.5, offset: Math.floor(Math.random() * 100) * 40, duration: beamDuration, color: (id % 5 === 0) ? "214, 227, 30" : beamColor }]);
             setTimeout(() => { if (active) setBeams(prev => prev.filter(b => b.id !== id)); }, beamDuration * 1000);
         };
-        
-        // IMMEDIATE TRIGGER: Fires the first beam instantly upon mount
         spawn(); 
         const interval = setInterval(spawn, spawnRate);
         return () => { active = false; clearInterval(interval); };
@@ -74,16 +72,17 @@ const Navbar = () => {
     const isDark = loc.pathname === '/professional-spaces';
     
     return (
-        <nav className="absolute top-0 left-0 w-full z-50">
-            <div className="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
-                {/* LOGO */}
-                <Link to="/" className="font-display font-bold text-2xl tracking-tight flex items-center h-full">
+        <nav className="absolute top-0 left-0 w-full z-50 pt-2"> {/* pt-2 adds the slight top padding increase */}
+            <div className="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center"> {/* h-24 and px-6 increases overall breathing room */}
+                
+                {/* LOGO - pl-2 adds specific padding before the text starts */}
+                <Link to="/" className="font-display font-bold text-2xl md:text-3xl tracking-tight flex items-center h-full pl-2 transition-transform active:scale-95">
                     <span className={isDark ? 'text-brand-base' : 'text-brand-dark'}>
                         SIMPLI-FI <span className="font-light opacity-70">LIFE</span>
                     </span>
                 </Link>
 
-                {/* NAV LINKS - Vertically Centered with logo */}
+                {/* DESKTOP NAV LINKS */}
                 <div className="hidden md:flex items-center space-x-10 h-full">
                     {['HOME', 'PROFESSIONAL SPACES', 'RESIDENTIAL SPACES'].map((name) => (
                         <Link 
@@ -96,25 +95,42 @@ const Navbar = () => {
                             {name}
                         </Link>
                     ))}
-                    {/* BUTTON - Vertically Centered */}
                     <Link to="/booking" className="bg-brand-lemon text-brand-dark px-7 py-2.5 rounded-full font-display font-bold text-sm tracking-widest uppercase hover:bg-brand-periwinkle hover:text-brand-white transition-all shadow-lg active:scale-95 flex items-center">
                         BOOK CLARITY CALL
                     </Link>
                 </div>
 
-                {/* MOBILE MENU TOGGLE */}
-                <button onClick={() => setIsOpen(!isOpen)} className="md:hidden flex items-center h-full p-2">
-                    <Icon name={isOpen ? "x" : "menu"} className={isDark ? "text-brand-base" : "text-brand-dark"} />
+                {/* MOBILE MENU TOGGLE (HAMBURGER) */}
+                <button 
+                    onClick={() => setIsOpen(!isOpen)} 
+                    className="md:hidden flex items-center h-full px-4 z-[60] relative"
+                    aria-label="Toggle Menu"
+                >
+                    <div className="w-8 h-8 flex items-center justify-center">
+                        {/* Static SVG for maximum reliability on mobile browsers */}
+                        {isOpen ? (
+                            <svg className={`w-8 h-8 ${isDark ? 'text-brand-base' : 'text-brand-dark'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        ) : (
+                            <svg className={`w-8 h-8 ${isDark ? 'text-brand-base' : 'text-brand-dark'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16m-7 6h7" />
+                            </svg>
+                        )}
+                    </div>
                 </button>
             </div>
 
-            {/* MOBILE DROPDOWN */}
+            {/* MOBILE DROPDOWN - FULL SCREEN OVERLAY STYLE */}
             {isOpen && (
-                <div className="md:hidden bg-brand-white border-t p-4 space-y-4 absolute w-full shadow-2xl animate-fade-in-up">
-                    <Link to="/" onClick={() => setIsOpen(false)} className="block py-2 text-lg font-display uppercase">Home</Link>
-                    <Link to="/professional-spaces" onClick={() => setIsOpen(false)} className="block py-2 text-lg font-display uppercase">Professional Spaces</Link>
-                    <Link to="/residential" onClick={() => setIsOpen(false)} className="block py-2 text-lg font-display uppercase">Residential Spaces</Link>
-                    <Link to="/booking" onClick={() => setIsOpen(false)} className="block w-full text-center py-4 bg-brand-lemon rounded-xl font-display font-bold uppercase">BOOK CLARITY CALL</Link>
+                <div className="md:hidden fixed inset-0 bg-brand-white z-50 flex flex-col items-center justify-center space-y-8 animate-fade-in-up">
+                    <Link to="/" onClick={() => setIsOpen(false)} className="text-3xl font-display font-bold text-brand-dark uppercase tracking-widest">Home</Link>
+                    <Link to="/professional-spaces" onClick={() => setIsOpen(false)} className="text-2xl font-display font-medium text-brand-medium uppercase tracking-widest">Professional Spaces</Link>
+                    <Link to="/residential" onClick={() => setIsOpen(false)} className="text-2xl font-display font-medium text-brand-medium uppercase tracking-widest">Residential Spaces</Link>
+                    <Link to="/booking" onClick={() => setIsOpen(false)} className="bg-brand-lemon text-brand-dark px-10 py-5 rounded-full font-display font-bold text-xl uppercase tracking-widest shadow-2xl">BOOK CLARITY CALL</Link>
+                    
+                    {/* Close button at bottom for easier thumb reach */}
+                    <button onClick={() => setIsOpen(false)} className="mt-12 text-brand-periwinkle font-bold uppercase tracking-widest border-b-2 border-brand-periwinkle pb-1">Close Menu</button>
                 </div>
             )}
         </nav>
