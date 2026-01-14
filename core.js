@@ -32,6 +32,9 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 300, beamWidth = 1
             setBeams(prev => [...prev, { id, isHorizontal, isReverse: Math.random() > 0.5, offset: Math.floor(Math.random() * 100) * 40, duration: beamDuration, color: (id % 5 === 0) ? "214, 227, 30" : beamColor }]);
             setTimeout(() => { if (active) setBeams(prev => prev.filter(b => b.id !== id)); }, beamDuration * 1000);
         };
+        
+        // IMMEDIATE TRIGGER: Fires the first beam instantly upon mount
+        spawn(); 
         const interval = setInterval(spawn, spawnRate);
         return () => { active = false; clearInterval(interval); };
     }, [beamColor, spawnRate]);
@@ -70,7 +73,6 @@ const Navbar = () => {
     const loc = useLocation();
     const isDark = loc.pathname === '/professional-spaces';
     
-    // Exact vertical alignment logic for the header elements
     return (
         <nav className="absolute top-0 left-0 w-full z-50">
             <div className="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
@@ -81,21 +83,21 @@ const Navbar = () => {
                     </span>
                 </Link>
 
-                {/* NAV LINKS - Adjusted spacing and vertical center */}
+                {/* NAV LINKS - Vertically Centered with logo */}
                 <div className="hidden md:flex items-center space-x-10 h-full">
                     {['HOME', 'PROFESSIONAL SPACES', 'RESIDENTIAL SPACES'].map((name) => (
                         <Link 
                             key={name} 
                             to={name === 'HOME' ? '/' : `/${name.toLowerCase().replace(' ', '-')}`} 
-                            className={`text-[15px] font-display font-medium tracking-[0.1em] uppercase transition-all duration-300 leading-none ${
+                            className={`text-[15px] font-display font-medium tracking-[0.1em] uppercase transition-all duration-300 leading-none flex items-center ${
                                 isDark ? 'text-brand-base hover:text-brand-periwinkle-light' : 'text-brand-medium hover:text-brand-periwinkle'
                             }`}
                         >
                             {name}
                         </Link>
                     ))}
-                    {/* BUTTON - Vertically centered with links */}
-                    <Link to="/booking" className="bg-brand-lemon text-brand-dark px-7 py-2.5 rounded-full font-display font-bold text-sm tracking-widest uppercase hover:bg-brand-periwinkle hover:text-brand-white transition-all shadow-lg active:scale-95">
+                    {/* BUTTON - Vertically Centered */}
+                    <Link to="/booking" className="bg-brand-lemon text-brand-dark px-7 py-2.5 rounded-full font-display font-bold text-sm tracking-widest uppercase hover:bg-brand-periwinkle hover:text-brand-white transition-all shadow-lg active:scale-95 flex items-center">
                         BOOK CLARITY CALL
                     </Link>
                 </div>
