@@ -1,4 +1,4 @@
-// --- HOME PAGE: SPOTLIGHT CALIBRATION VERSION ---
+// --- HOME PAGE: SPOTLIGHT & GRID FIXES ---
 
 const TestimonialScroller = () => {
     const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
@@ -25,7 +25,8 @@ const TestimonialScroller = () => {
         const globalCenter = container.scrollLeft + viewportCenter;
         
         // Calculate index based on the center of the cards
-        const index = Math.round((globalCenter - (viewportCenter)) / TOTAL_CARD_SPACE) % originalItems.length;
+        // We add a small offset (ITEM_WIDTH / 2) to ensure it triggers exactly when the *center* of the card hits the viewport center
+        const index = Math.floor((globalCenter - (ITEM_WIDTH / 2)) / TOTAL_CARD_SPACE) % originalItems.length;
         
         // Only update if the index actually changes to prevent jitter
         setActiveIndex(Math.abs(index));
@@ -146,13 +147,15 @@ const Home = () => {
 
             {/* SERVICES SECTION */}
             <section className="py-32 relative z-10">
+                {/* Grid Opacity set to 20% */}
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
                     <h2 className="font-display text-5xl md:text-7xl font-bold tracking-tighter text-brand-dark italic mb-24 leading-none">Make Room for More in Your....</h2>
                     <div className="grid md:grid-cols-2 gap-16 max-w-5xl mx-auto">
                         <div className="group relative bg-brand-white rounded-3xl p-10 border-2 border-stone-100 flex flex-col items-center transition-all hover:shadow-2xl">
+                            {/* SVG Border increased to 3.5 */}
                             <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl z-20">
-                                <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
+                                <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" />
                             </svg>
                             <Icon name="building-2" className="w-16 h-16 text-brand-dark mb-8 bg-stone-50 p-4 rounded-3xl" />
                             <h3 className="font-display text-4xl font-bold mb-6 text-brand-dark uppercase tracking-tight">Professional Spaces</h3>
@@ -160,8 +163,9 @@ const Home = () => {
                             <Link to="/professional-spaces" className="w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-2xl font-bold hover:bg-brand-periwinkle hover:text-brand-white transition-all uppercase tracking-widest text-xs shadow-md">Get Organized, Save Money</Link>
                         </div>
                         <div className="group relative bg-brand-white rounded-3xl p-10 border-2 border-stone-100 flex flex-col items-center transition-all hover:shadow-2xl">
+                            {/* SVG Border increased to 3.5 */}
                             <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl z-20">
-                                <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="2" className="draw-border opacity-0 group-hover:opacity-100" />
+                                <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" />
                             </svg>
                             <Icon name="home" className="w-16 h-16 text-brand-dark mb-8 bg-stone-50 p-4 rounded-3xl" />
                             <h3 className="font-display text-4xl font-bold mb-6 text-brand-dark uppercase tracking-tight">Residential Spaces</h3>
@@ -174,7 +178,8 @@ const Home = () => {
 
             {/* ABOUT SECTION */}
             <section className="py-40 relative overflow-hidden border-y border-stone-100 z-10">
-                <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+                {/* Grid Opacity standardized to 20% to match section above */}
+                <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
                 <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.8fr_1.2fr] gap-24 items-center relative z-10">
                     <img src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/profile-stripedress-directlook.png" className="relative rounded-[2rem] shadow-2xl w-full aspect-[4/5] object-cover object-top mt-16 transform -rotate-1 hover:rotate-0 transition-transform duration-700" alt="Lindsey Lott" />
                     <div className="pt-12 lg:pt-0">
