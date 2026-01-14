@@ -20,31 +20,57 @@ const Icon = ({ name, className }) => {
     return <span ref={ref} style={{ display: 'contents' }}></span>;
 };
 
-const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 300, beamWidth = 1 }) => {
+// --- CALIBRATED GRID BEAMS ---
+const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1 }) => {
     const [beams, setBeams] = useState([]);
     useEffect(() => {
-        let count = 0; let active = true;
+        let count = 0; 
+        let active = true;
+
         const spawn = () => {
             if (!active) return;
             const id = count++;
-            const beamDuration = 1.5 + Math.random() * 2;
+            // SLOWER PACE: 3 to 5 seconds travel time
+            const beamDuration = 3.0 + Math.random() * 2.0;
             const isHorizontal = Math.random() > 0.5;
-            setBeams(prev => [...prev, { id, isHorizontal, isReverse: Math.random() > 0.5, offset: Math.floor(Math.random() * 100) * 40, duration: beamDuration, color: (id % 5 === 0) ? "214, 227, 30" : beamColor }]);
-            setTimeout(() => { if (active) setBeams(prev => prev.filter(b => b.id !== id)); }, beamDuration * 1000);
+            
+            setBeams(prev => [...prev, { 
+                id, 
+                isHorizontal, 
+                isReverse: Math.random() > 0.5, 
+                offset: Math.floor(Math.random() * 100) * 40, 
+                duration: beamDuration, 
+                color: (id % 4 === 0) ? "214, 227, 30" : beamColor // Slightly more frequent Citron pops
+            }]);
+
+            // Cleanup
+            setTimeout(() => { 
+                if (active) setBeams(prev => prev.filter(b => b.id !== id)); 
+            }, beamDuration * 1000);
         };
-        spawn(); 
+
+        // IMMEDIATE START: Run once right now
+        spawn();
+        spawn(); // Double spawn on start to fill the grid immediately
+        
+        // HIGHER FREQUENCY: interval set by spawnRate prop
         const interval = setInterval(spawn, spawnRate);
+        
         return () => { active = false; clearInterval(interval); };
     }, [beamColor, spawnRate]);
+
     return (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {beams.map(b => (
                 <div key={b.id} className="absolute" style={{
-                    height: b.isHorizontal ? `${beamWidth}px` : '300px', width: b.isHorizontal ? '300px' : `${beamWidth}px`,
-                    top: b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-300px'),
-                    left: !b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-300px'),
-                    filter: `drop-shadow(0 0 4px rgba(${b.color}, 0.8))`,
-                    background: b.isHorizontal ? `linear-gradient(90deg, transparent, rgba(${b.color}, 1), transparent)` : `linear-gradient(180deg, transparent, rgba(${b.color}, 1), transparent)`,
+                    height: b.isHorizontal ? `${beamWidth}px` : '400px', 
+                    width: b.isHorizontal ? '400px' : `${beamWidth}px`,
+                    top: b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-400px'),
+                    left: !b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-400px'),
+                    filter: `drop-shadow(0 0 6px rgba(${b.color}, 0.6))`,
+                    background: b.isHorizontal 
+                        ? `linear-gradient(90deg, transparent, rgba(${b.color}, 1), transparent)` 
+                        : `linear-gradient(180deg, transparent, rgba(${b.color}, 1), transparent)`,
                     animation: `${b.isHorizontal ? (b.isReverse ? 'beam-h-rev' : 'beam-h') : (b.isReverse ? 'beam-v-rev' : 'beam-v')} ${b.duration}s linear forwards`
                 }} />
             ))}
@@ -72,17 +98,13 @@ const Navbar = () => {
     const isDark = loc.pathname === '/professional-spaces';
     
     return (
-        <nav className="absolute top-0 left-0 w-full z-50 pt-2"> {/* pt-2 adds the slight top padding increase */}
-            <div className="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center"> {/* h-24 and px-6 increases overall breathing room */}
-                
-                {/* LOGO - pl-2 adds specific padding before the text starts */}
+        <nav className="absolute top-0 left-0 w-full z-50 pt-2">
+            <div className="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
                 <Link to="/" className="font-display font-bold text-2xl md:text-3xl tracking-tight flex items-center h-full pl-2 transition-transform active:scale-95">
                     <span className={isDark ? 'text-brand-base' : 'text-brand-dark'}>
                         SIMPLI-FI <span className="font-light opacity-70">LIFE</span>
                     </span>
                 </Link>
-
-                {/* DESKTOP NAV LINKS */}
                 <div className="hidden md:flex items-center space-x-10 h-full">
                     {['HOME', 'PROFESSIONAL SPACES', 'RESIDENTIAL SPACES'].map((name) => (
                         <Link 
@@ -99,15 +121,8 @@ const Navbar = () => {
                         BOOK CLARITY CALL
                     </Link>
                 </div>
-
-                {/* MOBILE MENU TOGGLE (HAMBURGER) */}
-                <button 
-                    onClick={() => setIsOpen(!isOpen)} 
-                    className="md:hidden flex items-center h-full px-4 z-[60] relative"
-                    aria-label="Toggle Menu"
-                >
+                <button onClick={() => setIsOpen(!isOpen)} className="md:hidden flex items-center h-full px-4 z-[60] relative" aria-label="Toggle Menu">
                     <div className="w-8 h-8 flex items-center justify-center">
-                        {/* Static SVG for maximum reliability on mobile browsers */}
                         {isOpen ? (
                             <svg className={`w-8 h-8 ${isDark ? 'text-brand-base' : 'text-brand-dark'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
@@ -120,16 +135,12 @@ const Navbar = () => {
                     </div>
                 </button>
             </div>
-
-            {/* MOBILE DROPDOWN - FULL SCREEN OVERLAY STYLE */}
             {isOpen && (
                 <div className="md:hidden fixed inset-0 bg-brand-white z-50 flex flex-col items-center justify-center space-y-8 animate-fade-in-up">
                     <Link to="/" onClick={() => setIsOpen(false)} className="text-3xl font-display font-bold text-brand-dark uppercase tracking-widest">Home</Link>
                     <Link to="/professional-spaces" onClick={() => setIsOpen(false)} className="text-2xl font-display font-medium text-brand-medium uppercase tracking-widest">Professional Spaces</Link>
                     <Link to="/residential" onClick={() => setIsOpen(false)} className="text-2xl font-display font-medium text-brand-medium uppercase tracking-widest">Residential Spaces</Link>
                     <Link to="/booking" onClick={() => setIsOpen(false)} className="bg-brand-lemon text-brand-dark px-10 py-5 rounded-full font-display font-bold text-xl uppercase tracking-widest shadow-2xl">BOOK CLARITY CALL</Link>
-                    
-                    {/* Close button at bottom for easier thumb reach */}
                     <button onClick={() => setIsOpen(false)} className="mt-12 text-brand-periwinkle font-bold uppercase tracking-widest border-b-2 border-brand-periwinkle pb-1">Close Menu</button>
                 </div>
             )}
