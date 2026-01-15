@@ -1,4 +1,4 @@
-// --- PROFESSIONAL SPACES PAGE: Y-AXIS OVERLAP & QUOTE DEPTH FIX ---
+// --- PROFESSIONAL SPACES: GEOMETRIC LOCK & COLOR SYNC ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -96,11 +96,14 @@ const ProfessionalSpaces = () => {
 
     return (
         <div className="bg-brand-base overflow-x-hidden min-h-screen">
-            {/* HERO SECTION: EXTENDED PADDING */}
-            {/* Added extra depth with pb-[480px] to give the grid more room to show behind the card */}
+            {/* HERO SECTION - DARK GRID */}
             <div className="bg-brand-dark text-brand-base pt-64 pb-[480px] px-4 text-center relative z-10">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                <div className="absolute inset-0 pointer-events-none opacity-40"><GridBeams beamColor="255, 255, 255" /></div>
+                
+                {/* COLOR SYNC: Beams now match Home (Periwinkle & Citron) */}
+                <div className="absolute inset-0 pointer-events-none opacity-40">
+                    <GridBeams beamColor="182, 188, 255" />
+                </div>
                 
                 <div className="relative z-10 max-w-7xl mx-auto">
                     <h1 className="font-display font-bold text-5xl md:text-[6.5rem] tracking-tighter mb-4 leading-[0.95] md:leading-[0.85]">
@@ -116,17 +119,20 @@ const ProfessionalSpaces = () => {
                 </div>
             </div>
 
-            {/* CONTENT AREA: THE Y-AXIS OVERLAP */}
-            <div className="relative z-20 bg-brand-base">
+            {/* CONTENT AREA: THE REAL OVERLAP */}
+            <div className="relative z-30 bg-brand-base">
                 <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-                {/* MADISON B TESTIMONIAL: MASSIVE NEGATIVE MARGIN */}
-                {/* I am pulling the card UP by 240px. This puts the card top exactly on the 6th horizontal grid line. */}
-                <div className="max-w-5xl mx-auto px-4 -mt-[240px] relative z-40 overflow-visible">
-                    <div className="bg-brand-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative overflow-visible group hover:scale-[1.01] transition-transform duration-500">
+                {/* THE MADISON CARD: THE 50/50 CLIMB */}
+                {/* Increased top padding on the wrapper and used 'relative -top-64' 
+                    to force it up the Y-axis onto the dark grid lines. */}
+                <div className="max-w-5xl mx-auto px-4 relative -top-64 md:-top-80 z-40 overflow-visible">
+                    
+                    {/* STATIC CITRON BORDER: Added border-brand-lemon and removed the SVG animation overlay */}
+                    <div className="bg-brand-white rounded-3xl shadow-2xl border-2 border-brand-lemon p-12 text-center relative overflow-visible transition-transform duration-500 hover:scale-[1.01]">
                         
-                        {/* THE CITRON QUOTE: Pushed up further with -top-16 and ensured it doesn't clip */}
-                        <div className="absolute -top-16 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
+                        {/* QUOTE MARKS - OFFSET TO PREVENT CLIPPING */}
+                        <div className="absolute -top-12 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
                              style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E', opacity: '1' }}>“</div>
                         
                         <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4 pt-4">
@@ -139,15 +145,11 @@ const ProfessionalSpaces = () => {
                             <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-sm">- Madison B.</p>
                             <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">Non-Profit Organization</p>
                         </div>
-                        
-                        <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl z-20 overflow-visible">
-                            <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" />
-                        </svg>
                     </div>
                 </div>
 
                 {/* VIDEO GRID */}
-                <div className="max-w-7xl mx-auto px-4 pt-32 mb-24 relative z-10 text-center">
+                <div className="max-w-7xl mx-auto px-4 -mt-32 md:-mt-40 mb-24 relative z-10 text-center">
                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">No Space Too Big,<br /> No Business Too Small</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {[
