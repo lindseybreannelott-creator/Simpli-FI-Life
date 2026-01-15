@@ -1,4 +1,4 @@
-// --- PROFESSIONAL SPACES PAGE: FINAL LAYERING & QUOTE LOCKDOWN ---
+// --- PROFESSIONAL SPACES PAGE: HERO DEPTH & LAYERING LOCKDOWN ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -96,8 +96,9 @@ const ProfessionalSpaces = () => {
 
     return (
         <div className="bg-brand-base overflow-x-hidden min-h-screen">
-            {/* HERO SECTION */}
-            <div className="bg-brand-dark text-brand-base pt-48 pb-96 px-4 text-center relative z-10">
+            {/* HERO SECTION - EXTENDED GRID DEPTH */}
+            {/* Added pt-64 for headline padding and pb-[32rem] to extend the dark grid lower */}
+            <div className="bg-brand-dark text-brand-base pt-64 pb-[32rem] px-4 text-center relative z-10">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="absolute inset-0 pointer-events-none opacity-40"><GridBeams beamColor="255, 255, 255" /></div>
                 
@@ -117,15 +118,15 @@ const ProfessionalSpaces = () => {
 
             {/* CONTENT AREA */}
             <div className="relative z-20 bg-brand-base">
-                {/* Periwinkle Grid Consistency */}
                 <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-                {/* MADISON B TESTIMONIAL: Aggressive Negative Margin for Layering */}
-                <div className="max-w-5xl mx-auto px-4 -mt-64 md:-mt-80 relative z-30">
+                {/* MADISON B TESTIMONIAL: LAYERED 50/50 ON THE GRID LINE */}
+                {/* Fixed negative margin to force the overlap on the extended dark grid */}
+                <div className="max-w-5xl mx-auto px-4 -mt-[20rem] md:-mt-[24rem] relative z-40">
                     <div className="bg-brand-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative overflow-hidden group hover:scale-[1.01] transition-transform duration-500">
-                        {/* THE CITRON QUOTE - FAILSAFE SVG POSITIONING */}
+                        {/* QUOTE SVG FAILSAFE */}
                         <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
-                             style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E', opacity: '0.9' }}>“</div>
+                             style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E', opacity: '1' }}>“</div>
                         
                         <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4">
                             Our storage units are...so functional thanks to YOU and your amazing work! <br /><br />
@@ -138,7 +139,6 @@ const ProfessionalSpaces = () => {
                             <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">Non-Profit Organization</p>
                         </div>
                         
-                        {/* Hover Draw Border */}
                         <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl z-20">
                             <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" />
                         </svg>
@@ -146,7 +146,7 @@ const ProfessionalSpaces = () => {
                 </div>
 
                 {/* VIDEO GRID */}
-                <div className="max-w-7xl mx-auto px-4 pt-24 mb-24 relative z-10 text-center">
+                <div className="max-w-7xl mx-auto px-4 pt-32 mb-24 relative z-10 text-center">
                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">No Space Too Big,<br /> No Business Too Small</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {[
@@ -174,7 +174,7 @@ const ProfessionalSpaces = () => {
                     </div>
                 </section>
 
-                {/* CTA BOX */}
+                {/* FINAL PROCESS CTA */}
                 <div className="mt-24 pb-40 max-w-5xl mx-auto px-4 text-center relative z-10">
                     <div className="bg-brand-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle relative overflow-hidden group">
                         <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark mb-10 tracking-tight leading-[1.1]">Organizing isn't a luxury for your business— <span className="text-brand-periwinkle italic">it's essential.</span></h3>
