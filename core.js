@@ -57,16 +57,18 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
     );
 };
 
-// --- LOADING SCREEN: DEAD CENTER ALIGNMENT ---
+// --- LOADING SCREEN: MOBILE CENTERING LOCK ---
 const LoadingScreen = ({ onComplete }) => {
     useEffect(() => { const t = setTimeout(onComplete, 4800); return () => clearTimeout(t); }, [onComplete]);
     return (
-        <div className="fixed inset-0 z-[100] bg-brand-base flex items-center justify-center loader-exit overflow-hidden">
+        <div className="fixed inset-0 z-[100] bg-brand-base grid place-items-center loader-exit overflow-hidden">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
             <GridBeams spawnRate={150} /> 
             
-            {/* Logo container now fills screen to ensure absolute vertical/horizontal centering */}
-            <div className="relative z-20 loading-logo-reveal text-center px-4">
+            {/* Visual Center Calibration: 
+                'mt-[-2px]' handles font-weight descender offset on mobile screens.
+            */}
+            <div className="relative z-20 loading-logo-reveal text-center px-4 mt-[-2px]">
                 <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark uppercase">
                     <span className="font-bold">SIMPLI-FI</span> <span className="font-light text-brand-medium">LIFE</span>
                 </h1>
@@ -83,10 +85,9 @@ const Navbar = () => {
     
     return (
         <nav className="absolute top-0 left-0 w-full z-50">
-            {/* 80px height forces axis to exactly 40px (1st grid line) */}
             <div className="max-w-7xl mx-auto px-6 h-[80px] flex justify-between items-center">
                 
-                {/* LOGO: Pushed off the line by pl-5 for mobile/desktop clarity */}
+                {/* LOGO: Locked to 40px horizontal axis */}
                 <Link to="/" className="font-display font-bold text-2xl md:text-3xl tracking-tight flex items-center h-full pl-5 md:pl-4 transition-transform active:scale-95">
                     <span className={isDark ? 'text-brand-base' : 'text-brand-dark'}>
                         SIMPLI-FI <span className="font-light opacity-70">LIFE</span>
@@ -111,7 +112,7 @@ const Navbar = () => {
                     </Link>
                 </div>
 
-                {/* MOBILE HAMBURGER: Symmetrically centered */}
+                {/* MOBILE HAMBURGER: Symmetrically centered on 40px line */}
                 <button onClick={() => setIsOpen(!isOpen)} className="md:hidden flex items-center justify-center w-12 h-12 z-[60] relative" aria-label="Toggle Menu">
                     <div className="w-8 h-8 flex items-center justify-center">
                         {isOpen ? (
@@ -127,7 +128,7 @@ const Navbar = () => {
                 </button>
             </div>
 
-            {/* MOBILE DROPDOWN MENU */}
+            {/* MOBILE MENU */}
             {isOpen && (
                 <div className="md:hidden fixed inset-0 bg-brand-white z-50 flex flex-col items-center justify-center space-y-8 animate-fade-in-up">
                     <Link to="/" onClick={() => setIsOpen(false)} className="text-3xl font-display font-bold text-brand-dark uppercase tracking-widest">Home</Link>
