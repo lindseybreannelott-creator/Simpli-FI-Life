@@ -1,30 +1,34 @@
-// --- PROFESSIONAL SPACES: CHECKLIST & SCORECARD VISUAL LOCKDOWN ---
+// --- PROFESSIONAL SPACES: WEIGHTED RISK ANALYSIS & DESIGN LOCKDOWN ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
     const [showResults, setShowResults] = useState(false);
     
+    // Weighted Problems: High Gravity (3), Medium Gravity (2), Low Gravity (1)
     const problems = [
-        "Have you ever run out of inventory and had to tell a customer/client no?",
-        "Have you ever made a duplicate purchase because you didn't know what inventory you had?",
-        "Do you or your staff ever have to search for items because you/they cant find what you're looking for?",
-        "Does your mission require you to frequently reorder consumables or manage expired inventory?",
-        "Do incoming deliveries turn into box 'pile ups'?",
-        "Do you have surplus assets sitting around that need to be auctioned or sold?",
-        "Are you concerned about safety hazards or code violations due to clutter?",
-        "Is visual clutter creating an overstimulating work environment?"
+        { id: "stockout", text: "Have you ever run out of inventory and had to tell a customer/client no?", weight: 3 },
+        { id: "duplicate", text: "Have you ever made a duplicate purchase because you didn't know what inventory you had?", weight: 3 },
+        { id: "searching", text: "Do you or your staff ever have to search for items because you can't find what you're looking for?", weight: 2 },
+        { id: "logistics", text: "Does your mission require you to frequently reorder consumables or manage expired inventory?", weight: 2 },
+        { id: "pileups", text: "Do incoming deliveries turn into box 'pile ups'?", weight: 1 },
+        { id: "surplus", text: "Do you have surplus assets sitting around that need to be auctioned or sold?", weight: 1 },
+        { id: "safety", text: "Are you concerned about safety hazards or code violations due to clutter?", weight: 1 },
+        { id: "clutter", text: "Is visual clutter creating an overstimulating work environment?", weight: 1 }
     ];
 
-    const toggle = (item) => setChecks(p => ({...p, [item]: !p[item]}));
-    const score = Object.values(checks).filter(Boolean).length;
+    const toggle = (id) => setChecks(p => ({...p, [id]: !p[id]}));
 
-    const getResults = () => {
-        if (score >= 6) return { 
+    const calculateRisk = () => {
+        let totalWeight = 0;
+        problems.forEach(p => { if (checks[p.id]) totalWeight += p.weight; });
+        
+        // Logical thresholds based on gravity rather than item count
+        if (totalWeight >= 8) return { 
             level: "High Priority", 
             message: "Your business is currently leaking revenue through labor loss and inventory friction. Your systems are no longer supporting your growth—they are actively hindering it.",
             action: "Schedule Audit Immediately" 
         };
-        if (score >= 3) return { 
+        if (totalWeight >= 4) return { 
             level: "Medium Priority", 
             message: "Friction is slowing your team's efficiency. While you are operational, you are likely over-spending on consumables and losing hours to 'searching' rather than 'serving'.",
             action: "Discuss System Optimization" 
@@ -36,22 +40,24 @@ const DisorganizationChecklist = () => {
         };
     };
 
+    const results = calculateRisk();
+
     return (
         <div className="relative min-h-[400px]">
             {!showResults ? (
                 /* STEP 1: Question Card - Clean White */
                 <div className="bg-white rounded-2xl p-4 md:p-8 shadow-xl border border-stone-100 text-left relative z-10">
                     <div className="space-y-1 md:space-y-2 mb-8">
-                        {problems.map((item, i) => (
-                            <button key={i} onClick={() => toggle(item)} className="w-full flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl hover:bg-brand-base transition group text-left">
-                                <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all ${checks[item] ? 'bg-brand-dark border-brand-dark' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
-                                    {checks[item] && (
+                        {problems.map((p) => (
+                            <button key={p.id} onClick={() => toggle(p.id)} className="w-full flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl hover:bg-brand-base transition group text-left">
+                                <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all ${checks[p.id] ? 'bg-brand-dark border-brand-dark' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
+                                    {checks[p.id] && (
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D6E31E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                                             <polyline points="20 6 9 17 4 12"></polyline>
                                         </svg>
                                     )}
                                 </div>
-                                <span className={`text-[15px] md:text-lg leading-tight ${checks[item] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
+                                <span className={`text-[15px] md:text-lg leading-tight ${checks[p.id] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{p.text}</span>
                             </button>
                         ))}
                     </div>
@@ -64,27 +70,28 @@ const DisorganizationChecklist = () => {
                     </button>
                 </div>
             ) : (
-                /* STEP 2: Score Result - White with Periwinkle Grid */
+                /* STEP 2: Results Display - White with Periwinkle Grid, NO FRACTION */
                 <div className="bg-white rounded-[2.5rem] p-8 md:p-16 text-brand-dark shadow-2xl border-4 border-brand-periwinkle animate-fade-in-up relative overflow-hidden">
-                    {/* Periwinkle Grid Pattern */}
                     <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                     
                     <div className="absolute top-0 right-0 p-8 opacity-10"><Icon name="bar-chart" className="w-32 h-32 text-brand-periwinkle" /></div>
                     
                     <div className="relative z-10">
                         <h3 className="font-display text-2xl uppercase tracking-[0.2em] text-brand-periwinkle mb-4">Risk Analysis Complete</h3>
-                        <div className="text-6xl md:text-8xl font-bold mb-8 font-display tracking-tighter text-brand-dark">
-                            {score}<span className="text-3xl opacity-30 ml-2">/ 8</span>
-                        </div>
+                        
                         <div className="space-y-6 max-w-xl">
-                            <h4 className="text-3xl font-bold border-b border-brand-periwinkle/20 pb-4 uppercase tracking-wider text-brand-periwinkle">{getResults().level}</h4>
-                            <p className="text-xl text-brand-medium leading-relaxed italic">
-                                "{getResults().message}"
+                            {/* Score/Fraction removed as requested, focus is on Level */}
+                            <h4 className="text-4xl md:text-6xl font-bold border-b border-brand-periwinkle/20 pb-6 uppercase tracking-tight text-brand-dark">
+                                {results.level}
+                            </h4>
+                            <p className="text-xl md:text-2xl text-brand-medium leading-relaxed italic">
+                                "{results.message}"
                             </p>
                         </div>
+
                         <div className="mt-12 flex flex-col md:flex-row gap-6">
-                            <Link to="/booking" className="bg-brand-lemon text-brand-dark px-10 py-4 rounded-full font-bold uppercase tracking-widest text-center hover:bg-brand-periwinkle hover:text-white transition-all shadow-xl">
-                                {getResults().action}
+                            <Link to="/booking" className="bg-brand-lemon text-brand-dark px-10 py-5 rounded-full font-bold uppercase tracking-widest text-center hover:bg-brand-periwinkle hover:text-white transition-all shadow-xl text-lg">
+                                {results.action}
                             </Link>
                             <button onClick={() => setShowResults(false)} className="text-brand-periwinkle/60 hover:text-brand-periwinkle underline underline-offset-4 text-sm font-medium">
                                 Retake Analysis
@@ -136,7 +143,7 @@ const ProfessionalSpaces = () => {
             <div className="relative z-30 bg-brand-base">
                 <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-                {/* MADISON CARD */}
+                {/* TESTIMONIAL CARD */}
                 <div className="max-w-5xl mx-auto px-4 relative -top-64 md:-top-80 z-40 overflow-visible">
                     <div className="bg-white rounded-3xl shadow-2xl border-2 border-brand-lemon p-12 text-center relative overflow-visible transition-transform duration-500 hover:scale-[1.01]">
                         <div className="absolute -top-12 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
@@ -195,7 +202,7 @@ const ProfessionalSpaces = () => {
                     </div>
                 </div>
 
-                {/* CHECKLIST SECTION - CALIBRATED FOR SIZE AND COLOR */}
+                {/* THE CHECKLIST SECTION - LIGHT PERIWINKLE CONTAINER */}
                 <section className="py-24 max-w-4xl mx-auto px-4 relative z-10">
                     <div className="bg-[#EBEBFF] rounded-[3rem] p-4 md:p-12 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
                         <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tighter mb-4 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
