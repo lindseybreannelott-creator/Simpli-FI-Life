@@ -1,4 +1,4 @@
-// --- PROFESSIONAL SPACES: CHECKLIST & SCORECARD CALIBRATION ---
+// --- PROFESSIONAL SPACES: CHECKLIST & SCORECARD VISUAL LOCKDOWN ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -39,53 +39,54 @@ const DisorganizationChecklist = () => {
     return (
         <div className="relative min-h-[400px]">
             {!showResults ? (
-                /* Oatmeal Card Background with Periwinkle Grid */
-                <div className="bg-[#F2F0EB] rounded-2xl p-4 md:p-8 shadow-inner border border-stone-200 text-left relative overflow-hidden">
-                    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
-                    
-                    <div className="space-y-2 md:space-y-4 mb-8 relative z-10">
+                /* STEP 1: Question Card - Clean White */
+                <div className="bg-white rounded-2xl p-4 md:p-8 shadow-xl border border-stone-100 text-left relative z-10">
+                    <div className="space-y-1 md:space-y-2 mb-8">
                         {problems.map((item, i) => (
-                            <button key={i} onClick={() => toggle(item)} className="w-full flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl hover:bg-white/50 transition group text-left">
-                                <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all ${checks[item] ? 'bg-brand-dark border-brand-dark' : 'border-stone-300 group-hover:border-brand-periwinkle'}`}>
+                            <button key={i} onClick={() => toggle(item)} className="w-full flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl hover:bg-brand-base transition group text-left">
+                                <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all ${checks[item] ? 'bg-brand-dark border-brand-dark' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
                                     {checks[item] && (
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D6E31E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                                             <polyline points="20 6 9 17 4 12"></polyline>
                                         </svg>
                                     )}
                                 </div>
-                                {/* Mobile-only font shrink: text-base (16px) on mobile, text-lg (18px) on desktop */}
-                                <span className={`text-base md:text-lg leading-tight ${checks[item] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
+                                <span className={`text-[15px] md:text-lg leading-tight ${checks[item] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
                             </button>
                         ))}
                     </div>
                     
-                    {/* BUTTON: Citron Static / Periwinkle Hover */}
                     <button 
                         onClick={() => setShowResults(true)}
-                        className="w-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white py-4 md:py-5 rounded-xl font-display font-bold text-lg md:text-xl uppercase tracking-widest transition-all shadow-lg relative z-10"
+                        className="w-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white py-4 md:py-5 rounded-xl font-display font-bold text-lg md:text-xl uppercase tracking-widest transition-all shadow-lg"
                     >
                         Analyze My Operational Risk
                     </button>
                 </div>
             ) : (
-                <div className="bg-brand-periwinkle rounded-[2.5rem] p-8 md:p-16 text-brand-white shadow-2xl border-4 border-brand-lemon animate-fade-in-up relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-8 opacity-10"><Icon name="bar-chart" className="w-32 h-32" /></div>
+                /* STEP 2: Score Result - White with Periwinkle Grid */
+                <div className="bg-white rounded-[2.5rem] p-8 md:p-16 text-brand-dark shadow-2xl border-4 border-brand-periwinkle animate-fade-in-up relative overflow-hidden">
+                    {/* Periwinkle Grid Pattern */}
+                    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                    
+                    <div className="absolute top-0 right-0 p-8 opacity-10"><Icon name="bar-chart" className="w-32 h-32 text-brand-periwinkle" /></div>
+                    
                     <div className="relative z-10">
-                        <h3 className="font-display text-2xl uppercase tracking-[0.2em] text-brand-lemon mb-4">Risk Analysis Complete</h3>
-                        <div className="text-6xl md:text-8xl font-bold mb-8 font-display tracking-tighter">
-                            {score}<span className="text-3xl opacity-50 ml-2">/ 8</span>
+                        <h3 className="font-display text-2xl uppercase tracking-[0.2em] text-brand-periwinkle mb-4">Risk Analysis Complete</h3>
+                        <div className="text-6xl md:text-8xl font-bold mb-8 font-display tracking-tighter text-brand-dark">
+                            {score}<span className="text-3xl opacity-30 ml-2">/ 8</span>
                         </div>
                         <div className="space-y-6 max-w-xl">
-                            <h4 className="text-3xl font-bold border-b border-white/20 pb-4 uppercase tracking-wider">{getResults().level}</h4>
-                            <p className="text-xl text-brand-periwinkle-light leading-relaxed italic">
+                            <h4 className="text-3xl font-bold border-b border-brand-periwinkle/20 pb-4 uppercase tracking-wider text-brand-periwinkle">{getResults().level}</h4>
+                            <p className="text-xl text-brand-medium leading-relaxed italic">
                                 "{getResults().message}"
                             </p>
                         </div>
                         <div className="mt-12 flex flex-col md:flex-row gap-6">
-                            <Link to="/booking" className="bg-brand-lemon text-brand-dark px-10 py-4 rounded-full font-bold uppercase tracking-widest text-center hover:scale-105 transition-transform shadow-xl">
+                            <Link to="/booking" className="bg-brand-lemon text-brand-dark px-10 py-4 rounded-full font-bold uppercase tracking-widest text-center hover:bg-brand-periwinkle hover:text-white transition-all shadow-xl">
                                 {getResults().action}
                             </Link>
-                            <button onClick={() => setShowResults(false)} className="text-white/60 hover:text-white underline underline-offset-4 text-sm font-medium">
+                            <button onClick={() => setShowResults(false)} className="text-brand-periwinkle/60 hover:text-brand-periwinkle underline underline-offset-4 text-sm font-medium">
                                 Retake Analysis
                             </button>
                         </div>
@@ -137,7 +138,7 @@ const ProfessionalSpaces = () => {
 
                 {/* MADISON CARD */}
                 <div className="max-w-5xl mx-auto px-4 relative -top-64 md:-top-80 z-40 overflow-visible">
-                    <div className="bg-brand-white rounded-3xl shadow-2xl border-2 border-brand-lemon p-12 text-center relative overflow-visible transition-transform duration-500 hover:scale-[1.01]">
+                    <div className="bg-white rounded-3xl shadow-2xl border-2 border-brand-lemon p-12 text-center relative overflow-visible transition-transform duration-500 hover:scale-[1.01]">
                         <div className="absolute -top-12 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
                              style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E', opacity: '1' }}>“</div>
                         
@@ -196,12 +197,11 @@ const ProfessionalSpaces = () => {
 
                 {/* CHECKLIST SECTION - CALIBRATED FOR SIZE AND COLOR */}
                 <section className="py-24 max-w-4xl mx-auto px-4 relative z-10">
-                    {/* Background: Light Periwinkle Box */}
-                    <div className="bg-[#EBEBFF] rounded-[3rem] p-6 md:p-12 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
+                    <div className="bg-[#EBEBFF] rounded-[3rem] p-4 md:p-12 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
                         <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tighter mb-4 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
                         <p className="text-lg text-brand-medium font-light mb-8 relative z-10">Check all that apply to your current operations:</p>
                         
-                        <div className="max-w-3xl mx-auto relative z-10">
+                        <div className="max-w-3xl mx-auto relative z-10 px-2">
                             <DisorganizationChecklist />
                         </div>
                     </div>
@@ -209,13 +209,13 @@ const ProfessionalSpaces = () => {
 
                 {/* FINAL CTA */}
                 <div className="mt-24 pb-40 max-w-5xl mx-auto px-4 text-center relative z-10">
-                    <div className="bg-brand-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle relative overflow-hidden group">
+                    <div className="bg-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle relative overflow-hidden group">
                         <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark mb-10 tracking-tight leading-[1.1]">Organizing isn't a luxury for your business— <span className="text-brand-periwinkle italic">it's essential.</span></h3>
                         <div className="text-brand-medium text-xl leading-relaxed mb-12 space-y-6 max-w-3xl mx-auto font-light">
                             <p>Every minute your team spends searching for a tool or navigating a crowded stockroom is a minute of lost profit. Disorganization is a quiet tax on your growth.</p>
                             <p>Let's eliminate the friction in your inventory systems so you can get back to what you were meant to do: serve your customers and lead your mission with clarity.</p>
                         </div>
-                        <Link to="/booking" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">Book My Systems Audit</Link>
+                        <Link to="/booking" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white transition shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">Book My Systems Audit</Link>
                     </div>
                 </div>
             </div>
