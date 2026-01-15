@@ -1,4 +1,4 @@
-// --- PROFESSIONAL SPACES: VERBIAGE & GRID LOCKDOWN ---
+// --- PROFESSIONAL SPACES: CHECKLIST & SCORECARD CALIBRATION ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -19,7 +19,6 @@ const DisorganizationChecklist = () => {
     const score = Object.values(checks).filter(Boolean).length;
 
     const getResults = () => {
-        // EXACT ORIGINAL VERBIAGE RESTORED
         if (score >= 6) return { 
             level: "High Priority", 
             message: "Your business is currently leaking revenue through labor loss and inventory friction. Your systems are no longer supporting your growth—they are actively hindering it.",
@@ -38,32 +37,38 @@ const DisorganizationChecklist = () => {
     };
 
     return (
-        <div className="relative min-h-[500px]">
+        <div className="relative min-h-[400px]">
             {!showResults ? (
-                <div className="bg-brand-white rounded-3xl p-8 shadow-xl border border-stone-100 text-left relative z-10">
-                    <div className="space-y-4 mb-8">
+                /* Oatmeal Card Background with Periwinkle Grid */
+                <div className="bg-[#F2F0EB] rounded-2xl p-4 md:p-8 shadow-inner border border-stone-200 text-left relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
+                    
+                    <div className="space-y-2 md:space-y-4 mb-8 relative z-10">
                         {problems.map((item, i) => (
-                            <button key={i} onClick={() => toggle(item)} className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-brand-base transition group text-left">
-                                <div className={`w-8 h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all ${checks[item] ? 'bg-brand-dark border-brand-dark' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
+                            <button key={i} onClick={() => toggle(item)} className="w-full flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl hover:bg-white/50 transition group text-left">
+                                <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all ${checks[item] ? 'bg-brand-dark border-brand-dark' : 'border-stone-300 group-hover:border-brand-periwinkle'}`}>
                                     {checks[item] && (
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D6E31E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D6E31E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                                             <polyline points="20 6 9 17 4 12"></polyline>
                                         </svg>
                                     )}
                                 </div>
-                                <span className={`text-lg ${checks[item] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
+                                {/* Mobile-only font shrink: text-base (16px) on mobile, text-lg (18px) on desktop */}
+                                <span className={`text-base md:text-lg leading-tight ${checks[item] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
                             </button>
                         ))}
                     </div>
+                    
+                    {/* BUTTON: Citron Static / Periwinkle Hover */}
                     <button 
                         onClick={() => setShowResults(true)}
-                        className="w-full bg-brand-periwinkle text-white py-5 rounded-xl font-display font-bold text-xl uppercase tracking-widest hover:bg-brand-dark transition-all shadow-lg"
+                        className="w-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white py-4 md:py-5 rounded-xl font-display font-bold text-lg md:text-xl uppercase tracking-widest transition-all shadow-lg relative z-10"
                     >
                         Analyze My Operational Risk
                     </button>
                 </div>
             ) : (
-                <div className="bg-brand-periwinkle rounded-[2.5rem] p-10 md:p-16 text-brand-white shadow-2xl border-4 border-brand-lemon animate-fade-in-up relative overflow-hidden">
+                <div className="bg-brand-periwinkle rounded-[2.5rem] p-8 md:p-16 text-brand-white shadow-2xl border-4 border-brand-lemon animate-fade-in-up relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-8 opacity-10"><Icon name="bar-chart" className="w-32 h-32" /></div>
                     <div className="relative z-10">
                         <h3 className="font-display text-2xl uppercase tracking-[0.2em] text-brand-lemon mb-4">Risk Analysis Complete</h3>
@@ -127,7 +132,6 @@ const ProfessionalSpaces = () => {
                 </div>
             </div>
 
-            {/* CONTENT AREA WITH PERIWINKLE GRID */}
             <div className="relative z-30 bg-brand-base">
                 <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
@@ -190,22 +194,20 @@ const ProfessionalSpaces = () => {
                     </div>
                 </div>
 
-                {/* CHECKLIST SECTION - DESIGN LOCKED */}
-                <section className="py-24 max-w-7xl mx-auto px-4 relative z-10">
-                    <div className="bg-brand-white rounded-[3rem] p-8 md:p-16 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
-                        {/* Grid Continuity inside the White Box */}
-                        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                {/* CHECKLIST SECTION - CALIBRATED FOR SIZE AND COLOR */}
+                <section className="py-24 max-w-4xl mx-auto px-4 relative z-10">
+                    {/* Background: Light Periwinkle Box */}
+                    <div className="bg-[#EBEBFF] rounded-[3rem] p-6 md:p-12 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
+                        <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tighter mb-4 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
+                        <p className="text-lg text-brand-medium font-light mb-8 relative z-10">Check all that apply to your current operations:</p>
                         
-                        <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
-                        <p className="text-xl text-brand-medium font-light mb-12 relative z-10">Check all that apply to your current operations:</p>
-                        
-                        <div className="max-w-2xl mx-auto relative z-10">
+                        <div className="max-w-3xl mx-auto relative z-10">
                             <DisorganizationChecklist />
                         </div>
                     </div>
                 </section>
 
-                {/* FINAL PROCESS CTA */}
+                {/* FINAL CTA */}
                 <div className="mt-24 pb-40 max-w-5xl mx-auto px-4 text-center relative z-10">
                     <div className="bg-brand-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle relative overflow-hidden group">
                         <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark mb-10 tracking-tight leading-[1.1]">Organizing isn't a luxury for your business— <span className="text-brand-periwinkle italic">it's essential.</span></h3>
