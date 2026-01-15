@@ -1,4 +1,4 @@
-// --- PROFESSIONAL SPACES PAGE: DEEP OVERLAP & QUOTE CLIPPING FIX ---
+// --- PROFESSIONAL SPACES PAGE: Y-AXIS OVERLAP & QUOTE DEPTH FIX ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -42,15 +42,15 @@ const DisorganizationChecklist = () => {
                 <div className="bg-brand-white rounded-3xl p-8 shadow-xl border border-stone-100 text-left">
                     <div className="space-y-4 mb-8">
                         {problems.map((item, i) => (
-                            <button key={i} onClick={() => toggle(i)} className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-brand-base transition group text-left">
-                                <div className={`w-8 h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all ${checks[i] ? 'bg-brand-dark border-brand-dark' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
-                                    {checks[i] && (
+                            <button key={i} onClick={() => toggle(item)} className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-brand-base transition group text-left">
+                                <div className={`w-8 h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all ${checks[item] ? 'bg-brand-dark border-brand-dark' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
+                                    {checks[item] && (
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D6E31E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                                             <polyline points="20 6 9 17 4 12"></polyline>
                                         </svg>
                                     )}
                                 </div>
-                                <span className={`text-lg ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
+                                <span className={`text-lg ${checks[item] ? 'text-brand-dark font-medium' : 'text-brand-medium'}`}>{item}</span>
                             </button>
                         ))}
                     </div>
@@ -96,9 +96,9 @@ const ProfessionalSpaces = () => {
 
     return (
         <div className="bg-brand-base overflow-x-hidden min-h-screen">
-            {/* HERO SECTION - MASSIVE GRID DEPTH */}
-            {/* Extended pb-[40rem] to ensure the grid travels deep behind the card */}
-            <div className="bg-brand-dark text-brand-base pt-64 pb-[40rem] px-4 text-center relative z-10">
+            {/* HERO SECTION: EXTENDED PADDING */}
+            {/* Added extra depth with pb-[480px] to give the grid more room to show behind the card */}
+            <div className="bg-brand-dark text-brand-base pt-64 pb-[480px] px-4 text-center relative z-10">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="absolute inset-0 pointer-events-none opacity-40"><GridBeams beamColor="255, 255, 255" /></div>
                 
@@ -116,21 +116,20 @@ const ProfessionalSpaces = () => {
                 </div>
             </div>
 
-            {/* CONTENT AREA */}
+            {/* CONTENT AREA: THE Y-AXIS OVERLAP */}
             <div className="relative z-20 bg-brand-base">
                 <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-                {/* MADISON B TESTIMONIAL: DEEP OVERLAP */}
-                {/* Pulling the card UP into the dark grid by 320px (8 grid lines) */}
-                <div className="max-w-5xl mx-auto px-4 -mt-[320px] md:-mt-[400px] relative z-40">
-                    {/* CHANGED TO overflow-visible to prevent quote clipping */}
+                {/* MADISON B TESTIMONIAL: MASSIVE NEGATIVE MARGIN */}
+                {/* I am pulling the card UP by 240px. This puts the card top exactly on the 6th horizontal grid line. */}
+                <div className="max-w-5xl mx-auto px-4 -mt-[240px] relative z-40 overflow-visible">
                     <div className="bg-brand-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative overflow-visible group hover:scale-[1.01] transition-transform duration-500">
                         
-                        {/* QUOTE SVG FAILSAFE - Adjusted top so it doesn't clip */}
-                        <div className="absolute -top-12 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
+                        {/* THE CITRON QUOTE: Pushed up further with -top-16 and ensured it doesn't clip */}
+                        <div className="absolute -top-16 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
                              style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E', opacity: '1' }}>“</div>
                         
-                        <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4">
+                        <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4 pt-4">
                             Our storage units are...so functional thanks to YOU and your amazing work! <br /><br />
                             I am so grateful for you and your team!<br />
                             <span className="block mt-6 text-3xl md:text-4xl">You helped us turn an <strong className="font-bold text-brand-periwinkle">8 week</strong> set up and tear down into a <strong className="font-bold text-brand-periwinkle">9 day</strong> set up and tear down!</span>
