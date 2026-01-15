@@ -96,16 +96,17 @@ const ProfessionalSpaces = () => {
             <div className="bg-brand-dark text-brand-base pt-48 pb-96 px-4 text-center relative z-10">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="absolute inset-0 pointer-events-none opacity-40"><GridBeams beamColor="255, 255, 255" /></div>
-                <div className="relative z-10 max-w-5xl mx-auto">
-                    <span className="inline-block bg-brand-lemon text-brand-dark px-6 py-2 mb-8 text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase rounded-full">Business Systems</span>
-                    <h1 className="font-display font-bold text-5xl md:text-[7.2rem] tracking-tighter mb-8 leading-[0.85]">
+                
+                <div className="relative z-10 max-w-7xl mx-auto">
+                    {/* Badge removed as requested */}
+                    <h1 className="font-display font-bold text-5xl md:text-[6.5rem] tracking-tighter mb-8 leading-[0.95] md:leading-[0.85]">
                         Your back-of-house is your <br />
-                        <span className="text-brand-lemon italic">Competitive Edge.</span>
+                        <span className="font-handwriting text-brand-periwinkle-light lowercase text-5xl md:text-[8rem] block mt-4">Competitive Edge.</span>
                     </h1>
-                    <p className="text-xl font-light text-stone-300 max-w-3xl mx-auto mb-10 leading-relaxed">
+                    <p className="text-xl font-light text-stone-300 max-w-3xl mx-auto mb-12 leading-relaxed">
                         We restructure back-of-house systems to save you money, recover lost labor hours, and reduce waste—helping you win no matter how you slice it.
                     </p>
-                    <Link to="/booking" className="inline-block bg-transparent text-brand-lemon border border-brand-lemon px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display text-lg shadow-xl uppercase tracking-widest">Inquire for Business</Link>
+                    <Link to="/booking" className="inline-block bg-transparent text-brand-lemon border border-brand-lemon px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display text-lg shadow-xl uppercase tracking-widest">Inquire for your business</Link>
                 </div>
             </div>
 
@@ -128,7 +129,6 @@ const ProfessionalSpaces = () => {
                             <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-sm">- Madison B.</p>
                             <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">Non-Profit Organization</p>
                         </div>
-                        {/* Decorative Draw Border on hover */}
                         <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl z-20">
                             <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" />
                         </svg>
@@ -173,7 +173,6 @@ const ProfessionalSpaces = () => {
                             <p>Let's eliminate the friction in your inventory systems so you can get back to what you were meant to do: serve your customers and lead your mission with clarity.</p>
                         </div>
                         <Link to="/booking" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">Book My Systems Audit</Link>
-                        {/* Interactive hover border */}
                         <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-[3rem] z-20">
                             <rect x="0" y="0" width="100%" height="100%" rx="48" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" />
                         </svg>
