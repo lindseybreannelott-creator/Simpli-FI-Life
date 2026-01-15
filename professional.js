@@ -98,12 +98,14 @@ const ProfessionalSpaces = () => {
                 <div className="absolute inset-0 pointer-events-none opacity-40"><GridBeams beamColor="255, 255, 255" /></div>
                 
                 <div className="relative z-10 max-w-7xl mx-auto">
-                    {/* Badge removed as requested */}
-                    <h1 className="font-display font-bold text-5xl md:text-[6.5rem] tracking-tighter mb-8 leading-[0.95] md:leading-[0.85]">
-                        Your back-of-house is your <br />
-                        <span className="font-handwriting text-brand-periwinkle-light lowercase text-5xl md:text-[8rem] block mt-4">Competitive Edge.</span>
+                    <h1 className="font-display font-bold text-5xl md:text-[6.5rem] tracking-tighter mb-4 leading-[0.95] md:leading-[0.85]">
+                        Your back-of-house is your
                     </h1>
-                    <p className="text-xl font-light text-stone-300 max-w-3xl mx-auto mb-12 leading-relaxed">
+                    {/* ACCENT HEADING: Thinner weight, decreased size, periwinkle color */}
+                    <p className="font-handwriting font-normal text-brand-periwinkle-light lowercase text-4xl md:text-6xl mb-12 block">
+                        Competitive Edge.
+                    </p>
+                    <p className="text-lg md:text-xl font-light text-stone-300 max-w-3xl mx-auto mb-12 leading-relaxed">
                         We restructure back-of-house systems to save you money, recover lost labor hours, and reduce waste—helping you win no matter how you slice it.
                     </p>
                     <Link to="/booking" className="inline-block bg-transparent text-brand-lemon border border-brand-lemon px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display text-lg shadow-xl uppercase tracking-widest">Inquire for your business</Link>
