@@ -1,4 +1,4 @@
-// --- PROFESSIONAL SPACES: GEOMETRIC LOCK & COLOR SYNC ---
+// --- PROFESSIONAL SPACES: TARGETED EMPHASIS LOCKDOWN ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -15,7 +15,7 @@ const DisorganizationChecklist = () => {
         "Is visual clutter creating an overstimulating work environment?"
     ];
 
-    const toggle = (i) => setChecks(p => ({...p, [i]: !p[i]}));
+    const toggle = (item) => setChecks(p => ({...p, [item]: !p[item]}));
     const score = Object.values(checks).filter(Boolean).length;
 
     const getResults = () => {
@@ -96,11 +96,9 @@ const ProfessionalSpaces = () => {
 
     return (
         <div className="bg-brand-base overflow-x-hidden min-h-screen">
-            {/* HERO SECTION - DARK GRID */}
+            {/* HERO SECTION - REVERTED TYPOGRAPHY */}
             <div className="bg-brand-dark text-brand-base pt-64 pb-[480px] px-4 text-center relative z-10">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                
-                {/* COLOR SYNC: Beams now match Home (Periwinkle & Citron) */}
                 <div className="absolute inset-0 pointer-events-none opacity-40">
                     <GridBeams beamColor="182, 188, 255" />
                 </div>
@@ -119,26 +117,21 @@ const ProfessionalSpaces = () => {
                 </div>
             </div>
 
-            {/* CONTENT AREA: THE REAL OVERLAP */}
+            {/* CONTENT AREA */}
             <div className="relative z-30 bg-brand-base">
                 <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-                {/* THE MADISON CARD: THE 50/50 CLIMB */}
-                {/* Increased top padding on the wrapper and used 'relative -top-64' 
-                    to force it up the Y-axis onto the dark grid lines. */}
                 <div className="max-w-5xl mx-auto px-4 relative -top-64 md:-top-80 z-40 overflow-visible">
-                    
-                    {/* STATIC CITRON BORDER: Added border-brand-lemon and removed the SVG animation overlay */}
                     <div className="bg-brand-white rounded-3xl shadow-2xl border-2 border-brand-lemon p-12 text-center relative overflow-visible transition-transform duration-500 hover:scale-[1.01]">
                         
-                        {/* QUOTE MARKS - OFFSET TO PREVENT CLIPPING */}
                         <div className="absolute -top-12 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
                              style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E', opacity: '1' }}>“</div>
                         
                         <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4 pt-4">
                             Our storage units are...so functional thanks to YOU and your amazing work! <br /><br />
                             I am so grateful for you and your team!<br />
-                            <span className="block mt-6 text-3xl md:text-4xl">You helped us turn an <strong className="font-bold text-brand-periwinkle">8 week</strong> set up and tear down into a <strong className="font-bold text-brand-periwinkle">9 day</strong> set up and tear down!</span>
+                            {/* BUMPED: This line is now 32px on mobile / 42px on desktop */}
+                            <span className="block mt-6 text-[32px] md:text-[42px] leading-tight">You helped us turn an <strong className="font-bold text-brand-periwinkle">8 week</strong> set up and tear down into a <strong className="font-bold text-brand-periwinkle">9 day</strong> set up and tear down!</span>
                         </p>
                         <div className="mt-10 flex flex-col items-center justify-center relative z-10">
                             <div className="w-24 h-1 bg-brand-lemon mb-6 rounded-full"></div>
