@@ -1,4 +1,4 @@
-// --- PROFESSIONAL SPACES PAGE: HERO DEPTH & LAYERING LOCKDOWN ---
+// --- PROFESSIONAL SPACES PAGE: DEEP OVERLAP & QUOTE CLIPPING FIX ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -96,9 +96,9 @@ const ProfessionalSpaces = () => {
 
     return (
         <div className="bg-brand-base overflow-x-hidden min-h-screen">
-            {/* HERO SECTION - EXTENDED GRID DEPTH */}
-            {/* Added pt-64 for headline padding and pb-[32rem] to extend the dark grid lower */}
-            <div className="bg-brand-dark text-brand-base pt-64 pb-[32rem] px-4 text-center relative z-10">
+            {/* HERO SECTION - MASSIVE GRID DEPTH */}
+            {/* Extended pb-[40rem] to ensure the grid travels deep behind the card */}
+            <div className="bg-brand-dark text-brand-base pt-64 pb-[40rem] px-4 text-center relative z-10">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="absolute inset-0 pointer-events-none opacity-40"><GridBeams beamColor="255, 255, 255" /></div>
                 
@@ -120,12 +120,14 @@ const ProfessionalSpaces = () => {
             <div className="relative z-20 bg-brand-base">
                 <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-                {/* MADISON B TESTIMONIAL: LAYERED 50/50 ON THE GRID LINE */}
-                {/* Fixed negative margin to force the overlap on the extended dark grid */}
-                <div className="max-w-5xl mx-auto px-4 -mt-[20rem] md:-mt-[24rem] relative z-40">
-                    <div className="bg-brand-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative overflow-hidden group hover:scale-[1.01] transition-transform duration-500">
-                        {/* QUOTE SVG FAILSAFE */}
-                        <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
+                {/* MADISON B TESTIMONIAL: DEEP OVERLAP */}
+                {/* Pulling the card UP into the dark grid by 320px (8 grid lines) */}
+                <div className="max-w-5xl mx-auto px-4 -mt-[320px] md:-mt-[400px] relative z-40">
+                    {/* CHANGED TO overflow-visible to prevent quote clipping */}
+                    <div className="bg-brand-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative overflow-visible group hover:scale-[1.01] transition-transform duration-500">
+                        
+                        {/* QUOTE SVG FAILSAFE - Adjusted top so it doesn't clip */}
+                        <div className="absolute -top-12 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
                              style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E', opacity: '1' }}>“</div>
                         
                         <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4">
@@ -139,7 +141,7 @@ const ProfessionalSpaces = () => {
                             <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">Non-Profit Organization</p>
                         </div>
                         
-                        <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl z-20">
+                        <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl z-20 overflow-visible">
                             <rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" />
                         </svg>
                     </div>
