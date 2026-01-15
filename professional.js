@@ -1,4 +1,4 @@
-// --- PROFESSIONAL SPACES: POSTER LOCKDOWN & GEOMETRIC SYNC ---
+// --- PROFESSIONAL SPACES: VERBIAGE & GRID LOCKDOWN ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -19,6 +19,7 @@ const DisorganizationChecklist = () => {
     const score = Object.values(checks).filter(Boolean).length;
 
     const getResults = () => {
+        // EXACT ORIGINAL VERBIAGE RESTORED
         if (score >= 6) return { 
             level: "High Priority", 
             message: "Your business is currently leaking revenue through labor loss and inventory friction. Your systems are no longer supporting your growth—they are actively hindering it.",
@@ -39,7 +40,7 @@ const DisorganizationChecklist = () => {
     return (
         <div className="relative min-h-[500px]">
             {!showResults ? (
-                <div className="bg-brand-white rounded-3xl p-8 shadow-xl border border-stone-100 text-left">
+                <div className="bg-brand-white rounded-3xl p-8 shadow-xl border border-stone-100 text-left relative z-10">
                     <div className="space-y-4 mb-8">
                         {problems.map((item, i) => (
                             <button key={i} onClick={() => toggle(item)} className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-brand-base transition group text-left">
@@ -70,7 +71,7 @@ const DisorganizationChecklist = () => {
                             {score}<span className="text-3xl opacity-50 ml-2">/ 8</span>
                         </div>
                         <div className="space-y-6 max-w-xl">
-                            <h4 className="text-3xl font-bold border-b border-white/20 pb-4">{getResults().level}</h4>
+                            <h4 className="text-3xl font-bold border-b border-white/20 pb-4 uppercase tracking-wider">{getResults().level}</h4>
                             <p className="text-xl text-brand-periwinkle-light leading-relaxed italic">
                                 "{getResults().message}"
                             </p>
@@ -105,7 +106,7 @@ const ProfessionalSpaces = () => {
 
     return (
         <div className="bg-brand-base overflow-x-hidden min-h-screen">
-            {/* HERO SECTION - DARK GRID */}
+            {/* HERO SECTION */}
             <div className="bg-brand-dark text-brand-base pt-64 pb-[480px] px-4 text-center relative z-10">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="absolute inset-0 pointer-events-none opacity-40">
@@ -126,11 +127,11 @@ const ProfessionalSpaces = () => {
                 </div>
             </div>
 
-            {/* CONTENT AREA */}
+            {/* CONTENT AREA WITH PERIWINKLE GRID */}
             <div className="relative z-30 bg-brand-base">
                 <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-                {/* MADISON CARD - THE CLIMB */}
+                {/* MADISON CARD */}
                 <div className="max-w-5xl mx-auto px-4 relative -top-64 md:-top-80 z-40 overflow-visible">
                     <div className="bg-brand-white rounded-3xl shadow-2xl border-2 border-brand-lemon p-12 text-center relative overflow-visible transition-transform duration-500 hover:scale-[1.01]">
                         <div className="absolute -top-12 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
@@ -149,7 +150,7 @@ const ProfessionalSpaces = () => {
                     </div>
                 </div>
 
-                {/* VIDEO GRID - POSTERS ADDED */}
+                {/* VIDEO GRID */}
                 <div className="max-w-7xl mx-auto px-4 -mt-32 md:-mt-40 mb-24 relative z-10 text-center">
                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">No Space Too Big,<br /> No Business Too Small</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -189,16 +190,22 @@ const ProfessionalSpaces = () => {
                     </div>
                 </div>
 
-                {/* CHECKLIST */}
+                {/* CHECKLIST SECTION - DESIGN LOCKED */}
                 <section className="py-24 max-w-7xl mx-auto px-4 relative z-10">
-                    <div className="bg-brand-periwinkle-light/20 rounded-[3rem] p-8 md:p-16 text-center border-2 border-brand-periwinkle/30 backdrop-blur-sm">
-                        <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6 text-brand-dark">The Hidden Cost of Disorganization</h2>
-                        <p className="text-xl text-brand-medium font-light mb-12">Check all that apply to your current operations:</p>
-                        <div className="max-w-2xl mx-auto"><DisorganizationChecklist /></div>
+                    <div className="bg-brand-white rounded-[3rem] p-8 md:p-16 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
+                        {/* Grid Continuity inside the White Box */}
+                        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                        
+                        <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
+                        <p className="text-xl text-brand-medium font-light mb-12 relative z-10">Check all that apply to your current operations:</p>
+                        
+                        <div className="max-w-2xl mx-auto relative z-10">
+                            <DisorganizationChecklist />
+                        </div>
                     </div>
                 </section>
 
-                {/* FINAL CTA */}
+                {/* FINAL PROCESS CTA */}
                 <div className="mt-24 pb-40 max-w-5xl mx-auto px-4 text-center relative z-10">
                     <div className="bg-brand-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle relative overflow-hidden group">
                         <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark mb-10 tracking-tight leading-[1.1]">Organizing isn't a luxury for your business— <span className="text-brand-periwinkle italic">it's essential.</span></h3>
