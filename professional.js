@@ -107,4 +107,74 @@ const ProfessionalSpaces = () => {
             </div>
 
             <div className="relative z-30 bg-brand-base">
-                <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_4
+                <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+
+                {/* MADISON B CARD */}
+                <div className="max-w-5xl mx-auto px-4 relative -top-64 md:-top-80 z-40 overflow-visible">
+                    <div className="bg-white rounded-3xl shadow-2xl border-2 border-brand-lemon p-12 text-center relative overflow-visible transition-transform duration-500 hover:scale-[1.01]">
+                        <div className="absolute -top-12 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
+                             style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E', opacity: '1' }}>“</div>
+                        <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4 pt-4">
+                            Our storage units are...so functional thanks to YOU and your amazing work! <br /><br />
+                            I am so grateful for you and your team!<br />
+                            <span className="block mt-6 text-[32px] md:text-[42px] leading-tight">You helped us turn an <strong className="font-bold text-brand-periwinkle">8 week</strong> set up and tear down into a <strong className="font-bold text-brand-periwinkle">9 day</strong> set up and tear down!</span>
+                        </p>
+                        <div className="mt-10 flex flex-col items-center justify-center relative z-10">
+                            <div className="w-24 h-1 bg-brand-lemon mb-6 rounded-full"></div>
+                            <p className="font-display font-bold text-brand-dark uppercase tracking-widest text-sm">- Madison B.</p>
+                            <p className="text-xs text-brand-medium font-bold uppercase tracking-wider mt-1">Non-Profit Organization</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* VIDEO GRID SECTION: UPDATED PADDING & COPY */}
+                <div className="max-w-7xl mx-auto px-4 pt-24 pb-32 relative z-10 text-center">
+                    <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-4 leading-[1.4] md:leading-[1.6]">
+                        No Space Too Big,<br /> No Business Too Small
+                    </h3>
+                    {/* Restored Sub-copy */}
+                    <p className="text-lg md:text-xl text-brand-medium font-light max-w-2xl mx-auto mb-16 leading-relaxed">
+                        Whether you’re saving lives or serving lattes, we reorganize the "stuff" so you can focus on the service.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[
+                            { label: "Fire & Medical Services", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108.mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg" },
+                            { label: "Restaurants & Hospitality", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(2)(2).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-expected%20mess%20vs%20clutter.png" },
+                            { label: "Non Profit", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(1).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-systems-chaos.png" }
+                        ].map((item, i) => (
+                            <div key={i} className="relative group rounded-3xl overflow-hidden shadow-lg aspect-[2/3] border border-stone-100 bg-brand-base transition-all hover:shadow-2xl">
+                                <video className="w-full h-full object-cover" autoPlay loop muted playsInline webkit-playsinline="true" poster={item.poster} preload="auto" controlsList="nodownload"><source src={item.video} type="video/mp4" /></video>
+                                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-60"></div>
+                                <div className="absolute bottom-6 left-6"><div className="bg-brand-periwinkle text-brand-white px-5 py-2 rounded-full font-display font-bold tracking-widest text-xs uppercase shadow-md">{item.label}</div></div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* CHECKLIST SECTION */}
+                <section className="py-24 max-w-4xl mx-auto px-4 relative z-10">
+                    <div className="bg-[#EBEBFF] rounded-[3rem] p-4 md:p-12 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
+                        <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tighter mb-4 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
+                        <p className="text-lg text-brand-medium font-light mb-8 relative z-10">Check all that apply to your current operations:</p>
+                        <div className="max-w-3xl mx-auto relative z-10 px-2">
+                            <DisorganizationChecklist />
+                        </div>
+                    </div>
+                </section>
+
+                {/* FINAL CTA */}
+                <div className="mt-24 pb-40 max-w-5xl mx-auto px-4 text-center relative z-10">
+                    <div className="bg-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle relative overflow-hidden group">
+                        <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark mb-10 tracking-tight leading-[1.1]">Organizing isn't a luxury for your business— <span className="text-brand-periwinkle italic">it's essential.</span></h3>
+                        <div className="text-brand-medium text-xl leading-relaxed mb-12 space-y-6 max-w-3xl mx-auto font-light">
+                            <p>Every minute your team spends searching for a tool or navigating a crowded stockroom is a minute of lost profit. Disorganization is a quiet tax on your growth.</p>
+                            <p>Let's eliminate the friction in your inventory systems so you can get back to what you were meant to do: serve your customers and lead your mission with clarity.</p>
+                        </div>
+                        <Link to="/booking" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white transition shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">Book My Systems Audit</Link>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
