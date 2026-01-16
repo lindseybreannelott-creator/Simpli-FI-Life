@@ -41,7 +41,8 @@
         @keyframes beam-h { from { left: -300px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: 100%; opacity: 0; } }
         @keyframes beam-h-rev { from { left: 100%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: -300px; opacity: 0; } }
         @keyframes beam-v { from { top: -300px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { top: 100%; opacity: 0; } }
-        @keyframes beam-v-rev { from { top: 100%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: -300px; opacity: 0; } }
+        /* FIX: Changed 'left' to 'top' in the final keyframe state */
+        @keyframes beam-v-rev { from { top: 100%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { top: -300px; opacity: 0; } }
         @keyframes twinkle { 0% { opacity: 0; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.9); } }
         .loading-grid-fade-in { opacity: 0; animation: fadeInGrid 1.5s ease-out 0.1s forwards; }
         .loading-logo-reveal {
