@@ -17,7 +17,9 @@ const TestimonialScroller = () => {
     const GAP_DESKTOP = 24;
 
     const handleScroll = () => {
-        if (!containerRef.current) return;
+        // FIX: Added guard for empty originalItems array to prevent division by zero
+        if (!containerRef.current || originalItems.length === 0) return;
+        
         const container = containerRef.current;
         const scrollPos = container.scrollLeft;
         const viewportWidth = container.offsetWidth;
@@ -51,7 +53,8 @@ const TestimonialScroller = () => {
     };
 
     useEffect(() => {
-        if (containerRef.current) {
+        // FIX: Added guard for empty originalItems array
+        if (containerRef.current && originalItems.length > 0) {
             const container = containerRef.current;
             const viewportWidth = container.offsetWidth;
             const itemWidth = isMobile ? viewportWidth * 0.65 : ITEM_WIDTH_DESKTOP;
@@ -61,6 +64,11 @@ const TestimonialScroller = () => {
             setTimeout(handleScroll, 100);
         }
     }, [originalItems.length, isMobile]);
+
+    // FIX: Early return if no testimonials to display
+    if (originalItems.length === 0) {
+        return null;
+    }
 
     return (
         <div className="relative w-full mt-5 md:mt-0 pt-2 pb-16 md:pb-20 group z-30">
@@ -94,7 +102,7 @@ const TestimonialScroller = () => {
                             style={{ marginRight: '16px', width: '320px', maxWidth: '65vw' }}
                         >
                             <div className={`absolute -top-10 -left-4 text-[8rem] md:text-[12rem] font-serif leading-none select-none pointer-events-none transition-opacity duration-500 ${isActive ? 'opacity-80' : 'opacity-10'}`}
-                                 style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
+                                 style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>"</div>
                             <div className="relative z-10 pt-8 md:pt-12">
                                 <p className="text-brand-dark text-sm md:text-lg italic leading-relaxed">"{t.quote}"</p>
                             </div>
