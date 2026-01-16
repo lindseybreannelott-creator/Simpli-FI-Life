@@ -1,10 +1,9 @@
-// --- PROFESSIONAL SPACES: WEIGHTED RISK ANALYSIS & DESIGN LOCKDOWN ---
+// --- PROFESSIONAL SPACES: TYPOGRAPHY REFINEMENT & DESIGN LOCKDOWN ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
     const [showResults, setShowResults] = useState(false);
     
-    // Weighted Problems: High Gravity (3), Medium Gravity (2), Low Gravity (1)
     const problems = [
         { id: "stockout", text: "Have you ever run out of inventory and had to tell a customer/client no?", weight: 3 },
         { id: "duplicate", text: "Have you ever made a duplicate purchase because you didn't know what inventory you had?", weight: 3 },
@@ -21,23 +20,9 @@ const DisorganizationChecklist = () => {
     const calculateRisk = () => {
         let totalWeight = 0;
         problems.forEach(p => { if (checks[p.id]) totalWeight += p.weight; });
-        
-        // Logical thresholds based on gravity rather than item count
-        if (totalWeight >= 8) return { 
-            level: "High Priority", 
-            message: "Your business is currently leaking revenue through labor loss and inventory friction. Your systems are no longer supporting your growth—they are actively hindering it.",
-            action: "Schedule Audit Immediately" 
-        };
-        if (totalWeight >= 4) return { 
-            level: "Medium Priority", 
-            message: "Friction is slowing your team's efficiency. While you are operational, you are likely over-spending on consumables and losing hours to 'searching' rather than 'serving'.",
-            action: "Discuss System Optimization" 
-        };
-        return { 
-            level: "Low Priority", 
-            message: "You have a baseline for order, but your current systems may not be scalable. Now is the time to build the framework for your next level of growth.",
-            action: "Explore Scalable Systems" 
-        };
+        if (totalWeight >= 8) return { level: "High Priority", message: "Your business is currently leaking revenue through labor loss and inventory friction. Your systems are no longer supporting your growth—they are actively hindering it.", action: "Schedule Audit Immediately" };
+        if (totalWeight >= 4) return { level: "Medium Priority", message: "Friction is slowing your team's efficiency. While you are operational, you are likely over-spending on consumables and losing hours to 'searching' rather than 'serving'.", action: "Discuss System Optimization" };
+        return { level: "Low Priority", message: "You have a baseline for order, but your current systems may not be scalable. Now is the time to build the framework for your next level of growth.", action: "Explore Scalable Systems" };
     };
 
     const results = calculateRisk();
@@ -45,7 +30,6 @@ const DisorganizationChecklist = () => {
     return (
         <div className="relative min-h-[400px]">
             {!showResults ? (
-                /* STEP 1: Question Card - Clean White */
                 <div className="bg-white rounded-2xl p-4 md:p-8 shadow-xl border border-stone-100 text-left relative z-10">
                     <div className="space-y-1 md:space-y-2 mb-8">
                         {problems.map((p) => (
@@ -61,41 +45,23 @@ const DisorganizationChecklist = () => {
                             </button>
                         ))}
                     </div>
-                    
-                    <button 
-                        onClick={() => setShowResults(true)}
-                        className="w-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white py-4 md:py-5 rounded-xl font-display font-bold text-lg md:text-xl uppercase tracking-widest transition-all shadow-lg"
-                    >
+                    <button onClick={() => setShowResults(true)} className="w-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white py-4 md:py-5 rounded-xl font-display font-bold text-lg md:text-xl uppercase tracking-widest transition-all shadow-lg">
                         Analyze My Operational Risk
                     </button>
                 </div>
             ) : (
-                /* STEP 2: Results Display - White with Periwinkle Grid, NO FRACTION */
                 <div className="bg-white rounded-[2.5rem] p-8 md:p-16 text-brand-dark shadow-2xl border-4 border-brand-periwinkle animate-fade-in-up relative overflow-hidden">
                     <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                    
                     <div className="absolute top-0 right-0 p-8 opacity-10"><Icon name="bar-chart" className="w-32 h-32 text-brand-periwinkle" /></div>
-                    
-                    <div className="relative z-10">
+                    <div className="relative z-10 text-center md:text-left">
                         <h3 className="font-display text-2xl uppercase tracking-[0.2em] text-brand-periwinkle mb-4">Risk Analysis Complete</h3>
-                        
                         <div className="space-y-6 max-w-xl">
-                            {/* Score/Fraction removed as requested, focus is on Level */}
-                            <h4 className="text-4xl md:text-6xl font-bold border-b border-brand-periwinkle/20 pb-6 uppercase tracking-tight text-brand-dark">
-                                {results.level}
-                            </h4>
-                            <p className="text-xl md:text-2xl text-brand-medium leading-relaxed italic">
-                                "{results.message}"
-                            </p>
+                            <h4 className="text-4xl md:text-6xl font-bold border-b border-brand-periwinkle/20 pb-6 uppercase tracking-tight text-brand-dark">{results.level}</h4>
+                            <p className="text-xl md:text-2xl text-brand-medium leading-relaxed italic">"{results.message}"</p>
                         </div>
-
                         <div className="mt-12 flex flex-col md:flex-row gap-6">
-                            <Link to="/booking" className="bg-brand-lemon text-brand-dark px-10 py-5 rounded-full font-bold uppercase tracking-widest text-center hover:bg-brand-periwinkle hover:text-white transition-all shadow-xl text-lg">
-                                {results.action}
-                            </Link>
-                            <button onClick={() => setShowResults(false)} className="text-brand-periwinkle/60 hover:text-brand-periwinkle underline underline-offset-4 text-sm font-medium">
-                                Retake Analysis
-                            </button>
+                            <Link to="/booking" className="bg-brand-lemon text-brand-dark px-10 py-5 rounded-full font-bold uppercase tracking-widest text-center hover:bg-brand-periwinkle hover:text-white transition-all shadow-xl text-lg">{results.action}</Link>
+                            <button onClick={() => setShowResults(false)} className="text-brand-periwinkle/60 hover:text-brand-periwinkle underline underline-offset-4 text-sm font-medium">Retake Analysis</button>
                         </div>
                     </div>
                 </div>
@@ -130,7 +96,8 @@ const ProfessionalSpaces = () => {
                     <h1 className="font-display font-bold text-5xl md:text-[6.5rem] tracking-tighter mb-4 leading-[0.95] md:leading-[0.85]">
                         Your back-of-house is your
                     </h1>
-                    <p className="font-handwriting font-normal text-brand-periwinkle-light lowercase text-4xl md:text-6xl mb-12 block">
+                    {/* UPDATED ACCENT: Periwinkle color, Thinner Weight (font-light), Increased Size (text-5xl/text-7xl) */}
+                    <p className="font-handwriting font-light text-brand-periwinkle lowercase text-5xl md:text-7xl mb-12 block">
                         Competitive Edge.
                     </p>
                     <p className="text-lg md:text-xl font-light text-stone-300 max-w-3xl mx-auto mb-12 leading-relaxed">
@@ -143,12 +110,11 @@ const ProfessionalSpaces = () => {
             <div className="relative z-30 bg-brand-base">
                 <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
-                {/* TESTIMONIAL CARD */}
+                {/* MADISON B CARD */}
                 <div className="max-w-5xl mx-auto px-4 relative -top-64 md:-top-80 z-40 overflow-visible">
                     <div className="bg-white rounded-3xl shadow-2xl border-2 border-brand-lemon p-12 text-center relative overflow-visible transition-transform duration-500 hover:scale-[1.01]">
                         <div className="absolute -top-12 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
                              style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E', opacity: '1' }}>“</div>
-                        
                         <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4 pt-4">
                             Our storage units are...so functional thanks to YOU and your amazing work! <br /><br />
                             I am so grateful for you and your team!<br />
@@ -167,47 +133,24 @@ const ProfessionalSpaces = () => {
                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-10 leading-loose">No Space Too Big,<br /> No Business Too Small</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {[
-                            { 
-                                label: "Fire & Medical Services", 
-                                video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108.mp4",
-                                poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg"
-                            },
-                            { 
-                                label: "Restaurants & Hospitality", 
-                                video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(2)(2).mp4",
-                                poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-expected%20mess%20vs%20clutter.png"
-                            },
-                            { 
-                                label: "Non Profit", 
-                                video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(1).mp4",
-                                poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-systems-chaos.png"
-                            }
+                            { label: "Fire & Medical Services", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108.mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg" },
+                            { label: "Restaurants & Hospitality", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(2)(2).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-expected%20mess%20vs%20clutter.png" },
+                            { label: "Non Profit", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(1).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-systems-chaos.png" }
                         ].map((item, i) => (
                             <div key={i} className="relative group rounded-3xl overflow-hidden shadow-lg aspect-[2/3] border border-stone-100 bg-brand-base transition-all hover:shadow-2xl">
-                                <video 
-                                    className="w-full h-full object-cover" 
-                                    autoPlay loop muted playsInline webkit-playsinline="true"
-                                    poster={item.poster}
-                                    preload="auto"
-                                    controlsList="nodownload"
-                                >
-                                    <source src={item.video} type="video/mp4" />
-                                </video>
+                                <video className="w-full h-full object-cover" autoPlay loop muted playsInline webkit-playsinline="true" poster={item.poster} preload="auto" controlsList="nodownload"><source src={item.video} type="video/mp4" /></video>
                                 <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-60"></div>
-                                <div className="absolute bottom-6 left-6">
-                                    <div className="bg-brand-periwinkle text-brand-white px-5 py-2 rounded-full font-display font-bold tracking-widest text-xs uppercase shadow-md">{item.label}</div>
-                                </div>
+                                <div className="absolute bottom-6 left-6"><div className="bg-brand-periwinkle text-brand-white px-5 py-2 rounded-full font-display font-bold tracking-widest text-xs uppercase shadow-md">{item.label}</div></div>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                {/* THE CHECKLIST SECTION - LIGHT PERIWINKLE CONTAINER */}
+                {/* CHECKLIST SECTION */}
                 <section className="py-24 max-w-4xl mx-auto px-4 relative z-10">
                     <div className="bg-[#EBEBFF] rounded-[3rem] p-4 md:p-12 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
                         <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tighter mb-4 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
                         <p className="text-lg text-brand-medium font-light mb-8 relative z-10">Check all that apply to your current operations:</p>
-                        
                         <div className="max-w-3xl mx-auto relative z-10 px-2">
                             <DisorganizationChecklist />
                         </div>
