@@ -1,7 +1,7 @@
 const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 
-// --- PROFESSIONAL SPACES: UPDATED LIABILITY LOGIC ---
+// --- PROFESSIONAL SPACES: TRUE MODAL SCORECARD ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -25,7 +25,7 @@ const DisorganizationChecklist = () => {
         const count = activeIds.length;
         const hasStockout = checks["stockout"];
         
-        // Check if only "clutter" and/or "pileups" are selected (and nothing else)
+        // Check if only "clutter" and/or "pileups" are selected
         const lowLiabilityOnly = activeIds.every(id => id === "clutter" || id === "pileups");
 
         // 1. CRITICAL LIABILITY (Every item selected)
@@ -64,9 +64,9 @@ const DisorganizationChecklist = () => {
     const results = calculateRisk();
 
     return (
-        <div className="relative min-h-[500px] md:min-h-[450px]">
-            {!showResults ? (
-                // --- INPUT STATE ---
+        <>
+            {/* --- INPUT STATE (Always visible until modal pops) --- */}
+            <div className="relative min-h-[450px]">
                 <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-stone-100 text-left relative z-10 h-full flex flex-col justify-between">
                     <div className="space-y-2 mb-8">
                         {problems.map((p) => (
@@ -86,40 +86,60 @@ const DisorganizationChecklist = () => {
                         Analyze My Operational Risk
                     </button>
                 </div>
-            ) : (
-                // --- RESULT STATE (Pop Out) ---
-                <div className="bg-white rounded-[2.5rem] p-8 md:p-16 text-brand-dark shadow-2xl border-4 border-brand-periwinkle animate-fade-in-up relative overflow-hidden h-full flex flex-col justify-center">
-                    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                    
-                    {/* CLOSE BUTTON (Dark X) */}
-                    <button 
+            </div>
+
+            {/* --- TRUE MODAL POP-UP (Fixed Overlay) --- */}
+            {showResults && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    {/* Dark Blurry Backdrop */}
+                    <div 
+                        className="absolute inset-0 bg-brand-dark/60 backdrop-blur-sm transition-opacity"
                         onClick={() => setShowResults(false)}
-                        className="absolute top-6 right-6 md:top-8 md:right-8 w-12 h-12 flex items-center justify-center rounded-full bg-stone-100 hover:bg-brand-periwinkle hover:text-white transition-colors z-50 group"
-                        aria-label="Close Results"
-                    >
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-dark group-hover:text-white transition-colors">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
+                    ></div>
 
-                    <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                        {typeof Icon !== 'undefined' && <Icon name="bar-chart" className="w-32 h-32 text-brand-periwinkle" />}
-                    </div>
+                    {/* Modal Card */}
+                    <div className="relative bg-white rounded-[2.5rem] w-full max-w-md p-8 md:p-12 text-brand-dark shadow-2xl border-4 border-brand-periwinkle animate-fade-in-up overflow-hidden">
+                        {/* Background Pattern */}
+                        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
 
-                    <div className="relative z-10 text-center md:text-left">
-                        <h3 className="font-display text-2xl uppercase tracking-[0.2em] text-brand-periwinkle mb-6 font-bold">Risk Analysis Complete</h3>
-                        <div className="space-y-8 max-w-xl">
-                            <h4 className={`text-5xl md:text-7xl font-bold border-b border-brand-periwinkle/20 pb-8 uppercase tracking-tight ${results.color}`}>{results.level}</h4>
-                            <p className="text-xl md:text-2xl text-brand-medium leading-relaxed italic">"{results.message}"</p>
-                        </div>
-                        <div className="mt-14">
-                            <Link to="/booking" className="inline-block bg-brand-lemon text-brand-dark px-12 py-6 rounded-full font-bold uppercase tracking-widest text-center hover:bg-brand-periwinkle hover:text-white transition-all shadow-xl text-lg w-full md:w-auto transform hover:-translate-y-1">{results.action}</Link>
+                        {/* CLOSE BUTTON (Top Right) */}
+                        <button 
+                            onClick={() => setShowResults(false)}
+                            className="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-stone-100 hover:bg-brand-periwinkle hover:text-white transition-colors z-50 group"
+                            aria-label="Close Results"
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-dark group-hover:text-white transition-colors">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+
+                        <div className="relative z-10 text-center">
+                            {/* Icon centered for narrow layout */}
+                            <div className="mb-6 flex justify-center opacity-20">
+                                {typeof Icon !== 'undefined' && <Icon name="bar-chart" className="w-20 h-20 text-brand-periwinkle" />}
+                            </div>
+
+                            <h3 className="font-display text-lg uppercase tracking-[0.2em] text-brand-periwinkle mb-6 font-bold">Analysis Complete</h3>
+                            
+                            <div className="space-y-6 mb-10">
+                                {/* Whitespace-nowrap forces "MODERATE LIABILITY" to one line */}
+                                <h4 className={`text-4xl md:text-5xl font-bold border-b border-brand-periwinkle/20 pb-6 uppercase tracking-tight whitespace-nowrap ${results.color}`}>
+                                    {results.level}
+                                </h4>
+                                <p className="text-lg text-brand-medium leading-relaxed italic">
+                                    "{results.message}"
+                                </p>
+                            </div>
+
+                            <Link to="/booking" className="inline-block w-full bg-brand-lemon text-brand-dark py-5 rounded-full font-bold uppercase tracking-widest text-center hover:bg-brand-periwinkle hover:text-white transition-all shadow-xl text-base transform hover:-translate-y-1">
+                                {results.action}
+                            </Link>
                         </div>
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 };
 
