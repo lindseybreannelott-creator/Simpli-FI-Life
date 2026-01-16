@@ -1,7 +1,7 @@
 const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 
-// --- PROFESSIONAL SPACES: SCORE CARD & COPY RESTORATION ---
+// --- PROFESSIONAL SPACES: FIXED COPY & RESTORED SCORECARD ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -24,36 +24,35 @@ const DisorganizationChecklist = () => {
         let totalWeight = 0;
         problems.forEach(p => { if (checks[p.id]) totalWeight += p.weight; });
         
+        // Original logic and messages
         if (totalWeight >= 8) return { 
-            level: "Critical Risk", 
-            color: "text-red-500",
-            message: "Your business is actively leaking revenue. Labor loss, inventory friction, and duplicate spending are effectively 'quiet quitting' your profit margins.", 
-            action: "Schedule Emergency Audit" 
+            level: "High Priority", 
+            message: "Your business is currently leaking revenue through labor loss and inventory friction. Your systems are no longer supporting your growth—they are actively hindering it.", 
+            action: "Schedule Audit Immediately" 
         };
         if (totalWeight >= 4) return { 
-            level: "Moderate Friction", 
-            color: "text-brand-dark",
-            message: "You are operational, but inefficient. You are likely over-spending on consumables and losing valuable team hours to 'searching' rather than 'serving'.", 
-            action: "Optimize Your Systems" 
+            level: "Medium Priority", 
+            message: "Friction is slowing your team's efficiency. While you are operational, you are likely over-spending on consumables and losing hours to 'searching' rather than 'serving'.", 
+            action: "Discuss System Optimization" 
         };
         return { 
-            level: "Scalability Check", 
-            color: "text-brand-periwinkle",
-            message: "You have a baseline for order, but your current systems may not be robust enough for your next growth spurt. Build the framework now.", 
-            action: "Future-Proof Your Space" 
+            level: "Low Priority", 
+            message: "You have a baseline for order, but your current systems may not be scalable. Now is the time to build the framework for your next level of growth.", 
+            action: "Explore Scalable Systems" 
         };
     };
 
     const results = calculateRisk();
 
     return (
-        <div className="relative min-h-[500px] md:min-h-[400px]">
+        <div className="relative min-h-[400px]">
             {!showResults ? (
-                <div className="bg-white rounded-[2.5rem] p-6 md:p-10 shadow-xl border border-stone-100 text-left relative z-10 transition-all duration-300">
-                    <div className="space-y-3 md:space-y-2 mb-8">
+                // --- INPUT STATE ---
+                <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-stone-100 text-left relative z-10">
+                    <div className="space-y-2 mb-10">
                         {problems.map((p) => (
-                            <button key={p.id} onClick={() => toggle(p.id)} className="w-full flex items-start md:items-center gap-4 p-3 rounded-xl hover:bg-brand-base transition group text-left">
-                                <div className={`w-6 h-6 md:w-8 md:h-8 mt-1 md:mt-0 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-200 ${checks[p.id] ? 'bg-brand-dark border-brand-dark' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
+                            <button key={p.id} onClick={() => toggle(p.id)} className="w-full flex items-start md:items-center gap-4 p-4 rounded-xl hover:bg-brand-base transition group text-left">
+                                <div className={`w-8 h-8 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all ${checks[p.id] ? 'bg-brand-dark border-brand-dark' : 'border-stone-200 group-hover:border-brand-periwinkle'}`}>
                                     {checks[p.id] && (
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D6E31E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                                             <polyline points="20 6 9 17 4 12"></polyline>
@@ -64,55 +63,29 @@ const DisorganizationChecklist = () => {
                             </button>
                         ))}
                     </div>
-                    <button 
-                        onClick={() => setShowResults(true)} 
-                        className="w-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white py-4 md:py-5 rounded-xl font-display font-bold text-lg md:text-xl uppercase tracking-widest transition-all shadow-lg transform active:scale-[0.99]"
-                    >
-                        Analyze My Operations
+                    <button onClick={() => setShowResults(true)} className="w-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white py-5 rounded-xl font-display font-bold text-xl uppercase tracking-widest transition-all shadow-lg">
+                        Analyze My Operational Risk
                     </button>
                 </div>
             ) : (
-                <div className="absolute inset-0 z-20 animate-fade-in-up">
-                    <div className="bg-white rounded-[2.5rem] p-8 md:p-14 text-brand-dark shadow-2xl border-4 border-brand-lemon h-full flex flex-col relative overflow-hidden">
-                        
-                        {/* Background Texture */}
-                        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                        
-                        {/* Close / Retake Button (Top Right) */}
-                        <button 
-                            onClick={() => setShowResults(false)}
-                            className="absolute top-6 right-6 md:top-10 md:right-10 w-10 h-10 flex items-center justify-center rounded-full bg-stone-100 hover:bg-brand-periwinkle hover:text-white transition-colors z-30"
-                            aria-label="Close Results"
-                        >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                        </button>
+                // --- RESULT STATE (Pop Out) ---
+                <div className="bg-white rounded-[2.5rem] p-8 md:p-16 text-brand-dark shadow-2xl border-4 border-brand-periwinkle animate-fade-in-up relative overflow-hidden h-full flex flex-col justify-center">
+                    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                    
+                    {/* Render Icon safely if available */}
+                    <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                        {typeof Icon !== 'undefined' && <Icon name="bar-chart" className="w-32 h-32 text-brand-periwinkle" />}
+                    </div>
 
-                        <div className="relative z-10 flex-grow flex flex-col justify-center">
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="h-px bg-brand-periwinkle w-12"></div>
-                                <span className="font-display text-sm md:text-base uppercase tracking-[0.2em] text-brand-periwinkle font-bold">Analysis Complete</span>
-                            </div>
-
-                            <h4 className={`text-4xl md:text-6xl font-bold mb-6 uppercase tracking-tight leading-[0.9] ${results.color}`}>
-                                {results.level}
-                            </h4>
-                            
-                            <p className="text-lg md:text-2xl text-brand-medium leading-relaxed font-light mb-10 max-w-2xl">
-                                "{results.message}"
-                            </p>
-
-                            <div className="mt-auto pt-6 border-t border-stone-100">
-                                <Link 
-                                    to="/booking" 
-                                    className="inline-flex w-full md:w-auto items-center justify-center bg-brand-dark text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-brand-periwinkle transition-all shadow-xl text-sm md:text-base group"
-                                >
-                                    <span>{results.action}</span>
-                                    <svg className="ml-3 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                                </Link>
-                                <div className="mt-4 md:hidden text-center">
-                                    <button onClick={() => setShowResults(false)} className="text-xs uppercase tracking-widest text-brand-medium underline">Retake</button>
-                                </div>
-                            </div>
+                    <div className="relative z-10 text-center md:text-left">
+                        <h3 className="font-display text-2xl uppercase tracking-[0.2em] text-brand-periwinkle mb-4 font-bold">Risk Analysis Complete</h3>
+                        <div className="space-y-6 max-w-xl">
+                            <h4 className="text-4xl md:text-6xl font-bold border-b border-brand-periwinkle/20 pb-6 uppercase tracking-tight text-brand-dark">{results.level}</h4>
+                            <p className="text-xl md:text-2xl text-brand-medium leading-relaxed italic">"{results.message}"</p>
+                        </div>
+                        <div className="mt-12 flex flex-col md:flex-row gap-6 items-center">
+                            <Link to="/booking" className="bg-brand-lemon text-brand-dark px-10 py-5 rounded-full font-bold uppercase tracking-widest text-center hover:bg-brand-periwinkle hover:text-white transition-all shadow-xl text-lg w-full md:w-auto">{results.action}</Link>
+                            <button onClick={() => setShowResults(false)} className="text-brand-periwinkle/60 hover:text-brand-periwinkle underline underline-offset-4 text-sm font-medium uppercase tracking-widest">Retake Analysis</button>
                         </div>
                     </div>
                 </div>
@@ -122,7 +95,7 @@ const DisorganizationChecklist = () => {
 };
 
 const ProfessionalSpaces = () => {
-    // Assuming usePageTitle is available from core.js
+    // Safety check for usePageTitle
     if (typeof usePageTitle === 'function') {
         usePageTitle("Professional Spaces");
     }
@@ -137,11 +110,7 @@ const ProfessionalSpaces = () => {
         return () => document.body.removeEventListener('touchstart', playVideos);
     }, []);
 
-    // Helper to safely render components from core.js
-    const renderIcon = (props) => {
-        return typeof Icon !== 'undefined' ? <Icon {...props} /> : null;
-    };
-
+    // Helper to render GridBeams safely
     const renderGridBeams = (props) => {
         return typeof GridBeams !== 'undefined' ? <GridBeams {...props} /> : null;
     };
@@ -195,8 +164,10 @@ const ProfessionalSpaces = () => {
                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-4 leading-[1.4] md:leading-[1.6]">
                         No Space Too Big,<br /> No Business Too Small
                     </h3>
-                    <p className="text-lg md:text-xl text-brand-medium font-light max-w-2xl mx-auto mb-16 leading-relaxed">
-                        Whether you’re saving lives or serving lattes, we reorganize the "stuff" so you can focus on the service.
+                    
+                    {/* RESTORED COPY WITH HIGHLIGHT */}
+                    <p className="text-lg md:text-xl text-brand-medium font-light max-w-3xl mx-auto mb-16 leading-relaxed">
+                        Whether you're saving lives or serving lattes, your environment dictates your efficiency. Here are a few industries that have benefited from our organizing—though to be clear, <span className="highlight-wrap bg-brand-lemon/60 px-1 py-0.5 rounded-sm box-decoration-clone text-brand-dark font-normal">any business can benefit from better systems.</span>
                     </p>
                     
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -241,5 +212,5 @@ const ProfessionalSpaces = () => {
     );
 };
 
-// Expose component to global window object so App.js can find it
+// Expose component to global window object
 window.ProfessionalSpaces = ProfessionalSpaces;
