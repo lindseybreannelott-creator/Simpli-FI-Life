@@ -1,7 +1,8 @@
 const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
+const ReactDOM = window.ReactDOM; // Access global ReactDOM for the Portal
 
-// --- PROFESSIONAL SPACES: FINAL MODAL FIXES ---
+// --- PROFESSIONAL SPACES: PORTAL FIX FOR Z-INDEX ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -28,35 +29,30 @@ const DisorganizationChecklist = () => {
         // Check if only "clutter" and/or "pileups" are selected
         const lowLiabilityOnly = activeIds.every(id => id === "clutter" || id === "pileups");
 
-        // 1. CRITICAL LIABILITY (Every item selected)
         if (count === problems.length) return { 
             level: "CRITICAL LIABILITY", 
-            color: "text-[#991B1B]", // Dark Deep Red
+            color: "text-[#991B1B]", 
             message: "Your operational friction is at maximum capacity. You are bleeding revenue daily through lost labor, duplicate inventory, and missed opportunities. Immediate intervention is required.", 
             action: "Schedule Emergency Audit" 
         };
 
-        // 2. HIGH LIABILITY (Stockout selected)
         if (hasStockout) return { 
             level: "HIGH LIABILITY", 
-            color: "text-[#D9534F]", // Muted Red
+            color: "text-[#D9534F]", 
             message: "Running out of inventory is a direct hit to your reputation and revenue. Your current system is actively hindering your ability to serve your clients.", 
             action: "Fix Inventory Systems" 
         };
 
-        // 3. LOW LIABILITY (Only Clutter or Pileups selected)
         if (count > 0 && lowLiabilityOnly) return { 
             level: "LOW LIABILITY", 
-            color: "text-[#D6E31E]", // Brand Lemon
+            color: "text-[#D6E31E]", 
             message: "You have a baseline for order, but visual clutter is a silent stressor. Now is the time to refine your environment before it affects your workflow.", 
             action: "Refine My Space" 
         };
 
-        // 4. MODERATE LIABILITY (Everything else)
-        // FIX: Added explicit line break <br/> for layout
         return { 
             level: <>MODERATE<br/>LIABILITY</>, 
-            color: "text-[#F0AD4E]", // Muted Orange
+            color: "text-[#F0AD4E]", 
             message: "Friction is slowing your team's efficiency. You are likely over-spending on consumables and losing valuable team hours to 'searching' rather than 'serving'.", 
             action: "Optimize Operations" 
         };
@@ -66,7 +62,7 @@ const DisorganizationChecklist = () => {
 
     return (
         <>
-            {/* --- INPUT STATE (Always visible until modal pops) --- */}
+            {/* --- INPUT STATE (Always visible in the list) --- */}
             <div className="relative min-h-[450px]">
                 <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-stone-100 text-left relative z-10 h-full flex flex-col justify-between">
                     <div className="space-y-2 mb-8">
@@ -89,9 +85,8 @@ const DisorganizationChecklist = () => {
                 </div>
             </div>
 
-            {/* --- TRUE MODAL POP-UP (Fixed Overlay) --- */}
-            {showResults && (
-                // FIX: Increased z-index to z-[9999] to ensure it stays on top of everything
+            {/* --- TRUE MODAL POP-UP (Teleported to Body via Portal) --- */}
+            {showResults && ReactDOM.createPortal(
                 <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
                     {/* Dark Blurry Backdrop */}
                     <div 
@@ -125,7 +120,6 @@ const DisorganizationChecklist = () => {
                             <h3 className="font-display text-lg uppercase tracking-[0.2em] text-brand-periwinkle mb-6 font-bold">Analysis Complete</h3>
                             
                             <div className="space-y-6 mb-10">
-                                {/* FIX: Removed whitespace-nowrap so breaks work, added text-center explicit */}
                                 <h4 className={`text-4xl md:text-5xl font-bold border-b border-brand-periwinkle/20 pb-6 uppercase tracking-tight text-center leading-none ${results.color}`}>
                                     {results.level}
                                 </h4>
@@ -139,7 +133,8 @@ const DisorganizationChecklist = () => {
                             </Link>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </>
     );
