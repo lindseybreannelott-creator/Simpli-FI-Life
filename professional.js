@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { GridBeams } from '../components/ui/GridBeams'; // Check your specific path
-import Icon from '../components/Icon'; // Check your specific path
-import usePageTitle from '../hooks/usePageTitle'; // Check your specific path
+const { useState, useEffect } = React;
+const { Link } = ReactRouterDOM;
 
-// --- PROFESSIONAL SPACES: RESTORED SCORE CARD & COPY ---
+// --- PROFESSIONAL SPACES: SCORE CARD & COPY RESTORATION ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -125,7 +122,10 @@ const DisorganizationChecklist = () => {
 };
 
 const ProfessionalSpaces = () => {
-    usePageTitle("Professional Spaces");
+    // Assuming usePageTitle is available from core.js
+    if (typeof usePageTitle === 'function') {
+        usePageTitle("Professional Spaces");
+    }
     
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -137,13 +137,22 @@ const ProfessionalSpaces = () => {
         return () => document.body.removeEventListener('touchstart', playVideos);
     }, []);
 
+    // Helper to safely render components from core.js
+    const renderIcon = (props) => {
+        return typeof Icon !== 'undefined' ? <Icon {...props} /> : null;
+    };
+
+    const renderGridBeams = (props) => {
+        return typeof GridBeams !== 'undefined' ? <GridBeams {...props} /> : null;
+    };
+
     return (
         <div className="bg-brand-base overflow-x-hidden min-h-screen">
             {/* HERO SECTION */}
             <div className="bg-brand-dark text-brand-base pt-64 pb-[480px] px-4 text-center relative z-10">
                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="absolute inset-0 pointer-events-none opacity-40">
-                    <GridBeams beamColor="182, 188, 255" />
+                    {renderGridBeams({ beamColor: "182, 188, 255" })}
                 </div>
                 
                 <div className="relative z-10 max-w-7xl mx-auto">
@@ -232,4 +241,5 @@ const ProfessionalSpaces = () => {
     );
 };
 
-export default ProfessionalSpaces;
+// Expose component to global window object so App.js can find it
+window.ProfessionalSpaces = ProfessionalSpaces;
