@@ -1,8 +1,8 @@
 const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
-const ReactDOM = window.ReactDOM; // Access global ReactDOM for the Portal
+const ReactDOM = window.ReactDOM;
 
-// --- PROFESSIONAL SPACES: PORTAL FIX FOR Z-INDEX ---
+// --- PROFESSIONAL SPACES: UPDATED PADDING & COPY ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -62,7 +62,7 @@ const DisorganizationChecklist = () => {
 
     return (
         <>
-            {/* --- INPUT STATE (Always visible in the list) --- */}
+            {/* --- INPUT STATE --- */}
             <div className="relative min-h-[450px]">
                 <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-stone-100 text-left relative z-10 h-full flex flex-col justify-between">
                     <div className="space-y-2 mb-8">
@@ -85,21 +85,17 @@ const DisorganizationChecklist = () => {
                 </div>
             </div>
 
-            {/* --- TRUE MODAL POP-UP (Teleported to Body via Portal) --- */}
+            {/* --- TRUE MODAL POP-UP (Teleported) --- */}
             {showResults && ReactDOM.createPortal(
                 <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-                    {/* Dark Blurry Backdrop */}
                     <div 
                         className="absolute inset-0 bg-brand-dark/60 backdrop-blur-sm transition-opacity"
                         onClick={() => setShowResults(false)}
                     ></div>
 
-                    {/* Modal Card */}
                     <div className="relative bg-white rounded-[2.5rem] w-full max-w-md p-8 md:p-14 text-brand-dark shadow-2xl border-4 border-brand-periwinkle animate-fade-in-up overflow-hidden">
-                        {/* Background Pattern */}
                         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
 
-                        {/* CLOSE BUTTON (Top Right) */}
                         <button 
                             onClick={() => setShowResults(false)}
                             className="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-stone-100 hover:bg-brand-periwinkle hover:text-white transition-colors z-50 group"
@@ -112,7 +108,6 @@ const DisorganizationChecklist = () => {
                         </button>
 
                         <div className="relative z-10 text-center">
-                            {/* Icon centered for narrow layout */}
                             <div className="mb-6 flex justify-center opacity-20">
                                 {typeof Icon !== 'undefined' && <Icon name="bar-chart" className="w-20 h-20 text-brand-periwinkle" />}
                             </div>
@@ -204,7 +199,8 @@ const ProfessionalSpaces = () => {
                 </div>
 
                 {/* VIDEO GRID SECTION */}
-                <div className="max-w-7xl mx-auto px-4 pt-24 pb-32 relative z-10 text-center">
+                {/* Reduced top padding from pt-24 to pt-12 to decrease gap */}
+                <div className="max-w-7xl mx-auto px-4 pt-12 pb-32 relative z-10 text-center">
                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-4 leading-[1.4] md:leading-[1.6]">
                         No Space Too Big,<br /> No Business Too Small
                     </h3>
@@ -233,7 +229,11 @@ const ProfessionalSpaces = () => {
                 <section className="py-24 max-w-4xl mx-auto px-4 relative z-10">
                     <div className="bg-[#EBEBFF] rounded-[3rem] p-4 md:p-12 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
                         <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tighter mb-4 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
-                        <p className="text-lg text-brand-medium font-light mb-8 relative z-10">Check all that apply to your current operations:</p>
+                        {/* Updated copy here */}
+                        <p className="text-lg text-brand-medium font-light mb-8 relative z-10">
+                            See what disorganization is costing you.<br />
+                            Check all that apply to your current operations:
+                        </p>
                         <div className="max-w-3xl mx-auto relative z-10 px-2">
                             <DisorganizationChecklist />
                         </div>
