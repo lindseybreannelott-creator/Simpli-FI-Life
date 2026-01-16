@@ -1,7 +1,7 @@
 const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 
-// --- PROFESSIONAL SPACES: FINAL POLISH ---
+// --- PROFESSIONAL SPACES: UPDATED LIABILITY LOGIC ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -21,27 +21,43 @@ const DisorganizationChecklist = () => {
     const toggle = (id) => setChecks(p => ({...p, [id]: !p[id]}));
 
     const calculateRisk = () => {
-        let totalWeight = 0;
-        problems.forEach(p => { if (checks[p.id]) totalWeight += p.weight; });
+        const activeIds = Object.keys(checks).filter(k => checks[k]);
+        const count = activeIds.length;
+        const hasStockout = checks["stockout"];
         
-        // CUSTOM COLORS: Red / Orange / Yellow (Brand Complementary)
-        if (totalWeight >= 8) return { 
-            level: "High Priority", 
+        // Check if only "clutter" and/or "pileups" are selected (and nothing else)
+        const lowLiabilityOnly = activeIds.every(id => id === "clutter" || id === "pileups");
+
+        // 1. CRITICAL LIABILITY (Every item selected)
+        if (count === problems.length) return { 
+            level: "CRITICAL LIABILITY", 
+            color: "text-[#991B1B]", // Dark Deep Red
+            message: "Your operational friction is at maximum capacity. You are bleeding revenue daily through lost labor, duplicate inventory, and missed opportunities. Immediate intervention is required.", 
+            action: "Schedule Emergency Audit" 
+        };
+
+        // 2. HIGH LIABILITY (Stockout selected)
+        if (hasStockout) return { 
+            level: "HIGH LIABILITY", 
             color: "text-[#D9534F]", // Muted Red
-            message: "Your business is currently leaking revenue through labor loss and inventory friction. Your systems are no longer supporting your growth—they are actively hindering it.", 
-            action: "Schedule Audit Immediately" 
+            message: "Running out of inventory is a direct hit to your reputation and revenue. Your current system is actively hindering your ability to serve your clients.", 
+            action: "Fix Inventory Systems" 
         };
-        if (totalWeight >= 4) return { 
-            level: "Medium Priority", 
-            color: "text-[#F0AD4E]", // Muted Orange
-            message: "Friction is slowing your team's efficiency. While you are operational, you are likely over-spending on consumables and losing hours to 'searching' rather than 'serving'.", 
-            action: "Discuss System Optimization" 
+
+        // 3. LOW LIABILITY (Only Clutter or Pileups selected)
+        if (count > 0 && lowLiabilityOnly) return { 
+            level: "LOW LIABILITY", 
+            color: "text-[#D6E31E]", // Brand Lemon
+            message: "You have a baseline for order, but visual clutter is a silent stressor. Now is the time to refine your environment before it affects your workflow.", 
+            action: "Refine My Space" 
         };
+
+        // 4. MODERATE LIABILITY (Everything else)
         return { 
-            level: "Low Priority", 
-            color: "text-[#D6E31E]", // Brand Lemon (Yellow)
-            message: "You have a baseline for order, but your current systems may not be scalable. Now is the time to build the framework for your next level of growth.", 
-            action: "Explore Scalable Systems" 
+            level: "MODERATE LIABILITY", 
+            color: "text-[#F0AD4E]", // Muted Orange
+            message: "Friction is slowing your team's efficiency. You are likely over-spending on consumables and losing valuable team hours to 'searching' rather than 'serving'.", 
+            action: "Optimize Operations" 
         };
     };
 
@@ -108,7 +124,6 @@ const DisorganizationChecklist = () => {
 };
 
 const ProfessionalSpaces = () => {
-    // Safety check for usePageTitle
     if (typeof usePageTitle === 'function') {
         usePageTitle("Professional Spaces");
     }
@@ -123,7 +138,6 @@ const ProfessionalSpaces = () => {
         return () => document.body.removeEventListener('touchstart', playVideos);
     }, []);
 
-    // Helper to render GridBeams safely
     const renderGridBeams = (props) => {
         return typeof GridBeams !== 'undefined' ? <GridBeams {...props} /> : null;
     };
@@ -178,7 +192,6 @@ const ProfessionalSpaces = () => {
                         No Space Too Big,<br /> No Business Too Small
                     </h3>
                     
-                    {/* RESTORED COPY: NEW LINE BREAK & HIGHLIGHT */}
                     <p className="text-lg md:text-xl text-brand-medium font-light max-w-3xl mx-auto mb-16 leading-relaxed">
                         Whether you're saving lives or serving lattes, your environment dictates your efficiency. <br /><br className="block md:hidden"/>
                         Here are a few industries that have benefited from our organizing—though to be clear, <span className="highlight-wrap bg-brand-lemon/60 px-1 py-0.5 rounded-sm box-decoration-clone text-brand-dark font-normal whitespace-nowrap">any business can benefit from better systems.</span>
@@ -226,5 +239,4 @@ const ProfessionalSpaces = () => {
     );
 };
 
-// Expose component to global window object
 window.ProfessionalSpaces = ProfessionalSpaces;
