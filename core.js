@@ -6,6 +6,7 @@ const usePageTitle = (title) => {
     useEffect(() => { document.title = `${title} | Simpli-FI Life`; }, [title]);
 };
 
+// FIX: Added fallback handling and console warning when Lucide icons aren't available
 const Icon = ({ name, className }) => {
     const ref = React.useRef(null);
     useEffect(() => {
@@ -14,7 +15,14 @@ const Icon = ({ name, className }) => {
             const iconNode = window.lucide.icons[toPascalCase(name)];
             if (iconNode && ref.current && typeof iconNode.toSvg === 'function') {
                 ref.current.innerHTML = iconNode.toSvg({ class: className });
+            } else if (ref.current) {
+                // Icon not found in lucide library
+                console.warn(`Lucide icon "${name}" not found`);
+                ref.current.innerHTML = '';
             }
+        } else {
+            // Lucide library not loaded yet
+            console.warn(`Lucide library not available when rendering icon "${name}"`);
         }
     }, [name, className]);
     return <span ref={ref} style={{ display: 'contents' }}></span>;
