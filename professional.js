@@ -1,7 +1,7 @@
 const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 
-// --- PROFESSIONAL SPACES: TRUE MODAL SCORECARD ---
+// --- PROFESSIONAL SPACES: FINAL MODAL FIXES ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -53,8 +53,9 @@ const DisorganizationChecklist = () => {
         };
 
         // 4. MODERATE LIABILITY (Everything else)
+        // FIX: Added explicit line break <br/> for layout
         return { 
-            level: "MODERATE LIABILITY", 
+            level: <>MODERATE<br/>LIABILITY</>, 
             color: "text-[#F0AD4E]", // Muted Orange
             message: "Friction is slowing your team's efficiency. You are likely over-spending on consumables and losing valuable team hours to 'searching' rather than 'serving'.", 
             action: "Optimize Operations" 
@@ -90,7 +91,8 @@ const DisorganizationChecklist = () => {
 
             {/* --- TRUE MODAL POP-UP (Fixed Overlay) --- */}
             {showResults && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                // FIX: Increased z-index to z-[9999] to ensure it stays on top of everything
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
                     {/* Dark Blurry Backdrop */}
                     <div 
                         className="absolute inset-0 bg-brand-dark/60 backdrop-blur-sm transition-opacity"
@@ -98,7 +100,7 @@ const DisorganizationChecklist = () => {
                     ></div>
 
                     {/* Modal Card */}
-                    <div className="relative bg-white rounded-[2.5rem] w-full max-w-md p-8 md:p-12 text-brand-dark shadow-2xl border-4 border-brand-periwinkle animate-fade-in-up overflow-hidden">
+                    <div className="relative bg-white rounded-[2.5rem] w-full max-w-md p-8 md:p-14 text-brand-dark shadow-2xl border-4 border-brand-periwinkle animate-fade-in-up overflow-hidden">
                         {/* Background Pattern */}
                         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
 
@@ -123,8 +125,8 @@ const DisorganizationChecklist = () => {
                             <h3 className="font-display text-lg uppercase tracking-[0.2em] text-brand-periwinkle mb-6 font-bold">Analysis Complete</h3>
                             
                             <div className="space-y-6 mb-10">
-                                {/* Whitespace-nowrap forces "MODERATE LIABILITY" to one line */}
-                                <h4 className={`text-4xl md:text-5xl font-bold border-b border-brand-periwinkle/20 pb-6 uppercase tracking-tight whitespace-nowrap ${results.color}`}>
+                                {/* FIX: Removed whitespace-nowrap so breaks work, added text-center explicit */}
+                                <h4 className={`text-4xl md:text-5xl font-bold border-b border-brand-periwinkle/20 pb-6 uppercase tracking-tight text-center leading-none ${results.color}`}>
                                     {results.level}
                                 </h4>
                                 <p className="text-lg text-brand-medium leading-relaxed italic">
