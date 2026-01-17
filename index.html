@@ -17,33 +17,24 @@
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .reveal { transition: all 0.8s ease-out; }
-        .opacity-0 { opacity: 0; }
-        .opacity-100 { opacity: 1; }
-        .translate-y-10 { transform: translateY(40px); }
-        .translate-y-0 { transform: translateY(0); }
-        .group:hover .animate-marquee { animation-play-state: paused; }
         .draw-border { stroke-dasharray: 2000; stroke-dashoffset: 2000; transition: stroke-dashoffset 0.8s ease-in-out; }
         .group:hover .draw-border { stroke-dashoffset: 0; }
         body { display: flex; flex-direction: column; min-height: 100vh; }
         #root { flex-grow: 1; }
-        .prose p { margin-bottom: 1.5em; line-height: 1.8; color: #57534e; }
-        .prose h2 { font-family: 'Roboto Condensed', sans-serif; font-weight: 700; color: #2d2a26; font-size: 1.8em; margin-top: 1.5em; margin-bottom: 0.5em; }
-        .prose ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1.5em; color: #57534e; }
-        
+
         /* Animations */
         @keyframes beam-h { from { left: -300px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: 100%; opacity: 0; } }
         @keyframes beam-h-rev { from { left: 100%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: -300px; opacity: 0; } }
         @keyframes beam-v { from { top: -300px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { top: 100%; opacity: 0; } }
         @keyframes beam-v-rev { from { top: 100%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { top: -300px; opacity: 0; } }
-        .loading-grid-fade-in { opacity: 0; animation: fadeInGrid 1.5s ease-out 0.1s forwards; }
+        
         .loading-logo-reveal { clip-path: inset(0 100% 0 0); opacity: 1; animation: wipeReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards, fadeOutElement 0.5s ease-out 3.0s forwards; }
         .loader-exit { animation: fadeOutLoader 1.0s ease-out 3.8s forwards; }
-        @keyframes fadeInGrid { to { opacity: 0.2; } }
         @keyframes wipeReveal { to { clip-path: inset(0 0 0 0); } }
         @keyframes fadeOutElement { to { opacity: 0; } }
         @keyframes fadeOutLoader { to { opacity: 0; visibility: hidden; } }
-        .highlight-wrap { box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+        @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
     </style>
 
     <script>
@@ -59,74 +50,25 @@
         }
     </script>
 
+    <!-- React & Router -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/history@5/umd/history.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/lucide@0.263.1"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <!-- CRITICAL: Load in this exact order -->
+    <script src="data.js"></script>
+    <script type="text/babel" src="core.js"></script>
     <script type="text/babel" src="home.js"></script>
     <script type="text/babel" src="professional.js"></script>
     <script type="text/babel" src="residential.js"></script>
     <script type="text/babel" src="booking.js"></script>
     <script type="text/babel" src="intake.js"></script>
-    
-    <script type="text/babel" src="core.js"></script> 
+    <script type="text/babel" src="app.js"></script>
 </head>
 <body class="bg-brand-base text-brand-dark font-sans antialiased">
     <div id="root"></div>
-
-    <script type="text/babel">
-        // 1. Grab dependencies from window
-        const { useState, useEffect } = React;
-        const { HashRouter, Routes, Route } = ReactRouterDOM;
-        
-        // 2. Grab Components that were loaded by the scripts above
-        // We use window.X to ensure we are grabbing the global versions
-        const Navbar = window.Core ? window.Core.Navbar : () => null;
-        const Footer = window.Core ? window.Core.Footer : () => null;
-        const LoadingScreen = window.Core ? window.Core.LoadingScreen : () => null;
-        
-        const Home = window.Home || (() => <div className="p-20 text-center">Home Loading...</div>);
-        const ProfessionalSpaces = window.ProfessionalSpaces || (() => <div className="p-20 text-center">Professional Loading...</div>);
-        const Residential = window.Residential || (() => <div className="p-20 text-center">Residential Loading...</div>);
-        const Booking = window.Booking || (() => <div className="p-20 text-center">Booking Loading...</div>);
-        const NewSpaceIntake = window.NewSpaceIntake || (() => <div className="p-20 text-center">Intake Loading...</div>);
-        // Add Article components if you have that file, otherwise safe fallback
-        const ArticleList = window.ArticleList || (() => <div className="p-20 text-center">Articles Coming Soon</div>);
-        const ArticleDetail = window.ArticleDetail || (() => <div className="p-20 text-center">Article Loading...</div>);
-
-        // 3. Define the Main App
-        const App = () => {
-            const [isLoading, setIsLoading] = useState(true);
-
-            return (
-                <HashRouter>
-                    {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-                    <div className="min-h-screen bg-brand-base text-brand-dark font-sans flex flex-col">
-                        <Navbar />
-                        <main className="flex-grow">
-                            <Routes>
-                                <Route path="/" element={<Home />} />
-                                <Route path="/professional-spaces" element={<ProfessionalSpaces />} />
-                                <Route path="/residential" element={<Residential />} />
-                                <Route path="/booking" element={<Booking />} />
-                                <Route path="/new-space-intake" element={<NewSpaceIntake />} />
-                                <Route path="/articles" element={<ArticleList />} />
-                                <Route path="/articles/:id" element={<ArticleDetail />} />
-                            </Routes>
-                        </main>
-                        <Footer />
-                    </div>
-                </HashRouter>
-            );
-        };
-
-        // 4. Render
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
 </body>
 </html>
