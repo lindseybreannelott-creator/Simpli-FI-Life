@@ -2,7 +2,7 @@ const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 const ReactDOM = window.ReactDOM;
 
-// --- PROFESSIONAL SPACES: VISUAL ANCHORING UPDATE ---
+// --- PROFESSIONAL SPACES: MIXED FONTS & WIDER COPY ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -221,14 +221,20 @@ const ProfessionalSpaces = () => {
 
                 {/* VIDEO GRID SECTION */}
                 <div className="max-w-7xl mx-auto px-4 pt-0 pb-32 relative z-10 text-center">
-                    {/* VISUAL UPDATE: Larger, Rotated, Colored Accent */}
-                    <h3 className="font-handwriting text-5xl md:text-7xl text-brand-dark mb-8 leading-[1.3] transform -rotate-1 origin-center inline-block">
-                        No Space Too Big,<br /> 
-                        <span className="text-brand-periwinkle">No Business Too Small</span>
+                    
+                    {/* VISUAL UPDATE: Mixed Fonts for Headline */}
+                    <h3 className="text-5xl md:text-7xl text-brand-dark mb-8 leading-tight">
+                        <span className="font-handwriting mr-3">No</span>
+                        <span className="font-display font-bold uppercase tracking-tight">Space Too Big,</span>
+                        <br className="md:hidden" />
+                        <span className="block md:inline mt-2 md:mt-0">
+                            <span className="font-handwriting mr-3 ml-0 md:ml-4">No</span>
+                            <span className="font-display font-bold uppercase tracking-tight">Business Too Small</span>
+                        </span>
                     </h3>
                     
-                    {/* VISUAL UPDATE: Larger Subcopy, Closer to Videos (mb-12) */}
-                    <p className="text-xl md:text-2xl text-brand-medium font-light max-w-4xl mx-auto mb-12 leading-relaxed">
+                    {/* VISUAL UPDATE: Wider container (max-w-6xl) to force single line */}
+                    <p className="text-xl md:text-2xl text-brand-medium font-light max-w-6xl mx-auto mb-12 leading-relaxed">
                         Whether you're saving lives or serving lattes, your environment dictates your&nbsp;efficiency. <br /><br />
                         Here are a few industries that have benefited from our organizing—though to be clear, <span className="highlight-wrap bg-brand-lemon/60 px-1 py-0.5 rounded-sm box-decoration-clone text-brand-dark font-normal whitespace-nowrap">any business can benefit from better organizational systems.</span>
                     </p>
