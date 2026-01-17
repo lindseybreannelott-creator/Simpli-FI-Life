@@ -1,34 +1,29 @@
 const { useState, useEffect, useRef, useMemo } = React;
-const { HashRouter, Routes, Route, Link, useLocation, useNavigate, useParams } = ReactRouterDOM;
+const { Link, useLocation } = ReactRouterDOM;
 
 // --- FOUNDATION TOOLS ---
+
+// 1. Page Title Helper
 const usePageTitle = (title) => {
     useEffect(() => { document.title = `${title} | Simpli-FI Life`; }, [title]);
 };
 
-// FIX: Added fallback handling and console warning when Lucide icons aren't available
+// 2. Icon Component (Safe Version)
 const Icon = ({ name, className }) => {
-    const ref = React.useRef(null);
+    const ref = useRef(null);
     useEffect(() => {
         if (window.lucide && window.lucide.icons) {
             const toPascalCase = (str) => str.replace(/(^\w|-\w)/g, (c) => c.replace(/-/, "").toUpperCase());
             const iconNode = window.lucide.icons[toPascalCase(name)];
-            if (iconNode && ref.current && typeof iconNode.toSvg === 'function') {
+            if (iconNode && ref.current) {
                 ref.current.innerHTML = iconNode.toSvg({ class: className });
-            } else if (ref.current) {
-                // Icon not found in lucide library
-                console.warn(`Lucide icon "${name}" not found`);
-                ref.current.innerHTML = '';
             }
-        } else {
-            // Lucide library not loaded yet
-            console.warn(`Lucide library not available when rendering icon "${name}"`);
         }
     }, [name, className]);
     return <span ref={ref} style={{ display: 'contents' }}></span>;
 };
 
-// --- CALIBRATED GRID BEAMS ---
+// 3. GridBeams Animation
 const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1 }) => {
     const [beams, setBeams] = useState([]);
     useEffect(() => {
@@ -45,10 +40,11 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
             }]);
             setTimeout(() => { if (active) setBeams(prev => prev.filter(b => b.id !== id)); }, beamDuration * 1000);
         };
-        spawn(); spawn(); spawn(); 
+        spawn(); spawn(); 
         const interval = setInterval(spawn, spawnRate);
         return () => { active = false; clearInterval(interval); };
     }, [beamColor, spawnRate]);
+    
     return (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {beams.map(b => (
@@ -65,17 +61,13 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
     );
 };
 
-// --- LOADING SCREEN: MOBILE CENTERING LOCK ---
+// 4. Loading Screen
 const LoadingScreen = ({ onComplete }) => {
-    useEffect(() => { const t = setTimeout(onComplete, 4800); return () => clearTimeout(t); }, [onComplete]);
+    useEffect(() => { const t = setTimeout(onComplete, 3500); return () => clearTimeout(t); }, [onComplete]);
     return (
         <div className="fixed inset-0 z-[100] bg-brand-base grid place-items-center loader-exit overflow-hidden">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
             <GridBeams spawnRate={150} /> 
-            
-            {/* Visual Center Calibration: 
-                'mt-[-2px]' handles font-weight descender offset on mobile screens.
-            */}
             <div className="relative z-20 loading-logo-reveal text-center px-4 mt-[-2px]">
                 <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark uppercase">
                     <span className="font-bold">SIMPLI-FI</span> <span className="font-light text-brand-medium">LIFE</span>
@@ -85,7 +77,7 @@ const LoadingScreen = ({ onComplete }) => {
     );
 };
 
-// --- NAVBAR: LOCKED TO 40px GRID LINE ---
+// 5. Navbar
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const loc = useLocation();
@@ -94,24 +86,15 @@ const Navbar = () => {
     return (
         <nav className="absolute top-0 left-0 w-full z-50">
             <div className="max-w-7xl mx-auto px-6 h-[80px] flex justify-between items-center">
-                
-                {/* LOGO: Locked to 40px horizontal axis */}
                 <Link to="/" className="font-display font-bold text-2xl md:text-3xl tracking-tight flex items-center h-full pl-5 md:pl-4 transition-transform active:scale-95">
                     <span className={isDark ? 'text-brand-base' : 'text-brand-dark'}>
                         SIMPLI-FI <span className="font-light opacity-70">LIFE</span>
                     </span>
                 </Link>
-
-                {/* DESKTOP NAV */}
                 <div className="hidden md:flex items-center space-x-10 h-full">
                     {['HOME', 'PROFESSIONAL SPACES', 'RESIDENTIAL SPACES'].map((name) => (
-                        <Link 
-                            key={name} 
-                            to={name === 'HOME' ? '/' : `/${name.toLowerCase().replace(' ', '-')}`} 
-                            className={`text-[15px] font-display font-medium tracking-[0.1em] uppercase transition-all duration-300 leading-none flex items-center ${
-                                isDark ? 'text-brand-base hover:text-brand-periwinkle-light' : 'text-brand-medium hover:text-brand-periwinkle'
-                            }`}
-                        >
+                        <Link key={name} to={name === 'HOME' ? '/' : `/${name.toLowerCase().replace(' ', '-')}`} 
+                            className={`text-[15px] font-display font-medium tracking-[0.1em] uppercase transition-all duration-300 leading-none flex items-center ${isDark ? 'text-brand-base hover:text-brand-periwinkle-light' : 'text-brand-medium hover:text-brand-periwinkle'}`}>
                             {name}
                         </Link>
                     ))}
@@ -119,24 +102,12 @@ const Navbar = () => {
                         BOOK CLARITY CALL
                     </Link>
                 </div>
-
-                {/* MOBILE HAMBURGER: Symmetrically centered on 40px line */}
-                <button onClick={() => setIsOpen(!isOpen)} className="md:hidden flex items-center justify-center w-12 h-12 z-[60] relative" aria-label="Toggle Menu">
+                <button onClick={() => setIsOpen(!isOpen)} className="md:hidden flex items-center justify-center w-12 h-12 z-[60] relative">
                     <div className="w-8 h-8 flex items-center justify-center">
-                        {isOpen ? (
-                            <svg className={`w-8 h-8 ${isDark ? 'text-brand-base' : 'text-brand-dark'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        ) : (
-                            <svg className={`w-8 h-8 ${isDark ? 'text-brand-base' : 'text-brand-dark'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16m-7 6h7" />
-                            </svg>
-                        )}
+                        <Icon name={isOpen ? "x" : "menu"} className={`w-8 h-8 ${isDark && !isOpen ? 'text-brand-base' : 'text-brand-dark'}`} />
                     </div>
                 </button>
             </div>
-
-            {/* MOBILE MENU */}
             {isOpen && (
                 <div className="md:hidden fixed inset-0 bg-brand-white z-50 flex flex-col items-center justify-center space-y-8 animate-fade-in-up">
                     <Link to="/" onClick={() => setIsOpen(false)} className="text-3xl font-display font-bold text-brand-dark uppercase tracking-widest">Home</Link>
@@ -150,12 +121,19 @@ const Navbar = () => {
     );
 };
 
+// 6. Footer
 const Footer = () => (
     <section className="bg-brand-dark text-brand-base py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
             <div><span className="font-display text-2xl font-bold uppercase tracking-tight">Simpli-FI <span className="font-light opacity-50">Life</span></span><p className="text-stone-400 text-sm mt-2">Serving the Greater DFW Area | Available Virtually</p></div>
-            <div className="flex gap-6 items-center"><a href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="hover:text-brand-lemon transition"><Icon name="instagram" className="w-5 h-5"/></a><a href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="hover:text-brand-lemon transition"><Icon name="youtube" className="w-5 h-5"/></a></div>
+            <div className="flex gap-6 items-center">
+                <a href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="hover:text-brand-lemon transition"><Icon name="instagram" className="w-5 h-5"/></a>
+                <a href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="hover:text-brand-lemon transition"><Icon name="youtube" className="w-5 h-5"/></a>
+            </div>
             <div className="text-center md:text-right"><p className="text-stone-500 text-xs">&copy; 2026 Simpli-FI Life LLC. All Rights Reserved.</p><Link to="/new-space-intake" className="text-stone-600 text-[10px] hover:text-brand-periwinkle transition mt-1 inline-block uppercase tracking-widest font-bold">New Space Intake</Link></div>
         </div>
     </section>
 );
+
+// EXPOSE TOOLS TO WINDOW (So index.html can find them)
+window.Core = { Navbar, Footer, GridBeams, LoadingScreen, Icon, usePageTitle };
