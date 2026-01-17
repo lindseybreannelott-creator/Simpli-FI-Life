@@ -7,11 +7,9 @@
     
     <title>Simpli-FI Life | Systems for Home & Business</title>
     <meta name="description" content="Professional organizing for DFW homes and businesses. We build systems that work so you don't have to work so hard. Serving Frisco, Denton, and Dallas.">
-    
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Roboto+Condensed:wght@300;400;500;700&family=Rock+Salt&display=swap" rel="stylesheet">
@@ -25,31 +23,21 @@
         .translate-y-10 { transform: translateY(40px); }
         .translate-y-0 { transform: translateY(0); }
         .group:hover .animate-marquee { animation-play-state: paused; }
-        .draw-border {
-            stroke-dasharray: 2000;
-            stroke-dashoffset: 2000;
-            transition: stroke-dashoffset 0.8s ease-in-out;
-        }
+        .draw-border { stroke-dasharray: 2000; stroke-dashoffset: 2000; transition: stroke-dashoffset 0.8s ease-in-out; }
         .group:hover .draw-border { stroke-dashoffset: 0; }
         body { display: flex; flex-direction: column; min-height: 100vh; }
         #root { flex-grow: 1; }
         .prose p { margin-bottom: 1.5em; line-height: 1.8; color: #57534e; }
         .prose h2 { font-family: 'Roboto Condensed', sans-serif; font-weight: 700; color: #2d2a26; font-size: 1.8em; margin-top: 1.5em; margin-bottom: 0.5em; }
         .prose ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1.5em; color: #57534e; }
-        .prose strong { color: #2d2a26; font-weight: 600; }
-
+        
+        /* Animations */
         @keyframes beam-h { from { left: -300px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: 100%; opacity: 0; } }
         @keyframes beam-h-rev { from { left: 100%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: -300px; opacity: 0; } }
         @keyframes beam-v { from { top: -300px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { top: 100%; opacity: 0; } }
-        /* FIX: Changed 'left' to 'top' in the final keyframe state */
         @keyframes beam-v-rev { from { top: 100%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { top: -300px; opacity: 0; } }
-        @keyframes twinkle { 0% { opacity: 0; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.9); } }
         .loading-grid-fade-in { opacity: 0; animation: fadeInGrid 1.5s ease-out 0.1s forwards; }
-        .loading-logo-reveal {
-            clip-path: inset(0 100% 0 0);
-            opacity: 1;
-            animation: wipeReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards, fadeOutElement 0.5s ease-out 3.0s forwards;
-        }
+        .loading-logo-reveal { clip-path: inset(0 100% 0 0); opacity: 1; animation: wipeReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards, fadeOutElement 0.5s ease-out 3.0s forwards; }
         .loader-exit { animation: fadeOutLoader 1.0s ease-out 3.8s forwards; }
         @keyframes fadeInGrid { to { opacity: 0.2; } }
         @keyframes wipeReveal { to { clip-path: inset(0 0 0 0); } }
@@ -62,29 +50,10 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        brand: { 
-                            base: '#fbf9f7', white: '#ffffff', dark: '#2d2a26', medium: '#57534e', periwinkle: '#7178c8', 
-                            'periwinkle-light': '#d4d7ff', 'periwinkle-dark': '#5a60a6', lemon: '#D6E31E',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'], 
-                        display: ['"Roboto Condensed"', 'sans-serif'],
-                        handwriting: ['"Rock Salt"', 'cursive'],
-                    },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
-                        'marquee': 'marquee 60s linear infinite',
-                        'spin-top': 'spinY 4s linear infinite',
-                    },
-                    keyframes: {
-                        spinY: { '0%': { transform: 'rotateY(0deg)' }, '100%': { transform: 'rotateY(360deg)' } },
-                        blob: { '0%': { transform: 'translate(0px, 0px) scale(1)' }, '33%': { transform: 'translate(30px, -50px) scale(1.1)' }, '66%': { transform: 'translate(-20px, 20px) scale(0.9)' }, '100%': { transform: 'translate(0px, 0px) scale(1)' } },
-                        fadeInUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-                        marquee: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } }
-                    }
+                    colors: { brand: { base: '#fbf9f7', white: '#ffffff', dark: '#2d2a26', medium: '#57534e', periwinkle: '#7178c8', 'periwinkle-light': '#d4d7ff', 'periwinkle-dark': '#5a60a6', lemon: '#D6E31E' } },
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['"Roboto Condensed"', 'sans-serif'], handwriting: ['"Rock Salt"', 'cursive'] },
+                    animation: { 'spin-top': 'spinY 4s linear infinite', 'fade-in-up': 'fadeInUp 0.5s ease-out forwards' },
+                    keyframes: { spinY: { '0%': { transform: 'rotateY(0deg)' }, '100%': { transform: 'rotateY(360deg)' } }, fadeInUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
                 }
             }
         }
@@ -98,17 +67,66 @@
     <script src="https://unpkg.com/lucide@0.263.1"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <script src="data.js"></script>
-    <script type="text/babel" src="core.js"></script>
     <script type="text/babel" src="home.js"></script>
     <script type="text/babel" src="professional.js"></script>
     <script type="text/babel" src="residential.js"></script>
     <script type="text/babel" src="booking.js"></script>
     <script type="text/babel" src="intake.js"></script>
     
-    <script type="text/babel" src="app.js"></script>
+    <script type="text/babel" src="core.js"></script> 
 </head>
 <body class="bg-brand-base text-brand-dark font-sans antialiased">
     <div id="root"></div>
+
+    <script type="text/babel">
+        // 1. Grab dependencies from window
+        const { useState, useEffect } = React;
+        const { HashRouter, Routes, Route } = ReactRouterDOM;
+        
+        // 2. Grab Components that were loaded by the scripts above
+        // We use window.X to ensure we are grabbing the global versions
+        const Navbar = window.Core ? window.Core.Navbar : () => null;
+        const Footer = window.Core ? window.Core.Footer : () => null;
+        const LoadingScreen = window.Core ? window.Core.LoadingScreen : () => null;
+        
+        const Home = window.Home || (() => <div className="p-20 text-center">Home Loading...</div>);
+        const ProfessionalSpaces = window.ProfessionalSpaces || (() => <div className="p-20 text-center">Professional Loading...</div>);
+        const Residential = window.Residential || (() => <div className="p-20 text-center">Residential Loading...</div>);
+        const Booking = window.Booking || (() => <div className="p-20 text-center">Booking Loading...</div>);
+        const NewSpaceIntake = window.NewSpaceIntake || (() => <div className="p-20 text-center">Intake Loading...</div>);
+        // Add Article components if you have that file, otherwise safe fallback
+        const ArticleList = window.ArticleList || (() => <div className="p-20 text-center">Articles Coming Soon</div>);
+        const ArticleDetail = window.ArticleDetail || (() => <div className="p-20 text-center">Article Loading...</div>);
+
+        // 3. Define the Main App
+        const App = () => {
+            const [isLoading, setIsLoading] = useState(true);
+
+            return (
+                <HashRouter>
+                    {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+                    <div className="min-h-screen bg-brand-base text-brand-dark font-sans flex flex-col">
+                        <Navbar />
+                        <main className="flex-grow">
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/professional-spaces" element={<ProfessionalSpaces />} />
+                                <Route path="/residential" element={<Residential />} />
+                                <Route path="/booking" element={<Booking />} />
+                                <Route path="/new-space-intake" element={<NewSpaceIntake />} />
+                                <Route path="/articles" element={<ArticleList />} />
+                                <Route path="/articles/:id" element={<ArticleDetail />} />
+                            </Routes>
+                        </main>
+                        <Footer />
+                    </div>
+                </HashRouter>
+            );
+        };
+
+        // 4. Render
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
