@@ -1,12 +1,10 @@
 // --- APP.JS: THE ROUTING BRAIN ---
-// This file only manages transitions between pages.
 
 const App = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     return (
         <HashRouter>
-            {/* The LoadingScreen is now globally available from core.js */}
             {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
             
             <div className="min-h-screen bg-brand-base text-brand-dark font-sans flex flex-col">
