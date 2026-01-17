@@ -2,7 +2,7 @@ const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 const ReactDOM = window.ReactDOM;
 
-// --- PROFESSIONAL SPACES: PADDING FIX & COPY UPDATES ---
+// --- PROFESSIONAL SPACES: VISUAL ANCHORING UPDATE ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -220,14 +220,16 @@ const ProfessionalSpaces = () => {
                 </div>
 
                 {/* VIDEO GRID SECTION */}
-                {/* Changed pt-12 to pt-0 to reduce padding by 48px (~50px) */}
                 <div className="max-w-7xl mx-auto px-4 pt-0 pb-32 relative z-10 text-center">
-                    <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-4 leading-[1.4] md:leading-[1.6]">
-                        No Space Too Big,<br /> No Business Too Small
+                    {/* VISUAL UPDATE: Larger, Rotated, Colored Accent */}
+                    <h3 className="font-handwriting text-5xl md:text-7xl text-brand-dark mb-8 leading-[1.3] transform -rotate-1 origin-center inline-block">
+                        No Space Too Big,<br /> 
+                        <span className="text-brand-periwinkle">No Business Too Small</span>
                     </h3>
                     
-                    <p className="text-lg md:text-xl text-brand-medium font-light max-w-3xl mx-auto mb-16 leading-relaxed">
-                        Whether you're saving lives or serving lattes, your environment dictates your efficiency. <br /><br />
+                    {/* VISUAL UPDATE: Larger Subcopy, Closer to Videos (mb-12) */}
+                    <p className="text-xl md:text-2xl text-brand-medium font-light max-w-4xl mx-auto mb-12 leading-relaxed">
+                        Whether you're saving lives or serving lattes, your environment dictates your&nbsp;efficiency. <br /><br />
                         Here are a few industries that have benefited from our organizing—though to be clear, <span className="highlight-wrap bg-brand-lemon/60 px-1 py-0.5 rounded-sm box-decoration-clone text-brand-dark font-normal whitespace-nowrap">any business can benefit from better organizational systems.</span>
                     </p>
                     
