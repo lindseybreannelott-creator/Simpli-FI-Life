@@ -87,7 +87,7 @@ const Residential = () => {
                         </div>
                         <div className="w-full md:w-1/2">
                             <div className="bg-brand-base p-12 md:p-16 rounded-[2.5rem] shadow-2xl border-2 border-brand-lemon h-full flex flex-col justify-center relative">
-                                <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>"</div>
+                                <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
                                 <div className="relative z-10 pt-8">
                                     <div className="text-brand-medium font-light italic leading-relaxed space-y-4">
                                         <p>"I was so nervous about letting her into my closet, but her encouraging, compassionate personality instantly put me at ease."</p>
