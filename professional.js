@@ -2,7 +2,7 @@ const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 const ReactDOM = window.ReactDOM;
 
-// --- PROFESSIONAL SPACES: NO WIDOWS & IMPACT COPY ---
+// --- PROFESSIONAL SPACES: PADDING FIX & COPY UPDATES ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -32,7 +32,6 @@ const DisorganizationChecklist = () => {
         if (count === problems.length) return { 
             level: "CRITICAL LIABILITY", 
             color: "text-[#991B1B]", 
-            // IMPACT FORMATTING: Separate lines for punchy reading
             message: (
                 <>
                     Your operational friction is at maximum capacity.<br/><br/>
@@ -221,16 +220,15 @@ const ProfessionalSpaces = () => {
                 </div>
 
                 {/* VIDEO GRID SECTION */}
-                {/* Reduced padding from pt-24 to pt-12 */}
-                <div className="max-w-7xl mx-auto px-4 pt-12 pb-32 relative z-10 text-center">
+                {/* Changed pt-12 to pt-0 to reduce padding by 48px (~50px) */}
+                <div className="max-w-7xl mx-auto px-4 pt-0 pb-32 relative z-10 text-center">
                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-4 leading-[1.4] md:leading-[1.6]">
                         No Space Too Big,<br /> No Business Too Small
                     </h3>
                     
                     <p className="text-lg md:text-xl text-brand-medium font-light max-w-3xl mx-auto mb-16 leading-relaxed">
-                        {/* WIDOW FIX: Added &nbsp; between "your" and "efficiency." */}
-                        Whether you're saving lives or serving lattes, your environment dictates your&nbsp;efficiency. <br /><br className="block md:hidden"/>
-                        Here are a few industries that have benefited from our organizing—though to be clear, <span className="highlight-wrap bg-brand-lemon/60 px-1 py-0.5 rounded-sm box-decoration-clone text-brand-dark font-normal whitespace-nowrap">any business can benefit from better systems.</span>
+                        Whether you're saving lives or serving lattes, your environment dictates your efficiency. <br /><br />
+                        Here are a few industries that have benefited from our organizing—though to be clear, <span className="highlight-wrap bg-brand-lemon/60 px-1 py-0.5 rounded-sm box-decoration-clone text-brand-dark font-normal whitespace-nowrap">any business can benefit from better organizational systems.</span>
                     </p>
                     
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
