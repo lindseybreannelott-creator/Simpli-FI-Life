@@ -109,8 +109,10 @@ const TestimonialScroller = () => {
                                 }`}
                             style={{ marginRight: '16px', width: '320px', maxWidth: '65vw' }}
                         >
-                            <div className={`absolute -top-10 -left-4 text-[8rem] md:text-[12rem] font-serif leading-none select-none pointer-events-none transition-opacity duration-500 ${isActive ? 'opacity-80' : 'opacity-10'}`}
-                                 style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>"</div>
+                            {/* UPDATED QUOTE MARK: EXACT MATCH TO MADISON B CARD */}
+                            <div className={`absolute -top-16 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}
+                                 style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E' }}>“</div>
+                            
                             <div className="relative z-10 pt-8 md:pt-12">
                                 <p className="text-brand-dark text-sm md:text-lg italic leading-relaxed">"{t.quote}"</p>
                             </div>
