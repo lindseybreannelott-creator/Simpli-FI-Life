@@ -2,7 +2,7 @@ const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 const ReactDOM = window.ReactDOM;
 
-// --- PROFESSIONAL SPACES: CONNECTED SECTION & STACKED HEADLINE ---
+// --- PROFESSIONAL SPACES: 20% OPACITY BACKGROUND ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -144,7 +144,11 @@ const DisorganizationChecklist = () => {
                                 </div>
                             </div>
 
-                            <Link to="/booking" className="inline-block w-full bg-brand-lemon text-brand-dark py-5 rounded-full font-bold uppercase tracking-widest text-center hover:bg-brand-periwinkle hover:text-white transition-all shadow-xl text-base transform hover:-translate-y-1">
+                            <Link 
+                                to="/booking" 
+                                state={{ service: "professional" }}
+                                className="inline-block w-full bg-brand-lemon text-brand-dark py-5 rounded-full font-bold uppercase tracking-widest text-center hover:bg-brand-periwinkle hover:text-white transition-all shadow-xl text-base transform hover:-translate-y-1"
+                            >
                                 {results.action}
                             </Link>
                         </div>
@@ -194,7 +198,14 @@ const ProfessionalSpaces = () => {
                     <p className="text-lg md:text-xl font-light text-stone-300 max-w-3xl mx-auto mb-12 leading-relaxed">
                         We restructure back-of-house systems to save you money, recover lost labor hours, and reduce waste—helping you win no matter how you slice it.
                     </p>
-                    <Link to="/booking" className="inline-block bg-transparent text-brand-lemon border border-brand-lemon px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display text-lg shadow-xl uppercase tracking-widest">Inquire for your business</Link>
+                    {/* PRE-SELECT LOGIC ADDED */}
+                    <Link 
+                        to="/booking" 
+                        state={{ service: "professional" }}
+                        className="inline-block bg-transparent text-brand-lemon border border-brand-lemon px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display text-lg shadow-xl uppercase tracking-widest"
+                    >
+                        Inquire for your business
+                    </Link>
                 </div>
             </div>
 
@@ -219,25 +230,18 @@ const ProfessionalSpaces = () => {
                     </div>
                 </div>
 
-                {/* VIDEO GRID SECTION (Now with Faint Periwinkle Background) */}
-                <div className="w-full bg-brand-periwinkle/25 relative z-10 py-24 -mt-24"> 
-                    {/* Added -mt-24 to pull it up slightly under the Madison Card visual space if needed, 
-                        but maintained clean flow. 
-                        Note: The 'py-24' gives the internal breathing room.
-                    */}
+                {/* VIDEO GRID SECTION (Now with bg-brand-periwinkle/20) */}
+                <div className="w-full bg-brand-periwinkle/20 relative z-10 py-24 -mt-24"> 
                     <div className="max-w-7xl mx-auto px-4 text-center">
                         
                         {/* HEADLINE: Stacked Layout */}
                         <h3 className="text-5xl md:text-7xl text-brand-dark mb-8 leading-tight">
-                            {/* Line 1 */}
                             <span className="block mb-2 md:mb-0">
                                 <span className="font-handwriting mr-3">No</span>
                                 <span className="font-display font-bold uppercase tracking-tight">Space Too Big,</span>
                             </span>
-                            {/* Line 2 (Forced to new line with 'block') */}
                             <span className="block">
                                 <span className="font-handwriting mr-3 ml-0 md:ml-4">No</span>
-                                {/* Widow Fix: &nbsp; between Too and Small */}
                                 <span className="font-display font-bold uppercase tracking-tight">Business Too&nbsp;Small</span>
                             </span>
                         </h3>
@@ -285,7 +289,14 @@ const ProfessionalSpaces = () => {
                             <p>Every minute your team spends searching for a tool or navigating a crowded stockroom is a minute of lost profit. Disorganization is a quiet tax on your&nbsp;growth.</p>
                             <p>Let's eliminate the friction in your inventory systems so you can get back to what you were meant to do: serve your customers and lead your mission with&nbsp;clarity.</p>
                         </div>
-                        <Link to="/booking" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white transition shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">Book My Systems Audit</Link>
+                        {/* PRE-SELECT LOGIC ADDED */}
+                        <Link 
+                            to="/booking" 
+                            state={{ service: "professional" }}
+                            className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white transition shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1"
+                        >
+                            Book My Systems Strategy Call
+                        </Link>
                     </div>
                 </div>
             </div>
