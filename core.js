@@ -1,27 +1,45 @@
-const { useState, useEffect, useRef, useMemo } = React;
+const { useState, useEffect, useRef } = React;
 const { Link, useLocation } = ReactRouterDOM;
 
-// --- SHARED TOOLS & ICONS ---
+// --- 1. SHARED TOOLS ---
 
 const usePageTitle = (title) => {
     useEffect(() => { document.title = `${title} | Simpli-FI Life`; }, [title]);
 };
 
+// --- 2. ICONS (Central Definition) ---
 const Icon = ({ name, className }) => {
-    const ref = useRef(null);
-    useEffect(() => {
-        if (window.lucide && window.lucide.icons) {
-            const toPascalCase = (str) => str.replace(/(^\w|-\w)/g, (c) => c.replace(/-/, "").toUpperCase());
-            const iconNode = window.lucide.icons[toPascalCase(name)];
-            if (iconNode && ref.current) {
-                ref.current.innerHTML = iconNode.toSvg({ class: className });
-            }
-        }
-    }, [name, className]);
-    return <span ref={ref} style={{ display: 'contents' }}></span>;
+    // Simple SVG mapping to prevent dependency crashes
+    const icons = {
+        "menu": <path d="M4 6h16M4 12h16M4 18h16" />,
+        "x": <path d="M18 6 6 18M6 6l12 12" />,
+        "instagram": <><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></>,
+        "youtube": <><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></>,
+        "arrow-right": <><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></>,
+        "chevron-left": <polyline points="15 18 9 12 15 6"/>,
+        "chevron-right": <polyline points="9 18 15 12 9 6"/>,
+        "building-2": <><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></>,
+        "home": <><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>,
+        "bar-chart": <><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></>
+    };
+
+    return (
+        <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            className={className}
+        >
+            {icons[name] || null}
+        </svg>
+    );
 };
 
-// --- ANIMATIONS ---
+// --- 3. ANIMATIONS ---
 
 const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1 }) => {
     const [beams, setBeams] = useState([]);
@@ -60,22 +78,7 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
     );
 };
 
-const LoadingScreen = ({ onComplete }) => {
-    useEffect(() => { const t = setTimeout(onComplete, 4800); return () => clearTimeout(t); }, [onComplete]);
-    return (
-        <div className="fixed inset-0 z-[100] bg-brand-base grid place-items-center loader-exit overflow-hidden">
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
-            <GridBeams spawnRate={150} /> 
-            <div className="relative z-20 loading-logo-reveal text-center px-4 mt-[-2px]">
-                <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark uppercase">
-                    <span className="font-bold">SIMPLI-FI</span> <span className="font-light text-brand-medium">LIFE</span>
-                </h1>
-            </div>
-        </div>
-    );
-};
-
-// --- LAYOUT COMPONENTS ---
+// --- 4. LAYOUT COMPONENTS ---
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -133,5 +136,5 @@ const Footer = () => (
     </section>
 );
 
-// --- EXPOSE TO WINDOW ---
-window.Core = { Navbar, Footer, GridBeams, LoadingScreen, Icon, usePageTitle };
+// --- 5. EXPOSE TO WINDOW ---
+window.Core = { Navbar, Footer, GridBeams, Icon, usePageTitle };
