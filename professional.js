@@ -2,7 +2,7 @@ const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 const ReactDOM = window.ReactDOM;
 
-// --- PROFESSIONAL SPACES: UPDATED PADDING & COPY ---
+// --- PROFESSIONAL SPACES: NO WIDOWS & IMPACT COPY ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -32,28 +32,50 @@ const DisorganizationChecklist = () => {
         if (count === problems.length) return { 
             level: "CRITICAL LIABILITY", 
             color: "text-[#991B1B]", 
-            message: "Your operational friction is at maximum capacity. You are bleeding revenue daily through lost labor, duplicate inventory, and missed opportunities. Immediate intervention is required.", 
+            // IMPACT FORMATTING: Separate lines for punchy reading
+            message: (
+                <>
+                    Your operational friction is at maximum capacity.<br/><br/>
+                    You are bleeding revenue daily through lost labor, duplicate inventory, and missed opportunities.<br/><br/>
+                    Immediate intervention is required.
+                </>
+            ),
             action: "Schedule Emergency Audit" 
         };
 
         if (hasStockout) return { 
             level: "HIGH LIABILITY", 
             color: "text-[#D9534F]", 
-            message: "Running out of inventory is a direct hit to your reputation and revenue. Your current system is actively hindering your ability to serve your clients.", 
+            message: (
+                <>
+                    Running out of inventory is a direct hit to your reputation and revenue.<br/><br/>
+                    Your current system is actively hindering your ability to serve your clients.
+                </>
+            ),
             action: "Fix Inventory Systems" 
         };
 
         if (count > 0 && lowLiabilityOnly) return { 
             level: "LOW LIABILITY", 
             color: "text-[#D6E31E]", 
-            message: "You have a baseline for order, but visual clutter is a silent stressor. Now is the time to refine your environment before it affects your workflow.", 
+            message: (
+                <>
+                    You have a baseline for order, but visual clutter is a silent stressor.<br/><br/>
+                    Now is the time to refine your environment before it affects your workflow.
+                </>
+            ),
             action: "Refine My Space" 
         };
 
         return { 
             level: <>MODERATE<br/>LIABILITY</>, 
             color: "text-[#F0AD4E]", 
-            message: "Friction is slowing your team's efficiency. You are likely over-spending on consumables and losing valuable team hours to 'searching' rather than 'serving'.", 
+            message: (
+                <>
+                    Friction is slowing your team's efficiency.<br/><br/>
+                    You are likely over-spending on consumables and losing valuable team hours to 'searching' rather than 'serving'.
+                </>
+            ),
             action: "Optimize Operations" 
         };
     };
@@ -118,9 +140,9 @@ const DisorganizationChecklist = () => {
                                 <h4 className={`text-4xl md:text-5xl font-bold border-b border-brand-periwinkle/20 pb-6 uppercase tracking-tight text-center leading-none ${results.color}`}>
                                     {results.level}
                                 </h4>
-                                <p className="text-lg text-brand-medium leading-relaxed italic">
+                                <div className="text-lg text-brand-medium leading-relaxed italic">
                                     "{results.message}"
-                                </p>
+                                </div>
                             </div>
 
                             <Link to="/booking" className="inline-block w-full bg-brand-lemon text-brand-dark py-5 rounded-full font-bold uppercase tracking-widest text-center hover:bg-brand-periwinkle hover:text-white transition-all shadow-xl text-base transform hover:-translate-y-1">
@@ -199,14 +221,15 @@ const ProfessionalSpaces = () => {
                 </div>
 
                 {/* VIDEO GRID SECTION */}
-                {/* Reduced top padding from pt-24 to pt-12 to decrease gap */}
+                {/* Reduced padding from pt-24 to pt-12 */}
                 <div className="max-w-7xl mx-auto px-4 pt-12 pb-32 relative z-10 text-center">
                     <h3 className="font-handwriting text-4xl md:text-5xl text-brand-dark mb-4 leading-[1.4] md:leading-[1.6]">
                         No Space Too Big,<br /> No Business Too Small
                     </h3>
                     
                     <p className="text-lg md:text-xl text-brand-medium font-light max-w-3xl mx-auto mb-16 leading-relaxed">
-                        Whether you're saving lives or serving lattes, your environment dictates your efficiency. <br /><br className="block md:hidden"/>
+                        {/* WIDOW FIX: Added &nbsp; between "your" and "efficiency." */}
+                        Whether you're saving lives or serving lattes, your environment dictates your&nbsp;efficiency. <br /><br className="block md:hidden"/>
                         Here are a few industries that have benefited from our organizing—though to be clear, <span className="highlight-wrap bg-brand-lemon/60 px-1 py-0.5 rounded-sm box-decoration-clone text-brand-dark font-normal whitespace-nowrap">any business can benefit from better systems.</span>
                     </p>
                     
@@ -229,7 +252,6 @@ const ProfessionalSpaces = () => {
                 <section className="py-24 max-w-4xl mx-auto px-4 relative z-10">
                     <div className="bg-[#EBEBFF] rounded-[3rem] p-4 md:p-12 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
                         <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tighter mb-4 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
-                        {/* Updated copy here */}
                         <p className="text-lg text-brand-medium font-light mb-8 relative z-10">
                             See what disorganization is costing you.<br />
                             Check all that apply to your current operations:
