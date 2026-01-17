@@ -1,15 +1,14 @@
+// --- CORE.JS: SHARED COMPONENTS ---
 const { useState, useEffect, useRef } = React;
-const { Link, useLocation } = ReactRouterDOM;
+const { HashRouter, Routes, Route, Link, useLocation, useNavigate } = ReactRouterDOM;
 
 // --- 1. SHARED TOOLS ---
-
 const usePageTitle = (title) => {
     useEffect(() => { document.title = `${title} | Simpli-FI Life`; }, [title]);
 };
 
-// --- 2. ICONS (Central Definition) ---
+// --- 2. ICON COMPONENT (Self-contained SVGs) ---
 const Icon = ({ name, className }) => {
-    // Simple SVG mapping to prevent dependency crashes
     const icons = {
         "menu": <path d="M4 6h16M4 12h16M4 18h16" />,
         "x": <path d="M18 6 6 18M6 6l12 12" />,
@@ -20,27 +19,18 @@ const Icon = ({ name, className }) => {
         "chevron-right": <polyline points="9 18 15 12 9 6"/>,
         "building-2": <><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></>,
         "home": <><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>,
-        "bar-chart": <><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></>
+        "bar-chart": <><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></>,
+        "check": <polyline points="20 6 9 17 4 12"/>,
+        "gem": <><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></>
     };
-
     return (
-        <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            className={className}
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
             {icons[name] || null}
         </svg>
     );
 };
 
-// --- 3. ANIMATIONS ---
-
+// --- 3. GRID BEAMS ANIMATION ---
 const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1 }) => {
     const [beams, setBeams] = useState([]);
     useEffect(() => {
@@ -57,7 +47,7 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
             }]);
             setTimeout(() => { if (active) setBeams(prev => prev.filter(b => b.id !== id)); }, beamDuration * 1000);
         };
-        spawn(); spawn(); 
+        spawn(); spawn(); spawn();
         const interval = setInterval(spawn, spawnRate);
         return () => { active = false; clearInterval(interval); };
     }, [beamColor, spawnRate]);
@@ -66,11 +56,14 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {beams.map(b => (
                 <div key={b.id} className="absolute" style={{
-                    height: b.isHorizontal ? `${beamWidth}px` : '400px', width: b.isHorizontal ? '400px' : `${beamWidth}px`,
+                    height: b.isHorizontal ? `${beamWidth}px` : '400px', 
+                    width: b.isHorizontal ? '400px' : `${beamWidth}px`,
                     top: b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-400px'),
                     left: !b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-400px'),
                     filter: `drop-shadow(0 0 6px rgba(${b.color}, 0.6))`,
-                    background: b.isHorizontal ? `linear-gradient(90deg, transparent, rgba(${b.color}, 1), transparent)` : `linear-gradient(180deg, transparent, rgba(${b.color}, 1), transparent)`,
+                    background: b.isHorizontal 
+                        ? `linear-gradient(90deg, transparent, rgba(${b.color}, 1), transparent)` 
+                        : `linear-gradient(180deg, transparent, rgba(${b.color}, 1), transparent)`,
                     animation: `${b.isHorizontal ? (b.isReverse ? 'beam-h-rev' : 'beam-h') : (b.isReverse ? 'beam-v-rev' : 'beam-v')} ${b.duration}s linear forwards`
                 }} />
             ))}
@@ -78,8 +71,27 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
     );
 };
 
-// --- 4. LAYOUT COMPONENTS ---
+// --- 4. LOADING SCREEN ---
+const LoadingScreen = ({ onComplete }) => {
+    useEffect(() => { 
+        const t = setTimeout(onComplete, 4800); 
+        return () => clearTimeout(t); 
+    }, [onComplete]);
+    
+    return (
+        <div className="fixed inset-0 z-[100] bg-brand-base grid place-items-center loader-exit overflow-hidden">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
+            <GridBeams spawnRate={150} />
+            <div className="relative z-20 loading-logo-reveal text-center px-4">
+                <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark uppercase">
+                    <span className="font-bold">SIMPLI-FI</span> <span className="font-light text-brand-medium">LIFE</span>
+                </h1>
+            </div>
+        </div>
+    );
+};
 
+// --- 5. NAVBAR ---
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const loc = useLocation();
@@ -104,10 +116,8 @@ const Navbar = () => {
                         BOOK CLARITY CALL
                     </Link>
                 </div>
-                <button onClick={() => setIsOpen(!isOpen)} className="md:hidden flex items-center justify-center w-12 h-12 z-[60] relative">
-                    <div className="w-8 h-8 flex items-center justify-center">
-                        <Icon name={isOpen ? "x" : "menu"} className={`w-8 h-8 ${isDark && !isOpen ? 'text-brand-base' : 'text-brand-dark'}`} />
-                    </div>
+                <button onClick={() => setIsOpen(!isOpen)} className="md:hidden flex items-center justify-center w-12 h-12 z-[60] relative" aria-label="Toggle Menu">
+                    <Icon name={isOpen ? "x" : "menu"} className={`w-8 h-8 ${isDark && !isOpen ? 'text-brand-base' : 'text-brand-dark'}`} />
                 </button>
             </div>
             {isOpen && (
@@ -123,18 +133,22 @@ const Navbar = () => {
     );
 };
 
+// --- 6. FOOTER ---
 const Footer = () => (
     <section className="bg-brand-dark text-brand-base py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div><span className="font-display text-2xl font-bold uppercase tracking-tight">Simpli-FI <span className="font-light opacity-50">Life</span></span><p className="text-stone-400 text-sm mt-2">Serving the Greater DFW Area | Available Virtually</p></div>
-            <div className="flex gap-6 items-center">
-                <a href="https://www.instagram.com/simpli_fi_life/" target="_blank" className="hover:text-brand-lemon transition"><Icon name="instagram" className="w-5 h-5"/></a>
-                <a href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="hover:text-brand-lemon transition"><Icon name="youtube" className="w-5 h-5"/></a>
+            <div>
+                <span className="font-display text-2xl font-bold uppercase tracking-tight">Simpli-FI <span className="font-light opacity-50">Life</span></span>
+                <p className="text-stone-400 text-sm mt-2">Serving the Greater DFW Area | Available Virtually</p>
             </div>
-            <div className="text-center md:text-right"><p className="text-stone-500 text-xs">&copy; 2026 Simpli-FI Life LLC. All Rights Reserved.</p><Link to="/new-space-intake" className="text-stone-600 text-[10px] hover:text-brand-periwinkle transition mt-1 inline-block uppercase tracking-widest font-bold">New Space Intake</Link></div>
+            <div className="flex gap-6 items-center">
+                <a href="https://www.instagram.com/simpli_fi_life/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-lemon transition"><Icon name="instagram" className="w-5 h-5"/></a>
+                <a href="https://www.youtube.com/@Simpli-FILife" target="_blank" rel="noopener noreferrer" className="hover:text-brand-lemon transition"><Icon name="youtube" className="w-5 h-5"/></a>
+            </div>
+            <div className="text-center md:text-right">
+                <p className="text-stone-500 text-xs">&copy; 2026 Simpli-FI Life LLC. All Rights Reserved.</p>
+                <Link to="/new-space-intake" className="text-stone-600 text-[10px] hover:text-brand-periwinkle transition mt-1 inline-block uppercase tracking-widest font-bold">New Space Intake</Link>
+            </div>
         </div>
     </section>
 );
-
-// --- 5. EXPOSE TO WINDOW ---
-window.Core = { Navbar, Footer, GridBeams, Icon, usePageTitle };
