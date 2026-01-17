@@ -1,13 +1,11 @@
 const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
-const ReactDOM = window.ReactDOM;
 
-// --- RESIDENTIAL SPACES: SANCTUARY & SERVICE MENU ---
+// --- RESIDENTIAL SPACES: FIXED & VERIFIED ---
 
 const ServiceChecklist = () => {
     const [checks, setChecks] = useState({});
     
-    // UPDATED: Converted to objects for clean rendering
     const services = [
         { label: "Decluttering Coaching", sub: "(Done with you)" },
         { label: "Decluttering", sub: "(Done for me)" },
@@ -22,21 +20,17 @@ const ServiceChecklist = () => {
     const toggle = (i) => setChecks(p => ({...p, [i]: !p[i]}));
     const hasChecks = Object.values(checks).some(Boolean);
     
-    const getBookingLink = () => {
+    // Construct the booking state object
+    const getBookingState = () => {
         const selectedServices = services
             .filter((_, i) => checks[i])
             .map(s => s.label + (s.sub ? " " + s.sub : ""))
             .join(', ');
             
         const notes = selectedServices ? `I'm interested in: ${selectedServices}` : '';
-        const serviceName = "Residential Space Organization";
-        
-        // Return object for state prop or string for URL? 
-        // We will use the To object in the Link component below.
         return { 
-            pathname: "/booking", 
-            search: `?service=${encodeURIComponent(serviceName)}`, 
-            state: { service: serviceName, notes: notes } 
+            service: "Residential Space Organization", 
+            notes: notes 
         };
     };
 
@@ -70,7 +64,7 @@ const ServiceChecklist = () => {
                     </p>
                     <Link 
                         to="/booking" 
-                        state={getBookingLink().state}
+                        state={getBookingState()}
                         className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-sm uppercase tracking-widest transform hover:-translate-y-1"
                     >
                         Discuss My Project 
@@ -83,7 +77,7 @@ const ServiceChecklist = () => {
 };
 
 const Residential = () => {
-    // Safe hook usage
+    // Safe hook usage for title
     if (typeof usePageTitle === 'function') {
         usePageTitle("Residential Services");
     }
@@ -98,11 +92,7 @@ const Residential = () => {
         return () => document.body.removeEventListener('touchstart', playVideos);
     }, []);
 
-    // Safe rendering helpers
-    const renderIcon = (name, className) => {
-        return typeof Icon !== 'undefined' ? <Icon name={name} className={className} /> : null;
-    };
-
+    // Safe rendering helper for GridBeams to prevent crashes
     const renderGridBeams = (color) => {
         return typeof GridBeams !== 'undefined' ? <GridBeams beamColor={color} /> : null;
     };
@@ -205,7 +195,7 @@ const Residential = () => {
                 <div className="max-w-4xl mx-auto relative z-10">
                     <div className="flex justify-center mb-8">
                         <div className="p-5 rounded-full bg-brand-white/5 border border-brand-white/10 backdrop-blur-sm">
-                            {/* Gem Icon SVG */}
+                            {/* Gem Icon SVG - Defined locally to prevent crashes */}
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7178c8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-spin-top">
                                 <path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/>
                             </svg>
