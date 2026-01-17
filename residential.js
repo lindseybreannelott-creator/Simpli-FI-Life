@@ -1,24 +1,17 @@
-// --- RESIDENTIAL.JS ---
+// --- RESIDENTIAL SPACES ---
 
-// 1. Assign to window immediately so index.html can find it
-window.Residential = function() {
-    // 2. Access React safely inside the component
+(function() {
+    // 1. Capture Global React
     const React = window.React;
     const { useState, useEffect } = React;
-    const Link = window.ReactRouterDOM.Link;
+    const { Link } = window.ReactRouterDOM;
 
-    // 3. Page Title & Scroll
-    useEffect(() => {
-        document.title = "Residential Services | Simpli-FI Life";
-        window.scrollTo(0, 0);
-    }, []);
-
-    // 4. Local Icons (No external libraries required)
+    // 2. Local Icons (Crash prevention)
     const CheckIcon = () => React.createElement("svg", { className: "w-4 h-4 text-[#2d2a26]", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "4", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("polyline", { points: "20 6 9 17 4 12" }));
     const ArrowIcon = () => React.createElement("svg", { className: "ml-2 w-4 h-4", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("line", { x1: "5", y1: "12", x2: "19", y2: "12" }), React.createElement("polyline", { points: "12 5 19 12 12 19" }));
     const GemIcon = () => React.createElement("svg", { className: "w-8 h-8 text-[#7178c8] animate-spin-top", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M6 3h12l4 6-10 13L2 9Z" }), React.createElement("path", { d: "M11 3 8 9l4 13 4-13-3-6" }));
 
-    // 5. Checklist Component
+    // 3. Service Checklist Component
     const ServiceChecklist = () => {
         const [checks, setChecks] = useState({});
         
@@ -27,16 +20,15 @@ window.Residential = function() {
             { label: "Decluttering", sub: "(Done for me)" },
             { label: "Organizing + Space Planning Coaching", sub: "(Done with you)" },
             { label: "Organizing + Space Planning", sub: "(Done for me)" },
-            { label: "Unpacking From a Move" },
-            { label: "Packing for a Move" },
-            { label: "Finding 'Homes' for Things" },
-            { label: "Legacy Documenting" }
+            { label: "Unpacking From a Move", sub: null },
+            { label: "Packing for a Move", sub: null },
+            { label: "Finding 'Homes' for Things", sub: null },
+            { label: "Legacy Documenting", sub: null }
         ];
 
         const toggle = (i) => setChecks(p => ({...p, [i]: !p[i]}));
         const hasChecks = Object.values(checks).some(Boolean);
         
-        // Link logic simplified to plain string to prevent routing crashes
         const getLink = () => {
             const selected = services.filter((_, i) => checks[i]).map(s => s.label).join(', ');
             const note = selected ? "Interested in: " + selected : "";
@@ -58,7 +50,6 @@ window.Residential = function() {
                         </button>
                     ))}
                 </div>
-                
                 <div className={`overflow-hidden transition-all duration-700 ease-in-out ${hasChecks ? 'max-h-[500px] opacity-100 mt-8 pt-8 border-t border-stone-200' : 'max-h-0 opacity-0'}`}>
                     <div className="text-center animate-fade-in-up">
                         <p className="font-sans italic font-medium text-[#7178c8] text-[15px] mb-8 leading-relaxed max-w-xl mx-auto px-4">
@@ -73,113 +64,41 @@ window.Residential = function() {
         );
     };
 
-    // --- MAIN RENDER ---
-    return (
-        <div className="bg-[#fbf9f7] overflow-x-hidden">
-            
-            {/* HERO SECTION */}
-            <div className="bg-[#d4d7ff] text-[#2d2a26] pt-44 pb-32 px-4 text-center relative overflow-hidden">
-                <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                {/* Safe Beam Check */}
-                {window.GridBeams && <div className="absolute inset-0 pointer-events-none opacity-60"><window.GridBeams beamColor="255, 255, 255" /></div>}
-                
-                <div className="relative z-10 max-w-5xl mx-auto">
-                    <h1 className="font-display font-light text-5xl md:text-7xl tracking-tighter mb-8 leading-tight text-[#2d2a26]">
-                        Your home should feel like your <span className="font-bold text-white drop-shadow-sm">Sanctuary</span>,<br/> 
-                        <span className="block mt-6 font-handwriting text-xl md:text-3xl text-[#5a60a6] rotate-[-2deg] drop-shadow-sm leading-normal">not a Storage Unit.</span>
-                    </h1>
-                    <p className="text-xl font-light text-[#2d2a26] max-w-3xl mx-auto mb-12 leading-relaxed">
-                        At Simpli-FI Life we work with you to custom tailor systems that fit your unique needs, and season of life—giving you back your time and a home that feels easy to reset.
-                    </p>
-                    <Link to="/booking?service=Residential%20Space%20Organization" className="inline-block bg-[#D6E31E] text-[#2d2a26] px-10 py-4 rounded-full font-bold hover:bg-[#7178c8] hover:text-white transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/20">
-                        Ready for your peaceful space?
-                    </Link>
-                </div>
-            </div>
+    // 4. Main Residential Component
+    const Residential = () => {
+        useEffect(() => {
+            if (window.Core && window.Core.usePageTitle) window.Core.usePageTitle("Residential Services");
+            window.scrollTo(0, 0);
+        }, []);
 
-            {/* VIDEO & TESTIMONIAL SPLIT */}
-            <div className="relative">
-                <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                <div className="py-24 px-4 border-b border-stone-100 overflow-hidden relative z-10">
-                    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center relative gap-12">
-                        
-                        {/* Video Side */}
-                        <div className="w-full md:w-1/2 relative z-20">
-                            <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl aspect-[4/5] md:aspect-video border-[3px] border-[#D6E31E] bg-[#2d2a26] transform rotate-1 hover:rotate-0 transition-transform duration-500">
-                                <video className="w-full h-full object-cover pointer-events-none" autoPlay loop muted playsInline controlsList="nodownload" preload="auto">
-                                    <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/mp4" />
-                                    <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/quicktime" />
-                                </video>
-                            </div>
-                        </div>
-
-                        {/* Quote Side */}
-                        <div className="w-full md:w-1/2 relative z-10">
-                            <div className="bg-[#fbf9f7] p-10 md:p-16 rounded-[2.5rem] shadow-2xl border-2 border-[#D6E31E] h-full flex flex-col justify-center relative transform -rotate-1 hover:rotate-0 transition-transform duration-500">
-                                <div className="absolute -top-12 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E' }}>“</div>
-                                <div className="relative z-10 pt-8">
-                                    <div className="text-[#57534e] font-light italic leading-relaxed space-y-6 text-lg">
-                                        <p>"I was so nervous about letting her into my closet, to see the messiest space in my house, but her encouraging, compassionate personality instantly put me at ease.</p>
-                                        <p>Instead of feeling overwhelmed, I felt empowered to take control of my space at my own pace.</p>
-                                        <p>Lindsey’s practical strategies for organization have not only helped me create systems out of chaos, but have also given me confidence in the process of decluttering my house."</p>
-                                    </div>
-                                    <div className="mt-10 pt-8 border-t border-[#D6E31E]/30">
-                                        <p className="font-display font-bold text-[#7178c8] uppercase tracking-wider text-sm">- Lauren V.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        return (
+            <div className="bg-[#fbf9f7] overflow-x-hidden">
+                <div className="bg-[#d4d7ff] text-[#2d2a26] pt-44 pb-32 px-4 text-center relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                    <div className="absolute inset-0 pointer-events-none opacity-60">
+                        {window.Core && window.Core.GridBeams && <window.Core.GridBeams beamColor="255, 255, 255" />}
+                    </div>
+                    <div className="relative z-10 max-w-5xl mx-auto">
+                        <h1 className="font-display font-light text-5xl md:text-7xl tracking-tighter mb-8 leading-tight text-[#2d2a26]">
+                            Your home should feel like your <span className="font-bold text-white drop-shadow-sm">Sanctuary</span>,<br/> 
+                            <span className="block mt-6 font-handwriting text-xl md:text-3xl text-[#5a60a6] rotate-[-2deg] drop-shadow-sm leading-normal">not a Storage Unit.</span>
+                        </h1>
+                        <p className="text-xl font-light text-[#2d2a26] max-w-3xl mx-auto mb-12 leading-relaxed">
+                            At Simpli-FI Life we work with you to custom tailor systems that fit your unique needs, and season of life—giving you back your time and a home that feels easy to reset.
+                        </p>
+                        <Link to="/booking?service=Residential%20Space%20Organization" className="inline-block bg-[#D6E31E] text-[#2d2a26] px-10 py-4 rounded-full font-bold hover:bg-[#7178c8] hover:text-white transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/20">
+                            Ready for your peaceful space?
+                        </Link>
                     </div>
                 </div>
 
-                {/* SERVICE MENU SECTION */}
-                <section className="py-24 max-w-7xl mx-auto px-4 relative z-10">
-                    <div className="bg-[#d4d7ff]/40 rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center shadow-2xl border-4 border-[#7178c8] group hover:scale-[1.005] transition-transform duration-500">
-                        <h2 className="font-display font-bold text-4xl md:text-6xl text-[#2d2a26] mb-8 leading-[0.95] relative z-10 uppercase tracking-tighter">
-                            Your Space Simpli-Fied,<br/><span className="text-[#5a60a6]">Your Way</span>
-                        </h2>
-                        
-                        <div className="w-24 h-1.5 bg-white mx-auto mb-10 rounded-full relative z-10 opacity-80"></div>
-                        
-                        <div className="max-w-3xl mx-auto mb-12 relative z-10 text-[#2d2a26]/80 font-medium text-xl leading-relaxed space-y-6">
-                            <p>Every home has a different rhythm. Because your needs, priorities, and season of life are unique, we don't believe in a "one-size-fits-all" approach.</p>
-                            <p className="font-bold text-[#2d2a26] pt-2">You know your needs best—so you decide how active a role you'd like to play:</p>
-                        </div>
-                        
-                        <div className="max-w-4xl mx-auto relative z-10 text-[#2d2a26]">
-                            <ServiceChecklist />
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            {/* LUXURY ESTATE SECTION */}
-            <section id="private-client" className="py-32 bg-[#2d2a26] relative overflow-hidden text-center px-4">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl opacity-20 pointer-events-none">
-                    <div className="w-full h-full bg-[#7178c8]/30 blur-[120px] rounded-full"></div>
-                </div>
-                
-                <div className="max-w-4xl mx-auto relative z-10">
-                    <div className="flex justify-center mb-8">
-                        <div className="p-5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
-                            <GemIcon />
-                        </div>
-                    </div>
-                    
-                    <span className="text-[#7178c8] font-bold tracking-[0.25em] uppercase text-xs block mb-6">Private Client Services</span>
-                    <h2 className="font-display text-5xl md:text-7xl font-bold tracking-tight mb-8 text-white">Luxury Estate Management</h2>
-                    
-                    <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#7178c8] to-transparent mx-auto mb-10 opacity-50"></div>
-                    
-                    <p className="text-stone-300 text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-2xl mx-auto">
-                        We offer white-glove, <span className="text-white font-normal italic">done-for-you</span> service for clients who value their time above all else.
-                    </p>
-                    
-                    <Link to="/booking?service=Residential%20Space%20Organization&notes=Inquiry%20regarding%20Luxury%20Estate%20Management" className="inline-block border border-[#7178c8]/50 text-[#7178c8] hover:text-[#D6E31E] hover:border-[#D6E31E] px-12 py-5 rounded-full font-display font-bold transition-all duration-300 transform hover:-translate-y-1 uppercase tracking-widest text-sm shadow-xl backdrop-blur-sm">
-                        Inquire About Availability
-                    </Link>
-                </div>
-            </section>
-        </div>
-    );
-};
+                <div className="relative">
+                    <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                    <div className="py-24 px-4 border-b border-stone-100 overflow-hidden relative z-10">
+                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center relative gap-12">
+                            <div className="w-full md:w-1/2 relative z-20">
+                                <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl aspect-[4/5] md:aspect-video border-[3px] border-[#D6E31E] bg-[#2d2a26] transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                                    <video className="w-full h-full object-cover pointer-events-none" autoPlay loop muted playsInline controlsList="nodownload" preload="auto">
+                                        <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/mp4" />
+                                        <source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/quicktime" />
+                                    </video>
