@@ -67,10 +67,9 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
     );
 };
 
-// --- 4. INTRO LOADING SCREEN (RESTORED BEAUTIFUL VERSION) ---
+// --- 4. INTRO LOADING SCREEN ---
 const LoadingScreen = ({ onComplete }) => {
     useEffect(() => { 
-        // 4.8 seconds total duration to match CSS animations
         const t = setTimeout(onComplete, 4800); 
         return () => clearTimeout(t); 
     }, [onComplete]);
@@ -90,67 +89,80 @@ const LoadingScreen = ({ onComplete }) => {
     );
 };
 
-// --- 5. TESTIMONIAL SCROLLER (RESTORED 5-CARD POP) ---
+// --- 5. TESTIMONIAL SCROLLER (FIXED MATH) ---
 const TestimonialScroller = () => {
-    // 4x Duplication for smooth infinite scroll feels
-    const displayTestimonials = [...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS]; 
-    const [activeIndex, setActiveIndex] = useState(10); 
+    // 6x Duplication to ensure full screen coverage on wide monitors
+    const displayTestimonials = [
+        ...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS, 
+        ...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS
+    ]; 
+    
+    // Start index in the middle of the array
+    const [activeIndex, setActiveIndex] = useState(TESTIMONIALS.length * 3); 
     const containerRef = useRef(null);
     
-    // Width calibrated for 5 items across standard screen
-    const ITEM_WIDTH = 320;
-    const GAP = 24;
+    // REDUCED WIDTH: 260px allows 5 items to fit on a standard 1440px screen
+    const ITEM_WIDTH = 260; 
+    const GAP = 24; 
     const TOTAL_ITEM_WIDTH = ITEM_WIDTH + GAP;
+    
+    // Width of one full set of original testimonials
     const SET_WIDTH = TESTIMONIALS.length * TOTAL_ITEM_WIDTH;
 
     useEffect(() => {
         const container = containerRef.current;
         if (!container) return;
-        // Start in middle set
-        container.scrollLeft = SET_WIDTH;
+        
+        // Initial Scroll Position: Center of the duplicated list
+        // (Index * Width) - (Half Screen) + (Half Card)
+        const initialPosition = (TESTIMONIALS.length * 3 * TOTAL_ITEM_WIDTH);
+        container.scrollLeft = initialPosition;
     }, []);
 
     const handleScroll = () => {
         const container = containerRef.current;
         if (!container) return;
         
-        // Calculate center based on container center
-        const containerCenter = container.scrollLeft + (container.offsetWidth / 2);
+        const centerPoint = container.scrollLeft + (container.offsetWidth / 2);
         
+        // Find card closest to center
         let minDistance = Infinity;
-        let newActiveIndex = activeIndex;
-        
+        let newIndex = activeIndex;
+
         Array.from(container.children).forEach((child, i) => {
+            // Get center of the child element
             const childCenter = child.offsetLeft + (child.offsetWidth / 2);
-            const distance = Math.abs(childCenter - containerCenter);
+            const distance = Math.abs(childCenter - centerPoint);
             
             if (distance < minDistance) {
                 minDistance = distance;
-                newActiveIndex = i;
+                newIndex = i;
             }
         });
 
-        if (newActiveIndex !== activeIndex) {
-            setActiveIndex(newActiveIndex);
+        if (newIndex !== activeIndex) {
+            setActiveIndex(newIndex);
         }
 
-        // Infinite Scroll Loop Logic
-        const currentScroll = container.scrollLeft;
-        if (currentScroll >= SET_WIDTH * 2) {
-            container.scrollLeft = currentScroll - SET_WIDTH;
-        } else if (currentScroll <= SET_WIDTH - 100) {
-            container.scrollLeft = currentScroll + SET_WIDTH;
+        // Infinite Loop Jump Logic
+        // If we scroll too far right (past 4th set), jump back to 2nd set
+        if (container.scrollLeft >= SET_WIDTH * 4) {
+            container.scrollLeft = container.scrollLeft - SET_WIDTH;
+        } 
+        // If we scroll too far left (start of list), jump forward to 2nd set
+        else if (container.scrollLeft <= SET_WIDTH) {
+            container.scrollLeft = container.scrollLeft + SET_WIDTH;
         }
     };
 
     return (
-        <div className="relative w-full py-12 group">
+        <div className="relative w-full py-16 group overflow-hidden">
             <div 
                 ref={containerRef} 
                 onScroll={handleScroll} 
-                className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-24" 
-                // Padding ensures first/last items can be centered
-                style={{ paddingLeft: 'calc(50% - 160px)', paddingRight: 'calc(50% - 160px)' }}
+                className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-12" 
+                // PADDING FIX: Half screen width minus half card width = Perfect Center
+                style={{ paddingLeft: `calc(50% - ${ITEM_WIDTH / 2}px)`, paddingRight: `calc(50% - ${ITEM_WIDTH / 2}px)` }}
             >
                 {displayTestimonials.map((t, i) => {
                     const isActive = i === activeIndex;
@@ -158,21 +170,21 @@ const TestimonialScroller = () => {
                         <div 
                             key={i} 
                             className={`
-                                snap-center flex-shrink-0 p-8 rounded-2xl border-2 transition-all duration-500 ease-out flex flex-col justify-between min-h-[400px] relative
+                                snap-center flex-shrink-0 p-8 rounded-2xl border-2 transition-all duration-500 ease-out flex flex-col justify-between min-h-[380px] relative
                                 ${isActive 
-                                    ? 'bg-brand-lemon/20 border-brand-lemon scale-110 shadow-2xl opacity-100 z-10' 
-                                    : 'bg-brand-white border-stone-100 scale-90 shadow-sm opacity-60 grayscale-[0.5]'
+                                    ? 'scale-110 bg-brand-lemon/20 border-brand-lemon opacity-100 z-10 shadow-2xl' 
+                                    : 'scale-90 bg-brand-white border-stone-100 opacity-60 grayscale-[0.8] blur-[0.5px]'
                                 }
                             `}
                             style={{ marginRight: `${GAP}px`, width: `${ITEM_WIDTH}px` }}
                         >
-                            <div className={`absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none transition-all duration-500 ${isActive ? 'opacity-80' : 'opacity-20'}`} style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
-                            <div className="relative z-10 pt-12">
-                                <p className="text-brand-medium text-lg leading-relaxed italic mb-6 relative">{t.quote}</p>
+                            <div className={`absolute -top-8 -left-2 text-6xl font-serif leading-none select-none pointer-events-none transition-all duration-500 ${isActive ? 'opacity-100 text-brand-periwinkle' : 'opacity-20 text-stone-300'}`}>“</div>
+                            <div className="relative z-10 pt-4">
+                                <p className="text-brand-medium text-[15px] leading-relaxed italic mb-6 relative">{t.quote}</p>
                             </div>
                             <div className={`mt-auto pt-4 border-t border-brand-lemon transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-50'}`}>
-                                <p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-sm">{t.author}</p>
-                                {t.role && <p className="text-xs text-brand-medium font-medium mt-1">{t.role}</p>}
+                                <p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-xs">{t.author}</p>
+                                {t.role && <p className="text-[10px] text-brand-medium font-medium mt-1 uppercase tracking-wide">{t.role}</p>}
                             </div>
                         </div>
                     );
