@@ -1,5 +1,4 @@
-// This file holds the "Information" for your website
-// We removed the fake articles to keep the site clean!
+// --- DATA.JS: Website Information ---
 
 const TESTIMONIALS = [
     {
@@ -29,6 +28,4 @@ const TESTIMONIALS = [
     }
 ];
 
-// We are leaving this empty for now so the website doesn't crash, 
-// but it won't show any fake articles!
 const ARTICLES_MOCK = [];
