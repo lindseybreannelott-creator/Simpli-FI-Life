@@ -2,7 +2,7 @@ const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 const ReactDOM = window.ReactDOM;
 
-// --- PROFESSIONAL SPACES: NO WIDOWS GUARANTEED ---
+// --- PROFESSIONAL SPACES: CONNECTED SECTION & STACKED HEADLINE ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -219,36 +219,47 @@ const ProfessionalSpaces = () => {
                     </div>
                 </div>
 
-                {/* VIDEO GRID SECTION */}
-                <div className="max-w-7xl mx-auto px-4 pt-0 pb-32 relative z-10 text-center">
-                    
-                    <h3 className="text-5xl md:text-7xl text-brand-dark mb-8 leading-tight">
-                        <span className="font-handwriting mr-3">No</span>
-                        <span className="font-display font-bold uppercase tracking-tight">Space Too Big,</span>
-                        <br className="md:hidden" />
-                        <span className="block md:inline mt-2 md:mt-0">
-                            <span className="font-handwriting mr-3 ml-0 md:ml-4">No</span>
-                            <span className="font-display font-bold uppercase tracking-tight">Business Too Small</span>
-                        </span>
-                    </h3>
-                    
-                    <p className="text-xl md:text-2xl text-brand-medium font-light max-w-6xl mx-auto mb-12 leading-relaxed">
-                        Whether you're saving lives or serving lattes, your environment dictates your&nbsp;efficiency. <br /><br />
-                        Here are a few industries that have benefited from our organizing—though to be clear, <span className="highlight-wrap bg-brand-lemon/60 px-1 py-0.5 rounded-sm box-decoration-clone text-brand-dark font-normal whitespace-nowrap">any business can benefit from better organizational systems.</span>
-                    </p>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {[
-                            { label: "Fire & Medical Services", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108.mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg" },
-                            { label: "Restaurants & Hospitality", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(2)(2).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-expected%20mess%20vs%20clutter.png" },
-                            { label: "Non Profit", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(1).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-systems-chaos.png" }
-                        ].map((item, i) => (
-                            <div key={i} className="relative group rounded-3xl overflow-hidden shadow-lg aspect-[2/3] border border-stone-100 bg-brand-base transition-all hover:shadow-2xl">
-                                <video className="w-full h-full object-cover" autoPlay loop muted playsInline webkit-playsinline="true" poster={item.poster} preload="auto" controlsList="nodownload"><source src={item.video} type="video/mp4" /></video>
-                                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-60"></div>
-                                <div className="absolute bottom-6 left-6"><div className="bg-brand-periwinkle text-brand-white px-5 py-2 rounded-full font-display font-bold tracking-widest text-xs uppercase shadow-md">{item.label}</div></div>
-                            </div>
-                        ))}
+                {/* VIDEO GRID SECTION (Now with Faint Periwinkle Background) */}
+                <div className="w-full bg-brand-periwinkle/25 relative z-10 py-24 -mt-24"> 
+                    {/* Added -mt-24 to pull it up slightly under the Madison Card visual space if needed, 
+                        but maintained clean flow. 
+                        Note: The 'py-24' gives the internal breathing room.
+                    */}
+                    <div className="max-w-7xl mx-auto px-4 text-center">
+                        
+                        {/* HEADLINE: Stacked Layout */}
+                        <h3 className="text-5xl md:text-7xl text-brand-dark mb-8 leading-tight">
+                            {/* Line 1 */}
+                            <span className="block mb-2 md:mb-0">
+                                <span className="font-handwriting mr-3">No</span>
+                                <span className="font-display font-bold uppercase tracking-tight">Space Too Big,</span>
+                            </span>
+                            {/* Line 2 (Forced to new line with 'block') */}
+                            <span className="block">
+                                <span className="font-handwriting mr-3 ml-0 md:ml-4">No</span>
+                                {/* Widow Fix: &nbsp; between Too and Small */}
+                                <span className="font-display font-bold uppercase tracking-tight">Business Too&nbsp;Small</span>
+                            </span>
+                        </h3>
+                        
+                        <p className="text-xl md:text-2xl text-brand-medium font-light max-w-6xl mx-auto mb-12 leading-relaxed">
+                            Whether you're saving lives or serving lattes, your environment dictates your&nbsp;efficiency. <br /><br />
+                            Here are a few industries that have benefited from our organizing—though to be clear, <span className="highlight-wrap bg-brand-lemon/60 px-1 py-0.5 rounded-sm box-decoration-clone text-brand-dark font-normal whitespace-nowrap">any business can benefit from better organizational systems.</span>
+                        </p>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {[
+                                { label: "Fire & Medical Services", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108.mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg" },
+                                { label: "Restaurants & Hospitality", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(2)(2).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-expected%20mess%20vs%20clutter.png" },
+                                { label: "Non Profit", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(1).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-systems-chaos.png" }
+                            ].map((item, i) => (
+                                <div key={i} className="relative group rounded-3xl overflow-hidden shadow-lg aspect-[2/3] border border-stone-100 bg-brand-base transition-all hover:shadow-2xl">
+                                    <video className="w-full h-full object-cover" autoPlay loop muted playsInline webkit-playsinline="true" poster={item.poster} preload="auto" controlsList="nodownload"><source src={item.video} type="video/mp4" /></video>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-60"></div>
+                                    <div className="absolute bottom-6 left-6"><div className="bg-brand-periwinkle text-brand-white px-5 py-2 rounded-full font-display font-bold tracking-widest text-xs uppercase shadow-md">{item.label}</div></div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
@@ -271,7 +282,6 @@ const ProfessionalSpaces = () => {
                     <div className="bg-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle relative overflow-hidden group">
                         <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark mb-10 tracking-tight leading-[1.1]">Organizing isn't a luxury for your business— <span className="text-brand-periwinkle italic">it's essential.</span></h3>
                         <div className="text-brand-medium text-xl leading-relaxed mb-12 space-y-6 max-w-3xl mx-auto font-light">
-                            {/* WIDOW FIX: Added &nbsp; to prevent "growth." and "clarity." from dropping alone */}
                             <p>Every minute your team spends searching for a tool or navigating a crowded stockroom is a minute of lost profit. Disorganization is a quiet tax on your&nbsp;growth.</p>
                             <p>Let's eliminate the friction in your inventory systems so you can get back to what you were meant to do: serve your customers and lead your mission with&nbsp;clarity.</p>
                         </div>
