@@ -1,7 +1,7 @@
 const { useState, useEffect, useRef } = React;
 const { Link } = ReactRouterDOM;
 
-// --- HOME PAGE: FIXED PADDING FOR QUOTE MARKS ---
+// --- HOME PAGE: QUOTE FIX (PT-32) ---
 
 const TestimonialScroller = () => {
     // 1. Define Data Locally to prevent "undefined" errors
@@ -79,8 +79,8 @@ const TestimonialScroller = () => {
     if (originalItems.length === 0) return null;
 
     return (
-        // UPDATE: Changed pt-2 to pt-20 to create headroom for the giant quote marks
-        <div className="relative w-full mt-5 md:mt-0 pt-20 pb-16 md:pb-20 group z-30">
+        // UPDATE: Changed pt-20 to pt-32 to give the scaled-up quote mark room to breathe
+        <div className="relative w-full mt-5 md:mt-0 pt-32 pb-16 md:pb-20 group z-30">
             {isMobile && (
                 <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
                     <button onClick={() => scrollManual(-1)} className="p-1.5 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
@@ -110,7 +110,7 @@ const TestimonialScroller = () => {
                                 }`}
                             style={{ marginRight: '16px', width: '320px', maxWidth: '65vw' }}
                         >
-                            {/* QUOTE MARK: Absolute positioning -top-16 requires parent padding */}
+                            {/* QUOTE MARK */}
                             <div className={`absolute -top-16 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}
                                  style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E' }}>“</div>
                             
