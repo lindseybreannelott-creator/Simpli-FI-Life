@@ -1,7 +1,20 @@
+const { useState, useEffect, useRef } = React;
+const { Link } = ReactRouterDOM;
+
 // --- HOME PAGE: FAILSAFE SVG LOCKDOWN ---
 
 const TestimonialScroller = () => {
-    const originalItems = typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : [];
+    // 1. Define Data Locally to prevent "undefined" errors
+    const TESTIMONIALS = [
+        { quote: "Simpli-fi life has been a game changer in my home.", author: "Lauren V.", role: "" },
+        { quote: "Working with Lindsey as my decluttering coach was so fun, I could not be more happy with the spaces we redefined.", author: "Lauren E.", role: "" },
+        { quote: "You are truly pursuing something that you are gifted at. So kind and focused and intentional.", author: "Ashley M.", role: "" },
+        { quote: "Before being with you, I could sit in those mess up spaces for years and just be melancholy... but meeting with you was about just so much awareness and clarity.", author: "Amanda B.", role: "" },
+        { quote: "Our shop is useable, clean and organized for the first time in decades. Thank you Lindsey!", author: "Kevin T.", role: "Logistics Captain" }
+    ];
+
+    const originalItems = TESTIMONIALS;
+    // 5x Duplication to ensure full screen fill
     const displayItems = [...originalItems, ...originalItems, ...originalItems, ...originalItems, ...originalItems];
     const containerRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -17,7 +30,6 @@ const TestimonialScroller = () => {
     const GAP_DESKTOP = 24;
 
     const handleScroll = () => {
-        // FIX: Added guard for empty originalItems array to prevent division by zero
         if (!containerRef.current || originalItems.length === 0) return;
         
         const container = containerRef.current;
@@ -53,7 +65,6 @@ const TestimonialScroller = () => {
     };
 
     useEffect(() => {
-        // FIX: Added guard for empty originalItems array
         if (containerRef.current && originalItems.length > 0) {
             const container = containerRef.current;
             const viewportWidth = container.offsetWidth;
@@ -65,20 +76,17 @@ const TestimonialScroller = () => {
         }
     }, [originalItems.length, isMobile]);
 
-    // FIX: Early return if no testimonials to display
-    if (originalItems.length === 0) {
-        return null;
-    }
+    if (originalItems.length === 0) return null;
 
     return (
         <div className="relative w-full mt-5 md:mt-0 pt-2 pb-16 md:pb-20 group z-30">
             {isMobile && (
                 <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
                     <button onClick={() => scrollManual(-1)} className="p-1.5 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
-                        <Icon name="chevron-left" className="w-4 h-4 text-brand-dark" />
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
                     <button onClick={() => scrollManual(1)} className="p-1.5 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
-                        <Icon name="chevron-right" className="w-4 h-4 text-brand-dark" />
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </button>
                 </div>
             )}
@@ -117,6 +125,9 @@ const TestimonialScroller = () => {
     );
 };
 
+// --- REST OF HOME COMPONENT (With your Layout) ---
+
+// Helper for Social Section
 const SocialSection = ({ platform, handle, link, children }) => (
     <div className="relative w-full bg-brand-base">
         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
@@ -130,9 +141,6 @@ const SocialSection = ({ platform, handle, link, children }) => (
                 {children}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
                      <a href={link} target="_blank" rel="noopener noreferrer" className="block relative group bg-brand-periwinkle-light text-brand-dark px-10 py-4 font-display font-bold tracking-widest text-[10px] md:text-sm uppercase rounded-full shadow-xl hover:bg-white hover:scale-105 transition-all duration-300">
-                        <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-full overflow-visible">
-                            <rect x="1.5" y="1.5" style={{ width: "calc(100% - 3px)", height: "calc(100% - 3px)" }} rx="28" fill="none" stroke="#D6E31E" strokeWidth="3" className="draw-border opacity-0 group-hover:opacity-100" />
-                        </svg>
                         <span className="relative z-10">{handle}</span>
                      </a>
                 </div>
@@ -142,8 +150,13 @@ const SocialSection = ({ platform, handle, link, children }) => (
 );
 
 const Home = () => {
-    usePageTitle("Home");
-    const [ctaHover, setCtaHover] = useState(false);
+    // Safe Beam Check
+    const renderBeams = () => {
+        if (window.Core && window.Core.GridBeams) {
+            return <window.Core.GridBeams />;
+        }
+        return null;
+    };
 
     return (
         <div className="overflow-x-hidden bg-brand-base">
@@ -151,7 +164,7 @@ const Home = () => {
             <div className="relative overflow-hidden min-h-screen flex flex-col justify-start">
                 <div className="absolute inset-0 z-0">
                     <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-                    <GridBeams />
+                    {renderBeams()}
                 </div>
                 <div className="max-w-7xl mx-auto relative z-10 pt-48 md:pt-64 pb-2 md:pb-4 px-4 text-center">
                     <h1 className="font-display text-[3.5rem] leading-[0.9] sm:text-7xl md:text-[7.2rem] font-bold text-brand-dark mb-8 md:mb-10 tracking-tighter md:leading-[0.85]">
@@ -167,6 +180,7 @@ const Home = () => {
                         <Link to="/residential" className="inline-block w-3/4 sm:w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Residential Space</Link>
                     </div>
                 </div>
+                {/* YOUR FAILSAFE TESTIMONIAL SCROLLER */}
                 <div className="mt-2 md:mt-0"><TestimonialScroller /></div>
             </div>
 
@@ -178,14 +192,12 @@ const Home = () => {
                     <div className="grid md:grid-cols-2 gap-8 md:gap-16 max-w-5xl mx-auto">
                         <div className="group relative bg-brand-white rounded-3xl p-8 md:p-10 border-2 border-stone-100 flex flex-col items-center transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]">
                             <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl z-20"><rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" /></svg>
-                            <Icon name="building-2" className="w-12 h-12 md:w-16 md:h-16 text-brand-dark mb-6 md:mb-8 bg-stone-50 p-3 md:p-4 rounded-3xl" />
                             <h3 className="font-display text-2xl md:text-4xl font-bold mb-4 md:mb-6 text-brand-dark uppercase tracking-tight">Professional Spaces</h3>
                             <div className="flex-grow flex flex-col justify-start"><p className="text-brand-medium text-base md:text-lg mb-8 md:mb-10 leading-relaxed max-w-sm font-light">Your back-of-house should fuel your business, not slow it down. We transform chaotic stock rooms into efficient engines.</p></div>
                             <Link to="/professional-spaces" className="w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-2xl font-bold hover:bg-brand-periwinkle hover:text-brand-white transition-all uppercase tracking-widest text-[10px] md:text-xs shadow-md">Get Organized, Save Money</Link>
                         </div>
                         <div className="group relative bg-brand-white rounded-3xl p-8 md:p-10 border-2 border-stone-100 flex flex-col items-center transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]">
                             <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl z-20"><rect x="0" y="0" width="100%" height="100%" rx="24" fill="none" stroke="#D6E31E" strokeWidth="3.5" className="draw-border opacity-0 group-hover:opacity-100" /></svg>
-                            <Icon name="home" className="w-12 h-12 md:w-16 md:h-16 text-brand-dark mb-6 md:mb-8 bg-stone-50 p-3 md:p-4 rounded-3xl" />
                             <h3 className="font-display text-2xl md:text-4xl font-bold mb-4 md:mb-6 text-brand-dark uppercase tracking-tight">Residential Spaces</h3>
                             <div className="flex-grow flex flex-col justify-start"><p className="text-brand-medium text-base md:text-lg mb-8 md:mb-10 leading-relaxed max-w-sm font-light">Your home should be a sanctuary, not a source of stress. We create intuitive systems that clear the clutter and calm the chaos.</p></div>
                             <Link to="/residential" className="w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-2xl font-bold hover:bg-brand-periwinkle hover:text-brand-white transition-all uppercase tracking-widest text-[10px] md:text-xs shadow-md">Get Organized, Lose the Stress</Link>
@@ -216,14 +228,24 @@ const Home = () => {
                 <SocialSection platform="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/">
                     <div className="grid grid-cols-2 md:grid-cols-5 relative z-10">
                         {["IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg", "IG-NoMoreMissingSocks-Cover.jpg", "IG-BeigeYTCovershorts.jpeg", "IG-stopkeepingmissingthings.jpg", "6.jpg"].map((img, i) => (
-                            <a key={i} href="https://www.instagram.com/simpli_fi_life/" target="_blank" className={`aspect-[9/16] overflow-hidden group relative border-r border-stone-100 last:border-r-0 ${i === 4 ? 'hidden md:block' : 'block'}`}><img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" /><div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="instagram" className="text-white w-8 h-8 drop-shadow-lg" /></div></a>
+                            <a key={i} href="https://www.instagram.com/simpli_fi_life/" target="_blank" className={`aspect-[9/16] overflow-hidden group relative border-r border-stone-100 last:border-r-0 ${i === 4 ? 'hidden md:block' : 'block'}`}>
+                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
+                                <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                                </div>
+                            </a>
                         ))}
                     </div>
                 </SocialSection>
                 <SocialSection platform="YouTube" handle="@Simpli-FILife" link="https://www.youtube.com/@Simpli-FILife">
                     <div className="grid grid-cols-1 md:grid-cols-3 relative z-10 border-t border-stone-100">
                         {["angie%20Storage%20Organized-Cover.jpg", "YT-systems-chaos.png", "YT-expected%20mess%20vs%20clutter.png"].map((img, i) => (
-                            <a key={i} href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="aspect-video overflow-hidden group relative border-r border-stone-100 last:border-r-0"><img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" /><div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="youtube" className="text-white w-12 h-12 drop-shadow-lg" /></div></a>
+                            <a key={i} href="https://www.youtube.com/@Simpli-FILife" target="_blank" className="aspect-video overflow-hidden group relative border-r border-stone-100 last:border-r-0">
+                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
+                                <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+                                </div>
+                            </a>
                         ))}
                     </div>
                 </SocialSection>
@@ -244,21 +266,22 @@ const Home = () => {
                         {["0% Risk", "0% Pressure", "100% Possibility"].map((txt, i) => (
                             <div key={i} className="flex items-center gap-5">
                                 <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg border-2 border-brand-periwinkle flex items-center justify-center flex-shrink-0 bg-brand-periwinkle/10">
-                                    {/* HARD-CODED INLINE SVG CHECKMARK FOR RELIABILITY */}
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D6E31E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D6E31E" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                 </div>
                                 <span className="font-handwriting text-xl md:text-3xl text-brand-periwinkle text-left mt-1">{txt}</span>
                             </div>
                         ))}
                     </div>
                     <p className="text-sm md:text-lg text-brand-base/80 font-light mb-8 md:mb-10 text-center px-4 uppercase tracking-widest">All backed by my <span className="italic text-brand-periwinkle-light font-medium">Simpli-FI Life Satisfaction Guarantee</span>.</p>
-                    <Link to="/booking" onMouseEnter={() => setCtaHover(true)} onMouseLeave={() => setCtaHover(false)} className="inline-flex items-center justify-center px-8 py-4 md:px-10 md:py-4 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle-light transition-all duration-300 shadow-2xl font-display font-bold text-base md:text-lg uppercase tracking-tight transform hover:-translate-y-1">
-                        {ctaHover ? "GREAT CHOICE!" : <><span className="mr-2">Let's Do This</span> <Icon name="arrow-right" className="w-5 h-5"/></>}
+                    <Link to="/booking" className="inline-flex items-center justify-center px-8 py-4 md:px-10 md:py-4 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle-light transition-all duration-300 shadow-2xl font-display font-bold text-base md:text-lg uppercase tracking-tight transform hover:-translate-y-1">
+                        <span className="mr-2">Let's Do This</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </Link>
                 </div>
             </section>
         </div>
     );
 };
+
+// Expose to window
+window.Home = Home;
