@@ -1,22 +1,27 @@
-// --- PROFESSIONAL SPACES ---
+// --- PROFESSIONAL SPACES (STANDALONE) ---
 
 (function() {
-    // 1. Assign to window
     const ProfessionalSpaces = () => {
         const React = window.React;
         const { useState, useEffect } = React;
         const { Link } = window.ReactRouterDOM;
 
         useEffect(() => {
-            if (window.Core && window.Core.usePageTitle) window.Core.usePageTitle("Professional Spaces");
+            document.title = "Professional Spaces | Simpli-FI Life";
             window.scrollTo(0, 0);
         }, []);
 
-        // Internal Icons
+        // --- LOCAL ASSETS (Crash-Proof) ---
         const CheckIcon = () => React.createElement("svg", { className: "w-5 h-5 text-[#2d2a26]", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "4", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("polyline", { points: "20 6 9 17 4 12" }));
         const ArrowRight = () => React.createElement("svg", { className: "ml-2 w-4 h-4", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("line", { x1: "5", y1: "12", x2: "19", y2: "12" }), React.createElement("polyline", { points: "12 5 19 12 12 19" }));
+        
+        // Local GridBeams (No external dependency)
+        const GridBeams = () => {
+            return React.createElement("div", { className: "absolute inset-0 pointer-events-none overflow-hidden" },
+                React.createElement("div", { className: "absolute top-0 left-0 w-full h-full opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]" })
+            );
+        };
 
-        // Scorecard Component
         const DisorganizationChecklist = () => {
             const [checks, setChecks] = useState({});
             const [showModal, setShowModal] = useState(false);
@@ -82,10 +87,10 @@
 
         return (
             <div className="bg-[#fbf9f7] overflow-x-hidden min-h-screen">
-                {/* Dark Hero */}
+                {/* Hero */}
                 <div className="bg-[#2d2a26] text-[#fbf9f7] pt-44 pb-96 px-4 text-center relative z-10 overflow-visible">
                     <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-                    {window.Core && window.Core.GridBeams && <div className="absolute inset-0 pointer-events-none opacity-40"><window.Core.GridBeams /></div>}
+                    <div className="absolute inset-0 pointer-events-none opacity-40"><GridBeams /></div>
                     <div className="relative z-10 max-w-5xl mx-auto">
                         <h1 className="font-display font-light text-5xl md:text-7xl tracking-tighter mb-6 leading-tight">Operational Excellence,<br/><span className="text-[#d4d7ff] font-bold">Organized.</span></h1>
                         <p className="font-handwriting text-xl md:text-3xl text-[#d4d7ff] mb-12 rotate-[-2deg] opacity-90 relative z-20">For Businesses & Institutions</p>
@@ -94,7 +99,7 @@
                     </div>
                 </div>
 
-                {/* Overlapping Content */}
+                {/* Content */}
                 <div className="relative z-20">
                     <div className="absolute inset-0 pointer-events-none">
                         <div className="absolute inset-x-0 bottom-0 top-[220px] bg-[#fbf9f7]">
@@ -103,7 +108,7 @@
                     </div>
 
                     <div className="relative z-30">
-                        {/* Testimonial Card */}
+                        {/* Testimonial */}
                         <div className="max-w-5xl mx-auto px-4 -mt-48 mb-24 relative overflow-visible">
                             <div className="bg-white rounded-3xl shadow-2xl border border-stone-100 p-12 text-center relative overflow-visible">
                                 <div className="absolute -top-24 -left-8 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
@@ -122,7 +127,7 @@
                         {/* Industry Videos */}
                         <div className="max-w-7xl mx-auto px-4 relative mb-24">
                             <div className="text-center mb-12">
-                                {/* UPDATED: Changed color to brand-periwinkle (#7178c8) */}
+                                {/* COLOR CHANGE HERE: to #7178c8 (Periwinkle) */}
                                 <h3 className="font-handwriting text-4xl md:text-5xl text-[#7178c8] mb-10 leading-loose">No Space Too Big,<br /> No Business Too Small</h3>
                                 <div className="max-w-2xl mx-auto space-y-8">
                                     <p className="text-[#57534e] text-lg leading-loose">Whether you're saving lives or serving lattes, your environment dictates your efficiency. Here are a few industries that have benefited from our organizing.</p>
