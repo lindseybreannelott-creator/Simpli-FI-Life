@@ -1,7 +1,6 @@
-// --- PROFESSIONAL SPACES ---
+// --- PROFESSIONAL SPACES (STANDALONE FIX) ---
 
 (function() {
-    // 1. Define Component
     const ProfessionalSpaces = () => {
         const React = window.React;
         const { useState, useEffect } = React;
@@ -75,6 +74,7 @@
                                     <CloseIcon />
                                 </button>
                                 <div className="relative z-10 text-center">
+                                    {/* CRASH FIX: Used BarChartIcon component directly */}
                                     <div className="mb-6 flex justify-center opacity-20"><BarChartIcon /></div>
                                     <h3 className="font-display text-lg uppercase tracking-[0.2em] text-[#7178c8] mb-6 font-bold">Analysis Complete</h3>
                                     <div className="space-y-6 mb-10">
@@ -134,7 +134,7 @@
                         {/* INDUSTRY VIDEOS */}
                         <div className="max-w-7xl mx-auto px-4 relative mb-24">
                             <div className="text-center mb-12">
-                                {/* HEADLINE COLOR CHANGE TO PERIWINKLE */}
+                                {/* COLOR CHANGE HERE: to #7178c8 (Periwinkle) */}
                                 <h3 className="font-handwriting text-4xl md:text-5xl text-[#7178c8] mb-10 leading-loose">No Space Too Big,<br /> No Business Too Small</h3>
                                 <div className="max-w-2xl mx-auto space-y-8">
                                     <p className="text-[#57534e] text-lg leading-loose">Whether you're saving lives or serving lattes, your environment dictates your efficiency. Here are a few industries that have benefited from our organizing.</p>
@@ -142,15 +142,13 @@
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                                 {[
-                                    { label: "Fire & Medical Services", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108.mp4" },
-                                    { label: "Restaurants & Hospitality", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(2)(2).mp4" },
-                                    { label: "Non Profit", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(1).mp4" }
+                                    { label: "Fire & Medical Services", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108.mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/angie%20Storage%20Organized-Cover.jpg" },
+                                    { label: "Restaurants & Hospitality", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(2)(2).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-expected%20mess%20vs%20clutter.png" },
+                                    { label: "Non Profit", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(1).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-systems-chaos.png" }
                                 ].map((item, i) => (
-                                    <div key={i} className="relative group rounded-3xl overflow-hidden shadow-lg aspect-[2/3] border border-stone-100 cursor-pointer bg-[#fbf9f7]">
-                                        <video className="w-full h-full object-cover transition duration-700 group-hover:scale-110 pointer-events-none" autoPlay loop muted playsInline controlsList="nodownload" preload="auto">
-                                            <source src={item.video} type="video/mp4" />
-                                        </video>
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#2d2a26]/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                                    <div key={i} className="relative group rounded-3xl overflow-hidden shadow-lg aspect-[2/3] border border-stone-100 bg-brand-base transition-all hover:shadow-2xl">
+                                        <video className="w-full h-full object-cover transition duration-700 group-hover:scale-110 pointer-events-none" autoPlay loop muted playsInline webkit-playsinline="true" poster={item.poster} preload="auto" controlsList="nodownload"><source src={item.video} type="video/mp4" /></video>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
                                         <div className="absolute bottom-6 left-6">
                                             <div className="bg-[#7178c8] text-white px-5 py-2 rounded-full font-display font-bold tracking-widest text-xs uppercase shadow-md">{item.label}</div>
                                         </div>
@@ -192,6 +190,5 @@
         );
     };
 
-    // 2. Expose to Window
     window.ProfessionalSpaces = ProfessionalSpaces;
 })();
