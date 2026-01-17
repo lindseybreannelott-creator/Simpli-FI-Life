@@ -2,7 +2,7 @@ const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 const ReactDOM = window.ReactDOM;
 
-// --- PROFESSIONAL SPACES: SEMI-BOLD ITALIC UPDATE ---
+// --- PROFESSIONAL SPACES: NO QUOTES ON RESULTS ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -140,7 +140,7 @@ const DisorganizationChecklist = () => {
                                     {results.level}
                                 </h4>
                                 <div className="text-lg text-brand-medium leading-relaxed italic">
-                                    "{results.message}"
+                                    {results.message}
                                 </div>
                             </div>
 
