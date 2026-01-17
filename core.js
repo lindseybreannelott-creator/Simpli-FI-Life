@@ -1,14 +1,22 @@
 const { useState, useEffect, useRef, useMemo } = React;
 const { Link, useLocation } = ReactRouterDOM;
 
-// --- FOUNDATION TOOLS ---
+// --- 1. DATA & CONTENT ---
 
-// 1. Page Title Helper
+const TESTIMONIALS = [
+    { quote: "Simpli-fi life has been a game changer in my home.", author: "Lauren V.", role: "" },
+    { quote: "Working with Lindsey as my decluttering coach was so fun, I could not be more happy with the spaces we redefined. I'm loving my space!!! It's so happy and I love what we did!", author: "Lauren E.", role: "" },
+    { quote: "You are truly pursuing something that you are gifted at. So kind and focused and intentional. I feel the load lessen a lot just from what we accomplished.", author: "Ashley M.", role: "" },
+    { quote: "Before being with you, I could sit in those mess up spaces for years and just be melancholy... but meeting with you was about just so much awareness and clarity.", author: "Amanda B.", role: "" },
+    { quote: "Our shop is useable, clean and organized for the first time in decades. Thank you Lindsey for your excellent work!", author: "Kevin T.", role: "Logistics Captain, Fire Department" }
+];
+
+// --- 2. SHARED TOOLS & ICONS ---
+
 const usePageTitle = (title) => {
     useEffect(() => { document.title = `${title} | Simpli-FI Life`; }, [title]);
 };
 
-// 2. Icon Component (Safe Version)
 const Icon = ({ name, className }) => {
     const ref = useRef(null);
     useEffect(() => {
@@ -23,7 +31,8 @@ const Icon = ({ name, className }) => {
     return <span ref={ref} style={{ display: 'contents' }}></span>;
 };
 
-// 3. GridBeams Animation
+// --- 3. ANIMATIONS ---
+
 const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1 }) => {
     const [beams, setBeams] = useState([]);
     useEffect(() => {
@@ -61,7 +70,78 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
     );
 };
 
-// 4. Loading Screen
+const TestimonialScroller = () => {
+    const originalItems = TESTIMONIALS;
+    const displayTestimonials = [...originalItems, ...originalItems, ...originalItems, ...originalItems]; 
+    const [activeIndex, setActiveIndex] = useState(10); 
+    const containerRef = useRef(null);
+    const [isInitialized, setIsInitialized] = useState(false);
+    const ITEM_WIDTH = 320;
+    const GAP = 24;
+    const TOTAL_ITEM_WIDTH = ITEM_WIDTH + GAP;
+    const SET_WIDTH = originalItems.length * TOTAL_ITEM_WIDTH;
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+        if (!isInitialized) {
+            const targetScroll = SET_WIDTH; 
+            container.style.scrollBehavior = 'auto';
+            container.scrollLeft = targetScroll;
+            setIsInitialized(true);
+        }
+    }, [isInitialized, SET_WIDTH]);
+
+    const handleScroll = () => {
+        const container = containerRef.current;
+        if (!container) return;
+        const containerRect = container.getBoundingClientRect();
+        const containerCenter = containerRect.left + containerRect.width / 2;
+        let minDistance = Infinity;
+        let newActiveIndex = activeIndex;
+        const children = Array.from(container.children);
+        children.forEach((child, i) => {
+            const rect = child.getBoundingClientRect();
+            const childCenter = rect.left + rect.width / 2;
+            const distance = Math.abs(childCenter - containerCenter);
+            if (distance < minDistance) {
+                minDistance = distance;
+                newActiveIndex = i;
+            }
+        });
+        if (newActiveIndex !== activeIndex) {
+            setActiveIndex(newActiveIndex);
+        }
+        const currentScroll = container.scrollLeft;
+        if (currentScroll >= SET_WIDTH * 2) {
+            container.scrollLeft = currentScroll - SET_WIDTH;
+        }
+        else if (currentScroll <= SET_WIDTH - 50) { 
+            container.scrollLeft = currentScroll + SET_WIDTH;
+        }
+    };
+
+    return (
+        <div className="relative w-full py-12 group">
+            <div ref={containerRef} onScroll={handleScroll} className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-24" style={{ paddingLeft: 'calc(50% - 160px)', paddingRight: 'calc(50% - 160px)' }}>
+                {displayTestimonials.map((t, i) => {
+                    const isActive = i === activeIndex;
+                    return (
+                        <div key={i} className={`snap-center flex-shrink-0 p-8 rounded-2xl border-2 transition-all duration-500 ease-out flex flex-col justify-between min-h-[400px] relative ${isActive ? 'bg-brand-lemon/20 border-brand-lemon scale-110 shadow-2xl opacity-100 z-10' : 'bg-brand-white border-stone-100 scale-90 shadow-sm opacity-60 grayscale-[0.5]'}`} style={{ marginRight: `${GAP}px`, width: `${ITEM_WIDTH}px` }}>
+                            <div className={`absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none transition-all duration-500 ${isActive ? 'opacity-80' : 'opacity-20'}`} style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
+                            <div className="relative z-10 pt-12"><p className="text-brand-medium text-lg leading-relaxed italic mb-6 relative">{t.quote}</p></div>
+                            <div className={`mt-auto pt-4 border-t border-brand-lemon transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-50'}`}>
+                                <p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-sm">{t.author}</p>
+                                {t.role && <p className="text-xs text-brand-medium font-medium mt-1">{t.role}</p>}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
+
 const LoadingScreen = ({ onComplete }) => {
     useEffect(() => { const t = setTimeout(onComplete, 3500); return () => clearTimeout(t); }, [onComplete]);
     return (
@@ -77,7 +157,8 @@ const LoadingScreen = ({ onComplete }) => {
     );
 };
 
-// 5. Navbar
+// --- 4. LAYOUT COMPONENTS ---
+
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const loc = useLocation();
@@ -121,7 +202,6 @@ const Navbar = () => {
     );
 };
 
-// 6. Footer
 const Footer = () => (
     <section className="bg-brand-dark text-brand-base py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
@@ -135,5 +215,5 @@ const Footer = () => (
     </section>
 );
 
-// EXPOSE TOOLS TO WINDOW (So index.html can find them)
-window.Core = { Navbar, Footer, GridBeams, LoadingScreen, Icon, usePageTitle };
+// --- 5. EXPOSE TO WINDOW ---
+window.Core = { Navbar, Footer, GridBeams, LoadingScreen, Icon, usePageTitle, TestimonialScroller };
