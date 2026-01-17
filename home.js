@@ -1,7 +1,7 @@
 const { useState, useEffect, useRef } = React;
 const { Link } = ReactRouterDOM;
 
-// --- HOME PAGE: FAILSAFE SVG LOCKDOWN ---
+// --- HOME PAGE: FIXED PADDING FOR QUOTE MARKS ---
 
 const TestimonialScroller = () => {
     // 1. Define Data Locally to prevent "undefined" errors
@@ -79,7 +79,8 @@ const TestimonialScroller = () => {
     if (originalItems.length === 0) return null;
 
     return (
-        <div className="relative w-full mt-5 md:mt-0 pt-2 pb-16 md:pb-20 group z-30">
+        // UPDATE: Changed pt-2 to pt-20 to create headroom for the giant quote marks
+        <div className="relative w-full mt-5 md:mt-0 pt-20 pb-16 md:pb-20 group z-30">
             {isMobile && (
                 <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
                     <button onClick={() => scrollManual(-1)} className="p-1.5 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
@@ -109,7 +110,7 @@ const TestimonialScroller = () => {
                                 }`}
                             style={{ marginRight: '16px', width: '320px', maxWidth: '65vw' }}
                         >
-                            {/* UPDATED QUOTE MARK: EXACT MATCH TO MADISON B CARD */}
+                            {/* QUOTE MARK: Absolute positioning -top-16 requires parent padding */}
                             <div className={`absolute -top-16 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}
                                  style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E' }}>“</div>
                             
@@ -127,9 +128,8 @@ const TestimonialScroller = () => {
     );
 };
 
-// --- REST OF HOME COMPONENT (With your Layout) ---
+// --- REST OF HOME COMPONENT ---
 
-// Helper for Social Section
 const SocialSection = ({ platform, handle, link, children }) => (
     <div className="relative w-full bg-brand-base">
         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
@@ -182,7 +182,7 @@ const Home = () => {
                         <Link to="/residential" className="inline-block w-3/4 sm:w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Residential Space</Link>
                     </div>
                 </div>
-                {/* YOUR FAILSAFE TESTIMONIAL SCROLLER */}
+                {/* FAILSAFE TESTIMONIAL SCROLLER */}
                 <div className="mt-2 md:mt-0"><TestimonialScroller /></div>
             </div>
 
