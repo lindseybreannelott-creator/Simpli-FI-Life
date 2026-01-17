@@ -1,62 +1,62 @@
 // --- RESIDENTIAL SPACES PAGE ---
 
+const ServiceChecklist = () => {
+    const [checks, setChecks] = useState({});
+    const services = [
+        { label: "Decluttering Coaching", sub: "(Done with you)" },
+        { label: "Decluttering", sub: "(Done for me)" },
+        { label: "Organizing + Space Planning Coaching", sub: "(Done with you)" },
+        { label: "Organizing + Space Planning", sub: "(Done for me)" },
+        { label: "Unpacking From a Move" },
+        { label: "Packing for a Move" },
+        { label: "Finding 'Homes' for Things" },
+        { label: "Legacy Documenting" }
+    ];
+
+    const toggle = (i) => setChecks(p => ({...p, [i]: !p[i]}));
+    const hasChecks = Object.values(checks).some(Boolean);
+    
+    const getBookingLink = () => {
+        const selectedServices = services
+            .filter((_, i) => checks[i])
+            .map(s => s.label + (s.sub ? " " + s.sub : ""))
+            .join(', ');
+        const notes = selectedServices ? `I'm interested in: ${selectedServices}` : '';
+        return `/booking?service=Residential Space Organization&notes=${encodeURIComponent(notes)}`;
+    };
+
+    return (
+        <div className="bg-brand-base rounded-3xl p-8 shadow-xl border border-stone-200 text-left">
+            <div className="grid md:grid-cols-2 gap-4">
+                {services.map((item, i) => (
+                    <button key={i} onClick={() => toggle(i)} className="w-full flex items-start gap-4 p-4 rounded-xl transition group text-left border border-transparent">
+                        <div className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all mt-1 ${checks[i] ? 'bg-brand-lemon border-brand-lemon' : 'border-stone-400 group-hover:border-brand-periwinkle'}`}>
+                            {checks[i] && <Icon name="check" className="w-4 h-4 text-brand-dark" />}
+                        </div>
+                        <div className={`text-lg ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-dark group-hover:text-brand-periwinkle group-hover:italic'}`}>
+                            {item.label}
+                            {item.sub && <span className="block text-base opacity-70 not-italic mt-0.5">{item.sub}</span>}
+                        </div>
+                    </button>
+                ))}
+            </div>
+            <div className={`overflow-hidden transition-all duration-700 ${hasChecks ? 'max-h-[500px] opacity-100 mt-8 pt-8 border-t border-stone-200 pb-4' : 'max-h-0 opacity-0'}`}>
+                <div className="text-center">
+                    <p className="font-sans italic font-medium text-brand-periwinkle text-[14px] mb-8 leading-relaxed max-w-xl mx-auto px-4">
+                        "No need to tidy up before our call—leaving your space as-is actually gives us the clues we need to pinpoint exactly what needs to change. And we don't judge 😉"
+                    </p>
+                    <Link to={getBookingLink()} className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-sm uppercase tracking-tight">
+                        Discuss My Project <Icon name="arrow-right" className="ml-2 w-4 h-4"/>
+                    </Link>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const Residential = () => {
     usePageTitle("Residential Services");
     useEffect(() => { window.scrollTo(0, 0); }, []);
-
-    const ServiceChecklist = () => {
-        const [checks, setChecks] = useState({});
-        const services = [
-            { label: "Decluttering Coaching", sub: "(Done with you)" },
-            { label: "Decluttering", sub: "(Done for me)" },
-            { label: "Organizing + Space Planning Coaching", sub: "(Done with you)" },
-            { label: "Organizing + Space Planning", sub: "(Done for me)" },
-            { label: "Unpacking From a Move" },
-            { label: "Packing for a Move" },
-            { label: "Finding 'Homes' for Things" },
-            { label: "Legacy Documenting" }
-        ];
-
-        const toggle = (i) => setChecks(p => ({...p, [i]: !p[i]}));
-        const hasChecks = Object.values(checks).some(Boolean);
-        
-        const getBookingLink = () => {
-            const selectedServices = services
-                .filter((_, i) => checks[i])
-                .map(s => s.label + (s.sub ? " " + s.sub : ""))
-                .join(', ');
-            const notes = selectedServices ? `I'm interested in: ${selectedServices}` : '';
-            return `/booking?service=Residential Space Organization&notes=${encodeURIComponent(notes)}`;
-        };
-
-        return (
-            <div className="bg-brand-base rounded-3xl p-8 shadow-xl border border-stone-200 text-left">
-                <div className="grid md:grid-cols-2 gap-4">
-                    {services.map((item, i) => (
-                        <button key={i} onClick={() => toggle(i)} className="w-full flex items-start gap-4 p-4 rounded-xl transition group text-left border border-transparent">
-                            <div className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all mt-1 ${checks[i] ? 'bg-brand-lemon border-brand-lemon' : 'border-stone-400 group-hover:border-brand-periwinkle'}`}>
-                                {checks[i] && <Icon name="check" className="w-4 h-4 text-brand-dark" />}
-                            </div>
-                            <div className={`text-lg ${checks[i] ? 'text-brand-dark font-medium' : 'text-brand-dark group-hover:text-brand-periwinkle group-hover:italic'}`}>
-                                {item.label}
-                                {item.sub && <span className="block text-base opacity-70 not-italic mt-0.5">{item.sub}</span>}
-                            </div>
-                        </button>
-                    ))}
-                </div>
-                <div className={`overflow-hidden transition-all duration-700 ${hasChecks ? 'max-h-[500px] opacity-100 mt-8 pt-8 border-t border-stone-200 pb-4' : 'max-h-0 opacity-0'}`}>
-                    <div className="text-center">
-                        <p className="font-sans italic font-medium text-brand-periwinkle text-[14px] mb-8 leading-relaxed max-w-xl mx-auto px-4">
-                            "No need to tidy up before our call—leaving your space as-is actually gives us the clues we need to pinpoint exactly what needs to change. And we don't judge 😉"
-                        </p>
-                        <Link to={getBookingLink()} className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-sm uppercase tracking-tight">
-                            Discuss My Project <Icon name="arrow-right" className="ml-2 w-4 h-4"/>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        );
-    };
 
     return (
         <div className="bg-brand-base overflow-x-hidden min-h-screen">
