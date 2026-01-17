@@ -1,4 +1,4 @@
-// --- FULL HIGH-FIDELITY INTAKE FORM ---
+// --- NEW SPACE INTAKE FORM ---
 
 const NewSpaceIntake = () => {
     usePageTitle("New Space Intake");
