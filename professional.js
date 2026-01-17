@@ -2,7 +2,7 @@ const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 const ReactDOM = window.ReactDOM;
 
-// --- PROFESSIONAL SPACES: 20% OPACITY BACKGROUND ---
+// --- PROFESSIONAL SPACES: 15% OPACITY MATCH ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -198,7 +198,6 @@ const ProfessionalSpaces = () => {
                     <p className="text-lg md:text-xl font-light text-stone-300 max-w-3xl mx-auto mb-12 leading-relaxed">
                         We restructure back-of-house systems to save you money, recover lost labor hours, and reduce waste—helping you win no matter how you slice it.
                     </p>
-                    {/* PRE-SELECT LOGIC ADDED */}
                     <Link 
                         to="/booking" 
                         state={{ service: "professional" }}
@@ -230,8 +229,8 @@ const ProfessionalSpaces = () => {
                     </div>
                 </div>
 
-                {/* VIDEO GRID SECTION (Now with bg-brand-periwinkle/20) */}
-                <div className="w-full bg-brand-periwinkle/20 relative z-10 py-24 -mt-24"> 
+                {/* VIDEO GRID SECTION (bg-brand-periwinkle/15 = ~#EBEBFF on white) */}
+                <div className="w-full bg-brand-periwinkle/15 relative z-10 py-24 -mt-24"> 
                     <div className="max-w-7xl mx-auto px-4 text-center">
                         
                         {/* HEADLINE: Stacked Layout */}
@@ -267,7 +266,7 @@ const ProfessionalSpaces = () => {
                     </div>
                 </div>
 
-                {/* CHECKLIST SECTION */}
+                {/* CHECKLIST SECTION (Using exact hex #EBEBFF as requested) */}
                 <section className="py-24 max-w-4xl mx-auto px-4 relative z-10">
                     <div className="bg-[#EBEBFF] rounded-[3rem] p-4 md:p-12 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
                         <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tighter mb-4 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
