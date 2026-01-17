@@ -1,10 +1,10 @@
 const { useState, useEffect, useRef } = React;
 const { Link } = ReactRouterDOM;
 
-// --- HOME PAGE: QUOTE FIX (PT-32) ---
+// --- HOME PAGE: FIXED QUOTE SIZE ---
 
 const TestimonialScroller = () => {
-    // 1. Define Data Locally to prevent "undefined" errors
+    // 1. Define Data Locally
     const TESTIMONIALS = [
         { quote: "Simpli-fi life has been a game changer in my home.", author: "Lauren V.", role: "" },
         { quote: "Working with Lindsey as my decluttering coach was so fun, I could not be more happy with the spaces we redefined.", author: "Lauren E.", role: "" },
@@ -14,7 +14,6 @@ const TestimonialScroller = () => {
     ];
 
     const originalItems = TESTIMONIALS;
-    // 5x Duplication to ensure full screen fill
     const displayItems = [...originalItems, ...originalItems, ...originalItems, ...originalItems, ...originalItems];
     const containerRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -79,8 +78,7 @@ const TestimonialScroller = () => {
     if (originalItems.length === 0) return null;
 
     return (
-        // UPDATE: Changed pt-20 to pt-32 to give the scaled-up quote mark room to breathe
-        <div className="relative w-full mt-5 md:mt-0 pt-32 pb-16 md:pb-20 group z-30">
+        <div className="relative w-full mt-5 md:mt-0 pt-20 pb-16 md:pb-20 group z-30">
             {isMobile && (
                 <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none">
                     <button onClick={() => scrollManual(-1)} className="p-1.5 rounded-full bg-brand-lemon shadow-xl pointer-events-auto border border-brand-dark/10 active:scale-90 transition-transform">
@@ -95,7 +93,8 @@ const TestimonialScroller = () => {
             <div 
                 ref={containerRef}
                 onScroll={handleScroll}
-                className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-8 md:py-16"
+                // UPDATE: Increased vertical padding (py-12 md:py-20) to ensure overflow doesn't clip
+                className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-12 md:py-20"
                 style={{ paddingLeft: 'calc(50% - 160px)', paddingRight: 'calc(50% - 160px)' }}
             >
                 {displayItems.map((t, i) => {
@@ -110,8 +109,8 @@ const TestimonialScroller = () => {
                                 }`}
                             style={{ marginRight: '16px', width: '320px', maxWidth: '65vw' }}
                         >
-                            {/* QUOTE MARK */}
-                            <div className={`absolute -top-16 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}
+                            {/* UPDATE: Shrunk to text-[10rem] and moved to -top-12 */}
+                            <div className={`absolute -top-12 -left-6 text-[8rem] md:text-[10rem] font-serif leading-none select-none pointer-events-none transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}
                                  style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E' }}>“</div>
                             
                             <div className="relative z-10 pt-8 md:pt-12">
@@ -152,7 +151,6 @@ const SocialSection = ({ platform, handle, link, children }) => (
 );
 
 const Home = () => {
-    // Safe Beam Check
     const renderBeams = () => {
         if (window.Core && window.Core.GridBeams) {
             return <window.Core.GridBeams />;
@@ -182,7 +180,7 @@ const Home = () => {
                         <Link to="/residential" className="inline-block w-3/4 sm:w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Residential Space</Link>
                     </div>
                 </div>
-                {/* FAILSAFE TESTIMONIAL SCROLLER */}
+                {/* TESTIMONIAL SCROLLER */}
                 <div className="mt-2 md:mt-0"><TestimonialScroller /></div>
             </div>
 
