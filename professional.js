@@ -114,7 +114,7 @@ const ProfessionalSpaces = () => {
                 <div className="max-w-5xl mx-auto px-4 relative -top-64 md:-top-80 z-40 overflow-visible">
                     <div className="bg-white rounded-3xl shadow-2xl border-2 border-brand-lemon p-12 text-center relative overflow-visible transition-transform duration-500 hover:scale-[1.01]">
                         <div className="absolute -top-12 -left-6 text-[12rem] font-serif leading-none select-none pointer-events-none z-0" 
-                             style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E', opacity: '1' }}>"</div>
+                             style={{ WebkitTextStroke: '1.5px #7178c8', color: '#D6E31E', opacity: '1' }}>“</div>
                         <p className="text-2xl md:text-3xl font-light text-brand-dark italic leading-relaxed relative z-10 px-4 pt-4">
                             Our storage units are...so functional thanks to YOU and your amazing work! <br /><br />
                             I am so grateful for you and your team!<br />
