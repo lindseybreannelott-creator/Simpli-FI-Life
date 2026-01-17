@@ -1,16 +1,8 @@
 const { useState, useEffect, useRef, useMemo } = React;
 const { Link, useLocation } = ReactRouterDOM;
 
-// --- 1. DATA: TESTIMONIALS ---
-const TESTIMONIALS = [
-    { quote: "Simpli-fi life has been a game changer in my home.", author: "Lauren V.", role: "" },
-    { quote: "Working with Lindsey as my decluttering coach was so fun, I could not be more happy with the spaces we redefined.", author: "Lauren E.", role: "" },
-    { quote: "You are truly pursuing something that you are gifted at. So kind and focused and intentional.", author: "Ashley M.", role: "" },
-    { quote: "Before being with you, I could sit in those mess up spaces for years and just be melancholy... but meeting with you was about just so much awareness and clarity.", author: "Amanda B.", role: "" },
-    { quote: "Our shop is useable, clean and organized for the first time in decades. Thank you Lindsey!", author: "Kevin T.", role: "Logistics Captain" }
-];
+// --- SHARED TOOLS & ICONS ---
 
-// --- 2. TOOLS & ICONS ---
 const usePageTitle = (title) => {
     useEffect(() => { document.title = `${title} | Simpli-FI Life`; }, [title]);
 };
@@ -29,7 +21,8 @@ const Icon = ({ name, className }) => {
     return <span ref={ref} style={{ display: 'contents' }}></span>;
 };
 
-// --- 3. ANIMATIONS (GRID BEAMS) ---
+// --- ANIMATIONS ---
+
 const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1 }) => {
     const [beams, setBeams] = useState([]);
     useEffect(() => {
@@ -67,21 +60,14 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
     );
 };
 
-// --- 4. INTRO LOADING SCREEN ---
 const LoadingScreen = ({ onComplete }) => {
-    useEffect(() => { 
-        const t = setTimeout(onComplete, 4800); 
-        return () => clearTimeout(t); 
-    }, [onComplete]);
-
+    useEffect(() => { const t = setTimeout(onComplete, 4800); return () => clearTimeout(t); }, [onComplete]);
     return (
-        <div className="fixed inset-0 z-[100] bg-brand-base flex items-center justify-center loader-exit overflow-hidden">
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] loading-grid-fade-in"></div>
-            <div className="absolute inset-0 opacity-40">
-                <GridBeams spawnRate={150} beamWidth={1.5} />
-            </div>
-            <div className="relative z-20 loading-logo-reveal text-center px-4">
-                <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark whitespace-nowrap">
+        <div className="fixed inset-0 z-[100] bg-brand-base grid place-items-center loader-exit overflow-hidden">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
+            <GridBeams spawnRate={150} /> 
+            <div className="relative z-20 loading-logo-reveal text-center px-4 mt-[-2px]">
+                <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark uppercase">
                     <span className="font-bold">SIMPLI-FI</span> <span className="font-light text-brand-medium">LIFE</span>
                 </h1>
             </div>
@@ -89,112 +75,7 @@ const LoadingScreen = ({ onComplete }) => {
     );
 };
 
-// --- 5. TESTIMONIAL SCROLLER (FIXED MATH) ---
-const TestimonialScroller = () => {
-    // 6x Duplication to ensure full screen coverage on wide monitors
-    const displayTestimonials = [
-        ...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS, 
-        ...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS
-    ]; 
-    
-    // Start index in the middle of the array
-    const [activeIndex, setActiveIndex] = useState(TESTIMONIALS.length * 3); 
-    const containerRef = useRef(null);
-    
-    // REDUCED WIDTH: 260px allows 5 items to fit on a standard 1440px screen
-    const ITEM_WIDTH = 260; 
-    const GAP = 24; 
-    const TOTAL_ITEM_WIDTH = ITEM_WIDTH + GAP;
-    
-    // Width of one full set of original testimonials
-    const SET_WIDTH = TESTIMONIALS.length * TOTAL_ITEM_WIDTH;
-
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
-        
-        // Initial Scroll Position: Center of the duplicated list
-        // (Index * Width) - (Half Screen) + (Half Card)
-        const initialPosition = (TESTIMONIALS.length * 3 * TOTAL_ITEM_WIDTH);
-        container.scrollLeft = initialPosition;
-    }, []);
-
-    const handleScroll = () => {
-        const container = containerRef.current;
-        if (!container) return;
-        
-        const centerPoint = container.scrollLeft + (container.offsetWidth / 2);
-        
-        // Find card closest to center
-        let minDistance = Infinity;
-        let newIndex = activeIndex;
-
-        Array.from(container.children).forEach((child, i) => {
-            // Get center of the child element
-            const childCenter = child.offsetLeft + (child.offsetWidth / 2);
-            const distance = Math.abs(childCenter - centerPoint);
-            
-            if (distance < minDistance) {
-                minDistance = distance;
-                newIndex = i;
-            }
-        });
-
-        if (newIndex !== activeIndex) {
-            setActiveIndex(newIndex);
-        }
-
-        // Infinite Loop Jump Logic
-        // If we scroll too far right (past 4th set), jump back to 2nd set
-        if (container.scrollLeft >= SET_WIDTH * 4) {
-            container.scrollLeft = container.scrollLeft - SET_WIDTH;
-        } 
-        // If we scroll too far left (start of list), jump forward to 2nd set
-        else if (container.scrollLeft <= SET_WIDTH) {
-            container.scrollLeft = container.scrollLeft + SET_WIDTH;
-        }
-    };
-
-    return (
-        <div className="relative w-full py-16 group overflow-hidden">
-            <div 
-                ref={containerRef} 
-                onScroll={handleScroll} 
-                className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center py-12" 
-                // PADDING FIX: Half screen width minus half card width = Perfect Center
-                style={{ paddingLeft: `calc(50% - ${ITEM_WIDTH / 2}px)`, paddingRight: `calc(50% - ${ITEM_WIDTH / 2}px)` }}
-            >
-                {displayTestimonials.map((t, i) => {
-                    const isActive = i === activeIndex;
-                    return (
-                        <div 
-                            key={i} 
-                            className={`
-                                snap-center flex-shrink-0 p-8 rounded-2xl border-2 transition-all duration-500 ease-out flex flex-col justify-between min-h-[380px] relative
-                                ${isActive 
-                                    ? 'scale-110 bg-brand-lemon/20 border-brand-lemon opacity-100 z-10 shadow-2xl' 
-                                    : 'scale-90 bg-brand-white border-stone-100 opacity-60 grayscale-[0.8] blur-[0.5px]'
-                                }
-                            `}
-                            style={{ marginRight: `${GAP}px`, width: `${ITEM_WIDTH}px` }}
-                        >
-                            <div className={`absolute -top-8 -left-2 text-6xl font-serif leading-none select-none pointer-events-none transition-all duration-500 ${isActive ? 'opacity-100 text-brand-periwinkle' : 'opacity-20 text-stone-300'}`}>“</div>
-                            <div className="relative z-10 pt-4">
-                                <p className="text-brand-medium text-[15px] leading-relaxed italic mb-6 relative">{t.quote}</p>
-                            </div>
-                            <div className={`mt-auto pt-4 border-t border-brand-lemon transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-50'}`}>
-                                <p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-xs">{t.author}</p>
-                                {t.role && <p className="text-[10px] text-brand-medium font-medium mt-1 uppercase tracking-wide">{t.role}</p>}
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
-        </div>
-    );
-};
-
-// --- 6. NAV & FOOTER ---
+// --- LAYOUT COMPONENTS ---
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -252,5 +133,5 @@ const Footer = () => (
     </section>
 );
 
-// --- 7. EXPOSE TO WINDOW ---
-window.Core = { Navbar, Footer, GridBeams, LoadingScreen, Icon, usePageTitle, TestimonialScroller };
+// --- EXPOSE TO WINDOW ---
+window.Core = { Navbar, Footer, GridBeams, LoadingScreen, Icon, usePageTitle };
