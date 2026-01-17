@@ -2,7 +2,7 @@ const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 const ReactDOM = window.ReactDOM;
 
-// --- PROFESSIONAL SPACES: MIXED FONTS & WIDER COPY ---
+// --- PROFESSIONAL SPACES: NO WIDOWS GUARANTEED ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -36,7 +36,7 @@ const DisorganizationChecklist = () => {
                 <>
                     Your operational friction is at maximum capacity.<br/><br/>
                     You are bleeding revenue daily through lost labor, duplicate inventory, and missed opportunities.<br/><br/>
-                    Immediate intervention is required.
+                    Immediate intervention is&nbsp;required.
                 </>
             ),
             action: "Schedule Emergency Audit" 
@@ -48,7 +48,7 @@ const DisorganizationChecklist = () => {
             message: (
                 <>
                     Running out of inventory is a direct hit to your reputation and revenue.<br/><br/>
-                    Your current system is actively hindering your ability to serve your clients.
+                    Your current system is actively hindering your ability to serve your&nbsp;clients.
                 </>
             ),
             action: "Fix Inventory Systems" 
@@ -60,7 +60,7 @@ const DisorganizationChecklist = () => {
             message: (
                 <>
                     You have a baseline for order, but visual clutter is a silent stressor.<br/><br/>
-                    Now is the time to refine your environment before it affects your workflow.
+                    Now is the time to refine your environment before it affects your&nbsp;workflow.
                 </>
             ),
             action: "Refine My Space" 
@@ -71,8 +71,8 @@ const DisorganizationChecklist = () => {
             color: "text-[#F0AD4E]", 
             message: (
                 <>
-                    Friction is slowing your team's efficiency.<br/><br/>
-                    You are likely over-spending on consumables and losing valuable team hours to 'searching' rather than 'serving'.
+                    Friction is slowing your team's&nbsp;efficiency.<br/><br/>
+                    You are likely over-spending on consumables and losing valuable team hours to 'searching' rather than&nbsp;'serving'.
                 </>
             ),
             action: "Optimize Operations" 
@@ -222,7 +222,6 @@ const ProfessionalSpaces = () => {
                 {/* VIDEO GRID SECTION */}
                 <div className="max-w-7xl mx-auto px-4 pt-0 pb-32 relative z-10 text-center">
                     
-                    {/* VISUAL UPDATE: Mixed Fonts for Headline */}
                     <h3 className="text-5xl md:text-7xl text-brand-dark mb-8 leading-tight">
                         <span className="font-handwriting mr-3">No</span>
                         <span className="font-display font-bold uppercase tracking-tight">Space Too Big,</span>
@@ -233,7 +232,6 @@ const ProfessionalSpaces = () => {
                         </span>
                     </h3>
                     
-                    {/* VISUAL UPDATE: Wider container (max-w-6xl) to force single line */}
                     <p className="text-xl md:text-2xl text-brand-medium font-light max-w-6xl mx-auto mb-12 leading-relaxed">
                         Whether you're saving lives or serving lattes, your environment dictates your&nbsp;efficiency. <br /><br />
                         Here are a few industries that have benefited from our organizing—though to be clear, <span className="highlight-wrap bg-brand-lemon/60 px-1 py-0.5 rounded-sm box-decoration-clone text-brand-dark font-normal whitespace-nowrap">any business can benefit from better organizational systems.</span>
@@ -273,8 +271,9 @@ const ProfessionalSpaces = () => {
                     <div className="bg-white p-10 md:p-16 rounded-[3rem] shadow-xl border-2 border-brand-periwinkle relative overflow-hidden group">
                         <h3 className="font-display text-4xl md:text-6xl font-bold text-brand-dark mb-10 tracking-tight leading-[1.1]">Organizing isn't a luxury for your business— <span className="text-brand-periwinkle italic">it's essential.</span></h3>
                         <div className="text-brand-medium text-xl leading-relaxed mb-12 space-y-6 max-w-3xl mx-auto font-light">
-                            <p>Every minute your team spends searching for a tool or navigating a crowded stockroom is a minute of lost profit. Disorganization is a quiet tax on your growth.</p>
-                            <p>Let's eliminate the friction in your inventory systems so you can get back to what you were meant to do: serve your customers and lead your mission with clarity.</p>
+                            {/* WIDOW FIX: Added &nbsp; to prevent "growth." and "clarity." from dropping alone */}
+                            <p>Every minute your team spends searching for a tool or navigating a crowded stockroom is a minute of lost profit. Disorganization is a quiet tax on your&nbsp;growth.</p>
+                            <p>Let's eliminate the friction in your inventory systems so you can get back to what you were meant to do: serve your customers and lead your mission with&nbsp;clarity.</p>
                         </div>
                         <Link to="/booking" className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-white transition shadow-2xl font-display font-bold text-xl uppercase tracking-tight transform hover:-translate-y-1">Book My Systems Audit</Link>
                     </div>
