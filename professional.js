@@ -2,7 +2,7 @@ const { useState, useEffect } = React;
 const { Link } = ReactRouterDOM;
 const ReactDOM = window.ReactDOM;
 
-// --- PROFESSIONAL SPACES: 15% OPACITY MATCH ---
+// --- PROFESSIONAL SPACES: SEMI-BOLD ITALIC UPDATE ---
 
 const DisorganizationChecklist = () => {
     const [checks, setChecks] = useState({});
@@ -247,7 +247,7 @@ const ProfessionalSpaces = () => {
                         
                         <p className="text-xl md:text-2xl text-brand-medium font-light max-w-6xl mx-auto mb-12 leading-relaxed">
                             Whether you're saving lives or serving lattes, your environment dictates your&nbsp;efficiency. <br /><br />
-                            Here are a few industries that have benefited from our organizing—though to be clear, <span className="highlight-wrap bg-brand-lemon/60 px-1 py-0.5 rounded-sm box-decoration-clone text-brand-dark font-normal whitespace-nowrap">any business can benefit from better organizational systems.</span>
+                            Here are a few industries that have benefited from our organizing—though to be clear, <span className="font-semibold italic text-brand-dark">any business can benefit from better organizational systems.</span>
                         </p>
                         
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
