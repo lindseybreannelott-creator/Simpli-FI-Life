@@ -128,6 +128,9 @@ const SocialSection = ({ platform, handle, link, children }) => (
 const Home = () => {
     usePageTitle("Home");
     const [ctaHover, setCtaHover] = useState(false);
+    
+    // Scroll to top when page loads
+    useEffect(() => { window.scrollTo(0, 0); }, []);
 
     return (
         <div className="overflow-x-hidden bg-brand-base">
@@ -151,7 +154,7 @@ const Home = () => {
                         <Link to="/residential-spaces" className="inline-block w-3/4 sm:w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Residential Space</Link>
                     </div>
                 </div>
-                <div className="mt-2 md:mt-0"><TestimonialScroller /></div>
+                <div className="mt-16 md:mt-20"><TestimonialScroller /></div>
             </div>
 
             {/* SERVICES SECTION */}
@@ -202,9 +205,15 @@ const Home = () => {
             <div className="bg-brand-base">
                 <SocialSection platform="Instagram" handle="@simpli_fi_life" link="https://www.instagram.com/simpli_fi_life/">
                     <div className="grid grid-cols-2 md:grid-cols-5 relative z-10">
-                        {["IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg", "IG-NoMoreMissingSocks-Cover.jpg", "IG-BeigeYTCovershorts.jpeg", "IG-stopkeepingmissingthings.jpg", "6.jpg"].map((img, i) => (
+                        {[
+                            { img: "IG-2026websiteTheSecrettoanEasyTidy-Up.jpeg", alt: "Instagram post about easy tidy-up secrets" },
+                            { img: "IG-NoMoreMissingSocks-Cover.jpg", alt: "Instagram post about organizing socks" },
+                            { img: "IG-BeigeYTCovershorts.jpeg", alt: "Instagram organizing tips" },
+                            { img: "IG-stopkeepingmissingthings.jpg", alt: "Instagram post about decluttering" },
+                            { img: "6.jpg", alt: "Simpli-FI Life organizing inspiration" }
+                        ].map((item, i) => (
                             <a key={i} href="https://www.instagram.com/simpli_fi_life/" target="_blank" rel="noopener noreferrer" className={`aspect-[9/16] overflow-hidden group relative border-r border-stone-100 last:border-r-0 ${i === 4 ? 'hidden md:block' : 'block'}`}>
-                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="" />
+                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/${item.img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt={item.alt} />
                                 <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="instagram" className="text-white w-8 h-8 drop-shadow-lg" /></div>
                             </a>
                         ))}
@@ -212,9 +221,13 @@ const Home = () => {
                 </SocialSection>
                 <SocialSection platform="YouTube" handle="@Simpli-FILife" link="https://www.youtube.com/@Simpli-FILife">
                     <div className="grid grid-cols-1 md:grid-cols-3 relative z-10 border-t border-stone-100">
-                        {["angie%20Storage%20Organized-Cover.jpg", "YT-systems-chaos.png", "YT-expected%20mess%20vs%20clutter.png"].map((img, i) => (
+                        {[
+                            { img: "angie%20Storage%20Organized-Cover.jpg", alt: "YouTube video: Storage organization transformation" },
+                            { img: "YT-systems-chaos.png", alt: "YouTube video: Creating systems from chaos" },
+                            { img: "YT-expected%20mess%20vs%20clutter.png", alt: "YouTube video: Expected mess vs clutter explained" }
+                        ].map((item, i) => (
                             <a key={i} href="https://www.youtube.com/@Simpli-FILife" target="_blank" rel="noopener noreferrer" className="aspect-video overflow-hidden group relative border-r border-stone-100 last:border-r-0">
-                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="" />
+                                <img src={`https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/79fce40a920ca914dea695477cf48735c3454acf/${item.img}`} className="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt={item.alt} />
                                 <div className="absolute inset-0 bg-brand-periwinkle/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><Icon name="youtube" className="text-white w-12 h-12 drop-shadow-lg" /></div>
                             </a>
                         ))}
