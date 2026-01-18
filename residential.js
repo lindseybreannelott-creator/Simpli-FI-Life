@@ -77,8 +77,9 @@ const Residential = () => {
                 </div>
             </div>
 
-            <div className="relative">
+            <div className="relative overflow-hidden">
                 <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                <GridBeams />
                 
                 {/* VIDEO & TESTIMONIAL SECTION */}
                 <div className="py-24 px-4 border-b border-stone-100 relative z-10">
