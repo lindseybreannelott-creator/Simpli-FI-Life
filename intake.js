@@ -24,7 +24,7 @@ const NewSpaceIntake = () => {
 
     return (
         <div className="bg-brand-base min-h-screen pt-44 pb-24 px-4 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+            <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
             <div className="max-w-3xl mx-auto relative z-10">
                 <div className="text-center mb-12">
                     <h1 className="font-display font-bold text-4xl text-brand-dark mb-4 tracking-tight">New Space Intake</h1>
