@@ -70,7 +70,7 @@ const Residential = () => {
                 <div className="relative z-10 max-w-5xl mx-auto">
                     <h1 className="font-display font-light text-5xl md:text-[6.5rem] tracking-tighter mb-8 leading-[0.95] text-brand-dark">
                         Your home should feel like your <span className="font-bold text-brand-white drop-shadow-sm">Sanctuary</span>,<br/> 
-                        <span className="block mt-6 font-handwriting text-2xl md:text-4xl text-brand-periwinkle-dark rotate-[-2deg] drop-shadow-sm leading-normal">not a Storage Unit.</span>
+                        <span className="block mt-6 font-handwriting text-3xl md:text-5xl text-brand-periwinkle-dark rotate-[-2deg] drop-shadow-sm leading-normal">not a Storage Unit.</span>
                     </h1>
                     <p className="text-xl font-light text-brand-dark max-w-3xl mx-auto mb-10 leading-relaxed">At Simpli-FI Life we work with you to custom tailor systems that fit your unique needs, and season of life - giving you back your time and a home that feels easy to reset.</p>
                     <Link to="/booking?service=Residential Space Organization" className="inline-block bg-brand-periwinkle text-brand-white px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/20">Ready for your peaceful space?</Link>
