@@ -48,14 +48,12 @@ const Booking = () => {
         
         // 1. Honeypot check - bots often fill hidden fields
         if (formData.hp_trap !== '') {
-            console.log('Bot detected: honeypot filled');
-            return;
+            return; // Silently reject bot submission
         }
 
         // 2. Time-based check - humans take at least 5 seconds to fill a form
         const timeSpent = Date.now() - formData.formLoadTime;
         if (timeSpent < 5000) { // Less than 5 seconds
-            console.log('Bot detected: form submitted too quickly');
             setErrorMsg('Please take a moment to review your information before submitting.');
             return;
         }
@@ -74,7 +72,6 @@ const Booking = () => {
         const allText = `${formData.name} ${formData.email} ${formData.message} ${formData.businessName}`;
         for (const pattern of suspiciousPatterns) {
             if (pattern.test(allText)) {
-                console.log('Bot detected: suspicious content');
                 setErrorMsg('Your submission contains invalid characters. Please check your input.');
                 return;
             }
