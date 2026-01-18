@@ -47,7 +47,7 @@ const Residential = () => {
                 <div className={`overflow-hidden transition-all duration-700 ${hasChecks ? 'max-h-[500px] opacity-100 mt-8 pt-8 border-t border-stone-200 pb-4' : 'max-h-0 opacity-0'}`}>
                     <div className="text-center">
                         <p className="font-sans italic font-medium text-brand-periwinkle text-[14px] mb-8 leading-relaxed max-w-xl mx-auto px-4">
-                            "No need to tidy up before our call - leaving your space as-is actually gives us the clues we need to pinpoint exactly what needs to change. And we don't judge!"
+                            "No need to tidy up before our call - leaving your space as-is actually gives us the clues we need to pinpoint exactly what needs to change. We promise not to judge!"
                         </p>
                         <Link to={getBookingLink()} className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-sm uppercase tracking-tight">
                             Discuss My Project <Icon name="arrow-right" className="ml-2 w-4 h-4"/>
@@ -67,10 +67,10 @@ const Residential = () => {
                 <div className="relative z-10 max-w-5xl mx-auto">
                     <h1 className="font-display font-light text-5xl md:text-[6.5rem] tracking-tighter mb-8 leading-[0.95] text-brand-dark">
                         Your home should feel like your <span className="font-bold text-brand-white drop-shadow-sm">Sanctuary</span>,<br/> 
-                        <span className="block mt-6 font-handwriting text-xl md:text-3xl text-brand-periwinkle-dark rotate-[-2deg] drop-shadow-sm leading-normal">not a Storage Unit.</span>
+                        <span className="block mt-6 font-handwriting text-2xl md:text-4xl text-brand-periwinkle-dark rotate-[-2deg] drop-shadow-sm leading-normal">not a Storage Unit.</span>
                     </h1>
                     <p className="text-xl font-light text-brand-dark max-w-3xl mx-auto mb-10 leading-relaxed">At Simpli-FI Life we work with you to custom tailor systems that fit your unique needs, and season of life - giving you back your time and a home that feels easy to reset.</p>
-                    <Link to="/booking?service=Residential Space Organization" className="inline-block bg-brand-lemon text-brand-dark px-10 py-4 rounded-full font-bold hover:bg-brand-periwinkle hover:text-brand-white transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/20">Ready for your peaceful space?</Link>
+                    <Link to="/booking?service=Residential Space Organization" className="inline-block bg-brand-periwinkle text-brand-white px-10 py-4 rounded-full font-bold hover:bg-brand-lemon hover:text-brand-dark transition transform hover:-translate-y-1 font-display uppercase tracking-widest text-sm shadow-xl border border-white/20">Ready for your peaceful space?</Link>
                 </div>
             </div>
 
@@ -87,7 +87,7 @@ const Residential = () => {
                         </div>
                         <div className="w-full md:w-1/2">
                             <div className="bg-brand-base p-12 md:p-16 rounded-[2.5rem] shadow-2xl border-2 border-brand-lemon h-full flex flex-col justify-center relative">
-                                <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>"</div>
+                                <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
                                 <div className="relative z-10 pt-8">
                                     <div className="text-brand-medium font-light italic leading-relaxed space-y-4">
                                         <p>"I was so nervous about letting her into my closet, but her encouraging, compassionate personality instantly put me at ease."</p>
@@ -121,7 +121,7 @@ const Residential = () => {
                     <span className="text-brand-periwinkle font-bold tracking-[0.25em] uppercase text-xs block mb-6">Private Client Services</span>
                     <h2 className="font-display text-5xl md:text-6xl font-bold tracking-tight mb-8 text-brand-white">Luxury Estate Management</h2>
                     <p className="text-stone-300 text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-2xl mx-auto">We offer white-glove, <span className="text-brand-white font-normal italic">done-for-you</span> service for clients who value their time above all else.</p>
-                    <Link to="/booking?service=Residential Space Organization&notes=Inquiry regarding Luxury Estate Management" className="inline-block border border-brand-lemon text-brand-lemon hover:text-brand-periwinkle hover:border-brand-periwinkle px-10 py-5 rounded-full font-display font-bold transition-all uppercase tracking-widest text-sm shadow-xl">Inquire About Availability</Link>
+                    <Link to="/booking?service=Residential Space Organization&notes=Inquiry regarding Luxury Estate Management" className="inline-block border border-brand-lemon text-brand-lemon hover:text-brand-periwinkle hover:border-brand-periwinkle px-10 py-5 rounded-full font-display font-bold transition-all uppercase tracking-widest text-sm shadow-xl">Inquire About Services</Link>
                 </div>
             </section>
         </div>
