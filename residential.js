@@ -21,12 +21,18 @@ const Residential = () => {
         const hasChecks = Object.values(checks).some(Boolean);
         
         const getBookingLink = () => {
+            const selectedLabels = services.filter((_, i) => checks[i]).map(s => s.label);
             const selectedServices = services
                 .filter((_, i) => checks[i])
                 .map(s => s.label + (s.sub ? " " + s.sub : ""))
                 .join(', ');
             const notes = selectedServices ? `I'm interested in: ${selectedServices}` : '';
-            return `/booking?service=Residential Space Organization&notes=${encodeURIComponent(notes)}`;
+            
+            // Auto-select "Packing / Unpacking Services" if either packing option is checked
+            const isPackingSelected = selectedLabels.includes("Packing for a Move") || selectedLabels.includes("Unpacking From a Move");
+            const serviceType = isPackingSelected ? "Packing / Unpacking Services" : "Residential Space Organization";
+            
+            return `/booking?service=${encodeURIComponent(serviceType)}&notes=${encodeURIComponent(notes)}`;
         };
 
         return (
