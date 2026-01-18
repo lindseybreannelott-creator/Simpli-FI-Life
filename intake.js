@@ -6,6 +6,7 @@ const NewSpaceIntake = () => {
     // Scroll to top when page loads
     useEffect(() => { window.scrollTo(0, 0); }, []);
     
+    const [status, setStatus] = useState('idle');
     const [formData, setFormData] = useState({
         firstName: '', lastName: '', email: '', phone: '',
         reason: '', services: [], spaceFeel: '', areas: [],
@@ -177,6 +178,12 @@ A: ${formData.consent ? 'Yes - I agree' : 'No'}
         const recipientEmail = emailParts.join('');
         
         window.location.href = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        
+        // Show success message after mailto opens
+        setTimeout(() => {
+            setStatus('success');
+            window.scrollTo(0, 0);
+        }, 500);
     };
 
     // ========== HELPER COMPONENTS ==========
@@ -232,6 +239,20 @@ A: ${formData.consent ? 'Yes - I agree' : 'No'}
                     <p className="text-brand-medium">Tell us about your space so we can hit the ground running.</p>
                 </div>
 
+                {status === 'success' ? (
+                    <div className="bg-brand-white rounded-3xl shadow-xl border border-stone-200 p-8 md:p-12 text-center">
+                        <div className="w-20 h-20 bg-brand-lemon/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7178c8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M22 2L11 13"></path>
+                                <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+                            </svg>
+                        </div>
+                        <h3 className="font-display text-3xl font-bold tracking-tight mb-4 text-brand-dark">Almost There!</h3>
+                        <p className="text-brand-medium max-w-md mx-auto mb-4">Please make sure to hit <span className="font-bold text-brand-dark">Send</span> on the auto-populated email so we can receive your intake form.</p>
+                        <p className="text-brand-medium/70 text-sm max-w-md mx-auto">Once received, we'll get back to you shortly. If you have any trouble, feel free to reach out to <button type="button" onClick={() => window.location.href='mai'+'lto:'+'lind'+'sey@'+'simpli-fi-life'+'.com'} className="text-brand-periwinkle hover:underline font-medium">lind&#115;ey&#64;simpli-fi-life&#46;com</button></p>
+                        <button onClick={() => { setStatus('idle'); setFormData(prev => ({...prev, formLoadTime: Date.now()})); }} className="mt-8 text-brand-periwinkle font-bold underline">Submit another intake form</button>
+                    </div>
+                ) : (
                 <form onSubmit={handleSubmit} className="bg-brand-white rounded-3xl shadow-xl border border-stone-200 p-8 md:p-12 space-y-8">
                     
                     {/* CONTACT INFO */}
@@ -503,6 +524,7 @@ A: ${formData.consent ? 'Yes - I agree' : 'No'}
                     </button>
 
                 </form>
+                )}
             </div>
         </div>
     );
