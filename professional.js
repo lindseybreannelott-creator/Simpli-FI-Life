@@ -154,7 +154,7 @@ const ProfessionalSpaces = () => {
 
                 {/* CHECKLIST SECTION */}
                 <section className="py-24 max-w-4xl mx-auto px-4 relative z-10">
-                    <div className="bg-[#EBEBFF] rounded-[3rem] p-4 md:p-12 text-center border-2 border-brand-periwinkle relative overflow-hidden shadow-2xl">
+                    <div className="bg-brand-periwinkle-light/40 rounded-[3rem] p-8 md:p-16 text-center border-4 border-brand-periwinkle relative overflow-hidden shadow-2xl">
                         <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tighter mb-4 text-brand-dark relative z-10">The Hidden Cost of Disorganization</h2>
                         <p className="text-lg text-brand-medium font-light mb-8 relative z-10">Check all that apply to your current operations:</p>
                         <div className="max-w-3xl mx-auto relative z-10 px-2">
