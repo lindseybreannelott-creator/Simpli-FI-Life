@@ -151,7 +151,7 @@ ${formData.message}`;
                         <div className="flex flex-col items-center relative group">
                             <div className="w-12 h-12 rounded-full bg-brand-white border-2 border-brand-periwinkle text-brand-periwinkle flex items-center justify-center font-display font-bold text-lg mb-3 shadow-sm transition-transform group-hover:scale-110">3</div>
                             <h3 className="font-bold text-brand-dark text-base mb-1">We Connect</h3>
-                            <p className="text-brand-dark/80 text-xs leading-relaxed max-w-[200px]">We'll reply within 24 hours to schedule your call.</p>
+                            <p className="text-brand-dark/80 text-xs leading-relaxed max-w-[200px]">Once received, we'll get back to you shortly to schedule your call.</p>
                         </div>
                     </div>
                 </div>
@@ -159,13 +159,15 @@ ${formData.message}`;
                 <div className="p-8 md:p-12 bg-brand-periwinkle/90 backdrop-blur-sm">
                     {status === 'success' ? (
                         <div className="text-center py-12 bg-white rounded-xl">
-                            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
+                            <div className="w-20 h-20 bg-brand-lemon/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7178c8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M22 2L11 13"></path>
+                                    <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
                                 </svg>
                             </div>
-                            <h3 className="font-display text-3xl font-bold tracking-tight mb-4 text-brand-dark">Request Received</h3>
-                            <p className="text-brand-medium">We will be in touch within 24 hours to schedule your consultation.</p>
+                            <h3 className="font-display text-3xl font-bold tracking-tight mb-4 text-brand-dark">Almost There!</h3>
+                            <p className="text-brand-medium max-w-md mx-auto mb-4">Please make sure to hit <span className="font-bold text-brand-dark">Send</span> on the auto-populated email so we can receive your request.</p>
+                            <p className="text-brand-medium/70 text-sm max-w-md mx-auto">Once received, we'll get back to you shortly. If you have any trouble, feel free to reach out to <button type="button" onClick={() => window.location.href='mai'+'lto:'+'lind'+'sey@'+'simpli-fi-life'+'.com'} className="text-brand-periwinkle hover:underline font-medium">lind&#115;ey&#64;simpli-fi-life&#46;com</button></p>
                             <button onClick={() => { setStatus('idle'); setFormData(prev => ({...prev, formLoadTime: Date.now()})); }} className="mt-8 text-brand-periwinkle font-bold underline">Send another request</button>
                         </div>
                     ) : (
