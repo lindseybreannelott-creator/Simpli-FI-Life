@@ -65,7 +65,7 @@ const Residential = () => {
                 <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="absolute inset-0 pointer-events-none opacity-60"><GridBeams beamColor="255, 255, 255" /></div>
                 <div className="relative z-10 max-w-5xl mx-auto">
-                    <h1 className="font-display font-light text-5xl md:text-7xl tracking-tighter mb-8 leading-tight text-brand-dark">
+                    <h1 className="font-display font-light text-5xl md:text-[6.5rem] tracking-tighter mb-8 leading-[0.95] text-brand-dark">
                         Your home should feel like your <span className="font-bold text-brand-white drop-shadow-sm">Sanctuary</span>,<br/> 
                         <span className="block mt-6 font-handwriting text-xl md:text-3xl text-brand-periwinkle-dark rotate-[-2deg] drop-shadow-sm leading-normal">not a Storage Unit.</span>
                     </h1>
@@ -121,7 +121,7 @@ const Residential = () => {
                     <span className="text-brand-periwinkle font-bold tracking-[0.25em] uppercase text-xs block mb-6">Private Client Services</span>
                     <h2 className="font-display text-5xl md:text-6xl font-bold tracking-tight mb-8 text-brand-white">Luxury Estate Management</h2>
                     <p className="text-stone-300 text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-2xl mx-auto">We offer white-glove, <span className="text-brand-white font-normal italic">done-for-you</span> service for clients who value their time above all else.</p>
-                    <Link to="/booking?service=Residential Space Organization&notes=Inquiry regarding Luxury Estate Management" className="inline-block border border-brand-periwinkle/50 text-brand-periwinkle hover:text-brand-lemon hover:border-brand-lemon px-10 py-5 rounded-full font-display font-bold transition-all uppercase tracking-widest text-sm shadow-xl">Inquire About Availability</Link>
+                    <Link to="/booking?service=Residential Space Organization&notes=Inquiry regarding Luxury Estate Management" className="inline-block border border-brand-lemon text-brand-lemon hover:text-brand-periwinkle hover:border-brand-periwinkle px-10 py-5 rounded-full font-display font-bold transition-all uppercase tracking-widest text-sm shadow-xl">Inquire About Availability</Link>
                 </div>
             </section>
         </div>
