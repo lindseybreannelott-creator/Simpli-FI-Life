@@ -197,8 +197,9 @@ const ProfessionalSpaces = () => {
                 </div>
             </div>
 
-            <div className="relative z-30 bg-brand-base">
+            <div className="relative z-30 bg-brand-base overflow-hidden">
                 <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                <GridBeams />
 
                 {/* MADISON B CARD */}
                 <div className="max-w-5xl mx-auto px-4 relative -top-64 md:-top-80 z-40 overflow-visible">
