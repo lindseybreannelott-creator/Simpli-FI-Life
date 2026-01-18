@@ -79,11 +79,13 @@ const LoadingScreen = ({ onComplete }) => {
     }, [onComplete]);
     
     return (
-        <div className="fixed inset-0 z-[100] bg-brand-base grid place-items-center loader-exit overflow-hidden">
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
+        <div className="fixed inset-0 z-[100] bg-brand-base flex items-center justify-center loader-exit overflow-hidden">
+            {/* Grid background - offset on mobile so a line passes through center */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] md:bg-[position:0_0] bg-[position:0_20px] opacity-20"></div>
             <GridBeams spawnRate={150} />
+            {/* Logo - centered vertically and horizontally */}
             <div className="relative z-20 loading-logo-reveal text-center px-4">
-                <h1 className="font-display text-4xl md:text-6xl tracking-[0.25em] text-brand-dark uppercase">
+                <h1 className="font-display text-[1.65rem] md:text-6xl tracking-[0.15em] md:tracking-[0.25em] text-brand-dark uppercase whitespace-nowrap">
                     <span className="font-bold">SIMPLI-FI</span> <span className="font-light text-brand-medium">LIFE</span>
                 </h1>
             </div>
