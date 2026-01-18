@@ -148,7 +148,7 @@ const Home = () => {
                     </div>
                     <div className="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-8 mb-4 md:mb-6">
                         <Link to="/professional-spaces" className="inline-block w-3/4 sm:w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Professional Space</Link>
-                        <Link to="/residential" className="inline-block w-3/4 sm:w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Residential Space</Link>
+                        <Link to="/residential-spaces" className="inline-block w-3/4 sm:w-fit px-8 py-4 md:px-12 md:py-5 rounded-xl bg-brand-periwinkle-light text-brand-dark hover:bg-brand-lemon transition-all shadow-lg font-display font-bold text-base md:text-lg uppercase tracking-tight">Residential Space</Link>
                     </div>
                 </div>
                 <div className="mt-2 md:mt-0"><TestimonialScroller /></div>
@@ -172,7 +172,7 @@ const Home = () => {
                             <Icon name="home" className="w-12 h-12 md:w-16 md:h-16 text-brand-dark mb-6 md:mb-8 bg-stone-50 p-3 md:p-4 rounded-3xl" />
                             <h3 className="font-display text-2xl md:text-4xl font-bold mb-4 md:mb-6 text-brand-dark uppercase tracking-tight">Residential Spaces</h3>
                             <div className="flex-grow flex flex-col justify-start"><p className="text-brand-medium text-base md:text-lg mb-8 md:mb-10 leading-relaxed max-w-sm font-light">Your home should be a sanctuary, not a source of stress. We create intuitive systems that clear the clutter and calm the chaos.</p></div>
-                            <Link to="/residential" className="w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-2xl font-bold hover:bg-brand-periwinkle hover:text-brand-white transition-all uppercase tracking-widest text-[10px] md:text-xs shadow-md">Get Organized, Lose the Stress</Link>
+                            <Link to="/residential-spaces" className="w-full bg-brand-periwinkle-light text-brand-dark px-6 py-4 rounded-2xl font-bold hover:bg-brand-periwinkle hover:text-brand-white transition-all uppercase tracking-widest text-[10px] md:text-xs shadow-md">Get Organized, Lose the Stress</Link>
                         </div>
                     </div>
                 </div>
