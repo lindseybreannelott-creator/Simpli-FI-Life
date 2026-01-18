@@ -181,7 +181,7 @@ const ProfessionalSpaces = () => {
                     <h1 className="font-display font-bold text-5xl md:text-[6.5rem] tracking-tighter mb-4 leading-[0.95] md:leading-[0.85]">
                         Your back-of-house is your
                     </h1>
-                    <p className="font-handwriting font-light text-brand-periwinkle lowercase text-5xl md:text-7xl mb-12 block">
+                    <p className="font-handwriting font-light text-brand-periwinkle lowercase text-4xl md:text-6xl mb-12 block">
                         Competitive Edge.
                     </p>
                     <p className="text-lg md:text-xl font-light text-stone-300 max-w-3xl mx-auto mb-12 leading-relaxed">
