@@ -121,7 +121,7 @@ ${formData.message}`;
 
     return (
         <div className="bg-brand-base min-h-screen pt-44 pb-20 px-4 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+            <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
             <div className="relative z-10 max-w-4xl mx-auto mb-12">
                 <div className="bg-brand-lemon/[.18] backdrop-blur-sm rounded-3xl p-10 shadow-xl border-2 border-brand-lemon text-center">
