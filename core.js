@@ -31,26 +31,91 @@ const Icon = ({ name, className }) => {
 };
 
 // --- 3. GRID BEAMS ANIMATION ---
-const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1 }) => {
+const GridBeams = ({ beamColor = "182, 188, 255", beamWidth = 1 }) => {
     const [beams, setBeams] = useState([]);
+    const beamIdRef = useRef(0);
+    const lastDirectionRef = useRef('vertical'); // Track last direction for alternating
+    
     useEffect(() => {
-        let count = 0; let active = true;
-        const spawn = () => {
-            if (!active) return;
-            const id = count++;
-            const beamDuration = 3.5 + Math.random() * 2.0; 
-            const isHorizontal = Math.random() > 0.5;
-            setBeams(prev => [...prev, { 
-                id, isHorizontal, isReverse: Math.random() > 0.5, 
-                offset: Math.floor(Math.random() * 100) * 40, 
-                duration: beamDuration, color: (id % 4 === 0) ? "214, 227, 30" : beamColor 
-            }]);
-            setTimeout(() => { if (active) setBeams(prev => prev.filter(b => b.id !== id)); }, beamDuration * 1000);
+        let active = true;
+        
+        const getBeamCounts = (beamList) => {
+            const horizontal = beamList.filter(b => b.isHorizontal).length;
+            const vertical = beamList.filter(b => !b.isHorizontal).length;
+            return { horizontal, vertical, total: beamList.length };
         };
-        spawn(); spawn(); spawn();
-        const interval = setInterval(spawn, spawnRate);
-        return () => { active = false; clearInterval(interval); };
-    }, [beamColor, spawnRate]);
+        
+        const spawnBeam = (forceDirection = null) => {
+            if (!active) return;
+            
+            setBeams(prev => {
+                const counts = getBeamCounts(prev);
+                
+                // Don't exceed 4 beams max
+                if (counts.total >= 4) return prev;
+                
+                // Determine direction - alternate, or balance if uneven
+                let isHorizontal;
+                if (forceDirection !== null) {
+                    isHorizontal = forceDirection === 'horizontal';
+                } else if (counts.horizontal > counts.vertical + 1) {
+                    isHorizontal = false; // Need more vertical
+                } else if (counts.vertical > counts.horizontal + 1) {
+                    isHorizontal = true; // Need more horizontal
+                } else {
+                    // Alternate from last direction
+                    isHorizontal = lastDirectionRef.current === 'vertical';
+                }
+                lastDirectionRef.current = isHorizontal ? 'horizontal' : 'vertical';
+                
+                const id = beamIdRef.current++;
+                const duration = 4 + Math.random() * 2; // 4-6 seconds
+                const isLemon = Math.random() < 0.2; // 20% chance of lemon color
+                
+                // Schedule removal
+                setTimeout(() => {
+                    if (active) {
+                        setBeams(p => p.filter(b => b.id !== id));
+                    }
+                }, duration * 1000);
+                
+                return [...prev, {
+                    id,
+                    isHorizontal,
+                    isReverse: Math.random() > 0.5,
+                    offset: Math.floor(Math.random() * 25) * 40, // Keep beams more centered
+                    duration,
+                    color: isLemon ? "214, 227, 30" : beamColor
+                }];
+            });
+        };
+        
+        // Start with 2 beams (one each direction)
+        setTimeout(() => spawnBeam('horizontal'), 100);
+        setTimeout(() => spawnBeam('vertical'), 600);
+        
+        // Controlled spawn interval - check every 2 seconds and add if below minimum
+        const maintainBeams = setInterval(() => {
+            if (!active) return;
+            setBeams(prev => {
+                const counts = getBeamCounts(prev);
+                // If below 2 beams, spawn one
+                if (counts.total < 2) {
+                    setTimeout(() => spawnBeam(), 0);
+                }
+                // Occasionally add a 3rd beam for visual interest (30% chance if at 2)
+                else if (counts.total === 2 && Math.random() < 0.3) {
+                    setTimeout(() => spawnBeam(), 0);
+                }
+                return prev;
+            });
+        }, 2000);
+        
+        return () => { 
+            active = false; 
+            clearInterval(maintainBeams);
+        };
+    }, [beamColor]);
     
     return (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -60,10 +125,10 @@ const GridBeams = ({ beamColor = "182, 188, 255", spawnRate = 200, beamWidth = 1
                     width: b.isHorizontal ? '400px' : `${beamWidth}px`,
                     top: b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-400px'),
                     left: !b.isHorizontal ? `${b.offset}px` : (b.isReverse ? '100%' : '-400px'),
-                    filter: `drop-shadow(0 0 6px rgba(${b.color}, 0.6))`,
+                    filter: `drop-shadow(0 0 6px rgba(${b.color}, 0.5))`,
                     background: b.isHorizontal 
-                        ? `linear-gradient(90deg, transparent, rgba(${b.color}, 1), transparent)` 
-                        : `linear-gradient(180deg, transparent, rgba(${b.color}, 1), transparent)`,
+                        ? `linear-gradient(90deg, transparent, rgba(${b.color}, 0.9), transparent)` 
+                        : `linear-gradient(180deg, transparent, rgba(${b.color}, 0.9), transparent)`,
                     animation: `${b.isHorizontal ? (b.isReverse ? 'beam-h-rev' : 'beam-h') : (b.isReverse ? 'beam-v-rev' : 'beam-v')} ${b.duration}s linear forwards`
                 }} />
             ))}
@@ -82,7 +147,7 @@ const LoadingScreen = ({ onComplete }) => {
         <div className="fixed inset-0 z-[100] bg-brand-base flex items-center justify-center loader-exit overflow-hidden">
             {/* Grid background */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
-            <GridBeams spawnRate={150} />
+            <GridBeams />
             {/* Logo - on mobile, nudge up so hyphen aligns with grid line */}
             <div className="relative z-20 loading-logo-reveal text-center px-4 -translate-y-[9px] md:translate-y-0">
                 <h1 className="font-display text-[1.65rem] md:text-6xl tracking-[0.15em] md:tracking-[0.25em] text-brand-dark uppercase whitespace-nowrap">
