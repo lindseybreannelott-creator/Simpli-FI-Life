@@ -46,9 +46,6 @@ const Residential = () => {
                 </div>
                 <div className={`overflow-hidden transition-all duration-700 ${hasChecks ? 'max-h-[500px] opacity-100 mt-8 pt-8 border-t border-stone-200 pb-4' : 'max-h-0 opacity-0'}`}>
                     <div className="text-center">
-                        <p className="font-sans italic font-medium text-brand-periwinkle text-[14px] mb-8 leading-relaxed max-w-xl mx-auto px-4">
-                            "Every client tells us 'I'm so embarrassed'—and every time, we remind them: your mess is just information. It shows us exactly where to start. No tidying required."
-                        </p>
                         <Link to={getBookingLink()} className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-brand-lemon text-brand-dark hover:bg-brand-periwinkle hover:text-brand-white transition shadow-lg font-display font-bold text-sm uppercase tracking-tight">
                             Discuss My Project <Icon name="arrow-right" className="ml-2 w-4 h-4"/>
                         </Link>
@@ -89,8 +86,8 @@ const Residential = () => {
                             <div className="bg-brand-base p-12 md:p-16 rounded-[2.5rem] shadow-2xl border-2 border-brand-lemon h-full flex flex-col justify-center relative">
                                 <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
                                 <div className="relative z-10 pt-8">
-                                    <div className="text-brand-medium font-light italic leading-relaxed space-y-4">
-                                        <p>"I was so nervous about letting her into my closet, but her encouraging, compassionate personality instantly put me at ease.<br/><br/>Lindsey's practical strategies have helped me create systems out of chaos and given me confidence in the process.<br/><br/>I can't communicate strongly enough what a great coach Lindsey has been."</p>
+                                    <div className="text-brand-medium font-light leading-relaxed">
+                                        <p className="text-lg md:text-xl italic">"I was so nervous about letting her into my closet, but her <span className="font-medium text-brand-periwinkle">encouraging, compassionate personality instantly put me at ease.</span><br/><br/>Lindsey's practical strategies have helped me create <span className="font-medium">systems out of chaos</span> and given me confidence in the process.<br/><br/><span className="font-medium text-brand-periwinkle">I can't communicate strongly enough what a great coach Lindsey has been.</span>"</p>
                                     </div>
                                     <div className="mt-8 pt-6 border-t border-brand-lemon"><p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-sm">- Lauren V.</p></div>
                                 </div>
