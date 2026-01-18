@@ -35,8 +35,7 @@ const NewSpaceIntake = () => {
         
         // 1. Honeypot check - bots fill hidden fields, humans don't see them
         if (formData.hp_trap !== '') {
-            console.log('Bot detected: honeypot filled');
-            return; // Silently reject
+            return; // Silently reject bot submission
         }
 
         // 2. Time-based check - humans take at least 15 seconds on this long form
@@ -66,7 +65,6 @@ const NewSpaceIntake = () => {
         const allText = `${formData.firstName} ${formData.lastName} ${formData.email} ${formData.reason} ${formData.spaceFeel} ${formData.priorityArea} ${formData.priorityGoingWell} ${formData.clutterToughness} ${formData.hardestItems} ${formData.lifeChanges} ${formData.pets}`;
         for (const pattern of suspiciousPatterns) {
             if (pattern.test(allText)) {
-                console.log('Bot detected: suspicious content');
                 alert('Your submission contains invalid characters. Please check your input.');
                 return;
             }
