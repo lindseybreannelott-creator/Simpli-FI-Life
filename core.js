@@ -124,7 +124,7 @@ const Navbar = () => {
                 <div className="md:hidden fixed inset-0 bg-brand-white z-50 flex flex-col items-center justify-center space-y-8 animate-fade-in-up">
                     <Link to="/" onClick={() => setIsOpen(false)} className="text-3xl font-display font-bold text-brand-dark uppercase tracking-widest">Home</Link>
                     <Link to="/professional-spaces" onClick={() => setIsOpen(false)} className="text-2xl font-display font-medium text-brand-medium uppercase tracking-widest">Professional Spaces</Link>
-                    <Link to="/residential" onClick={() => setIsOpen(false)} className="text-2xl font-display font-medium text-brand-medium uppercase tracking-widest">Residential Spaces</Link>
+                    <Link to="/residential-spaces" onClick={() => setIsOpen(false)} className="text-2xl font-display font-medium text-brand-medium uppercase tracking-widest">Residential Spaces</Link>
                     <Link to="/booking" onClick={() => setIsOpen(false)} className="bg-brand-lemon text-brand-dark px-10 py-5 rounded-full font-display font-bold text-xl uppercase tracking-widest shadow-2xl">BOOK CLARITY CALL</Link>
                     <button onClick={() => setIsOpen(false)} className="mt-12 text-brand-periwinkle font-bold uppercase tracking-widest border-b-2 border-brand-periwinkle pb-1">Close Menu</button>
                 </div>
