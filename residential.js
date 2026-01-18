@@ -90,8 +90,7 @@ const Residential = () => {
                                 <div className="absolute -top-10 -left-4 text-[12rem] font-serif leading-none select-none pointer-events-none opacity-80" style={{ WebkitTextStroke: '1px #7178c8', color: '#D6E31E' }}>“</div>
                                 <div className="relative z-10 pt-8">
                                     <div className="text-brand-medium font-light italic leading-relaxed space-y-4">
-                                        <p>"I was so nervous about letting her into my closet, but her encouraging, compassionate personality instantly put me at ease."</p>
-                                        <p>"Lindsey's practical strategies for organization have not only helped me create systems out of chaos, but have also given me confidence in the process of decluttering my house."</p>
+                                        <p>"I was so nervous about letting her into my closet, but her encouraging, compassionate personality instantly put me at ease. Lindsey's practical strategies have helped me create systems out of chaos and given me confidence in the process. I can't communicate strongly enough what a great coach Lindsey has been."</p>
                                     </div>
                                     <div className="mt-8 pt-6 border-t border-brand-lemon"><p className="font-display font-bold text-brand-periwinkle uppercase tracking-wider text-sm">- Lauren V.</p></div>
                                 </div>
@@ -104,7 +103,7 @@ const Residential = () => {
                 <section className="py-24 max-w-7xl mx-auto px-4 relative z-10">
                     <div className="bg-brand-periwinkle-light/40 rounded-[3rem] p-8 md:p-16 text-center shadow-2xl border-4 border-brand-periwinkle">
                         <h2 className="font-display font-bold text-4xl md:text-6xl text-brand-dark mb-8 tracking-tighter uppercase leading-[0.9]">Your Space Simpli-Fied,<br/><span className="text-brand-periwinkle-dark">Your Way</span></h2>
-                        <div className="max-w-3xl mx-auto mb-12 text-brand-dark/80 font-medium text-lg leading-relaxed"><p>Every home has a different rhythm. Because your needs are unique, we don't believe in a "one-size-fits-all" approach.</p></div>
+                        <div className="max-w-3xl mx-auto mb-12 text-brand-dark/80 font-medium text-lg leading-relaxed"><p>Your needs are unique—that's why we don't do "one-size-fits-all." Select your interests below and let's see how we can serve you best.</p></div>
                         <div className="max-w-3xl mx-auto text-brand-dark"><ServiceChecklist /></div>
                     </div>
                 </section>
