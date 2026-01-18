@@ -2,6 +2,10 @@
 
 const NewSpaceIntake = () => {
     usePageTitle("New Space Intake");
+    
+    // Scroll to top when page loads
+    useEffect(() => { window.scrollTo(0, 0); }, []);
+    
     const [formData, setFormData] = useState({
         firstName: '', lastName: '', email: '', phone: '',
         reason: '', services: [], spaceFeel: '', areas: [],
