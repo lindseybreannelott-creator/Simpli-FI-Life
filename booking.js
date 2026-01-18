@@ -124,11 +124,11 @@ ${formData.message}`;
             <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
             <div className="relative z-10 max-w-4xl mx-auto mb-12">
-                <div className="bg-brand-lemon/[.18] backdrop-blur-sm rounded-3xl p-10 shadow-xl border-2 border-brand-lemon text-center">
+                <div className="bg-brand-lemon/[.18] backdrop-blur-sm rounded-3xl p-6 md:p-10 shadow-xl border-2 border-brand-lemon text-center">
                     <h1 className="font-display font-bold text-4xl md:text-5xl text-brand-dark mb-4 tracking-tight">Request a Clarity Call</h1>
-                    <p className="text-xl text-brand-dark/90 max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-base md:text-xl text-brand-dark/90 max-w-2xl mx-auto leading-relaxed">
                         A free 30 minute virtual call to share your vision.<br /> No pressure, no obligation—just a good old chat to see if we're a fit.
-                        <span className="font-bold mt-4 block text-[10px] tracking-widest uppercase opacity-80">***All services backed by our Simpli-FI Satisfaction Guarantee.***</span>
+                        <span className="font-bold mt-4 block text-[8px] md:text-[10px] tracking-widest uppercase opacity-80 whitespace-nowrap">***All services backed by our Simpli-FI Satisfaction Guarantee.***</span>
                     </p>
                 </div>
             </div>
