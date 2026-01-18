@@ -198,7 +198,7 @@ const ProfessionalSpaces = () => {
             </div>
 
             <div className="relative z-30 bg-brand-base">
-                <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
                 {/* MADISON B CARD */}
                 <div className="max-w-5xl mx-auto px-4 relative -top-64 md:-top-80 z-40 overflow-visible">
@@ -223,7 +223,7 @@ const ProfessionalSpaces = () => {
                     <div className="max-w-7xl mx-auto px-4 text-center">
                         
                         {/* HEADLINE: Stacked Layout with split fonts */}
-                        <h3 className="text-5xl md:text-7xl text-brand-dark mb-8 leading-tight">
+                        <h3 className="text-5xl md:text-7xl text-brand-periwinkle mb-8 leading-tight">
                             <span className="block mb-2 md:mb-0">
                                 <span className="font-handwriting mr-3">No</span>
                                 <span className="font-display font-bold uppercase tracking-tight">Space Too Big,</span>
@@ -236,7 +236,7 @@ const ProfessionalSpaces = () => {
                         
                         <p className="text-xl md:text-2xl text-brand-medium font-light max-w-6xl mx-auto mb-12 leading-relaxed">
                             Whether you're saving lives or serving lattes, your environment dictates your&nbsp;efficiency. <br /><br />
-                            Here are a few industries that have benefited from our organizing—though to be clear, <span className="font-semibold italic text-brand-dark">any business can benefit from better organizational systems.</span>
+                            Here are a few industries that have benefited from our organizing—though to be clear,<br/><span className="font-semibold italic text-brand-dark">any business can benefit from better organizational systems.</span>
                         </p>
                         
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
