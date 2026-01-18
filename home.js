@@ -103,7 +103,7 @@ const TestimonialScroller = () => {
 
 const SocialSection = ({ platform, handle, link, children }) => (
     <div className="relative w-full bg-brand-base">
-        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+        <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
         <div className="relative z-10 pt-24 md:pt-40">
             <div className="text-center mb-10 md:mb-12 px-4">
                 <p className="font-sans text-[10px] md:text-xs font-bold tracking-[0.4em] text-brand-medium uppercase mb-2 md:mb-3">Follow me on</p>
@@ -134,7 +134,7 @@ const Home = () => {
             {/* HERO SECTION */}
             <div className="relative overflow-hidden min-h-screen flex flex-col justify-start">
                 <div className="absolute inset-0 z-0">
-                    <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+                    <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px]"></div>
                     <GridBeams />
                 </div>
                 <div className="max-w-7xl mx-auto relative z-10 pt-48 md:pt-64 pb-2 md:pb-4 px-4 text-center">
@@ -156,7 +156,7 @@ const Home = () => {
 
             {/* SERVICES SECTION */}
             <section className="py-20 md:py-32 relative z-10 border-t border-stone-100">
-                <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
                     <h2 className="font-display text-4xl md:text-7xl font-bold tracking-tighter text-brand-dark italic mb-16 md:mb-24 leading-none">Make Room for More in Your....</h2>
                     <div className="grid md:grid-cols-2 gap-8 md:gap-16 max-w-5xl mx-auto">
@@ -180,7 +180,7 @@ const Home = () => {
 
             {/* ABOUT SECTION */}
             <section className="py-24 md:py-40 relative overflow-hidden border-y border-stone-100 z-10">
-                <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#b6bcff_1px,transparent_1px),linear-gradient(to_bottom,#b6bcff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 lg:grid lg:grid-cols-[0.9fr_1.1fr] gap-12 md:gap-24 items-center relative z-10">
                     <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-brand-periwinkle group">
                         <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#F9F6F0_1px,transparent_1px),linear-gradient(to_bottom,#F9F6F0_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
@@ -224,7 +224,7 @@ const Home = () => {
 
             {/* TRANSITION STRIP */}
             <div className="h-40 w-full relative overflow-hidden bg-brand-base">
-                <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,#7178c8_1px,transparent_1px),linear-gradient(to_bottom,#7178c8_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                <div className="absolute inset-0 opacity-60 bg-[linear-gradient(to_right,#d4d7ff_1px,transparent_1px),linear-gradient(to_bottom,#d4d7ff_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
             </div>
 
             {/* FINAL CTA SECTION */}
