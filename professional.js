@@ -245,7 +245,7 @@ const ProfessionalSpaces = () => {
                                 { label: "Restaurants & Hospitality", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(2)(2).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-expected%20mess%20vs%20clutter.png" },
                                 { label: "Non Profit", video: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/0108%20(1).mp4", poster: "https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/YT-systems-chaos.png" }
                             ].map((item, i) => (
-                                <div key={i} className="relative group rounded-3xl shadow-lg aspect-[2/3] border border-stone-100 bg-brand-base transition-all hover:shadow-2xl overflow-visible">
+                                <div key={i} className="relative group rounded-3xl shadow-lg aspect-[2/3] border-2 border-brand-periwinkle bg-brand-base transition-all hover:shadow-2xl overflow-visible">
                                     <div className="absolute inset-0 rounded-3xl overflow-hidden">
                                         <video className="w-full h-full object-cover" autoPlay loop muted playsInline webkit-playsinline="true" poster={item.poster} preload="auto" controlsList="nodownload"><source src={item.video} type="video/mp4" /></video>
                                         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent opacity-60"></div>
