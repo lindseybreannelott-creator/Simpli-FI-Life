@@ -86,7 +86,7 @@ const Residential = () => {
                     <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center gap-12">
                         <div className="w-full md:w-1/2">
                             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video border-[2.5px] border-brand-lemon bg-brand-dark">
-                                <video className="w-full h-full object-cover" autoPlay loop muted playsInline poster="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/profile-stripedress-directlook.png" controlsList="nodownload"><source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/mp4" /></video>
+                                <video className="w-full h-full object-cover" autoPlay loop muted playsInline controlsList="nodownload"><source src="https://raw.githubusercontent.com/lindseybreannelott-creator/website-assets/main/websalescopymov3.mov" type="video/mp4" /></video>
                             </div>
                         </div>
                         <div className="w-full md:w-1/2">
